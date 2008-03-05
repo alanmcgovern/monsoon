@@ -345,9 +345,9 @@ namespace Monsoon
 			//	allList.Add (manager);
 			//}
 			
-			allLabel = new TorrentLabel (new ArrayList(), "All", "gtk-home", false);
-			downloadingLabel = new TorrentLabel (new ArrayList(), "Downloading", "gtk-go-down", false);
-			uploadLabel = new TorrentLabel (new ArrayList(), "Seeding", "gtk-go-up", false);
+			allLabel = new TorrentLabel (new ArrayList(), "All", "gtk-home", true);
+			downloadingLabel = new TorrentLabel (new ArrayList(), "Downloading", "gtk-go-down", true);
+			uploadLabel = new TorrentLabel (new ArrayList(), "Seeding", "gtk-go-up", true);
 		
 			labelListStore.AppendValues (allLabel);
 			labelListStore.AppendValues (downloadingLabel);
@@ -603,11 +603,13 @@ namespace Monsoon
 				torrentsToStore.Add (new TorrentStorage(manager.Torrent.TorrentPath, manager.SavePath, manager.Settings, manager.State, torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded, torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded));	
 			}
 			
-			Stream fs = new FileStream (storageFilePath, FileMode.Create);
-			XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-			
-			XmlSerializer s = new XmlSerializer (typeof(TorrentStorage[]));
-			s.Serialize (writer, torrentsToStore.ToArray (typeof(TorrentStorage))); 	
+			using (Stream fs = new FileStream (storageFilePath, FileMode.Create))
+			{
+				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
+				
+				XmlSerializer s = new XmlSerializer (typeof(TorrentStorage[]));
+				s.Serialize (writer, torrentsToStore.ToArray (typeof(TorrentStorage)));
+			}
 		}
 
 		private void StoreLabels ()
@@ -624,12 +626,12 @@ namespace Monsoon
 				labelsToStore.Add (label);
 			}
 			
-			Stream fs = new FileStream (storageFilePath, FileMode.Create);
-			XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-			
-			XmlSerializer s = new XmlSerializer (typeof(TorrentLabel[]));
-			s.Serialize(writer, labelsToStore.ToArray (typeof(TorrentLabel)));
-			
+			using (Stream fs = new FileStream (storageFilePath, FileMode.Create))
+			{
+				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
+				XmlSerializer s = new XmlSerializer (typeof(TorrentLabel[]));
+				s.Serialize(writer, labelsToStore.ToArray (typeof(TorrentLabel)));
+			}
 		}
 		
 		private void RestoreLabels()
@@ -641,31 +643,30 @@ namespace Monsoon
 			
 			logger.Info ("Restoring labels");
 			
-			if (System.IO.File.Exists(storageFilePath)) {
-				FileStream fs = null;
-				try {
-					fs = System.IO.File.Open(storageFilePath, System.IO.FileMode.Open);
-				} catch {
-					logger.Error("Error opening labels.xml");
-				}
-				try {				
+			try
+			{
+				if (!System.IO.File.Exists(storageFilePath))
+					return;
+
+				using (FileStream fs = System.IO.File.OpenRead(storageFilePath))
 					labelsToRestore = (TorrentLabel[]) xs.Deserialize(fs);
-				} catch {
-				} finally {				
-					fs.Close();
-				}
-				
-				foreach (TorrentLabel label in labelsToRestore) {
-					labelListStore.AppendValues (label);
-					labels.Add (label);
-					// Restore previously labeled torrents
-					foreach (TorrentManager torrentManager in torrents.Keys){
-						if(label.TruePaths == null)
-							continue;
-						foreach (string path in label.TruePaths){
-							if (path == torrentManager.Torrent.TorrentPath){
-								label.AddTorrent(torrentManager);
-							}
+			}
+			catch
+			{
+				logger.Error("Error opening labels.xml");
+				return;
+			}
+					
+			foreach (TorrentLabel label in labelsToRestore) {
+				labelListStore.AppendValues (label);
+				labels.Add (label);
+				// Restore previously labeled torrents
+				foreach (TorrentManager torrentManager in torrents.Keys){
+					if(label.TruePaths == null)
+						continue;
+					foreach (string path in label.TruePaths){
+						if (path == torrentManager.Torrent.TorrentPath){
+							label.AddTorrent(torrentManager);
 						}
 					}
 				}
@@ -913,13 +914,14 @@ namespace Monsoon
 		
 		private void updateLabels ()
 		{
+#warning Fix this up properly
 			TreeIter iter;
 			
-			if (labelListStore.GetIterFirst (out iter)) {
+			/*if (labelListStore.GetIterFirst (out iter)) {
 				do {
 					labelListStore.EmitRowChanged(labelListStore.GetPath(iter), iter);
 				} while (labelListStore.IterNext(ref iter));
-			}
+			}*/
 		}
 		
 		private void updateGeneralPage ()

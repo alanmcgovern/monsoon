@@ -10,7 +10,8 @@
   <StartMode startupentry="MonoTorrent.Interface" single="True">
     <Execute type="None" entry="MonoTorrent.Interface" />
   </StartMode>
+  <MonoDevelop.ChangeLogAddIn.ChangeLogInfo policy="OneChangeLogInProjectRootDirectory" />
   <Entries>
-    <Entry filename="./MonoTorrent.Interface/MonoTorrent.Interface.mdp" />
+    <Entry filename="MonoTorrent.Interface/MonoTorrent.Interface.mdp" />
   </Entries>
 </Combine>

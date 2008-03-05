@@ -41,7 +41,7 @@ namespace Monsoon
 	[XmlRoot("Label")]
 	public class TorrentLabel
 	{
-		private bool canRemove;
+		private bool immutable;
 		private string name;
 		private Gdk.Pixbuf icon;
 		private string iconPath;
@@ -59,7 +59,6 @@ namespace Monsoon
 			torrents = new ArrayList();
 			icon = Gtk.IconTheme.Default.LoadIcon("gtk-about", 16, 0);
 			model = new ListStore (typeof(TorrentManager));
-			canRemove = true;
 		}
 		
 		
@@ -73,15 +72,15 @@ namespace Monsoon
 		}
 		
 		public TorrentLabel(ArrayList torrents, string name, string iconPath)
-			: this (torrents, name, "gtk-about", true)
+			: this (torrents, name, "gtk-about", false)
 		{
 			
 		}
 		
-		public TorrentLabel(ArrayList torrents, string name, string iconPath, bool canRemove)
+		public TorrentLabel(ArrayList torrents, string name, string iconPath, bool immutable)
 		{
 			Gdk.Pixbuf icon;
-			this.canRemove = canRemove;
+			this.immutable = immutable;
 			if(!System.IO.File.Exists(iconPath)){
 				logger.Info("File " + iconPath + " does not exist, trying stock icon");
 				//icon = Gtk.IconTheme.Default.LoadIcon("gtk-about", 16, 0);
@@ -109,11 +108,11 @@ namespace Monsoon
 			set { name = value; }
 		}
 		
-		[XmlAttribute("CanRemove")]
-		public bool CanRemove
+		//[XmlAttribute("Immutable")]
+		public bool Immutable
 		{
-			get { return canRemove; }
-			set { canRemove = value; }
+			get { return immutable; }
+			set { immutable = value; }
 		}
 		
 		[XmlElement("Torrent")]

@@ -49,7 +49,7 @@
       </source>
     </icon-set>
   </icon-factory>
-  <widget class="Gtk.Window" id="Monsoon.MainWindow" design-size="765 561">
+  <widget class="Gtk.Window" id="Monsoon.MainWindow" design-size="765 658">
     <action-group name="Default">
       <action id="File">
         <property name="Type">Action</property>
@@ -178,6 +178,7 @@
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
+        <property name="HeightRequest">629</property>
         <child>
           <widget class="Gtk.MenuBar" id="menubar1">
             <property name="MemberName" />

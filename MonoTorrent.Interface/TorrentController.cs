@@ -443,44 +443,37 @@ namespace Monsoon
 			XmlSerializer xs = new XmlSerializer(typeof(TorrentStorage[]));
 			
 			logger.Info("Loading stored torrents from " + prefSettings.TorrentStorageLocation);
-			
-			if(File.Exists(storedTorrentFile)){
-				FileStream fs = null;
-				try{
-					fs = File.Open(storedTorrentFile, FileMode.Open);
-				} catch{
-					logger.Error("Error opening torrents.xml");
-				}
-				try{
-					torrentsToRestore = (TorrentStorage[]) xs.Deserialize(fs);
-				}catch{
-					logger.Error("Error reloading torrents.xml");
-				}
-				finally{
-					fs.Close();
-				}
-				
-				if (torrentsToRestore == null)
+			try
+			{
+				if(!File.Exists(storedTorrentFile))
 					return;
 				
-				foreach(TorrentStorage torrentStore in torrentsToRestore){
+				using (FileStream fs = File.Open(storedTorrentFile, FileMode.Open))
+					torrentsToRestore = (TorrentStorage[]) xs.Deserialize(fs);
+			}
+			catch
+			{
+				logger.Error("Error opening torrents.xml");
+				return;
+			}
+
+			foreach(TorrentStorage torrentStore in torrentsToRestore){
+				try{
+					manager = addTorrent(torrentStore.TorrentPath, false, false, false, torrentStore.Settings);
+				} catch (TorrentException e) {
+					logger.Error(e.Message);
+					continue;
+				}
+				
+				torrentPreviousUpload.Add(manager, torrentStore.UploadedData);
+				torrentPreviousDownload.Add(manager, torrentStore.DownloadedData);
+				
+				if(torrentStore.State == TorrentState.Downloading || torrentStore.State == TorrentState.Seeding){
 					try{
-						manager = addTorrent(torrentStore.TorrentPath, false, false, false, torrentStore.Settings);
-					} catch (TorrentException e) {
-						logger.Error(e.Message);
+						manager.Start();
+					}catch{
+						logger.Error("Could not restore state of " + manager.Torrent.Name);
 						continue;
-					}
-					
-					torrentPreviousUpload.Add(manager, torrentStore.UploadedData);
-					torrentPreviousDownload.Add(manager, torrentStore.DownloadedData);
-					
-					if(torrentStore.State == TorrentState.Downloading || torrentStore.State == TorrentState.Seeding){
-						try{
-							manager.Start();
-						}catch{
-							logger.Error("Could not restore state of " + manager.Torrent.Name);
-							continue;
-						}
 					}
 				}
 			}

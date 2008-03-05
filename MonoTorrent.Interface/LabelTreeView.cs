@@ -41,7 +41,6 @@ namespace Monsoon
 		
 		private Gtk.Menu contextMenu;
 		private ImageMenuItem createItem;
-		private ImageMenuItem renameItem;
 		private ImageMenuItem removeItem;
 		
 		private MainWindow mainWindow;
@@ -59,7 +58,7 @@ namespace Monsoon
 			
 			BuildContextMenu();
 		}
-		
+					
 		private void buildColumns()
 		{
 			iconColumn = new TreeViewColumn();
@@ -69,6 +68,36 @@ namespace Monsoon
 			Gtk.CellRendererPixbuf iconRendererCell = new Gtk.CellRendererPixbuf ();
 			Gtk.CellRendererText nameRendererCell = new Gtk.CellRendererText();
 			Gtk.CellRendererText sizeRendererCell = new Gtk.CellRendererText();
+			
+			//nameRendererCell.Editable = true;
+			nameRendererCell.EditingStarted += delegate (object o, Gtk.EditingStartedArgs args) {
+				Console.WriteLine("Starting Editing");
+				Gtk.TreeIter iter;
+				mainWindow.labelListStore.GetIter (out iter, new Gtk.TreePath(args.Path));
+				
+				TorrentLabel l = (TorrentLabel) mainWindow.labelListStore.GetValue(iter, 0);
+				if (l.Immutable)
+				{
+					nameRendererCell.CancelEditing();
+					nameRendererCell.StopEditing(true);
+					
+					args.Editable.FinishEditing();
+					args.Editable.RemoveWidget();
+					
+					Console.WriteLine("Can't touch this: {0}", l.Name);
+				}
+			};
+			
+			nameRendererCell.EditingCanceled += delegate { Console.WriteLine("Cancelled"); };
+			
+			nameRendererCell.Edited += delegate (object o, Gtk.EditedArgs args) {
+				Console.WriteLine("Edit done");
+				Gtk.TreeIter iter;
+				mainWindow.labelListStore.GetIter (out iter, new Gtk.TreePath (args.Path));
+			 
+				TorrentLabel label = (TorrentLabel) mainWindow.labelListStore.GetValue (iter, 0);
+				label.Name = args.NewText;
+			};
 			
 			iconColumn.PackStart(iconRendererCell, true);
 			nameColumn.PackStart(nameRendererCell, true);
@@ -83,6 +112,8 @@ namespace Monsoon
 			AppendColumn (sizeColumn);
 		}
 		
+		
+		
 		private void BuildContextMenu ()
 		{
 			contextMenu = new Menu ();
@@ -92,6 +123,7 @@ namespace Monsoon
 			createItem.Activated += delegate (object o, EventArgs e) {
 				TorrentLabel l = new TorrentLabel(new ArrayList(), "New Label");
 				mainWindow.labelListStore.AppendValues(l);
+				mainWindow.labels.Add(l);
 			};
 			contextMenu.Append(createItem);
 			
@@ -105,11 +137,12 @@ namespace Monsoon
 					return;
 				
 				TorrentLabel label = (TorrentLabel) mainWindow.labelListStore.GetValue(iter, 0);
-				if (label.CanRemove)
-					this.mainWindow.labelListStore.Remove(ref iter);
+				if (label.Immutable)
+					return;
+				
+				mainWindow.labelListStore.Remove(ref iter);
+				mainWindow.labels.Remove(label);
 			};
-			
-			contextMenu.ShowAll ();
 		}
 		
 		protected override bool	OnButtonPressEvent (Gdk.EventButton e)
@@ -119,8 +152,11 @@ namespace Monsoon
 			
 			if(!contextActive)
 				return false;
-				
-			if(e.Button == 3 && Selection.CountSelectedRows() == 1){
+			
+			if(e.Button == 3)
+			{
+				int selected = Selection.CountSelectedRows();
+				removeItem.Sensitive = selected == 1;
 				contextMenu.ShowAll();
 				contextMenu.Popup();
 			}

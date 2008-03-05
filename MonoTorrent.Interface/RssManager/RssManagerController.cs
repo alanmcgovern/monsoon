@@ -182,12 +182,13 @@ namespace Monsoon
 				Console.Out.WriteLine("Storing feed: " + feed);
 			}
 			
-			Stream fs = new FileStream (storageFilePath, FileMode.Create);
-			XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-			
-			XmlSerializer s = new XmlSerializer (typeof(ArrayList));
-			s.Serialize(writer, feeds);
-			
+			using (Stream fs = new FileStream (storageFilePath, FileMode.Create))
+			{
+				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
+				
+				XmlSerializer s = new XmlSerializer (typeof(ArrayList));
+				s.Serialize(writer, feeds);
+			}
 		}
 		
 		
@@ -211,11 +212,13 @@ namespace Monsoon
 				
 			logger.Info ("Storing filters");
 	
-			Stream fs = new FileStream (storageFilePath, FileMode.Create);
-			XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-			
-			XmlSerializer s = new XmlSerializer (typeof(RssFilter[]));
-			s.Serialize(writer, filters.ToArray ());
+			using (Stream fs = new FileStream (storageFilePath, FileMode.Create))
+			{
+				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
+				
+				XmlSerializer s = new XmlSerializer (typeof(RssFilter[]));
+				s.Serialize(writer, filters.ToArray ());
+			}
 		}
 		
 		
@@ -228,28 +231,24 @@ namespace Monsoon
 			
 			logger.Info ("Restoring RSS feeds");
 			
-			if (System.IO.File.Exists(storageFilePath)) {
-				FileStream fs = null;
-				
-				try {
-					fs = System.IO.File.Open(storageFilePath, System.IO.FileMode.Open);
-				} catch {
-					logger.Error("Error opening rssfeeds.xml");
-				}
-				
-				try {				
-					feedsToRestore = (ArrayList) xs.Deserialize(fs);
-				} catch {
-					logger.Error("Failed to resotore RSS Feeds");
+			try
+			{
+				if (!System.IO.File.Exists(storageFilePath))
 					return;
-				} finally {
-					fs.Close();
-				}
 				
-				foreach(string feed in feedsToRestore){
-					Console.Out.WriteLine("restoring: " + feed);
-					feeds.Add(feed);
-				}
+				using (FileStream fs = File.OpenRead(storageFilePath))
+					feedsToRestore = (ArrayList) xs.Deserialize(fs);
+			}
+			catch
+			{
+				logger.Error("Error opening rssfeeds.xml");
+				return;
+			}
+
+				
+			foreach(string feed in feedsToRestore){
+				Console.Out.WriteLine("restoring: " + feed);
+				feeds.Add(feed);
 			}
 		}
 		
