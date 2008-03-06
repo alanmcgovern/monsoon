@@ -564,14 +564,14 @@ namespace Monsoon
 			else
 				limited = ByteConverter.Convert(userEngineSettings.GlobalMaxDownloadSpeed, "[{0:0}] ").Split(' ')[0] + " ";
 			
-			statusUploadLabel.Markup = "<small>U: " + limited + ByteConverter.Convert(torrentController.engine.TotalUploadSpeed) + "</small>";
+			statusDownloadLabel.Markup = "<small>D: " + limited + ByteConverter.Convert(torrentController.engine.TotalDownloadSpeed) + "</small>";
 			
 			if (userEngineSettings.GlobalMaxUploadSpeed == 0)
 				limited = "";
 			else
 				limited = ByteConverter.Convert(userEngineSettings.GlobalMaxUploadSpeed, "[{0:0}]").Split(' ')[0] + " ";
 			
-			statusDownloadLabel.Markup = "<small>D: " + limited + ByteConverter.Convert(torrentController.engine.TotalDownloadSpeed) + "</small>";
+			statusUploadLabel.Markup = "<small>U: " + limited + ByteConverter.Convert(torrentController.engine.TotalUploadSpeed) + "</small>";
 		}
 		
 		
@@ -1212,24 +1212,24 @@ namespace Monsoon
 		private void BuildSpeedsPopup()
 		{
 			SpeedLimitMenu menu = new SpeedLimitMenu();
-			statusUploadLabel.ButtonPressEvent += delegate {
+			eventUpload.ButtonPressEvent += delegate {
 				menu.ShowAll ();
 				menu.IsUpload = true;
-				menu.CalculateSpeeds (userEngineSettings.GlobalMaxUploadSpeed);
+				menu.CalculateSpeeds (userEngineSettings.GlobalMaxUploadSpeed / 1024);
 				menu.Popup ();
 			};
-			statusDownloadLabel.ButtonPressEvent += delegate {
+			eventDownload.ButtonPressEvent += delegate {
 				menu.ShowAll ();
 				menu.IsUpload = false;
-				menu.CalculateSpeeds (userEngineSettings.GlobalMaxDownloadSpeed);
+				menu.CalculateSpeeds (userEngineSettings.GlobalMaxDownloadSpeed / 1024);
 				menu.Popup ();
 			};
 
-			menu.SelectionDone += delegate {
+			menu.ClickedItem += delegate (object sender, EventArgs e) {
 				menu.HideAll ();
 				
 				// Get the text from the selected item and trim out the kB/sec bit
-				MenuItem i = (MenuItem)menu.Active;
+				MenuItem i = (MenuItem)sender;
 				string text = ((Label)i.Child).Text;
 				text = text.Split(' ')[0];
 				
@@ -1244,6 +1244,7 @@ namespace Monsoon
 					userEngineSettings.GlobalMaxUploadSpeed = (int)newSpeed;
 				else
 					userEngineSettings.GlobalMaxDownloadSpeed = (int)newSpeed;
+				updateStatusBar ();
 			};
 		}
 		private void OnTorrentSettingsChanged (object sender, EventArgs args)

@@ -213,7 +213,11 @@ namespace Monsoon {
         
         private Gtk.Statusbar statusbar2;
         
+        private Gtk.EventBox eventDownload;
+        
         private Gtk.Label statusDownloadLabel;
+        
+        private Gtk.EventBox eventUpload;
         
         private Gtk.Label statusUploadLabel;
         
@@ -281,6 +285,7 @@ namespace Monsoon {
             this.Title = Mono.Unix.Catalog.GetString("MonoTorrent");
             // Container child Monsoon.MainWindow.Gtk.Container+ContainerChild
             this.vbox1 = new Gtk.VBox();
+            this.vbox1.HeightRequest = 629;
             this.vbox1.Name = "vbox1";
             // Container child vbox1.Gtk.Box+BoxChild
             w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='File'><menuitem action='NewTorrent'/><menuitem action='OpenTorrent'/><separator/><menuitem action='Quit'/></menu><menu action='Edit'><menuitem action='preferences'/></menu><menu action='View'><menuitem action='EditColumns'/><separator/><menuitem action='ShowLabels'/><menuitem action='ShowDetailedInfo'/></menu><menu action='Help'><menuitem action='About'/></menu></menubar></ui>");
@@ -1022,36 +1027,44 @@ namespace Monsoon {
             this.statusbar2.Name = "statusbar2";
             this.statusbar2.Spacing = 6;
             // Container child statusbar2.Gtk.Box+BoxChild
+            this.eventDownload = new Gtk.EventBox();
+            this.eventDownload.Name = "eventDownload";
+            // Container child eventDownload.Gtk.Container+ContainerChild
             this.statusDownloadLabel = new Gtk.Label();
             this.statusDownloadLabel.Name = "statusDownloadLabel";
             this.statusDownloadLabel.LabelProp = Mono.Unix.Catalog.GetString("<small>D: 0.00 kB</small>");
             this.statusDownloadLabel.UseMarkup = true;
-            this.statusbar2.Add(this.statusDownloadLabel);
-            Gtk.Box.BoxChild w77 = ((Gtk.Box.BoxChild)(this.statusbar2[this.statusDownloadLabel]));
-            w77.Position = 1;
-            w77.Expand = false;
-            w77.Fill = false;
+            this.eventDownload.Add(this.statusDownloadLabel);
+            this.statusbar2.Add(this.eventDownload);
+            Gtk.Box.BoxChild w78 = ((Gtk.Box.BoxChild)(this.statusbar2[this.eventDownload]));
+            w78.Position = 2;
+            w78.Expand = false;
+            w78.Fill = false;
             // Container child statusbar2.Gtk.Box+BoxChild
+            this.eventUpload = new Gtk.EventBox();
+            this.eventUpload.Name = "eventUpload";
+            // Container child eventUpload.Gtk.Container+ContainerChild
             this.statusUploadLabel = new Gtk.Label();
             this.statusUploadLabel.Name = "statusUploadLabel";
             this.statusUploadLabel.LabelProp = Mono.Unix.Catalog.GetString("<small>U: 0.00 kB</small>");
             this.statusUploadLabel.UseMarkup = true;
-            this.statusbar2.Add(this.statusUploadLabel);
-            Gtk.Box.BoxChild w78 = ((Gtk.Box.BoxChild)(this.statusbar2[this.statusUploadLabel]));
-            w78.Position = 2;
-            w78.Expand = false;
-            w78.Fill = false;
+            this.eventUpload.Add(this.statusUploadLabel);
+            this.statusbar2.Add(this.eventUpload);
+            Gtk.Box.BoxChild w80 = ((Gtk.Box.BoxChild)(this.statusbar2[this.eventUpload]));
+            w80.Position = 3;
+            w80.Expand = false;
+            w80.Fill = false;
             this.vbox1.Add(this.statusbar2);
-            Gtk.Box.BoxChild w79 = ((Gtk.Box.BoxChild)(this.vbox1[this.statusbar2]));
-            w79.Position = 3;
-            w79.Expand = false;
-            w79.Fill = false;
+            Gtk.Box.BoxChild w81 = ((Gtk.Box.BoxChild)(this.vbox1[this.statusbar2]));
+            w81.Position = 3;
+            w81.Expand = false;
+            w81.Fill = false;
             this.Add(this.vbox1);
             if ((this.Child != null)) {
                 this.Child.ShowAll();
             }
             this.DefaultWidth = 765;
-            this.DefaultHeight = 561;
+            this.DefaultHeight = 658;
             this.Hide();
             this.DeleteEvent += new Gtk.DeleteEventHandler(this.OnDeleteEvent);
             this.About.Activated += new System.EventHandler(this.OnAboutActivated);

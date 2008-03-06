@@ -12,6 +12,8 @@ namespace Monsoon
 {
 	public class SpeedLimitMenu : Gtk.Menu
 	{
+		public event EventHandler ClickedItem;
+		
 		private List<MenuItem> labels;
 		private bool isUpload;
 		
@@ -23,13 +25,23 @@ namespace Monsoon
 		
 		public SpeedLimitMenu()
 		{
+			
 			// This should always be an uneven number
 			labels = new List<MenuItem>(13);
+			MenuItem l = new MenuItem ("Unlimited");
+			l.Activated += delegate (object sender, EventArgs e) {
+				if (ClickedItem != null)
+					ClickedItem (sender, e);
+			};
+			Append (l);
 			
-			Append (new MenuItem ("Unlimited"));
 			for (int i = 0; i < labels.Capacity; i++)
 			{
-				MenuItem l = new MenuItem ("");
+				l = new MenuItem ("");
+				l.Activated += delegate (object sender, EventArgs e) {
+					if (ClickedItem != null)
+						ClickedItem (sender, e);
+				};
 				labels.Add(l);
 				Append(l);
 			}
@@ -37,6 +49,7 @@ namespace Monsoon
 		
 		private void SetLabel (MenuItem item, int speed)
 		{
+			speed = Math.Max (0, speed);
 			((Label) item.Child).Text = ByteConverter.Convert (speed);
 		}
 		
@@ -45,7 +58,7 @@ namespace Monsoon
 			int centre = labels.Count / 2;
 			
 			if (currentSpeed == 0)
-				currentSpeed = 500;
+				currentSpeed = 50;
 			
 			labels[centre].Name = ByteConverter.Convert (currentSpeed);
 			for (int i = 0; i <= centre; i++)
