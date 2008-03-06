@@ -35,13 +35,18 @@ namespace Monsoon
 	{
 		public static string Convert(double size)
 		{
+			return Convert(size, "{0:0.00}");
+		}
+		
+		public static string Convert (double size, string formatting)
+		{
 			if(size < (1ul << 10))
-				return (size.ToString("0.00") + " kB");
+				return string.Format (formatting, size) + " kB";
 			if(size < (1ul << 20))
-				return (size / (double)(1ul << 10)).ToString("0.00") + " MB";
+				return string.Format (formatting, (size / (double)(1ul << 10))) + " MB";
 			if(size < (1ul << 30))
-				return (size / (double)(1ul << 20)).ToString("0.00") + " GB";
-			return (size / (double)(1ul << 30)).ToString("0.00") + " TB";
+				return string.Format (formatting, (size / (double)(1ul << 20))) + " GB";
+			return string.Format (formatting, (size / (double)(1ul << 30))) + " TB";
 		}
 	}
 }

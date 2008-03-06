@@ -1,5 +1,9 @@
 2008-03-06  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* ByteConverter.cs: Added ability to specify the formatting of the number
+
+2008-03-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* RssManager/RssManagerController.cs: bugfix: remember to close the
 	  filestream
 
