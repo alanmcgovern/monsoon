@@ -128,6 +128,7 @@ namespace Monsoon
 			BuildFileTreeView();
 			BuildLabelTreeView();
 			BuildOptionsPage();
+			BuildSpeedsPopup();
 			
 			
 			torrentController.engine.StatsUpdate += OnUpdateStats;
@@ -554,11 +555,23 @@ namespace Monsoon
 					peerListStore.EmitRowChanged(peerListStore.GetPath(iter), iter);
 				}
 		}
-		
+
 		private void updateStatusBar()
-		{	
-			statusUploadLabel.Markup = "<small>U: " + (userEngineSettings.GlobalMaxUploadSpeed != 0 ? "[" + userEngineSettings.GlobalMaxUploadSpeed + "] " : "") + ByteConverter.Convert(torrentController.engine.TotalUploadSpeed) + "</small>";
-			statusDownloadLabel.Markup = "<small>D: " + (userEngineSettings.GlobalMaxDownloadSpeed != 0 ? "[" + userEngineSettings.GlobalMaxDownloadSpeed + "] " : "") + ByteConverter.Convert(torrentController.engine.TotalDownloadSpeed) + "</small>";
+		{
+			string limited;
+			if (userEngineSettings.GlobalMaxDownloadSpeed == 0)
+				limited = "";
+			else
+				limited = ByteConverter.Convert(userEngineSettings.GlobalMaxDownloadSpeed, "[{0:0}] ").Split(' ')[0] + " ";
+			
+			statusUploadLabel.Markup = "<small>U: " + limited + ByteConverter.Convert(torrentController.engine.TotalUploadSpeed) + "</small>";
+			
+			if (userEngineSettings.GlobalMaxUploadSpeed == 0)
+				limited = "";
+			else
+				limited = ByteConverter.Convert(userEngineSettings.GlobalMaxUploadSpeed, "[{0:0}]").Split(' ')[0] + " ";
+			
+			statusDownloadLabel.Markup = "<small>D: " + limited + ByteConverter.Convert(torrentController.engine.TotalDownloadSpeed) + "</small>";
 		}
 		
 		
@@ -1196,6 +1209,43 @@ namespace Monsoon
 			buildLabelManager ();
 		}
 		
+		private void BuildSpeedsPopup()
+		{
+			SpeedLimitMenu menu = new SpeedLimitMenu();
+			statusUploadLabel.ButtonPressEvent += delegate {
+				menu.ShowAll ();
+				menu.IsUpload = true;
+				menu.CalculateSpeeds (userEngineSettings.GlobalMaxUploadSpeed);
+				menu.Popup ();
+			};
+			statusDownloadLabel.ButtonPressEvent += delegate {
+				menu.ShowAll ();
+				menu.IsUpload = false;
+				menu.CalculateSpeeds (userEngineSettings.GlobalMaxDownloadSpeed);
+				menu.Popup ();
+			};
+
+			menu.SelectionDone += delegate {
+				menu.HideAll ();
+				
+				// Get the text from the selected item and trim out the kB/sec bit
+				MenuItem i = (MenuItem)menu.Active;
+				string text = ((Label)i.Child).Text;
+				text = text.Split(' ')[0];
+				
+				// Parse the speed and convert to bytes/sec
+				double newSpeed;
+				if (!double.TryParse (text, out newSpeed))
+					newSpeed = 0;
+				newSpeed *= 1024;
+
+				// Update the settings
+				if (menu.IsUpload)
+					userEngineSettings.GlobalMaxUploadSpeed = (int)newSpeed;
+				else
+					userEngineSettings.GlobalMaxDownloadSpeed = (int)newSpeed;
+			};
+		}
 		private void OnTorrentSettingsChanged (object sender, EventArgs args)
 		{
 			TorrentManager torrent = GetSelectedTorrent();	

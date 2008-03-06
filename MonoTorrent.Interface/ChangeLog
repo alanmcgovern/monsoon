@@ -1,5 +1,11 @@
 2008-03-06  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, MonoTorrent.Interface.mdp: Altered the way status is
+	  displayed for download/upload speed limits and added a context menu to
+	  specify the speed limits
+
+2008-03-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* ByteConverter.cs: Added ability to specify the formatting of the number
 
 2008-03-06  Alan McGovern <alan.mcgovern@gmail.com> 
