@@ -69,36 +69,15 @@ namespace Monsoon
 			Gtk.CellRendererText nameRendererCell = new Gtk.CellRendererText();
 			Gtk.CellRendererText sizeRendererCell = new Gtk.CellRendererText();
 			
-			//nameRendererCell.Editable = true;
-			nameRendererCell.EditingStarted += delegate (object o, Gtk.EditingStartedArgs args) {
-				Console.WriteLine("Starting Editing");
-				Gtk.TreeIter iter;
-				mainWindow.labelListStore.GetIter (out iter, new Gtk.TreePath(args.Path));
-				
-				TorrentLabel l = (TorrentLabel) mainWindow.labelListStore.GetValue(iter, 0);
-				if (l.Immutable)
-				{
-					nameRendererCell.CancelEditing();
-					nameRendererCell.StopEditing(true);
-					
-					args.Editable.FinishEditing();
-					args.Editable.RemoveWidget();
-					
-					Console.WriteLine("Can't touch this: {0}", l.Name);
-				}
-			};
-			
-			nameRendererCell.EditingCanceled += delegate { Console.WriteLine("Cancelled"); };
-			
+			nameRendererCell.Editable = true;
 			nameRendererCell.Edited += delegate (object o, Gtk.EditedArgs args) {
-				Console.WriteLine("Edit done");
 				Gtk.TreeIter iter;
 				mainWindow.labelListStore.GetIter (out iter, new Gtk.TreePath (args.Path));
 			 
 				TorrentLabel label = (TorrentLabel) mainWindow.labelListStore.GetValue (iter, 0);
 				label.Name = args.NewText;
 			};
-			
+
 			iconColumn.PackStart(iconRendererCell, true);
 			nameColumn.PackStart(nameRendererCell, true);
 			sizeColumn.PackStart(sizeRendererCell, true);
@@ -155,8 +134,12 @@ namespace Monsoon
 			
 			if(e.Button == 3)
 			{
-				int selected = Selection.CountSelectedRows();
-				removeItem.Sensitive = selected == 1;
+				TreeIter iter;
+				if (Selection.GetSelected(out iter))
+					removeItem.Sensitive = !((TorrentLabel) Model.GetValue(iter, 0)).Immutable;
+				else
+					removeItem.Sensitive = false;
+				
 				contextMenu.ShowAll();
 				contextMenu.Popup();
 			}
@@ -173,6 +156,7 @@ namespace Monsoon
 		private void RenderName (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			TorrentLabel label = (TorrentLabel) model.GetValue (iter, 0);
+			cell.Mode = label.Immutable ? CellRendererMode.Inert : CellRendererMode.Editable;
 			(cell as Gtk.CellRendererText).Text = label.Name;
 		}
 		
@@ -181,6 +165,5 @@ namespace Monsoon
 			TorrentLabel label = (TorrentLabel) model.GetValue (iter, 0);
 			(cell as Gtk.CellRendererText).Text = "(" + label.Size + ")";
 		}
-		
 	}
 }
