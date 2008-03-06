@@ -1,5 +1,10 @@
 2008-03-06  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* RssManager/RssManagerController.cs: bugfix: remember to close the
+	  filestream
+
+2008-03-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* LabelTreeView.cs: Renaming/adding/removing of labels implemented fully.
 
 2008-03-05  Alan McGovern <alan.mcgovern@gmail.com> 

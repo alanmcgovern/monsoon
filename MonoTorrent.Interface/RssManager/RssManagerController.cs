@@ -198,11 +198,13 @@ namespace Monsoon
 			
 			logger.Info ("Storing history");
 	
-			Stream fs = new FileStream (storageFilePath, FileMode.Create);
-			XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-			
-			XmlSerializer s = new XmlSerializer (typeof(RssItem[]));
-			s.Serialize(writer, history.ToArray());
+			using (Stream fs = new FileStream (storageFilePath, FileMode.Create))
+			{
+				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
+				
+				XmlSerializer s = new XmlSerializer (typeof(RssItem[]));
+				s.Serialize(writer, history.ToArray());
+			}
 		}
 		
 		
