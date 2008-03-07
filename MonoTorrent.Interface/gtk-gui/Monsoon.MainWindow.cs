@@ -285,7 +285,6 @@ namespace Monsoon {
             this.Title = Mono.Unix.Catalog.GetString("MonoTorrent");
             // Container child Monsoon.MainWindow.Gtk.Container+ContainerChild
             this.vbox1 = new Gtk.VBox();
-            this.vbox1.HeightRequest = 629;
             this.vbox1.Name = "vbox1";
             // Container child vbox1.Gtk.Box+BoxChild
             w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='File'><menuitem action='NewTorrent'/><menuitem action='OpenTorrent'/><separator/><menuitem action='Quit'/></menu><menu action='Edit'><menuitem action='preferences'/></menu><menu action='View'><menuitem action='EditColumns'/><separator/><menuitem action='ShowLabels'/><menuitem action='ShowDetailedInfo'/></menu><menu action='Help'><menuitem action='About'/></menu></menubar></ui>");

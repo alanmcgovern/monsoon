@@ -5,7 +5,7 @@
     <target-gtk-version>2.10.2</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="../bin/Debug/MonoTorrent.Interface.exe" internal="true" />
+    <widget-library name="../bin/Release/MonoTorrent.Interface.exe" internal="true" />
   </import>
   <icon-factory>
     <icon-set id="rss">
@@ -178,7 +178,6 @@
     <child>
       <widget class="Gtk.VBox" id="vbox1">
         <property name="MemberName" />
-        <property name="HeightRequest">629</property>
         <child>
           <widget class="Gtk.MenuBar" id="menubar1">
             <property name="MemberName" />

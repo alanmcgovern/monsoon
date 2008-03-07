@@ -31,9 +31,7 @@ using System;
 using Gtk;
 using Gdk;
 using MonoTorrent.Client;
-using Cairo;
 
-using System.Runtime.InteropServices;
 
 namespace Monsoon
 {
