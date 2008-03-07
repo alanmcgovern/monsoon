@@ -88,7 +88,7 @@ namespace Monsoon
 		private TorrentFolderWatcher folderWatcher;
 		
 		private Menu trayMenu;
-		private ImageMenuItem quitItem;
+		//private ImageMenuItem quitItem;
 		private Egg.TrayIcon trayIcon;
 		
 		private RssManagerController rssManagerController;
@@ -169,24 +169,36 @@ namespace Monsoon
 			EventBox eventBox = new EventBox ();
 			trayMenu = new Menu ();
 			
-			//Tooltips trayTip = new Tooltips();
-			//trayTip.SetTip(eventBox, "MonoTorrent", null);
-			//trayTip.Enable();
-			
-			quitItem = new ImageMenuItem ("Quit");
+			ImageMenuItem quitItem = new ImageMenuItem ("Quit");
 			quitItem.Image = new Image (Stock.Quit, IconSize.Menu);
+			quitItem.Activated += delegate(object sender, EventArgs args)
+			{
+				OnDeleteEvent (sender ,new DeleteEventArgs ());
+			};
+			
+			ImageMenuItem stop = new ImageMenuItem("Stop All");
+			stop.Image = new Image (Stock.Stop, IconSize.Menu);
+			stop.Activated += delegate {
+				foreach (TorrentManager m in torrentController.Torrents)
+					m.Stop ();
+			};
+			
+			ImageMenuItem start = new ImageMenuItem ("Start All");
+			start.Image = new Image (Stock.MediaPlay, IconSize.Menu);
+			start.Activated += delegate {
+				foreach (TorrentManager m in torrentController.Torrents)
+					m.Start ();
+			};
+			
+			trayMenu.Append (start);
+			trayMenu.Append (stop);
 			trayMenu.Append (quitItem);
 			trayMenu.ShowAll ();
-			
-			quitItem.Activated += delegate(object sender, EventArgs args)
-				{
-					OnDeleteEvent (null,new DeleteEventArgs ());
-				};
 			
 			eventBox.Add (new Image (Stock.GoDown, IconSize.Menu));
 			eventBox.ButtonPressEvent += OnTrayClicked;
 			trayIcon = new Egg.TrayIcon ("MonoTorrent");
-			
+			trayIcon.Icon = new Image (Stock.Network, IconSize.Menu).Pixbuf;
 			trayIcon.Add (eventBox);
 			
 			if(prefSettings.EnableTray)
@@ -1002,9 +1014,9 @@ namespace Monsoon
 					updateInLabel.Text =  DateTime.MinValue.Add (nextUpdate - DateTime.Now).ToString("HH:mm:ss");
 			}
 			
-			swarmSpeedLabel.Text = ByteConverter.Convert((torrentController.GetTorrentSwarm(manager) * manager.Torrent.PieceLength) / 1024f);
+			swarmSpeedLabel.Text = ByteConverter.Convert(torrentController.GetTorrentSwarm(manager) * manager.Torrent.PieceLength);
 			savePathValueLabel.Text = manager.SavePath;
-			sizeValueLabel.Text = ByteConverter.Convert (manager.Torrent.Size / 1024);
+			sizeValueLabel.Text = ByteConverter.Convert (manager.Torrent.Size);
 			createdOnValueLabel.Text = manager.Torrent.CreationDate.ToLongDateString ();
 			commentValueLabel.Text = manager.Torrent.Comment;
 			messageLabel.Text = manager.TrackerManager.CurrentTracker.WarningMessage + manager.TrackerManager.CurrentTracker.FailureMessage;
@@ -1215,13 +1227,13 @@ namespace Monsoon
 			eventUpload.ButtonPressEvent += delegate {
 				menu.ShowAll ();
 				menu.IsUpload = true;
-				menu.CalculateSpeeds (userEngineSettings.GlobalMaxUploadSpeed / 1024);
+				menu.CalculateSpeeds (userEngineSettings.GlobalMaxUploadSpeed);
 				menu.Popup ();
 			};
 			eventDownload.ButtonPressEvent += delegate {
 				menu.ShowAll ();
 				menu.IsUpload = false;
-				menu.CalculateSpeeds (userEngineSettings.GlobalMaxDownloadSpeed / 1024);
+				menu.CalculateSpeeds (userEngineSettings.GlobalMaxDownloadSpeed);
 				menu.Popup ();
 			};
 

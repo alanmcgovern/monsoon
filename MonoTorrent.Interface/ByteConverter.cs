@@ -40,13 +40,16 @@ namespace Monsoon
 		
 		public static string Convert (double size, string formatting)
 		{
-			if(size < (1ul << 10))
-				return string.Format (formatting, size) + " kB";
-			if(size < (1ul << 20))
-				return string.Format (formatting, (size / (double)(1ul << 10))) + " MB";
-			if(size < (1ul << 30))
-				return string.Format (formatting, (size / (double)(1ul << 20))) + " GB";
-			return string.Format (formatting, (size / (double)(1ul << 30))) + " TB";
+			if (size < 1024)
+				return string.Format (formatting, size) + " b";
+			
+			if(size < (1024 * 1024))
+				return string.Format (formatting, size / 1024) + " kB";
+			
+			if(size < (1024 * 1024 * 1024))
+				return string.Format (formatting, size / (1024 * 1024)) + " MB";
+			
+			return string.Format (formatting, size / (1024 * 1024 * 1024 )) + " GB";
 		}
 	}
 }

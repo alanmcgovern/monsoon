@@ -288,7 +288,6 @@ namespace Monsoon
 			
 			if(torrent == null)
 				return;
-			
 			(cell as Gtk.CellRendererText).Text = ByteConverter.Convert(torrent.Monitor.DownloadSpeed)  + "/s";
 		}
 		
@@ -329,7 +328,7 @@ namespace Monsoon
 			if(torrent == null)
 				return;
 			
-			(cell as Gtk.CellRendererText).Text = ByteConverter.Convert(torrent.Torrent.Size / 1024);
+			(cell as Gtk.CellRendererText).Text = ByteConverter.Convert(torrent.Torrent.Size);
 		}
 	}
 }
