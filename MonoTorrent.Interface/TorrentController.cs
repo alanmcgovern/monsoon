@@ -58,9 +58,9 @@ namespace Monsoon
 		private Dictionary<TorrentManager, long> torrentPreviousDownload;
 		private MainWindow mainWindow;
 		
-		private ArrayList torrentsDownloading;
-		private ArrayList torrentsSeeding;
-		private ArrayList allTorrents;
+		private List<TorrentManager> torrentsDownloading;
+		private List<TorrentManager> torrentsSeeding;
+		private List<TorrentManager> allTorrents;
 		private ArrayList labels;
 		private List<BlockEventArgs> pieces;
 				
@@ -88,9 +88,9 @@ namespace Monsoon
 			
 			hashProgress = new Dictionary<MonoTorrent.Client.TorrentManager,int>();
 			torrentSwarm = new Dictionary<MonoTorrent.Client.TorrentManager,int>();
-			torrentsDownloading = new ArrayList();
-			torrentsSeeding = new ArrayList();
-			allTorrents = new ArrayList();
+			torrentsDownloading = new List<TorrentManager>();
+			torrentsSeeding = new List<TorrentManager>(); 
+			allTorrents = new List<TorrentManager>();
 		}
 		
 		private void OnPeerMessageTransferred(object sender, PeerMessageEventArgs args)
@@ -346,17 +346,17 @@ namespace Monsoon
 			
 		}
 		
-		public ArrayList TorrentsDownloading
+		public List<TorrentManager> TorrentsDownloading
 		{
 			get{ return torrentsDownloading; }
 		}
 		
-		public ArrayList Torrents
+		public List<TorrentManager> Torrents
 		{
 			get{ return allTorrents; }
 		}
 		
-		public ArrayList TorrentsSeeding
+		public List<TorrentManager> TorrentsSeeding
 		{
 			get { return torrentsSeeding; }
 		}

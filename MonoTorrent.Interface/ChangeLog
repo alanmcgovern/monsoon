@@ -1,5 +1,9 @@
 2008-03-07  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* TorrentController.cs: ArrayList -> List<TorrentManager>
+
+2008-03-07  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, Menus/SpeedLimitMenu.cs, gtk-gui/Monsoon.MainWindow.cs,
 	  gtk-gui/gui.stetic: Added event box around the upload/download labels to
 	  allow easy setting of global upload/download limits
