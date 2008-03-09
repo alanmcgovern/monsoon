@@ -193,7 +193,6 @@ namespace Monsoon
 			trayMenu.Append (start);
 			trayMenu.Append (stop);
 			trayMenu.Append (quitItem);
-			trayMenu.ShowAll ();
 			
 			eventBox.Add (new Image (Stock.GoDown, IconSize.Menu));
 			eventBox.ButtonPressEvent += OnTrayClicked;
@@ -219,6 +218,7 @@ namespace Monsoon
 			
 			if(eventButton.Button == 3){
 				// show context menu
+				trayMenu.ShowAll ();
 				trayMenu.Popup();
 			}
 		}
@@ -1372,17 +1372,17 @@ namespace Monsoon
 
 		protected virtual void OnShowDetailedInfoActivated (object sender, System.EventArgs e)
 		{
-			if (ShowDetailedInfo.Active == true)
+			if (ShowDetailedInfo.Active)
 				detailNotebook.ShowAll();
-			else if (ShowDetailedInfo.Active == false)
+			else
 				detailNotebook.HideAll();
 		}
 
 		protected virtual void OnShowLabelsActivated (object sender, System.EventArgs e)
 		{
-			if (ShowLabels.Active == true)
+			if (ShowLabels.Active)
 				labelViewScrolledWindow.ShowAll();
-			else if (ShowLabels.Active == false)
+			else
 				labelViewScrolledWindow.HideAll();
 		}
 
