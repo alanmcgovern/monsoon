@@ -13,7 +13,7 @@ namespace Monsoon
 	public class SpeedLimitMenu : Gtk.Menu
 	{
 		public event EventHandler ClickedItem;
-		
+		private List<int> speeds;
 		private List<MenuItem> labels;
 		private bool isUpload;
 		
@@ -28,6 +28,8 @@ namespace Monsoon
 			
 			// This should always be an uneven number
 			labels = new List<MenuItem>(13);
+			speeds = new List<int> (labels.Capacity);
+			
 			MenuItem l = new MenuItem ("Unlimited");
 			l.Activated += delegate (object sender, EventArgs e) {
 				if (ClickedItem != null)
@@ -49,56 +51,62 @@ namespace Monsoon
 		
 		private void SetLabel (MenuItem item, int speed)
 		{
-			speed = Math.Max (0, speed);
+			// The speed is passed in kB/sec, so convert back to b/Sec
+			Console.WriteLine("Setting: {0}", speed);
+			speed = Math.Max (0, speed) * 1024;
 			((Label) item.Child).Text = ByteConverter.Convert (speed);
 		}
 		
 		public void CalculateSpeeds(int currentSpeed)
 		{
 			int centre = labels.Count / 2;
-			
+			currentSpeed = currentSpeed / 1024; // Convert to kB/sec for this method
+
+			// If unlimited, show speeds around the 50kB/sec mark
 			if (currentSpeed == 0)
 				currentSpeed = 50;
 			
-			labels[centre].Name = ByteConverter.Convert (currentSpeed);
-			for (int i = 0; i <= centre; i++)
+			// If it's really slow, don't go below 8kB/sec
+			if (currentSpeed < 8)
+				currentSpeed = 8;
+			
+			speeds.Clear();
+			
+			int smallIncrement = Math.Max(1, currentSpeed / 100);
+			// Place steps if 1kB/sec beside the current speed
+			for (int i= - 2; i <= 2; i++)
+				speeds.Add(currentSpeed + smallIncrement * i);
+			
+			// Now do some percentage based steps. We multiply current speed
+			// by (i+2) / centre. If we have 11 elements, centre == 5, which means
+			// we get 2/5, 3/5 and 4/5 of current speed.
+			for (int i = 0; i < (labels.Count - 5) / 2; i++)
 			{
-				int speed = currentSpeed;
-				// Steps of 1
-				if (i < 3)
-				{
-					SetLabel (labels [centre + i], speed - i);
-					SetLabel (labels [centre - i], speed + i);
-				}
-				
-				// Steps of 5
-				else if (i >= 3 && i < 5)
-				{
-					speed = (speed / 5) * 5;
-					while (speed >= (currentSpeed - 2))
-						speed -= 5;
-					SetLabel (labels [centre + i], speed - 5 * (i - 3));
-					
-					speed = (currentSpeed / 5 + 1) * 5;
-					while (speed <= (currentSpeed + 2))
-						speed += 5;
-					SetLabel (labels [centre - i], speed + 5 * (i - 3));
-				}
-				
-				// Steps of 10
-				else
-				{
-					speed = (speed / 10) * 10;
-					while (speed >= (currentSpeed - 12))
-						speed -= 10;
-					SetLabel (labels [centre + i], speed - 10 * (i - 5));
-					
-					speed = (currentSpeed / 10 + 1) * 10;
-					while (speed <= (currentSpeed + 12))
-						speed += 10;
-					SetLabel (labels [centre - i], speed + 10 * (i - 5));
-				}
+				int s =  (int)(currentSpeed * ( (i+2.0)/centre));
+				if (!speeds.Contains(s))
+					speeds.Add(s);
+				if(!speeds.Contains(currentSpeed + s))
+					speeds.Add(currentSpeed + s);
 			}
+			
+			// Make sure we have exactly the right number of speeds
+			// in our menu. If we don't have enough, then we keep calculating higher
+			// speeds
+			double increment = 1.1;
+			while(speeds.Count < labels.Count)
+			{
+				int s = (int)(speeds[speeds.Count - 1] * 1.1);
+				if (speeds.Contains(s))
+					increment += 0.1;
+				else
+					speeds.Add(s);
+			}
+			
+			speeds.Sort();
+			speeds.Reverse();
+			
+			for (int i=0; i < speeds.Count; i++)
+				SetLabel (labels[i], speeds[i]);
 		}
 	}
 }
