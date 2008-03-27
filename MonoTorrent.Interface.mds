@@ -1,5 +1,5 @@
 <Combine name="MonoTorrent.Interface" fileversion="2.0">
-  <Configurations active="Debug">
+  <Configurations active="Release">
     <Configuration name="Debug" ctype="CombineConfiguration">
       <Entry build="True" name="MonoTorrent.Interface" configuration="Debug" />
     </Configuration>
