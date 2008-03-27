@@ -35,8 +35,6 @@ using MonoTorrent.Client;
 
 namespace Monsoon
 {
-	
-	
 	public class CellRendererPiece : Gtk.CellRenderer
 	{
 		
