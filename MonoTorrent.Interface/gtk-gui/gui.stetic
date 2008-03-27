@@ -173,7 +173,7 @@
     </action-group>
     <property name="MemberName" />
     <property name="Visible">False</property>
-    <property name="Title" translatable="yes">MonoTorrent</property>
+    <property name="Title" translatable="yes">Monsoon</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
       <widget class="Gtk.VBox" id="vbox1">
@@ -1524,7 +1524,7 @@
   <widget class="Gtk.Dialog" id="Monsoon.PreferencesDialog" design-size="400 423">
     <property name="MemberName" />
     <property name="Events">ButtonPressMask</property>
-    <property name="Title" translatable="yes">MonoTorrent Preferences</property>
+    <property name="Title" translatable="yes">Monsoon Preferences</property>
     <property name="Buttons">1</property>
     <property name="HelpButton">False</property>
     <child internal-child="VBox">
@@ -2556,7 +2556,6 @@
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="Label" translatable="yes">Single File</property>
-                                <property name="Active">True</property>
                                 <property name="DrawIndicator">True</property>
                                 <property name="HasLabel">True</property>
                                 <property name="UseUnderline">True</property>
@@ -3193,7 +3192,7 @@
   </widget>
   <widget class="Gtk.Dialog" id="Monsoon.UnhandledExceptionDialog" design-size="440 172">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">MonoTorrent - Unhandled Exception</property>
+    <property name="Title" translatable="yes">Monsoon - Unhandled Exception</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">1</property>
     <property name="HelpButton">False</property>
@@ -3428,7 +3427,7 @@
   </widget>
   <widget class="Gtk.Dialog" id="Monsoon.RssManagerDialog" design-size="549 384">
     <property name="MemberName" />
-    <property name="Title" translatable="yes">MonoTorrent RSS Manager</property>
+    <property name="Title" translatable="yes">Monsoon RSS Manager</property>
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Buttons">1</property>
     <property name="HelpButton">False</property>

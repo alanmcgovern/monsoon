@@ -174,7 +174,7 @@ namespace Monsoon
 		
 		public void StoreFeeds()
 		{
-			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monotorrent"), "rssfeeds.xml");
+			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "rssfeeds.xml");
 				
 			logger.Info ("Storing feeds");
 			
@@ -194,7 +194,7 @@ namespace Monsoon
 		
 		public void StoreHistory()
 		{
-			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monotorrent"), "rsshistory.xml");
+			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "rsshistory.xml");
 			
 			logger.Info ("Storing history");
 	
@@ -210,7 +210,7 @@ namespace Monsoon
 		
 		public void StoreFilters()
 		{
-			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monotorrent"), "rssfilters.xml");
+			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "rssfilters.xml");
 				
 			logger.Info ("Storing filters");
 	
@@ -226,7 +226,7 @@ namespace Monsoon
 		
 		public void RestoreFeeds()
 		{
-			string storageFilePath = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monotorrent"), "rssfeeds.xml");
+			string storageFilePath = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monsoon"), "rssfeeds.xml");
 			
 			ArrayList feedsToRestore = null;
 			XmlSerializer xs = new XmlSerializer (typeof(ArrayList));
@@ -257,7 +257,7 @@ namespace Monsoon
 		
 		public void RestoreHistory()
 		{
-			string storageFilePath = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monotorrent"), "rsshistory.xml");
+			string storageFilePath = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monsoon"), "rsshistory.xml");
 			
 			RssItem[] historyToRestore = null;
 			XmlSerializer xs = new XmlSerializer (typeof(RssItem[]));
@@ -292,7 +292,7 @@ namespace Monsoon
 		
 		public void RestoreFilters()
 		{
-			string storageFilePath = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monotorrent"), "rssfilters.xml");
+			string storageFilePath = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monsoon"), "rssfilters.xml");
 			
 			RssFilter [] filtersToRestore = null;
 			XmlSerializer xs = new XmlSerializer (typeof(RssFilter[]));

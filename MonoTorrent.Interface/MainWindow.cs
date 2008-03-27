@@ -195,7 +195,7 @@ namespace Monsoon
 			
 			eventBox.Add (new Image (Stock.GoDown, IconSize.Menu));
 			eventBox.ButtonPressEvent += OnTrayClicked;
-			trayIcon = new Egg.TrayIcon ("MonoTorrent");
+			trayIcon = new Egg.TrayIcon ("Monsoon");
 			trayIcon.Icon = new Image (Stock.Network, IconSize.Menu).Pixbuf;
 			trayIcon.Add (eventBox);
 			
@@ -618,7 +618,7 @@ namespace Monsoon
 		
 		private void StoreTorrentSettings ()
 		{
-			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monotorrent"), "torrents.xml");
+			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "torrents.xml");
 			ArrayList torrentsToStore = new ArrayList ();
 			
 			logger.Info ("Storing torrent settings");
@@ -638,7 +638,7 @@ namespace Monsoon
 
 		private void StoreLabels ()
 		{
-			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monotorrent"), "labels.xml");
+			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "labels.xml");
 			ArrayList labelsToStore = new ArrayList ();
 			
 			
@@ -660,7 +660,7 @@ namespace Monsoon
 		
 		private void RestoreLabels()
 		{
-			string storageFilePath = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monotorrent"), "labels.xml");
+			string storageFilePath = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monsoon"), "labels.xml");
 			
 			TorrentLabel [] labelsToRestore = null;
 			XmlSerializer xs = new XmlSerializer (typeof(TorrentLabel[]));
@@ -1399,7 +1399,7 @@ namespace Monsoon
 		{
 			userEngineSettings.ListenPort = new System.Random().Next(30000, 36000);
 			userEngineSettings.SavePath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
-			prefSettings.TorrentStorageLocation = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData),"monotorrent"), "torrents");
+			prefSettings.TorrentStorageLocation = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData),"monsoon"), "torrents");
 			prefSettings.UpnpEnabled = true;
 			userEngineSettings.GlobalMaxDownloadSpeed = 0;
 			userEngineSettings.GlobalMaxUploadSpeed = 0;

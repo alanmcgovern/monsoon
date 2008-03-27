@@ -282,7 +282,7 @@ namespace Monsoon {
             w1.InsertActionGroup(w2, 0);
             this.AddAccelGroup(w1.AccelGroup);
             this.Name = "Monsoon.MainWindow";
-            this.Title = Mono.Unix.Catalog.GetString("MonoTorrent");
+            this.Title = Mono.Unix.Catalog.GetString("Monsoon");
             // Container child Monsoon.MainWindow.Gtk.Container+ContainerChild
             this.vbox1 = new Gtk.VBox();
             this.vbox1.Name = "vbox1";

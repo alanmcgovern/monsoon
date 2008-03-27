@@ -10,7 +10,7 @@ namespace Monsoon
 		
 		public AboutDialog() : base()
 		{
-			Name = "MonoTorrent";
+			Name = "Monsoon";
 			Authors = new String[]{"Alan McGovern (Library)",
 						"Jared Hendry (Interface)"};
 			

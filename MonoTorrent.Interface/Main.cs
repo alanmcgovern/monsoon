@@ -36,9 +36,9 @@ namespace Monsoon
 			isFirstRun = false;
 			CheckDataFolders();
 			BuildNlogConfig();
-			logger.Info("Starting MonoTorrent");
+			logger.Info("Starting Monsoon");
 					
-			SetProcessName("monotorrent");
+			SetProcessName("monsoon");
 		
 			userEngineSettings = new UserEngineSettings();
 			portController = new ListenPortController(userEngineSettings);
@@ -50,7 +50,7 @@ namespace Monsoon
 			// This is so we can use IconEntry button
 			// Use Gnome.Program instead of Gtk.Application?
 			//Gnome.Program program = 
-			new Gnome.Program("monotorrent", "0.1", Gnome.Modules.UI, args);
+			new Gnome.Program("monsoon", "0.1", Gnome.Modules.UI, args);
 			
 			try{
 				Application.Run();
@@ -91,7 +91,7 @@ namespace Monsoon
 		        
 		         // define layout
 		        consoleTarget.Layout = "${date:format=HH\\:MM\\:ss} ${level} ${logger} ${message}"; 
-		        fileTarget.FileName = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monotorrent"), "monotorrent.log"); 
+		        fileTarget.FileName = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "monsoon.log"); 
 		        fileTarget.Layout = "${level} ${stacktrace} ${message}"; 
 		        //memoryTarget.Layout = "${date:format=HH\\:MM\\:ss} ${level} ${logger} ${message}";
 		        
@@ -108,17 +108,17 @@ namespace Monsoon
 		private void CheckDataFolders()
 		{
 			//logger.Info("Check for directory... " + System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"monotorrent"));
-			string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"monotorrent");
+			string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"monsoon");
 			Console.WriteLine(path);
 			if (!Directory.Exists(path)){
 				isFirstRun = true;
 			//	logger.Info("Config folder does not exist, creating now");
-				Directory.CreateDirectory(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monotorrent"));
+				Directory.CreateDirectory(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"));
 			}
 			
-			if (!Directory.Exists(System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monotorrent"), "torrents"))){
+			if (!Directory.Exists(System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "torrents"))){
 			//	logger.Info("Default torrent folder does not exist, creating now");
-				Directory.CreateDirectory(System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monotorrent"), "torrents"));
+				Directory.CreateDirectory(System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "torrents"));
 			}
 			
 		}

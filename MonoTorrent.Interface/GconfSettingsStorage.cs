@@ -34,7 +34,7 @@ namespace Monsoon
 	public class GconfSettingsStorage : ISettingsStorage
 	{
 		private GConf.Client client;
-		static string GCONF_APP_PATH = "/apps/monotorrent/";
+		static string GCONF_APP_PATH = "/apps/monsoon/";
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 		
 		public GconfSettingsStorage()

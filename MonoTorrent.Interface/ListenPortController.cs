@@ -88,7 +88,7 @@ namespace Monsoon
 				return;
 				
 			logger.Info("UPnP attempting to map port("+ map.Protocol + "/" + map.Port + ")");
-			device.BeginCreatePortMap(map, "MonoTorrent", EndMapPort, map);
+			device.BeginCreatePortMap(map, "Monsoon", EndMapPort, map);
 		}
 		
 		private void EndMapPort(IAsyncResult result)

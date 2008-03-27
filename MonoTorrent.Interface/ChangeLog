@@ -1,5 +1,16 @@
 2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, PreferencesSettings.cs, Main.cs, TorrentController.cs,
+	  CreateTorrentDialog.cs, ListenPortController.cs, AboutDialog.cs,
+	  RssManager/RssManagerController.cs, GconfSettingsStorage.cs,
+	  gtk-gui/Monsoon.MainWindow.cs, gtk-gui/Monsoon.CreateTorrentDialog.cs,
+	  gtk-gui/Monsoon.PreferencesDialog.cs,
+	  gtk-gui/Monsoon.UnhandledExceptionDialog.cs,
+	  gtk-gui/Monsoon.RssManagerDialog.cs, gtk-gui/gui.stetic,
+	  TorrentTreeView.cs: Loads of MonoTorrent -> Monsoon changes
+
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	
 
 2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 

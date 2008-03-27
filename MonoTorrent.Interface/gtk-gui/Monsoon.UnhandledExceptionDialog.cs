@@ -35,7 +35,7 @@ namespace Monsoon {
             Stetic.Gui.Initialize(this);
             // Widget Monsoon.UnhandledExceptionDialog
             this.Name = "Monsoon.UnhandledExceptionDialog";
-            this.Title = Mono.Unix.Catalog.GetString("MonoTorrent - Unhandled Exception");
+            this.Title = Mono.Unix.Catalog.GetString("Monsoon - Unhandled Exception");
             this.WindowPosition = ((Gtk.WindowPosition)(4));
             this.HasSeparator = false;
             // Internal child Monsoon.UnhandledExceptionDialog.VBox

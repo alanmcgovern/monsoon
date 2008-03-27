@@ -117,7 +117,7 @@ namespace Monsoon {
             Stetic.Gui.Initialize(this);
             // Widget Monsoon.RssManagerDialog
             this.Name = "Monsoon.RssManagerDialog";
-            this.Title = Mono.Unix.Catalog.GetString("MonoTorrent RSS Manager");
+            this.Title = Mono.Unix.Catalog.GetString("Monsoon RSS Manager");
             this.WindowPosition = ((Gtk.WindowPosition)(4));
             this.HasSeparator = false;
             // Internal child Monsoon.RssManagerDialog.VBox

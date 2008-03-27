@@ -160,7 +160,7 @@ namespace Monsoon {
             // Widget Monsoon.PreferencesDialog
             this.Events = ((Gdk.EventMask)(256));
             this.Name = "Monsoon.PreferencesDialog";
-            this.Title = Mono.Unix.Catalog.GetString("MonoTorrent Preferences");
+            this.Title = Mono.Unix.Catalog.GetString("Monsoon Preferences");
             // Internal child Monsoon.PreferencesDialog.VBox
             Gtk.VBox w1 = this.VBox;
             w1.Events = ((Gdk.EventMask)(256));

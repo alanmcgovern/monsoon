@@ -200,7 +200,7 @@ namespace Monsoon
             			creator.Announces[0].Add(s);
             		
 			creator.Comment = Comment;
-			creator.CreatedBy = "MonoTorrent";
+			creator.CreatedBy = "Monsoon";
 			
 			creator.Path = SavePath;
 

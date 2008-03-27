@@ -103,7 +103,7 @@ namespace Monsoon
 			manager = torrentController.GetSelectedTorrent();
 			if(manager == null)
 				return;
-			
+			// FIXME: This is a bit dodge - shouldn't use hashcode as identifier
 			args.SelectionData.Set(Gdk.Atom.Intern("application/x-monotorrent-torrentmanager-objects", false), 8, Encoding.UTF8.GetBytes(manager.GetHashCode().ToString()));
 		}
 		
