@@ -52,10 +52,6 @@
     <File name="libs/NotifySharp/Global.cs" subtype="Code" buildaction="Compile" />
     <File name="libs/NotifySharp/Notification.cs" subtype="Code" buildaction="Compile" />
     <File name="libs/TrayLib.cs" subtype="Code" buildaction="Compile" />
-    <File name="FirstRunDruid.cs" subtype="Code" buildaction="Compile" />
-    <File name="Widgets" subtype="Directory" buildaction="Compile" />
-    <File name="Widgets/DruidConnectionPage.cs" subtype="Code" buildaction="Compile" />
-    <File name="Widgets/DruidStoragePage.cs" subtype="Code" buildaction="Compile" />
     <File name="RssManager" subtype="Directory" buildaction="Compile" />
     <File name="RssManager/RssManagerDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="RssManager/RssFilter.cs" subtype="Code" buildaction="Compile" />

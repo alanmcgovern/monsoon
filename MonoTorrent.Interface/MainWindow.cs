@@ -92,7 +92,6 @@ namespace Monsoon
 		private Egg.TrayIcon trayIcon;
 		
 		private RssManagerController rssManagerController;
-		private FirstRunDruid druid;
 		
 		internal Dictionary<PeerId, TreeIter> Peers
 		{
@@ -1393,32 +1392,27 @@ namespace Monsoon
 		
 		private void OpenDruid()
 		{
-			druid = new FirstRunDruid("MonoTorrent Configuration Wizard", true);
-			druid.ShowAll();
-			druid.FinishButton.Clicked += OnDruidFinishedClicked;
+			OnDruidFinishedClicked (null, EventArgs.Empty);
 		}
 
 		private void OnDruidFinishedClicked(object o, EventArgs args)
 		{
-			druid.HideAll();
-		
-			userEngineSettings.ListenPort = druid.ListenPort;
-			userEngineSettings.SavePath = druid.SavePath;
-			prefSettings.TorrentStorageLocation = druid.TorrentStorageLocation;
-			prefSettings.UpnpEnabled = druid.UpnpEnabled;
-			userEngineSettings.GlobalMaxDownloadSpeed = druid.GlobalMaxDownloadSpeed;
-			userEngineSettings.GlobalMaxUploadSpeed = druid.GlobalMaxUploadSpeed;
+			userEngineSettings.ListenPort = new System.Random().Next(30000, 36000);
+			userEngineSettings.SavePath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+			prefSettings.TorrentStorageLocation = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData),"monotorrent"), "torrents");
+			prefSettings.UpnpEnabled = true;
+			userEngineSettings.GlobalMaxDownloadSpeed = 0;
+			userEngineSettings.GlobalMaxUploadSpeed = 0;
 			
 			userEngineSettings.Store ();
 			prefSettings.Store ();
 			
 			torrentController.reloadEngineSettings ();
 			
-			if (druid.UpnpEnabled)
+			if (prefSettings.UpnpEnabled)
 				portController.Start();
 			
 			logger.Info("First run wizard complete!");
-			druid.Destroy();
 		}
 
 		protected virtual void OnPluginsActivated (object sender, System.EventArgs e)

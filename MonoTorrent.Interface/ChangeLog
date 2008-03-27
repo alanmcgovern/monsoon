@@ -1,3 +1,10 @@
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, Main.cs, MonoTorrent.Interface.mdp,
+	  Widgets/DruidConnectionPage.cs, FirstRunDruid.cs, Widgets,
+	  Widgets/DruidStoragePage.cs: Removed the FirstRunDruid - everything can
+	  be intelligently auto-set. The user can change later if they want.
+
 2008-03-09  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Menus/SpeedLimitMenu.cs: Implemented smarter logic for choosing which

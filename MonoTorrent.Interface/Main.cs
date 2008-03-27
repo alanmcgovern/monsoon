@@ -108,7 +108,9 @@ namespace Monsoon
 		private void CheckDataFolders()
 		{
 			//logger.Info("Check for directory... " + System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"monotorrent"));
-			if (!Directory.Exists(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"monotorrent"))){
+			string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"monotorrent");
+			Console.WriteLine(path);
+			if (!Directory.Exists(path)){
 				isFirstRun = true;
 			//	logger.Info("Config folder does not exist, creating now");
 				Directory.CreateDirectory(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monotorrent"));
