@@ -1,5 +1,9 @@
 2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Makefile.am: Updated the makefiles
+
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* gtk-gui/generated.cs: Remove junk code.
 
 2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 

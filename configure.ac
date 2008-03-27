@@ -2,7 +2,7 @@ dnl Warning: This is an automatically generated file, do not edit!
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
 AC_INIT([MonoTorrent.Interface], [0.1])
-AM_INIT_AUTOMAKE([tar-pax foreign])
+AM_INIT_AUTOMAKE([foreign])
 
 dnl pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
@@ -46,11 +46,8 @@ fi
 
 dnl package checks, common for all configs
 PKG_CHECK_MODULES([GTK_SHARP_20], [gtk-sharp-2.0])
-PKG_CHECK_MODULES([GNOME_VFS_SHARP_20], [gnome-vfs-sharp-2.0])
-PKG_CHECK_MODULES([GNOME_SHARP_20], [gnome-sharp-2.0])
-PKG_CHECK_MODULES([GLADE_SHARP_20], [glade-sharp-2.0])
-PKG_CHECK_MODULES([GLIB_SHARP_20], [glib-sharp-2.0])
 PKG_CHECK_MODULES([GCONF_SHARP_20], [gconf-sharp-2.0])
+PKG_CHECK_MODULES([GNOME_SHARP_20], [gnome-sharp-2.0])
 
 dnl package checks, per config
 

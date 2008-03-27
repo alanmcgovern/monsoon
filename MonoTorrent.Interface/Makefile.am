@@ -92,7 +92,6 @@ FILES = \
 	TorrentTreeView.cs \
 	AboutDialog.cs \
 	PreferencesDialog.cs \
-	gtk-gui/MonoTorrent.Interface.PreferencesDialog.cs \
 	TorrentController.cs \
 	ISettingsStorage.cs \
 	GconfSettingsStorage.cs \
@@ -102,7 +101,6 @@ FILES = \
 	PeerTreeView.cs \
 	ByteConverter.cs \
 	CreateTorrentDialog.cs \
-	gtk-gui/MonoTorrent.Interface.CreateTorrentDialog.cs \
 	PreferencesSettings.cs \
 	FileTreeView.cs \
 	ISettings.cs \
@@ -112,31 +110,29 @@ FILES = \
 	ListenPortController.cs \
 	BEncodedSettingsStorage.cs \
 	EditColumnsDialog.cs \
-	gtk-gui/MonoTorrent.Interface.EditColumnsDialog.cs \
 	PiecesTreeView.cs \
 	TorrentContextMenu.cs \
-	gtk-gui/MonoTorrent.Interface.MainWindow.cs \
 	UnhandledExceptionDialog.cs \
-	gtk-gui/MonoTorrent.Interface.UnhandledExceptionDialog.cs \
 	TorrentStorage.cs \
 	CreateTorrentProgressDialog.cs \
-	gtk-gui/MonoTorrent.Interface.CreateTorrentProgressDialog.cs \
 	CellRendererPiece.cs \
 	libs/NotifySharp/Global.cs \
 	libs/NotifySharp/Notification.cs \
 	libs/TrayLib.cs \
-	FirstRunDruid.cs \
-	Widgets/DruidConnectionPage.cs \
-	gtk-gui/MonoTorrent.Interface.DruidConnectionPage.cs \
-	Widgets/DruidStoragePage.cs \
-	gtk-gui/MonoTorrent.Interface.DruidStoragePage.cs \
-	gtk-gui/MonoTorrent.Interface.RssManagerDialog.cs \
 	RssManager/RssManagerDialog.cs \
 	RssManager/RssFilter.cs \
 	RssManager/RssReader.cs \
 	RssManager/TorrentRssWatcher.cs \
 	RssManager/RssManagerController.cs \
-	RssManager/TorrentRssWatcherEventArgs.cs 
+	RssManager/TorrentRssWatcherEventArgs.cs \
+	gtk-gui/Monsoon.RssManagerDialog.cs \
+	gtk-gui/Monsoon.UnhandledExceptionDialog.cs \
+	gtk-gui/Monsoon.PreferencesDialog.cs \
+	gtk-gui/Monsoon.CreateTorrentDialog.cs \
+	gtk-gui/Monsoon.MainWindow.cs \
+	gtk-gui/Monsoon.EditColumnsDialog.cs \
+	gtk-gui/Monsoon.CreateTorrentProgressDialog.cs \
+	Menus/SpeedLimitMenu.cs 
 
 DATA_FILES = \
 	icons/rss.png \
@@ -146,8 +142,7 @@ DATA_FILES = \
 	icons/immediate.png \
 	icons/low.png \
 	icons/lowest.png \
-	icons/normal.png \
-	libs/NDesk.DBus.GLib.dll.config 
+	icons/normal.png 
 
 RESOURCES = \
 	gtk-gui/gui.stetic \
@@ -157,16 +152,12 @@ EXTRAS = \
 	monotorrent.interface.in 
 
 REFERENCES =  \
-	$(GTK_SHARP_20_LIBS) \
-	$(GLIB_SHARP_20_LIBS) \
-	$(GLADE_SHARP_20_LIBS) \
 	System \
+	$(GTK_SHARP_20_LIBS) \
 	Mono.Posix \
 	System.Xml \
-	Mono.Cairo \
-	$(GCONF_SHARP_20_LIBS) \
 	$(GNOME_SHARP_20_LIBS) \
-	$(GNOME_VFS_SHARP_20_LIBS)
+	$(GCONF_SHARP_20_LIBS)
 
 DLL_REFERENCES =  \
 	NLog.dll \
