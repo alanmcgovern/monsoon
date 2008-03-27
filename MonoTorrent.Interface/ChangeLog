@@ -1,5 +1,10 @@
 2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs: Ensure that the GUI waits for the engine to shutdown before
+	  exiting.
+
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, PreferencesSettings.cs, Main.cs, TorrentController.cs,
 	  CreateTorrentDialog.cs, ListenPortController.cs, AboutDialog.cs,
 	  RssManager/RssManagerController.cs, GconfSettingsStorage.cs,

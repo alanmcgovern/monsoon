@@ -596,12 +596,12 @@ namespace Monsoon
 			}
 			
 			StoreTorrentSettings ();
-			
+			List<WaitHandle> handles = new List<WaitHandle> ();
 			foreach (TorrentManager manager in torrents.Keys){
 				if(manager.State == TorrentState.Stopped)
 					continue;
 				try{
-					manager.Stop ();
+					handles.Add (manager.Stop ());
 				}
 				catch{
 					logger.Error ("Cannot stop torrent " + manager.Torrent.Name);
@@ -611,6 +611,10 @@ namespace Monsoon
 			StoreInterface ();
 			StoreLabels ();
 			rssManagerController.Store();
+			
+			foreach (WaitHandle h in handles)
+				h.WaitOne(TimeSpan.FromSeconds(1.5), false);
+			
 			Application.Quit ();
 
 			a.RetVal = true;
@@ -712,7 +716,7 @@ namespace Monsoon
 		public void Stop()
 		{
 			foreach (WaitHandle h in this.torrentController.engine.StopAll())
-				h.WaitOne ();
+				h.WaitOne (TimeSpan.FromSeconds(10), false);
 			
 			this.torrentController.engine.Dispose();
 			OnDeleteEvent (null,new DeleteEventArgs ());
