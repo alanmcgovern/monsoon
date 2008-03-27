@@ -1,5 +1,9 @@
 2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* gtk-gui/generated.cs: Remove junk code.
+
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MonoTorrent.Interface.mdp, gtk-gui/Monsoon.DruidConnectionPage.cs,
 	  gtk-gui/Monsoon.DruidStoragePage.cs, gtk-gui/gui.stetic: Missed out a
 	  few files
