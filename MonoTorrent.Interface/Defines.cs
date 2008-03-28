@@ -39,6 +39,11 @@ namespace Monsoon
 			get { return Path.Combine (AppSettingsPath, "torrents.xml"); }
 		}
 		
+		public static string SerializedFastResume
+		{
+			get { return Path.Combine (AppSettingsPath, "fastresume.benc"); }
+		}
+		
 		public static string SerializedLabels
 		{
 			get { return Path.Combine(AppSettingsPath, "labels.xml"); }

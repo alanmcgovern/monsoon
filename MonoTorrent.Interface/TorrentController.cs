@@ -63,6 +63,7 @@ namespace Monsoon
 		private List<TorrentManager> allTorrents;
 		private ArrayList labels;
 		private List<BlockEventArgs> pieces;
+		private List<FastResume> fastResume;
 				
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 		
@@ -79,6 +80,8 @@ namespace Monsoon
 			this.torrentPreviousUpload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
 			this.torrentPreviousDownload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
 			
+			fastResume = LoadFastResume();
+			
 			engineSettings = new EngineSettings(userEngineSettings.SavePath, userEngineSettings.ListenPort, userEngineSettings.GlobalMaxConnections, userEngineSettings.GlobalMaxHalfOpenConnections, userEngineSettings.GlobalMaxDownloadSpeed, userEngineSettings.GlobalMaxUploadSpeed, EncryptionType.None, userEngineSettings.AllowLegacyConnections);
 			torrentSettings = new TorrentSettings(userTorrentSettings.UploadSlots, userTorrentSettings.MaxConnections, userTorrentSettings.MaxDownloadSpeed, userTorrentSettings.MaxUploadSpeed, userTorrentSettings.FastResumeEnabled);
 			
@@ -91,6 +94,41 @@ namespace Monsoon
 			torrentsDownloading = new List<TorrentManager>();
 			torrentsSeeding = new List<TorrentManager>(); 
 			allTorrents = new List<TorrentManager>();
+		}
+		
+		public void StoreFastResume ()
+		{
+			try
+			{
+				logger.Info("storing fast resume");
+				BEncodedList list = new BEncodedList();
+				foreach (TorrentManager t in Torrents)
+					list.Add(t.SaveFastResume().Encode ());
+				File.WriteAllBytes(Defines.SerializedFastResume, list.Encode());
+			}
+			catch (Exception ex)
+			{
+				logger.Warn (string.Format("Couldn't store fast resume: {0}", ex));
+			}
+		}
+		
+		private List<FastResume> LoadFastResume()
+		{
+			List<FastResume> list = new List<FastResume>();
+			try
+			{
+				logger.Info("loading fast resume");
+				BEncodedList blist = BEncodedValue.Decode<BEncodedList> (File.ReadAllBytes (Defines.SerializedFastResume));
+				
+				foreach (BEncodedDictionary resume in blist)
+					list.Add (new FastResume (resume));
+			}
+			catch (Exception ex)
+			{
+				logger.Warn (string.Format("Couldn't load fast resume: {0}", ex));
+			}
+			
+			return list;
 		}
 		
 		private void OnPeerMessageTransferred(object sender, PeerMessageEventArgs args)
@@ -206,10 +244,13 @@ namespace Monsoon
 				throw new TorrentException("Failed to register " + newPath);
 			}
 			
-			if (savedSettings == null)
-				manager = new TorrentManager(torrent, savePath, (TorrentSettings)torrentSettings.Clone());
+			TorrentSettings settings = savedSettings ?? torrentSettings.Clone ();
+			FastResume resume = this.fastResume.Find(delegate (FastResume f) { return Toolbox.ByteMatch(f.InfoHash, torrent.InfoHash); });
+			
+			if (resume != null)
+				manager = new TorrentManager(torrent, savePath, settings, resume);
 			else
-				manager = new TorrentManager(torrent, savePath, savedSettings);
+				manager = new TorrentManager(torrent, savePath, settings);
 					
 			engine.Register(manager);
 			

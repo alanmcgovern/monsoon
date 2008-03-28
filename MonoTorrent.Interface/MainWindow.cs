@@ -611,6 +611,7 @@ namespace Monsoon
 			StoreInterface ();
 			StoreLabels ();
 			rssManagerController.Store();
+			torrentController.StoreFastResume ();
 			
 			foreach (WaitHandle h in handles)
 				h.WaitOne(TimeSpan.FromSeconds(1.5), false);

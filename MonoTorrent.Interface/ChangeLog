@@ -1,5 +1,10 @@
 2008-03-28  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, Defines.cs, TorrentController.cs: Implemented support for
+	  saving/loading FastResume data.
+
+2008-03-28  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* FileTreeView.cs: 'standard' priority should be iconless. The existing icon
 	  looked too much like 'do not download'.
 
