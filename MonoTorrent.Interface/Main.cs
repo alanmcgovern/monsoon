@@ -14,8 +14,7 @@ namespace Monsoon
 {
 	class MainClass
 	{
-		public static string BaseDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-		
+
 		// SetProcessName code from http://abock.org/2006/02/09/changing-process-name-in-mono/
 		[DllImport("libc")]
 		private static extern int prctl(int option, byte [] arg2, ulong arg3, ulong arg4, ulong arg5);

@@ -102,13 +102,13 @@ namespace Monsoon
 			lowestItem = new ImageMenuItem ("Lowest");
 			normalItem = new ImageMenuItem ("Normal");
 			nodownItem = new ImageMenuItem ("Do Not Download");
-			highItem.Image = new Image(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/high.png"));
-			highestItem.Image = new Image(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/highest.png"));
-			immediateItem.Image = new Image(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/immediate.png"));
-			lowItem.Image = new Image(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/low.png"));
-			lowestItem.Image = new Image(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/lowest.png"));
-			normalItem.Image = new Image(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/normal.png"));
-			nodownItem.Image = new Image(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/donotdownload.png"));
+			highItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "high.png"));
+			highestItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "highest.png"));
+			immediateItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "immediate.png"));
+			lowItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "low.png"));
+			lowestItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "lowest.png"));
+			normalItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "normal.png"));
+			nodownItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "donotdownload.png"));
 			
 			
 			highItem.Activated += OnContextMenuItemClicked;
@@ -187,19 +187,19 @@ namespace Monsoon
 		{
 			TorrentFile torrentFile = (TorrentFile) model.GetValue (iter, 1);
 			if (torrentFile.Priority == Priority.DoNotDownload)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/donotdownload.png"));
+				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "donotdownload.png"));
 			else if (torrentFile.Priority == Priority.High)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/high.png"));
+				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "high.png"));
 			else if (torrentFile.Priority == Priority.Highest)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/highest.png"));
+				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "highest.png"));
 			else if (torrentFile.Priority == Priority.Immediate)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/immediate.png"));
+				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "immediate.png"));
 			else if (torrentFile.Priority == Priority.Low)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/low.png"));
+				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "low.png"));
 			else if (torrentFile.Priority == Priority.Lowest)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/lowest.png"));
+				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "lowest.png"));
 			else if (torrentFile.Priority == Priority.Normal)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(MainClass.BaseDirectory, "icons/normal.png"));
+				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "normal.png"));
 		}
 		
 		private void RenderProgress (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)

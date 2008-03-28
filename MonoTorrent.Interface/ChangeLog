@@ -1,3 +1,8 @@
+2008-03-28  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Defines.cs, PreferencesSettings.cs, Main.cs, TorrentController.cs,
+	  FileTreeView.cs: Applied further cleanups to path handlings
+
 2008-03-28  Jared Hendry <hendry.jared@gmail.com> 
 
 	* MainWindow.cs, Main.cs, RssManager/RssManagerController.cs: Use defines

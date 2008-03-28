@@ -78,7 +78,7 @@ namespace Monsoon
 			try {
 				torrentStorageLocation = (string) gconf.Retrieve(SETTINGS_PATH + "torrentStorageLocation");
 			} catch(SettingNotFoundException) {
-				torrentStorageLocation = Path.Combine(Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData),"monsoon"), "torrents");
+				torrentStorageLocation = Defines.SerializedTorrentSettings;
 			}
 			
 			try {

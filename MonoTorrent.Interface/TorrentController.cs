@@ -437,7 +437,7 @@ namespace Monsoon
 		{
 			TorrentManager manager;
 
-			string storedTorrentFile = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monsoon"), "torrents.xml");
+			string storedTorrentFile = Defines.SerializedTorrentSettings;
 			
 			TorrentStorage [] torrentsToRestore = null;
 			XmlSerializer xs = new XmlSerializer(typeof(TorrentStorage[]));
