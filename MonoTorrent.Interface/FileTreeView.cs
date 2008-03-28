@@ -107,7 +107,7 @@ namespace Monsoon
 			immediateItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "immediate.png"));
 			lowItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "low.png"));
 			lowestItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "lowest.png"));
-			normalItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "normal.png"));
+			//normalItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "normal.png"));
 			nodownItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "donotdownload.png"));
 			
 			
@@ -199,7 +199,7 @@ namespace Monsoon
 			else if (torrentFile.Priority == Priority.Lowest)
 				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "lowest.png"));
 			else if (torrentFile.Priority == Priority.Normal)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "normal.png"));
+				(cell as Gtk.CellRendererPixbuf).Pixbuf = null;
 		}
 		
 		private void RenderProgress (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
