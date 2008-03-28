@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Monsoon
+Comment=BitTorrent Client
+Exec=monsoon
+Terminal=false
+Type=Application
+Categories=GNOME;Utility;FileTransfer;
+X-GNOME-Bugzilla-Bugzilla=Novell
+X-GNOME-Bugzilla-Product=Mono:Tools
+X-GNOME-Bugzilla-Component=Monsoon
+X-Desktop-File-Install-Version=0.9
+OnlyShowIn=GNOME;
