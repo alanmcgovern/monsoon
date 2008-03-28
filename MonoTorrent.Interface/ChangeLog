@@ -1,5 +1,10 @@
 2008-03-28  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, TorrentTreeView.cs: Hashcodes arent unique IDs. Use the
+	  InfoHash - that's guaranteed to be unique.
+
+2008-03-28  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, Defines.cs, TorrentController.cs: Implemented support for
 	  saving/loading FastResume data.
 

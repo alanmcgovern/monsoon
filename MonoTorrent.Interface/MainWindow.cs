@@ -379,8 +379,6 @@ namespace Monsoon
 			TreeViewDropPosition pos;
 			TreeIter iter;
 			TorrentLabel label;
-						
-			string hashcode = (Encoding.UTF8.GetString(args.SelectionData.Data));
 			
 			if(!labelTreeView.GetDestRowAtPos(args.X, args.Y, out path, out pos))
 				return;
@@ -392,7 +390,7 @@ namespace Monsoon
 				return;
 				
 			foreach (TorrentManager manager in torrents.Keys) {
-				if(manager.GetHashCode().ToString() == hashcode) {
+				if(Toolbox.ByteMatch (manager.Torrent.InfoHash, args.SelectionData.Data)) {
 					label.AddTorrent(manager);
 				}
 			}
