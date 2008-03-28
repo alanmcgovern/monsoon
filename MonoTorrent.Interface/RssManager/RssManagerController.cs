@@ -174,15 +174,13 @@ namespace Monsoon
 		
 		public void StoreFeeds()
 		{
-			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "rssfeeds.xml");
-				
 			logger.Info ("Storing feeds");
 			
 			foreach(string feed in feeds){
 				Console.Out.WriteLine("Storing feed: " + feed);
 			}
 			
-			using (Stream fs = new FileStream (storageFilePath, FileMode.Create))
+			using (Stream fs = new FileStream (Defines.SerializedRssFeeds, FileMode.Create))
 			{
 				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
 				
@@ -193,12 +191,10 @@ namespace Monsoon
 		
 		
 		public void StoreHistory()
-		{
-			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "rsshistory.xml");
-			
+		{	
 			logger.Info ("Storing history");
 	
-			using (Stream fs = new FileStream (storageFilePath, FileMode.Create))
+			using (Stream fs = new FileStream (Defines.SerializedRssHistroy, FileMode.Create))
 			{
 				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
 				
@@ -210,11 +206,9 @@ namespace Monsoon
 		
 		public void StoreFilters()
 		{
-			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "rssfilters.xml");
-				
 			logger.Info ("Storing filters");
 	
-			using (Stream fs = new FileStream (storageFilePath, FileMode.Create))
+			using (Stream fs = new FileStream (Defines.SerializedRssFilters, FileMode.Create))
 			{
 				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
 				
@@ -226,8 +220,6 @@ namespace Monsoon
 		
 		public void RestoreFeeds()
 		{
-			string storageFilePath = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monsoon"), "rssfeeds.xml");
-			
 			ArrayList feedsToRestore = null;
 			XmlSerializer xs = new XmlSerializer (typeof(ArrayList));
 			
@@ -235,10 +227,10 @@ namespace Monsoon
 			
 			try
 			{
-				if (!System.IO.File.Exists(storageFilePath))
+				if (!System.IO.File.Exists(Defines.SerializedRssFeeds))
 					return;
 				
-				using (FileStream fs = File.OpenRead(storageFilePath))
+				using (FileStream fs = File.OpenRead(Defines.SerializedRssFeeds))
 					feedsToRestore = (ArrayList) xs.Deserialize(fs);
 			}
 			catch
@@ -246,10 +238,8 @@ namespace Monsoon
 				logger.Error("Error opening rssfeeds.xml");
 				return;
 			}
-
 				
 			foreach(string feed in feedsToRestore){
-				Console.Out.WriteLine("restoring: " + feed);
 				feeds.Add(feed);
 			}
 		}
@@ -257,18 +247,16 @@ namespace Monsoon
 		
 		public void RestoreHistory()
 		{
-			string storageFilePath = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monsoon"), "rsshistory.xml");
-			
 			RssItem[] historyToRestore = null;
 			XmlSerializer xs = new XmlSerializer (typeof(RssItem[]));
 			
 			logger.Info ("Restoring RSS history");
 			
-			if (System.IO.File.Exists(storageFilePath)) {
+			if (System.IO.File.Exists(Defines.SerializedRssHistroy)) {
 				FileStream fs = null;
 				
 				try {
-					fs = System.IO.File.Open(storageFilePath, System.IO.FileMode.Open);
+					fs = System.IO.File.Open(Defines.SerializedRssHistroy, System.IO.FileMode.Open);
 				} catch {
 					logger.Error("Error opening rsshistory.xml");
 				}
@@ -292,18 +280,16 @@ namespace Monsoon
 		
 		public void RestoreFilters()
 		{
-			string storageFilePath = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monsoon"), "rssfilters.xml");
-			
 			RssFilter [] filtersToRestore = null;
 			XmlSerializer xs = new XmlSerializer (typeof(RssFilter[]));
 			
 			logger.Info ("Restoring RSS feeds");
 			
-			if (System.IO.File.Exists(storageFilePath)) {
+			if (System.IO.File.Exists(Defines.SerializedRssFilters)) {
 				FileStream fs = null;
 				
 				try {
-					fs = System.IO.File.Open(storageFilePath, System.IO.FileMode.Open);
+					fs = System.IO.File.Open(Defines.SerializedRssFilters, System.IO.FileMode.Open);
 				} catch {
 					logger.Error("Error opening rssfilters.xml");
 				}
@@ -324,7 +310,6 @@ namespace Monsoon
 			}
 			
 			RefreshWatchers();
-			
 		}
 		
 		public void AddFilter(RssFilter filter){

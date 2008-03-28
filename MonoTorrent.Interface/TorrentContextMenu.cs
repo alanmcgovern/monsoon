@@ -27,6 +27,7 @@
 //
 
 using System;
+using System.Diagnostics;
 using Gtk;
 using MonoTorrent.Client;
 using MonoTorrent.Common;
@@ -45,6 +46,7 @@ namespace Monsoon
 		{
 			this.torrentController = torrentController;
 			
+			ImageMenuItem openItem = new ImageMenuItem("Open");
 			ImageMenuItem startItem = new ImageMenuItem("Start/Pause");
 			ImageMenuItem stopItem  = new ImageMenuItem("Stop");
 			ImageMenuItem removeItem  = new ImageMenuItem("Remove");
@@ -53,6 +55,7 @@ namespace Monsoon
 			//ImageMenuItem hashItem  = new ImageMenuItem("Force Re-_hash");
 			ImageMenuItem announceItem  = new ImageMenuItem("Force _announce");
 			
+			openItem.Image = new Image(Stock.Open, IconSize.Menu);
 			startItem.Image = new Image(Stock.MediaPlay, IconSize.Menu);
 			stopItem.Image = new Image(Stock.MediaStop, IconSize.Menu);
 			removeItem.Image = new Image(Stock.Remove, IconSize.Menu);
@@ -61,6 +64,7 @@ namespace Monsoon
 			//hashItem.Image = new Image(Stock.Convert, IconSize.Menu);
 			announceItem.Image = new Image(Stock.Network, IconSize.Menu);
 			
+			openItem.Activated += OnOpenItemActivated;
 			startItem.Activated += OnStartItemActivated;
 			stopItem.Activated += OnStopItemActivated;
 			removeItem.Activated += OnRemoveItemActivated;
@@ -69,6 +73,8 @@ namespace Monsoon
 			//hashItem.Activated += OnHashItemActivated;
 			announceItem.Activated += OnAnnounceItemActivated;
 			
+			Append(openItem);
+			Append(new SeparatorMenuItem());
 			Append(startItem);
 			Append(stopItem);
 			Append(removeItem);
@@ -150,6 +156,17 @@ namespace Monsoon
 				selectedTorrent.TrackerManager.Announce();
 			} catch(Exception){
 				logger.Warn("Unable to force announce on " + selectedTorrent.Torrent.Name);
+			}
+		}
+		
+		private void OnOpenItemActivated(object sender, EventArgs args)
+		{
+			if (selectedTorrent.FileManager.Files.Length == 1) {
+				logger.Warn("Launching file: " + selectedTorrent.SavePath + System.IO.Path.DirectorySeparatorChar + selectedTorrent.FileManager.Files[0].Path); 
+				Process.Start(selectedTorrent.SavePath + System.IO.Path.DirectorySeparatorChar + selectedTorrent.FileManager.Files[0].Path);
+			} else {
+				logger.Info("Opening folder: " + selectedTorrent.SavePath + System.IO.Path.DirectorySeparatorChar + selectedTorrent.FileManager.BaseDirectory);
+				Process.Start("\"file://" + selectedTorrent.SavePath + System.IO.Path.DirectorySeparatorChar + selectedTorrent.FileManager.BaseDirectory + "\"");
 			}
 		}
 	}

@@ -1,3 +1,11 @@
+2008-03-28  Jared Hendry <hendry.jared@gmail.com> 
+
+	* MainWindow.cs, Main.cs, RssManager/RssManagerController.cs: Use defines
+	  for paths
+	* Defines.cs: Added static properties for common paths and names
+	* MonoTorrent.Interface.mdp: Added Defines.cs
+	* TorrentContextMenu.cs: Added open feature to context menu
+
 2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	

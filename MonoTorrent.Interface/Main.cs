@@ -44,7 +44,6 @@ namespace Monsoon
 			portController = new ListenPortController(userEngineSettings);
 			
 			Application.Init ();
-			Console.Out.WriteLine("IS FIRST RUN?!?! " + isFirstRun);
 			mainWindow = new MainWindow (userEngineSettings, portController, isFirstRun);
 			
 			// This is so we can use IconEntry button
@@ -77,48 +76,46 @@ namespace Monsoon
 		
 		private void BuildNlogConfig()
 		{
-		      	LoggingConfiguration config = new LoggingConfiguration(); 
-	         
-	        	// Create targets 
-	         	ConsoleTarget consoleTarget = new ConsoleTarget(); 
-	        	config.AddTarget("console", consoleTarget); 
-	         
-	        	FileTarget fileTarget = new FileTarget(); 
-	        	config.AddTarget("file", fileTarget); 
-		        
-		        //memoryTarget = new MemoryTarget();
-		        //config.AddTarget("memory", memoryTarget);
-		        
-		         // define layout
-		        consoleTarget.Layout = "${date:format=HH\\:MM\\:ss} ${level} ${logger} ${message}"; 
-		        fileTarget.FileName = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "monsoon.log"); 
-		        fileTarget.Layout = "${level} ${stacktrace} ${message}"; 
-		        //memoryTarget.Layout = "${date:format=HH\\:MM\\:ss} ${level} ${logger} ${message}";
-		        
-		        // define rules 
-		        LoggingRule rule1 = new LoggingRule("*", LogLevel.Debug, consoleTarget); 
-		        config.LoggingRules.Add(rule1); 
-		        LoggingRule rule2 = new LoggingRule("*", LogLevel.Debug, fileTarget); 
-		        config.LoggingRules.Add(rule2); 
-		        //LoggingRule rule3 = new LoggingRule("*", LogLevel.Debug, fileTarget);
-		        //config.LoggingRules.Add(rule3);
+			LoggingConfiguration config = new LoggingConfiguration(); 
+         
+        	// Create targets 
+         	ConsoleTarget consoleTarget = new ConsoleTarget(); 
+        	config.AddTarget("console", consoleTarget); 
+         
+        	FileTarget fileTarget = new FileTarget(); 
+        	config.AddTarget("file", fileTarget); 
+	        
+	        //memoryTarget = new MemoryTarget();
+	        //config.AddTarget("memory", memoryTarget);
+	        
+	        // define layout
+	        consoleTarget.Layout = "${date:format=HH\\:MM\\:ss} ${level} ${logger} ${message}"; 
+	        fileTarget.FileName = Defines.LogFile; 
+	        fileTarget.Layout = "${level} ${stacktrace} ${message}"; 
+	        //memoryTarget.Layout = "${date:format=HH\\:MM\\:ss} ${level} ${logger} ${message}";
+	        
+	        // define rules 
+	        LoggingRule rule1 = new LoggingRule("*", LogLevel.Debug, consoleTarget); 
+	        config.LoggingRules.Add(rule1); 
+	        LoggingRule rule2 = new LoggingRule("*", LogLevel.Debug, fileTarget); 
+	        config.LoggingRules.Add(rule2); 
+	        //LoggingRule rule3 = new LoggingRule("*", LogLevel.Debug, fileTarget);
+	        //config.LoggingRules.Add(rule3);
 			LogManager.Configuration = config; 
 		}
 		
 		private void CheckDataFolders()
 		{
 			//logger.Info("Check for directory... " + System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"monotorrent"));
-			string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"monsoon");
-			Console.WriteLine(path);
-			if (!Directory.Exists(path)){
+			if (!Directory.Exists(Defines.ConfigDirectory)){
 				isFirstRun = true;
-			//	logger.Info("Config folder does not exist, creating now");
-				Directory.CreateDirectory(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"));
+				//logger.Info("Config folder does not exist, creating now");
+				Directory.CreateDirectory(Defines.ConfigDirectory);
 			}
 			
-			if (!Directory.Exists(System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "torrents"))){
-			//	logger.Info("Default torrent folder does not exist, creating now");
-				Directory.CreateDirectory(System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "torrents"));
+			if (!Directory.Exists(Defines.TorrentFolder)){
+				//logger.Info("Default torrent folder does not exist, creating now");
+				Directory.CreateDirectory(Defines.TorrentFolder);
 			}
 			
 		}

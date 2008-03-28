@@ -195,7 +195,7 @@ namespace Monsoon
 			
 			eventBox.Add (new Image (Stock.GoDown, IconSize.Menu));
 			eventBox.ButtonPressEvent += OnTrayClicked;
-			trayIcon = new Egg.TrayIcon ("Monsoon");
+			trayIcon = new Egg.TrayIcon (Defines.ApplicationName);
 			trayIcon.Icon = new Image (Stock.Network, IconSize.Menu).Pixbuf;
 			trayIcon.Add (eventBox);
 			
@@ -622,7 +622,6 @@ namespace Monsoon
 		
 		private void StoreTorrentSettings ()
 		{
-			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "torrents.xml");
 			ArrayList torrentsToStore = new ArrayList ();
 			
 			logger.Info ("Storing torrent settings");
@@ -631,7 +630,7 @@ namespace Monsoon
 				torrentsToStore.Add (new TorrentStorage(manager.Torrent.TorrentPath, manager.SavePath, manager.Settings, manager.State, torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded, torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded));	
 			}
 			
-			using (Stream fs = new FileStream (storageFilePath, FileMode.Create))
+			using (Stream fs = new FileStream (Defines.SerializedTorrentSettings, FileMode.Create))
 			{
 				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
 				
@@ -642,9 +641,7 @@ namespace Monsoon
 
 		private void StoreLabels ()
 		{
-			string storageFilePath = System.IO.Path.Combine (System.IO.Path.Combine (Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon"), "labels.xml");
 			ArrayList labelsToStore = new ArrayList ();
-			
 			
 			logger.Info ("Storing labels");
 			
@@ -654,7 +651,7 @@ namespace Monsoon
 				labelsToStore.Add (label);
 			}
 			
-			using (Stream fs = new FileStream (storageFilePath, FileMode.Create))
+			using (Stream fs = new FileStream (Defines.SerializedLabels, FileMode.Create))
 			{
 				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
 				XmlSerializer s = new XmlSerializer (typeof(TorrentLabel[]));
@@ -663,9 +660,7 @@ namespace Monsoon
 		}
 		
 		private void RestoreLabels()
-		{
-			string storageFilePath = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "monsoon"), "labels.xml");
-			
+		{			
 			TorrentLabel [] labelsToRestore = null;
 			XmlSerializer xs = new XmlSerializer (typeof(TorrentLabel[]));
 			
@@ -673,15 +668,15 @@ namespace Monsoon
 			
 			try
 			{
-				if (!System.IO.File.Exists(storageFilePath))
+				if (!System.IO.File.Exists(Defines.SerializedLabels))
 					return;
 
-				using (FileStream fs = System.IO.File.OpenRead(storageFilePath))
+				using (FileStream fs = System.IO.File.OpenRead(Defines.SerializedLabels))
 					labelsToRestore = (TorrentLabel[]) xs.Deserialize(fs);
 			}
 			catch
 			{
-				logger.Error("Error opening labels.xml");
+				logger.Error("Error opening " + Defines.SerializedLabels);
 				return;
 			}
 					
@@ -1403,7 +1398,7 @@ namespace Monsoon
 		{
 			userEngineSettings.ListenPort = new System.Random().Next(30000, 36000);
 			userEngineSettings.SavePath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
-			prefSettings.TorrentStorageLocation = System.IO.Path.Combine(System.IO.Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData),"monsoon"), "torrents");
+			prefSettings.TorrentStorageLocation = Defines.TorrentFolder;
 			prefSettings.UpnpEnabled = true;
 			userEngineSettings.GlobalMaxDownloadSpeed = 0;
 			userEngineSettings.GlobalMaxUploadSpeed = 0;
