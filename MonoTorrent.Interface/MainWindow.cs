@@ -52,6 +52,7 @@ namespace Monsoon
 		public ListStore labelListStore;
 		
 		private TorrentLabel allLabel;
+		private TorrentLabel deleteLabel;
 		private TorrentLabel downloadingLabel;
 		private TorrentLabel uploadLabel;
 				
@@ -74,9 +75,6 @@ namespace Monsoon
 		
 		private FileTreeView fileTreeView;
 		private TreeStore fileTreeStore;
-		
-		private TreeView selectLabelTreeView;	
-		//private TreeModelFilter torrentFilter;
 		
 		private PiecesTreeView piecesTreeView;
 		private ListStore piecesListStore;
@@ -116,8 +114,6 @@ namespace Monsoon
 			
 			labels = new ArrayList ();
 			torrents = new Dictionary<MonoTorrent.Client.TorrentManager,Gtk.TreeIter> ();
-			
-			selectLabelTreeView = new TreeView();
 			
 			Build ();
 			BuildTray();
@@ -358,6 +354,7 @@ namespace Monsoon
 			//}
 			
 			allLabel = new TorrentLabel (new ArrayList(), "All", "gtk-home", true);
+			deleteLabel = new TorrentLabel (new ArrayList(), "Remove", "gtk-remove", true);
 			downloadingLabel = new TorrentLabel (new ArrayList(), "Downloading", "gtk-go-down", true);
 			uploadLabel = new TorrentLabel (new ArrayList(), "Seeding", "gtk-go-up", true);
 		
@@ -367,6 +364,30 @@ namespace Monsoon
 			
 			TargetEntry [] targetEntries = new TargetEntry[]{
 				new TargetEntry("application/x-monotorrent-torrentmanager-objects", 0, 0)
+			};
+
+			torrentTreeView.DragBegin += delegate {
+				TreeIter it;
+				if (!labelTreeView.Selection.GetSelected (out it))
+					return;
+				
+				TorrentLabel label = (TorrentLabel) labelTreeView.Model.GetValue (it, 0);
+				if (!label.Immutable)
+					labelListStore.AppendValues(deleteLabel); 
+			};
+			
+			torrentTreeView.DragEnd += delegate {
+				TreeIter iter;
+				if (!labelListStore.GetIterFirst (out iter))
+					return;
+				
+				TreeIter prev = iter;
+				while (labelListStore.IterNext(ref iter))
+					prev = iter;
+				
+				TorrentLabel label = (TorrentLabel) labelTreeView.Model.GetValue (prev, 0);
+				if (label == deleteLabel)
+					labelListStore.Remove (ref prev);
 			};
 			
 			labelTreeView.EnableModelDragDest(targetEntries, Gdk.DragAction.Copy);
@@ -389,9 +410,24 @@ namespace Monsoon
 			if(label == allLabel || label == DownloadingLabel || label == SeedingLabel)
 				return;
 				
-			foreach (TorrentManager manager in torrents.Keys) {
-				if(Toolbox.ByteMatch (manager.Torrent.InfoHash, args.SelectionData.Data)) {
+			
+			foreach (TorrentManager manager in torrents.Keys)
+			{
+				if(!Toolbox.ByteMatch (manager.Torrent.InfoHash, args.SelectionData.Data))
+					continue;
+				
+				if (label != deleteLabel)
+				{
 					label.AddTorrent(manager);
+				}
+				else
+				{
+					
+					if (!labelTreeView.Selection.GetSelected (out iter))
+						return;
+					
+					label = (TorrentLabel)labelTreeView.Model.GetValue (iter, 0);
+					label.RemoveTorrent (manager);
 				}
 			}
 			
@@ -495,9 +531,6 @@ namespace Monsoon
 			torrentUploadSlotSpinButton.ValueChanged -= OnTorrentSettingsChanged;	
 			
 			if(treePaths.Length != 1){
-				
-			
-				selectLabelTreeView.Sensitive = false;
 				torrentUploadRateSpinButton.Sensitive = false;
 				torrentDownloadRateSpinButton.Sensitive = false;
 				torrentMaxConnectionsSpinButton.Sensitive = false;
@@ -517,8 +550,6 @@ namespace Monsoon
 				
 				torrent = (TorrentManager) model.GetValue (torrentIter,0);	
 			}
-			
-			selectLabelTreeView.Sensitive = true;
 			
 			torrentUploadRateSpinButton.Sensitive = true;
 			torrentDownloadRateSpinButton.Sensitive = true;
@@ -936,9 +967,6 @@ namespace Monsoon
 		
 		private void updateLabels ()
 		{
-#warning Fix this up properly
-			TreeIter iter;
-			
 			/*if (labelListStore.GetIterFirst (out iter)) {
 				do {
 					labelListStore.EmitRowChanged(labelListStore.GetPath(iter), iter);
@@ -1214,8 +1242,6 @@ namespace Monsoon
 			torrentDownloadRateSpinButton.SetRange(0, int.MaxValue);
 			torrentMaxConnectionsSpinButton.SetRange(0, int.MaxValue);
 			torrentUploadSlotSpinButton.SetRange(0, 300);
-			
-			buildLabelManager ();
 		}
 		
 		private void BuildSpeedsPopup()
@@ -1267,97 +1293,6 @@ namespace Monsoon
 			torrent.Settings.MaxDownloadSpeed = (int) torrentDownloadRateSpinButton.Value;
 			torrent.Settings.MaxUploadSpeed = (int) torrentUploadRateSpinButton.Value;
 			torrent.Settings.UploadSlots = (int) torrentUploadSlotSpinButton.Value;
-		}
-		
-		private void buildLabelManager ()
-		{
-			selectLabelScrolledWindow.Add (selectLabelTreeView);
-			
-			selectLabelTreeView.Model = labelListStore;
-			selectLabelTreeView.HeadersVisible = false;
-			
-			TreeViewColumn toggleColumn = new TreeViewColumn (); 
-			Gtk.CellRendererToggle toggleCell = new Gtk.CellRendererToggle ();
-			toggleColumn.PackStart (toggleCell, true);
-			toggleCell.Activatable = true;
-			
-			toggleCell.Toggled += delegate (object sender, ToggledArgs args)
-				{
-					TorrentManager torrent = null;
-					TreeIter iter;
-				
-					
-					if(!labelListStore.GetIter(out iter, new TreePath(args.Path)))
-						return;
-					
-					torrent = GetSelectedTorrent();
-
-					TorrentLabel label = (TorrentLabel) labelListStore.GetValue (iter, 0);
-					
-					if (label.Name == "All" || label.Name == "Downloading" || label.Name == "Seeding")
-						return;
-					
-					if (!label.Torrents.Contains (torrent)) {
-						logger.Debug ("Adding ", torrent.Torrent.Name);				
-						label.AddTorrent (torrent);
-					} else {
-						logger.Debug ("Removing ", torrent.Torrent.Name);
-						label.RemoveTorrent (torrent);
-					}
-					
-					logger.Debug ("Label " + label.Name + " selected!");
-				};
-			
-			toggleColumn.SetCellDataFunc (toggleCell, new Gtk.TreeCellDataFunc (
-				delegate (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-				{
-					TreePath [] treePaths;
-					TreeModel selectedmodel;
-					TorrentManager torrent = null;
-					treePaths = torrentsSelected.GetSelectedRows(out selectedmodel);
-					if (treePaths.Length != 1)
-						return;
-					
-					foreach (TreePath treePath in treePaths) {
-						TreeIter torrentIter;
-						selectedmodel.GetIter (out torrentIter, treePath);
-						
-						torrent = (TorrentManager) selectedmodel.GetValue(torrentIter,0);	
-					}
-					
-					TorrentLabel label = (TorrentLabel) model.GetValue (iter, 0);
-					(cell as Gtk.CellRendererToggle).Active = label.Torrents.Contains (torrent);
-				}
-			));
-			
-			TreeViewColumn iconColumn = new TreeViewColumn ();
-			Gtk.CellRendererPixbuf iconCell = new Gtk.CellRendererPixbuf ();
-			iconColumn.PackStart (iconCell, true);
-			
-			iconColumn.SetCellDataFunc (iconCell, new Gtk.TreeCellDataFunc (
-				delegate (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-				{
-					TorrentLabel label = (TorrentLabel) model.GetValue (iter, 0);
-					(cell as Gtk.CellRendererPixbuf).Pixbuf = label.Icon;
-				}
-			));
-			
-			
-			TreeViewColumn nameColumn = new TreeViewColumn (); 
-			Gtk.CellRendererText nameCell = new Gtk.CellRendererText ();
-			nameColumn.PackStart (nameCell, true);
-		
-			nameColumn.SetCellDataFunc (nameCell, new Gtk.TreeCellDataFunc (
-				delegate(Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-				{
-					TorrentLabel label = (TorrentLabel) model.GetValue (iter, 0);
-					(cell as Gtk.CellRendererText).Text = label.Name;
-				}
-			));
-		
-			selectLabelTreeView.AppendColumn (toggleColumn);
-			selectLabelTreeView.AppendColumn (iconColumn);
-			selectLabelTreeView.AppendColumn (nameColumn);
 		}
 
 		protected virtual void OnColumnsActivated (object sender, System.EventArgs e)

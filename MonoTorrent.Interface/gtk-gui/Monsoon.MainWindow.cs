@@ -175,14 +175,6 @@ namespace Monsoon {
         
         private Gtk.HBox hbox13;
         
-        private Gtk.Frame frame4;
-        
-        private Gtk.Alignment GtkAlignment3;
-        
-        private Gtk.ScrolledWindow selectLabelScrolledWindow;
-        
-        private Gtk.Label GtkLabel9;
-        
         private Gtk.VBox vbox6;
         
         private Gtk.Frame frame5;
@@ -335,7 +327,7 @@ namespace Monsoon {
             this.detailNotebook = new Gtk.Notebook();
             this.detailNotebook.CanFocus = true;
             this.detailNotebook.Name = "detailNotebook";
-            this.detailNotebook.CurrentPage = 0;
+            this.detailNotebook.CurrentPage = 4;
             // Container child detailNotebook.Gtk.Notebook+NotebookChild
             this.scrolledwindow1 = new Gtk.ScrolledWindow();
             this.scrolledwindow1.CanFocus = true;
@@ -848,32 +840,6 @@ namespace Monsoon {
             this.hbox13.Name = "hbox13";
             this.hbox13.Spacing = 6;
             // Container child hbox13.Gtk.Box+BoxChild
-            this.frame4 = new Gtk.Frame();
-            this.frame4.Name = "frame4";
-            this.frame4.ShadowType = ((Gtk.ShadowType)(0));
-            // Container child frame4.Gtk.Container+ContainerChild
-            this.GtkAlignment3 = new Gtk.Alignment(0F, 0F, 1F, 1F);
-            this.GtkAlignment3.WidthRequest = 250;
-            this.GtkAlignment3.Name = "GtkAlignment3";
-            this.GtkAlignment3.LeftPadding = ((uint)(12));
-            // Container child GtkAlignment3.Gtk.Container+ContainerChild
-            this.selectLabelScrolledWindow = new Gtk.ScrolledWindow();
-            this.selectLabelScrolledWindow.CanFocus = true;
-            this.selectLabelScrolledWindow.Name = "selectLabelScrolledWindow";
-            this.selectLabelScrolledWindow.ShadowType = ((Gtk.ShadowType)(1));
-            this.GtkAlignment3.Add(this.selectLabelScrolledWindow);
-            this.frame4.Add(this.GtkAlignment3);
-            this.GtkLabel9 = new Gtk.Label();
-            this.GtkLabel9.Name = "GtkLabel9";
-            this.GtkLabel9.LabelProp = Mono.Unix.Catalog.GetString("<b>Set labels</b>");
-            this.GtkLabel9.UseMarkup = true;
-            this.frame4.LabelWidget = this.GtkLabel9;
-            this.hbox13.Add(this.frame4);
-            Gtk.Box.BoxChild w58 = ((Gtk.Box.BoxChild)(this.hbox13[this.frame4]));
-            w58.Position = 0;
-            w58.Expand = false;
-            w58.Fill = false;
-            // Container child hbox13.Gtk.Box+BoxChild
             this.vbox6 = new Gtk.VBox();
             this.vbox6.Name = "vbox6";
             this.vbox6.Spacing = 6;
@@ -896,42 +862,42 @@ namespace Monsoon {
             this.label14.Xalign = 0F;
             this.label14.LabelProp = Mono.Unix.Catalog.GetString("Maximum upload rate:");
             this.table2.Add(this.label14);
-            Gtk.Table.TableChild w59 = ((Gtk.Table.TableChild)(this.table2[this.label14]));
-            w59.XOptions = ((Gtk.AttachOptions)(4));
-            w59.YOptions = ((Gtk.AttachOptions)(4));
+            Gtk.Table.TableChild w56 = ((Gtk.Table.TableChild)(this.table2[this.label14]));
+            w56.XOptions = ((Gtk.AttachOptions)(4));
+            w56.YOptions = ((Gtk.AttachOptions)(4));
             // Container child table2.Gtk.Table+TableChild
             this.label15 = new Gtk.Label();
             this.label15.Name = "label15";
             this.label15.Xalign = 0F;
             this.label15.LabelProp = Mono.Unix.Catalog.GetString("Maximum download rate:");
             this.table2.Add(this.label15);
-            Gtk.Table.TableChild w60 = ((Gtk.Table.TableChild)(this.table2[this.label15]));
-            w60.TopAttach = ((uint)(1));
-            w60.BottomAttach = ((uint)(2));
-            w60.XOptions = ((Gtk.AttachOptions)(4));
-            w60.YOptions = ((Gtk.AttachOptions)(4));
+            Gtk.Table.TableChild w57 = ((Gtk.Table.TableChild)(this.table2[this.label15]));
+            w57.TopAttach = ((uint)(1));
+            w57.BottomAttach = ((uint)(2));
+            w57.XOptions = ((Gtk.AttachOptions)(4));
+            w57.YOptions = ((Gtk.AttachOptions)(4));
             // Container child table2.Gtk.Table+TableChild
             this.label16 = new Gtk.Label();
             this.label16.Name = "label16";
             this.label16.Xalign = 0F;
             this.label16.LabelProp = Mono.Unix.Catalog.GetString("Maximum connections:");
             this.table2.Add(this.label16);
-            Gtk.Table.TableChild w61 = ((Gtk.Table.TableChild)(this.table2[this.label16]));
-            w61.TopAttach = ((uint)(2));
-            w61.BottomAttach = ((uint)(3));
-            w61.XOptions = ((Gtk.AttachOptions)(4));
-            w61.YOptions = ((Gtk.AttachOptions)(4));
+            Gtk.Table.TableChild w58 = ((Gtk.Table.TableChild)(this.table2[this.label16]));
+            w58.TopAttach = ((uint)(2));
+            w58.BottomAttach = ((uint)(3));
+            w58.XOptions = ((Gtk.AttachOptions)(4));
+            w58.YOptions = ((Gtk.AttachOptions)(4));
             // Container child table2.Gtk.Table+TableChild
             this.label17 = new Gtk.Label();
             this.label17.Name = "label17";
             this.label17.Xalign = 0F;
             this.label17.LabelProp = Mono.Unix.Catalog.GetString("Upload slots:");
             this.table2.Add(this.label17);
-            Gtk.Table.TableChild w62 = ((Gtk.Table.TableChild)(this.table2[this.label17]));
-            w62.TopAttach = ((uint)(3));
-            w62.BottomAttach = ((uint)(4));
-            w62.XOptions = ((Gtk.AttachOptions)(4));
-            w62.YOptions = ((Gtk.AttachOptions)(4));
+            Gtk.Table.TableChild w59 = ((Gtk.Table.TableChild)(this.table2[this.label17]));
+            w59.TopAttach = ((uint)(3));
+            w59.BottomAttach = ((uint)(4));
+            w59.XOptions = ((Gtk.AttachOptions)(4));
+            w59.YOptions = ((Gtk.AttachOptions)(4));
             // Container child table2.Gtk.Table+TableChild
             this.torrentDownloadRateSpinButton = new Gtk.SpinButton(0, 100, 1);
             this.torrentDownloadRateSpinButton.CanFocus = true;
@@ -940,13 +906,13 @@ namespace Monsoon {
             this.torrentDownloadRateSpinButton.ClimbRate = 1;
             this.torrentDownloadRateSpinButton.Numeric = true;
             this.table2.Add(this.torrentDownloadRateSpinButton);
-            Gtk.Table.TableChild w63 = ((Gtk.Table.TableChild)(this.table2[this.torrentDownloadRateSpinButton]));
-            w63.TopAttach = ((uint)(1));
-            w63.BottomAttach = ((uint)(2));
-            w63.LeftAttach = ((uint)(1));
-            w63.RightAttach = ((uint)(2));
-            w63.XOptions = ((Gtk.AttachOptions)(4));
-            w63.YOptions = ((Gtk.AttachOptions)(4));
+            Gtk.Table.TableChild w60 = ((Gtk.Table.TableChild)(this.table2[this.torrentDownloadRateSpinButton]));
+            w60.TopAttach = ((uint)(1));
+            w60.BottomAttach = ((uint)(2));
+            w60.LeftAttach = ((uint)(1));
+            w60.RightAttach = ((uint)(2));
+            w60.XOptions = ((Gtk.AttachOptions)(4));
+            w60.YOptions = ((Gtk.AttachOptions)(4));
             // Container child table2.Gtk.Table+TableChild
             this.torrentMaxConnectionsSpinButton = new Gtk.SpinButton(0, 100, 1);
             this.torrentMaxConnectionsSpinButton.CanFocus = true;
@@ -955,13 +921,13 @@ namespace Monsoon {
             this.torrentMaxConnectionsSpinButton.ClimbRate = 1;
             this.torrentMaxConnectionsSpinButton.Numeric = true;
             this.table2.Add(this.torrentMaxConnectionsSpinButton);
-            Gtk.Table.TableChild w64 = ((Gtk.Table.TableChild)(this.table2[this.torrentMaxConnectionsSpinButton]));
-            w64.TopAttach = ((uint)(2));
-            w64.BottomAttach = ((uint)(3));
-            w64.LeftAttach = ((uint)(1));
-            w64.RightAttach = ((uint)(2));
-            w64.XOptions = ((Gtk.AttachOptions)(4));
-            w64.YOptions = ((Gtk.AttachOptions)(4));
+            Gtk.Table.TableChild w61 = ((Gtk.Table.TableChild)(this.table2[this.torrentMaxConnectionsSpinButton]));
+            w61.TopAttach = ((uint)(2));
+            w61.BottomAttach = ((uint)(3));
+            w61.LeftAttach = ((uint)(1));
+            w61.RightAttach = ((uint)(2));
+            w61.XOptions = ((Gtk.AttachOptions)(4));
+            w61.YOptions = ((Gtk.AttachOptions)(4));
             // Container child table2.Gtk.Table+TableChild
             this.torrentUploadRateSpinButton = new Gtk.SpinButton(0, 100, 1);
             this.torrentUploadRateSpinButton.CanFocus = true;
@@ -970,11 +936,11 @@ namespace Monsoon {
             this.torrentUploadRateSpinButton.ClimbRate = 1;
             this.torrentUploadRateSpinButton.Numeric = true;
             this.table2.Add(this.torrentUploadRateSpinButton);
-            Gtk.Table.TableChild w65 = ((Gtk.Table.TableChild)(this.table2[this.torrentUploadRateSpinButton]));
-            w65.LeftAttach = ((uint)(1));
-            w65.RightAttach = ((uint)(2));
-            w65.XOptions = ((Gtk.AttachOptions)(4));
-            w65.YOptions = ((Gtk.AttachOptions)(4));
+            Gtk.Table.TableChild w62 = ((Gtk.Table.TableChild)(this.table2[this.torrentUploadRateSpinButton]));
+            w62.LeftAttach = ((uint)(1));
+            w62.RightAttach = ((uint)(2));
+            w62.XOptions = ((Gtk.AttachOptions)(4));
+            w62.YOptions = ((Gtk.AttachOptions)(4));
             // Container child table2.Gtk.Table+TableChild
             this.torrentUploadSlotSpinButton = new Gtk.SpinButton(0, 100, 1);
             this.torrentUploadSlotSpinButton.CanFocus = true;
@@ -983,13 +949,13 @@ namespace Monsoon {
             this.torrentUploadSlotSpinButton.ClimbRate = 1;
             this.torrentUploadSlotSpinButton.Numeric = true;
             this.table2.Add(this.torrentUploadSlotSpinButton);
-            Gtk.Table.TableChild w66 = ((Gtk.Table.TableChild)(this.table2[this.torrentUploadSlotSpinButton]));
-            w66.TopAttach = ((uint)(3));
-            w66.BottomAttach = ((uint)(4));
-            w66.LeftAttach = ((uint)(1));
-            w66.RightAttach = ((uint)(2));
-            w66.XOptions = ((Gtk.AttachOptions)(4));
-            w66.YOptions = ((Gtk.AttachOptions)(4));
+            Gtk.Table.TableChild w63 = ((Gtk.Table.TableChild)(this.table2[this.torrentUploadSlotSpinButton]));
+            w63.TopAttach = ((uint)(3));
+            w63.BottomAttach = ((uint)(4));
+            w63.LeftAttach = ((uint)(1));
+            w63.RightAttach = ((uint)(2));
+            w63.XOptions = ((Gtk.AttachOptions)(4));
+            w63.YOptions = ((Gtk.AttachOptions)(4));
             this.GtkAlignment4.Add(this.table2);
             this.frame5.Add(this.GtkAlignment4);
             this.GtkLabel11 = new Gtk.Label();
@@ -998,18 +964,18 @@ namespace Monsoon {
             this.GtkLabel11.UseMarkup = true;
             this.frame5.LabelWidget = this.GtkLabel11;
             this.vbox6.Add(this.frame5);
-            Gtk.Box.BoxChild w69 = ((Gtk.Box.BoxChild)(this.vbox6[this.frame5]));
-            w69.Position = 0;
+            Gtk.Box.BoxChild w66 = ((Gtk.Box.BoxChild)(this.vbox6[this.frame5]));
+            w66.Position = 0;
             this.hbox13.Add(this.vbox6);
-            Gtk.Box.BoxChild w70 = ((Gtk.Box.BoxChild)(this.hbox13[this.vbox6]));
-            w70.Position = 1;
-            w70.Expand = false;
-            w70.Fill = false;
+            Gtk.Box.BoxChild w67 = ((Gtk.Box.BoxChild)(this.hbox13[this.vbox6]));
+            w67.Position = 0;
+            w67.Expand = false;
+            w67.Fill = false;
             w55.Add(this.hbox13);
             this.scrolledwindow2.Add(w55);
             this.detailNotebook.Add(this.scrolledwindow2);
-            Gtk.Notebook.NotebookChild w73 = ((Gtk.Notebook.NotebookChild)(this.detailNotebook[this.scrolledwindow2]));
-            w73.Position = 4;
+            Gtk.Notebook.NotebookChild w70 = ((Gtk.Notebook.NotebookChild)(this.detailNotebook[this.scrolledwindow2]));
+            w70.Position = 4;
             // Notebook tab
             this.label13 = new Gtk.Label();
             this.label13.Name = "label13";
@@ -1019,8 +985,8 @@ namespace Monsoon {
             this.vPaned.Add(this.detailNotebook);
             this.hPaned.Add(this.vPaned);
             this.vbox1.Add(this.hPaned);
-            Gtk.Box.BoxChild w76 = ((Gtk.Box.BoxChild)(this.vbox1[this.hPaned]));
-            w76.Position = 2;
+            Gtk.Box.BoxChild w73 = ((Gtk.Box.BoxChild)(this.vbox1[this.hPaned]));
+            w73.Position = 2;
             // Container child vbox1.Gtk.Box+BoxChild
             this.statusbar2 = new Gtk.Statusbar();
             this.statusbar2.Name = "statusbar2";
@@ -1035,10 +1001,10 @@ namespace Monsoon {
             this.statusDownloadLabel.UseMarkup = true;
             this.eventDownload.Add(this.statusDownloadLabel);
             this.statusbar2.Add(this.eventDownload);
-            Gtk.Box.BoxChild w78 = ((Gtk.Box.BoxChild)(this.statusbar2[this.eventDownload]));
-            w78.Position = 2;
-            w78.Expand = false;
-            w78.Fill = false;
+            Gtk.Box.BoxChild w75 = ((Gtk.Box.BoxChild)(this.statusbar2[this.eventDownload]));
+            w75.Position = 2;
+            w75.Expand = false;
+            w75.Fill = false;
             // Container child statusbar2.Gtk.Box+BoxChild
             this.eventUpload = new Gtk.EventBox();
             this.eventUpload.Name = "eventUpload";
@@ -1049,15 +1015,15 @@ namespace Monsoon {
             this.statusUploadLabel.UseMarkup = true;
             this.eventUpload.Add(this.statusUploadLabel);
             this.statusbar2.Add(this.eventUpload);
-            Gtk.Box.BoxChild w80 = ((Gtk.Box.BoxChild)(this.statusbar2[this.eventUpload]));
-            w80.Position = 3;
-            w80.Expand = false;
-            w80.Fill = false;
+            Gtk.Box.BoxChild w77 = ((Gtk.Box.BoxChild)(this.statusbar2[this.eventUpload]));
+            w77.Position = 3;
+            w77.Expand = false;
+            w77.Fill = false;
             this.vbox1.Add(this.statusbar2);
-            Gtk.Box.BoxChild w81 = ((Gtk.Box.BoxChild)(this.vbox1[this.statusbar2]));
-            w81.Position = 3;
-            w81.Expand = false;
-            w81.Fill = false;
+            Gtk.Box.BoxChild w78 = ((Gtk.Box.BoxChild)(this.vbox1[this.statusbar2]));
+            w78.Position = 3;
+            w78.Expand = false;
+            w78.Fill = false;
             this.Add(this.vbox1);
             if ((this.Child != null)) {
                 this.Child.ShowAll();

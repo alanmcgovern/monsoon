@@ -286,7 +286,7 @@
                   <widget class="Gtk.Notebook" id="detailNotebook">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="CurrentPage">0</property>
+                    <property name="CurrentPage">4</property>
                     <child>
                       <widget class="Gtk.ScrolledWindow" id="scrolledwindow1">
                         <property name="MemberName" />
@@ -1155,53 +1155,6 @@
                                 <property name="MemberName" />
                                 <property name="Spacing">6</property>
                                 <child>
-                                  <widget class="Gtk.Frame" id="frame4">
-                                    <property name="MemberName" />
-                                    <property name="ShadowType">None</property>
-                                    <child>
-                                      <widget class="Gtk.Alignment" id="GtkAlignment3">
-                                        <property name="MemberName" />
-                                        <property name="WidthRequest">250</property>
-                                        <property name="Xalign">0</property>
-                                        <property name="Yalign">0</property>
-                                        <property name="LeftPadding">12</property>
-                                        <child>
-                                          <widget class="Gtk.ScrolledWindow" id="selectLabelScrolledWindow">
-                                            <property name="MemberName" />
-                                            <property name="CanFocus">True</property>
-                                            <property name="ShadowType">In</property>
-                                            <child>
-                                              <widget class="Gtk.Viewport" id="GtkViewport6">
-                                                <property name="MemberName" />
-                                                <property name="ShadowType">None</property>
-                                                <child>
-                                                  <placeholder />
-                                                </child>
-                                              </widget>
-                                            </child>
-                                          </widget>
-                                        </child>
-                                      </widget>
-                                    </child>
-                                    <child>
-                                      <widget class="Gtk.Label" id="GtkLabel9">
-                                        <property name="MemberName" />
-                                        <property name="LabelProp" translatable="yes">&lt;b&gt;Set labels&lt;/b&gt;</property>
-                                        <property name="UseMarkup">True</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="type">label_item</property>
-                                      </packing>
-                                    </child>
-                                  </widget>
-                                  <packing>
-                                    <property name="Position">0</property>
-                                    <property name="AutoSize">True</property>
-                                    <property name="Expand">False</property>
-                                    <property name="Fill">False</property>
-                                  </packing>
-                                </child>
-                                <child>
                                   <widget class="Gtk.VBox" id="vbox6">
                                     <property name="MemberName" />
                                     <property name="Spacing">6</property>
@@ -1430,7 +1383,7 @@
                                     </child>
                                   </widget>
                                   <packing>
-                                    <property name="Position">1</property>
+                                    <property name="Position">0</property>
                                     <property name="AutoSize">True</property>
                                     <property name="Expand">False</property>
                                     <property name="Fill">False</property>
