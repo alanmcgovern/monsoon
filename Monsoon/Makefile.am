@@ -143,7 +143,8 @@ DATA_FILES = \
 	icons/immediate.png \
 	icons/low.png \
 	icons/lowest.png \
-	icons/normal.png 
+	icons/normal.png \
+	libs/NDesk.DBus.GLib.dll.config 
 
 RESOURCES = \
 	gtk-gui/gui.stetic \
