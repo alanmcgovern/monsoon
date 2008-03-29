@@ -6,7 +6,7 @@ EXTRA_DIST =
 if ENABLE_DEBUG
 ASSEMBLY_COMPILER_COMMAND = gmcs
 ASSEMBLY_COMPILER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -optimize+ -debug -define:DEBUG
-ASSEMBLY = bin/Debug/MonoTorrent.Interface.exe
+ASSEMBLY = bin/Debug/Monsoon.exe
 ASSEMBLY_MDB = $(ASSEMBLY).mdb
 COMPILE_TARGET = exe
 PROJECT_REFERENCES = 
@@ -32,7 +32,7 @@ endif
 if ENABLE_RELEASE
 ASSEMBLY_COMPILER_COMMAND = gmcs
 ASSEMBLY_COMPILER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -optimize+
-ASSEMBLY = bin/Release/MonoTorrent.Interface.exe
+ASSEMBLY = bin/Release/Monsoon.exe
 ASSEMBLY_MDB = 
 COMPILE_TARGET = exe
 PROJECT_REFERENCES = 
@@ -77,7 +77,7 @@ PROGRAMFILES_ICONS = \
 	$(LOW_PNG)  
 
 BINARIES = \
-	$(MONOTORRENT_INTERFACE)  
+	$(MONSOON)  
 
 
 	
@@ -132,7 +132,8 @@ FILES = \
 	gtk-gui/Monsoon.MainWindow.cs \
 	gtk-gui/Monsoon.EditColumnsDialog.cs \
 	gtk-gui/Monsoon.CreateTorrentProgressDialog.cs \
-	Menus/SpeedLimitMenu.cs 
+	Menus/SpeedLimitMenu.cs \
+	Defines.cs 
 
 DATA_FILES = \
 	icons/rss.png \
@@ -149,7 +150,7 @@ RESOURCES = \
 	gtk-gui/objects.xml 
 
 EXTRAS = \
-	monotorrent.interface.in 
+	monsoon.in 
 
 REFERENCES =  \
 	System \
@@ -180,7 +181,7 @@ NDESK_DBUS_GLIB_DLL = $(BUILD_DIR)/NDesk.DBus.GLib.dll
 LOWEST_PNG = $(BUILD_DIR)/icons/lowest.png
 MONO_NAT_DLL = $(BUILD_DIR)/Mono.Nat.dll
 DONOTDOWNLOAD_PNG = $(BUILD_DIR)/icons/donotdownload.png
-MONOTORRENT_INTERFACE = $(BUILD_DIR)/monotorrent.interface
+MONSOON = $(BUILD_DIR)/monsoon
 NDESK_DBUS_DLL = $(BUILD_DIR)/NDesk.DBus.dll
 NORMAL_PNG = $(BUILD_DIR)/icons/normal.png
 NLOG_DLL = $(BUILD_DIR)/NLog.dll
@@ -196,7 +197,7 @@ $(eval $(call emit-deploy-target,NDESK_DBUS_GLIB_DLL))
 $(eval $(call emit-deploy-target,LOWEST_PNG))
 $(eval $(call emit-deploy-target,MONO_NAT_DLL))
 $(eval $(call emit-deploy-target,DONOTDOWNLOAD_PNG))
-$(eval $(call emit-deploy-wrapper,MONOTORRENT_INTERFACE,monotorrent.interface,x))
+$(eval $(call emit-deploy-wrapper,MONSOON,monsoon,x))
 $(eval $(call emit-deploy-target,NDESK_DBUS_DLL))
 $(eval $(call emit-deploy-target,NORMAL_PNG))
 $(eval $(call emit-deploy-target,NLOG_DLL))

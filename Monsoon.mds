@@ -2,16 +2,19 @@
   <Configurations active="Release">
     <Configuration name="Debug" ctype="CombineConfiguration">
       <Entry build="True" name="Monsoon" configuration="Debug" />
+      <Entry build="True" name="Monsoon" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="True" name="Monsoon" configuration="Release" />
       <Entry build="True" name="Monsoon" configuration="Release" />
     </Configuration>
   </Configurations>
   <StartMode startupentry="Monsoon" single="True">
     <Execute type="None" entry="Monsoon" />
+    <Execute type="None" entry="Monsoon" />
   </StartMode>
   <MonoDevelop.ChangeLogAddIn.ChangeLogInfo policy="OneChangeLogInProjectRootDirectory" />
   <Entries>
-    <Entry filename="MonoTorrent.Interface/MonoTorrent.Interface.mdp" />
+    <Entry filename="Monsoon/Monsoon.mdp" />
   </Entries>
 </Combine>

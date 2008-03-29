@@ -1,7 +1,7 @@
 dnl Warning: This is an automatically generated file, do not edit!
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
-AC_INIT([MonoTorrent.Interface], [0.1])
+AC_INIT([Monsoon], [0.1])
 AM_INIT_AUTOMAKE([foreign])
 
 dnl pkg-config
@@ -53,9 +53,9 @@ dnl package checks, per config
 
 
 AC_CONFIG_FILES([
-MonoTorrent.Interface/Makefile
 Makefile
-MonoTorrent.Interface/monotorrent.interface
+Monsoon/Makefile
+Monsoon/monsoon
 
 ])
 

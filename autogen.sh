@@ -1,6 +1,6 @@
 #! /bin/sh
 
-PROJECT=MonoTorrent.Interface
+PROJECT=Monsoon
 FILE=
 CONFIGURE=configure.ac
 
