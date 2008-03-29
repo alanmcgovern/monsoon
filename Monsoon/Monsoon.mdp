@@ -78,6 +78,7 @@
     <File name="Menus/SpeedLimitMenu.cs" subtype="Code" buildaction="Compile" />
     <File name="Defines.cs" subtype="Code" buildaction="Compile" />
     <File name="libs/NDesk.DBus.GLib.dll.config" subtype="Code" buildaction="FileCopy" />
+    <File name="monsoon.desktop" subtype="Code" buildaction="FileCopy" DeployService.TargetDirectoryId="Linux.DesktopApplications" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

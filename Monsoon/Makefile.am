@@ -21,6 +21,7 @@ MONOTORRENT_DLL_SOURCE=libs/MonoTorrent.dll
 NDESK_DBUS_GLIB_DLL_SOURCE=libs/NDesk.DBus.GLib.dll
 LOWEST_PNG_SOURCE=icons/lowest.png
 MONO_NAT_DLL_SOURCE=libs/Mono.Nat.dll
+MONSOON_DESKTOP_SOURCE=monsoon.desktop
 DONOTDOWNLOAD_PNG_SOURCE=icons/donotdownload.png
 NDESK_DBUS_DLL_SOURCE=libs/NDesk.DBus.dll
 NORMAL_PNG_SOURCE=icons/normal.png
@@ -47,6 +48,7 @@ MONOTORRENT_DLL_SOURCE=libs/MonoTorrent.dll
 NDESK_DBUS_GLIB_DLL_SOURCE=libs/NDesk.DBus.GLib.dll
 LOWEST_PNG_SOURCE=icons/lowest.png
 MONO_NAT_DLL_SOURCE=libs/Mono.Nat.dll
+MONSOON_DESKTOP_SOURCE=monsoon.desktop
 DONOTDOWNLOAD_PNG_SOURCE=icons/donotdownload.png
 NDESK_DBUS_DLL_SOURCE=libs/NDesk.DBus.dll
 NORMAL_PNG_SOURCE=icons/normal.png
@@ -66,6 +68,9 @@ PROGRAMFILES = \
 	$(NDESK_DBUS_DLL) \
 	$(NLOG_DLL)  
 
+LINUX_DESKTOPAPPLICATIONS = \
+	$(MONSOON_DESKTOP)  
+
 PROGRAMFILES_ICONS = \
 	$(HIGH_PNG) \
 	$(HIGHEST_PNG) \
@@ -81,7 +86,7 @@ BINARIES = \
 
 
 	
-all: $(ASSEMBLY) $(PROGRAMFILES) $(PROGRAMFILES_ICONS) $(BINARIES) 
+all: $(ASSEMBLY) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) $(BINARIES) 
 
 FILES = \
 	gtk-gui/generated.cs \
@@ -144,7 +149,8 @@ DATA_FILES = \
 	icons/low.png \
 	icons/lowest.png \
 	icons/normal.png \
-	libs/NDesk.DBus.GLib.dll.config 
+	libs/NDesk.DBus.GLib.dll.config \
+	monsoon.desktop 
 
 RESOURCES = \
 	gtk-gui/gui.stetic \
@@ -168,7 +174,7 @@ DLL_REFERENCES =  \
 	libs/Mono.Nat.dll \
 	libs/MonoTorrent.dll
 
-CLEANFILES = $(PROGRAMFILES) $(PROGRAMFILES_ICONS) $(BINARIES) 
+CLEANFILES = $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) $(BINARIES) 
 
 include $(top_srcdir)/Makefile.include
 
@@ -181,6 +187,7 @@ MONOTORRENT_DLL = $(BUILD_DIR)/MonoTorrent.dll
 NDESK_DBUS_GLIB_DLL = $(BUILD_DIR)/NDesk.DBus.GLib.dll
 LOWEST_PNG = $(BUILD_DIR)/icons/lowest.png
 MONO_NAT_DLL = $(BUILD_DIR)/Mono.Nat.dll
+MONSOON_DESKTOP = $(BUILD_DIR)/monsoon.desktop
 DONOTDOWNLOAD_PNG = $(BUILD_DIR)/icons/donotdownload.png
 MONSOON = $(BUILD_DIR)/monsoon
 NDESK_DBUS_DLL = $(BUILD_DIR)/NDesk.DBus.dll
@@ -197,6 +204,7 @@ $(eval $(call emit-deploy-target,MONOTORRENT_DLL))
 $(eval $(call emit-deploy-target,NDESK_DBUS_GLIB_DLL))
 $(eval $(call emit-deploy-target,LOWEST_PNG))
 $(eval $(call emit-deploy-target,MONO_NAT_DLL))
+$(eval $(call emit-deploy-target,MONSOON_DESKTOP))
 $(eval $(call emit-deploy-target,DONOTDOWNLOAD_PNG))
 $(eval $(call emit-deploy-wrapper,MONSOON,monsoon,x))
 $(eval $(call emit-deploy-target,NDESK_DBUS_DLL))
