@@ -1,5 +1,9 @@
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs: Removed some junk methods
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* ListenPortController.cs: Bugfix from refactoring: When ending a map/unmap,
 	  don't iterate all the devices.
 

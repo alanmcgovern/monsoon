@@ -125,9 +125,6 @@ namespace Monsoon
 			BuildOptionsPage();
 			BuildSpeedsPopup();
 			
-			
-			torrentController.engine.StatsUpdate += OnUpdateStats;
-			
 			GLib.Timeout.Add (1000, new GLib.TimeoutHandler (updateView));
 			
 			RestoreInterface ();
@@ -826,11 +823,6 @@ namespace Monsoon
 			}
 			
 			fileChooser.Destroy ();
-		}
-			
-		private void OnUpdateStats (object sender, EventArgs args)
-		{
-			//torrent.updateTorrentInfo();
 		}
 		
 		private bool updateView ()
