@@ -1,10 +1,10 @@
 //
-// GconfSettingsStorage.cs
+// TorrentSettingsModel.cs
 //
 // Author:
-//   Jared Hendry (buchan@gmail.com)
+//   Mirco Bauer (meebey@meebey.net)
 //
-// Copyright (C) 2007 Jared Hendry
+// Copyright (C) 2008 Mirco Bauer
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -27,40 +27,34 @@
 //
 
 using System;
-using GConf;
+using MonoTorrent.Common;
 
 namespace Monsoon
 {
-	public class GconfSettingsStorage : ISettingsStorage
+	public class TorrentSettingsModel
 	{
-		private GConf.Client client;
-		static string GCONF_APP_PATH = "/apps/monsoon/";
-		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+		private string       infoHash;
+		private TorrentState lastState;
 		
-		public GconfSettingsStorage()
-		{
-			client = new GConf.Client();
-		}
-		
-		public void Store(string key, object val)
-		{
-			client.Set(GCONF_APP_PATH + key, val);
-		}
-
-		public object Retrieve(string key)
-		{
-			object retrievedKey;
-			
-			try {
-				retrievedKey = client.Get(GCONF_APP_PATH + key);
-			} catch (GConf.NoSuchKeyException e) {
-				logger.Info("Key not found: " + e.Message);
-				throw new SettingNotFoundException("Setting '" + key + "' cannot be found"); 
+		public string InfoHash {
+			get {
+				return infoHash;
 			}
-			return retrievedKey;
+			set {
+				infoHash = value;
+			}
 		}
 
-		public void Flush()
+		public TorrentState LastState {
+			get {
+				return lastState;
+			}
+			set {
+				lastState = value;
+			}
+		}
+		
+		public TorrentSettingsModel()
 		{
 		}
 	}

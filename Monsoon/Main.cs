@@ -1,4 +1,33 @@
-// project created on 05/21/2007 at 02:42
+//
+// Main.cs
+//
+// Author:
+//   Jared Hendry (buchan@gmail.com)
+//   Mirco Bauer  (meebey@meebey.net)
+//
+// Copyright (C) 2007 Jared Hendry
+// Copyright (C) 2008 Mirco Bauer
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+// 
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//
+
 using System;
 using System.IO;
 using System.Text;
@@ -14,13 +43,13 @@ namespace Monsoon
 {
 	class MainClass
 	{
-
 		// SetProcessName code from http://abock.org/2006/02/09/changing-process-name-in-mono/
 		[DllImport("libc")]
 		private static extern int prctl(int option, byte [] arg2, ulong arg3, ulong arg4, ulong arg5);
 
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger(); 		
 		private ListenPortController portController;
+		private GconfSettingsStorage settingsStorage;
 		private UserEngineSettings userEngineSettings;
 		private MainWindow mainWindow;
 		private bool isFirstRun;
@@ -51,10 +80,12 @@ namespace Monsoon
 			SetProcessName("monsoon");
 		
 			userEngineSettings = new UserEngineSettings();
+			settingsStorage = new GconfSettingsStorage();
 			portController = new ListenPortController(userEngineSettings);
 			
 			Application.Init ();
-			mainWindow = new MainWindow (userEngineSettings, portController, isFirstRun);
+			mainWindow = new MainWindow (settingsStorage, userEngineSettings,
+			                             portController, isFirstRun);
 			
 			// This is so we can use IconEntry button
 			// Use Gnome.Program instead of Gtk.Application?

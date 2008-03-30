@@ -3,8 +3,10 @@
 //
 // Author:
 //   Jared Hendry (buchan@gmail.com)
+//   Mirco Bauer  (meebey@meebey.net)
 //
 // Copyright (C) 2007 Jared Hendry
+// Copyright (C) 2008 Mirco Bauer
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -49,24 +51,25 @@ namespace Monsoon
 	public partial class MainWindow: Gtk.Window
 	{	
 		private LabelTreeView labelTreeView;
-		public ListStore labelListStore;
+		private ListStore labelListStore;
 		
 		private TorrentLabel allLabel;
 		private TorrentLabel deleteLabel;
 		private TorrentLabel downloadingLabel;
 		private TorrentLabel uploadLabel;
-				
+		
 		private	TorrentTreeView torrentTreeView;
 		private TreeSelection torrentsSelected;
-		public ListStore torrentListStore;
-		public Dictionary<TorrentManager, TreeIter> torrents;
+		private ListStore torrentListStore;
+		private Dictionary<TorrentManager, TreeIter> torrents;
 		
 		private TorrentController torrentController;
 		
-		public UserEngineSettings userEngineSettings;
-		public UserTorrentSettings userTorrentSettings;
-		public PreferencesSettings prefSettings;
-		public InterfaceSettings interfaceSettings;
+		private GconfSettingsStorage settingsStorage;
+		private UserEngineSettings userEngineSettings;
+		private UserTorrentSettings userTorrentSettings;
+		private PreferencesSettings prefSettings;
+		private InterfaceSettings interfaceSettings;
 		
 		private PeerTreeView peerTreeView;
 		private ListStore peerListStore;
@@ -78,9 +81,9 @@ namespace Monsoon
 		
 		private PiecesTreeView piecesTreeView;
 		private ListStore piecesListStore;
-		public List<BlockEventArgs> pieces;
+		private List<BlockEventArgs> pieces;
 		
-		public ArrayList labels;
+		private ArrayList labels;
 		private ListenPortController portController;
 		
 		private TorrentFolderWatcher folderWatcher;
@@ -104,9 +107,10 @@ namespace Monsoon
 		//private MemoryTarget memoryTarget;
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger (); 
 		
-		public MainWindow (UserEngineSettings userEngineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
+		public MainWindow (GconfSettingsStorage settingsStorage, UserEngineSettings userEngineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
 		{
 			prefSettings = new PreferencesSettings ();
+			this.settingsStorage = settingsStorage;
 			this.userEngineSettings = userEngineSettings;
 			this.portController = portController;
 			userTorrentSettings = new UserTorrentSettings ();
@@ -134,7 +138,37 @@ namespace Monsoon
 				portController.Start();
 			
 			torrentController.LoadStoredTorrents ();
-
+			
+			// auto-start torrents
+			TorrentSettingsController torrentSettingsController =
+				new TorrentSettingsController(settingsStorage);
+			TorrentFileSettingsController fileSettingsController =
+				new TorrentFileSettingsController(settingsStorage);
+			foreach (TorrentManager manager in torrentController.Torrents) {
+				TorrentSettingsModel torrentSettings =
+					torrentSettingsController.GetTorrentSettings(manager.Torrent.InfoHash);
+				
+				if (torrentSettings.LastState == TorrentState.Downloading) {
+					// restore priority
+					foreach (TorrentFile torrentFile in manager.Torrent.Files) {
+						TorrentFileSettingsModel fileSettings =
+							fileSettingsController.GetFileSettings(
+								manager.Torrent.InfoHash,
+								torrentFile.Path
+							);
+						Console.WriteLine("restoring priority for: " + torrentFile.Path +
+						                  "  to " + fileSettings.Priority);
+						torrentFile.Priority = fileSettings.Priority;
+					}
+				}
+				    
+				if (torrentSettings.LastState == TorrentState.Downloading ||
+					torrentSettings.LastState == TorrentState.Seeding) {
+					Console.WriteLine("auto-starting: " + manager.Torrent.Name);
+					manager.Start();
+				}
+			}
+			
 			RestoreLabels ();
 			
 			folderWatcher = new TorrentFolderWatcher (new DirectoryInfo (prefSettings.ImportLocation));
@@ -306,8 +340,8 @@ namespace Monsoon
 		
 		private void BuildFileTreeView ()
 		{
-			fileTreeStore = new TreeStore (typeof(bool), typeof(TorrentFile), typeof(Gdk.Pixbuf), typeof(string));
-			fileTreeView = new FileTreeView (torrentController, fileTreeStore);
+			fileTreeStore = new TreeStore (typeof(TorrentManager), typeof(TorrentFile), typeof(Gdk.Pixbuf), typeof(string));
+			fileTreeView = new FileTreeView (settingsStorage, torrentController, fileTreeStore);
 			fileTreeView.Model = fileTreeStore;
 			filesScrolledWindow.Add (fileTreeView);
 			fileTreeView.Show();
@@ -600,14 +634,14 @@ namespace Monsoon
 			else
 				limited = ByteConverter.Convert(userEngineSettings.GlobalMaxDownloadSpeed, "[{0:0}] ").Split(' ')[0] + " ";
 			
-			statusDownloadLabel.Markup = "<small>D: " + limited + ByteConverter.Convert(torrentController.engine.TotalDownloadSpeed) + "</small>";
+			statusDownloadLabel.Markup = "<small>D: " + limited + ByteConverter.Convert(torrentController.Engine.TotalDownloadSpeed) + "</small>";
 			
 			if (userEngineSettings.GlobalMaxUploadSpeed == 0)
 				limited = "";
 			else
 				limited = ByteConverter.Convert(userEngineSettings.GlobalMaxUploadSpeed, "[{0:0}]").Split(' ')[0] + " ";
 			
-			statusUploadLabel.Markup = "<small>U: " + limited + ByteConverter.Convert(torrentController.engine.TotalUploadSpeed) + "</small>";
+			statusUploadLabel.Markup = "<small>U: " + limited + ByteConverter.Convert(torrentController.Engine.TotalUploadSpeed) + "</small>";
 		}
 		
 		
@@ -736,10 +770,10 @@ namespace Monsoon
 
 		public void Stop()
 		{
-			foreach (WaitHandle h in this.torrentController.engine.StopAll())
+			foreach (WaitHandle h in this.torrentController.Engine.StopAll())
 				h.WaitOne (TimeSpan.FromSeconds(10), false);
 			
-			this.torrentController.engine.Dispose();
+			this.torrentController.Engine.Dispose();
 			OnDeleteEvent (null,new DeleteEventArgs ());
 		}
 		
@@ -877,53 +911,24 @@ namespace Monsoon
 			if (manager == null)
 				return;
 			
-			foreach(TorrentFile torrentFile in manager.Torrent.Files) {
-				fileTreeStore.AppendValues(false, torrentFile,
+			Console.WriteLine("Updating files page of: " + manager.Torrent.Name);
+			
+			TorrentFileSettingsController fileSettingsController =
+				new TorrentFileSettingsController(settingsStorage);
+			foreach (TorrentFile torrentFile in manager.Torrent.Files) {
+				TorrentFileSettingsModel fileSettings =
+					fileSettingsController.GetFileSettings(
+						manager.Torrent.InfoHash,
+						torrentFile.Path
+					);
+				torrentFile.Priority = fileSettings.Priority;
+				
+				fileTreeStore.AppendValues(manager, torrentFile,
 					GetIconPixbuf(
 						FileTreeView.GetPriorityIconName(torrentFile.Priority)
 					),
 					torrentFile.Path);
 			}
-			
-			//string [] splitPath = torrentFile.Path.Split(System.IO.Path.DirectorySeparatorChar);
-			
-			
-			/*
-			foreach (TorrentFile torrentFile in manager.Torrent.Files) {
-				
-				Console.Out.WriteLine ("Directory Name: " + System.IO.Path.GetDirectoryName(torrentFile.Path));
-				Console.Out.WriteLine ("Filename: " + System.IO.Path.GetFileName(torrentFile.Path) );
-				Console.Out.WriteLine ("String: " + torrentFile.Path);
-				string [] splitPath = torrentFile.Path.Split(System.IO.Path.DirectorySeparatorChar);
-				TreeIter prevIter = new TreeIter();
-				
-				//prevIter = fileTreeStore.AppendValues(torrentFile.Path);
-				TreeIter existIter;
-				foreach (string s in splitPath) {
-					Console.Out.WriteLine("Appending " + s);
-					
-					if(fileTreeView.PathLookup(out existIter, s)){
-						Console.Out.WriteLine (s + " already exists");
-						prevIter = existIter;
-						continue;
-					} else { 
-						Console.Out.WriteLine (s + " does not exist already");	
-					}
-					
-					if(splitPath[0] == s){
-						prevIter = fileTreeStore.AppendValues(s);
-						continue;
-					}
-					prevIter = fileTreeStore.AppendValues(prevIter, s);
-					
-				}
-				
-				
-				
-				//TreeIter previousIter = fileTreeStore.AppendValues (false, torrentFile);
-				//fileTreeStore.AppendValues (previousIter, torrentFile);
-					
-			} */
 		}
 		
 		private void updatePiecesPage()
@@ -1125,7 +1130,7 @@ namespace Monsoon
 				TorrentManager torrent;
 				model.GetIter(out iter, treePath);
 				
-				torrent = (TorrentManager) model.GetValue (iter,0);
+				torrent = (TorrentManager) model.GetValue (iter, 0);
 				try {
 					if (startTorrentButton.StockId == "gtk-media-pause") {
 						torrent.Pause ();
@@ -1134,12 +1139,24 @@ namespace Monsoon
 						torrent.Start ();
 						logger.Info ("Torrent started " + torrent.Torrent.Name);
 					}
+					
+					UpdateTorrentSettings(torrent);
 				} catch {
 					logger.Error ("Torrent already started " + torrent.Torrent.Name);
 				}
 			}
 		}
 
+		private void UpdateTorrentSettings(TorrentManager manager)
+		{
+			TorrentSettingsController torrentSettingsController =
+				new TorrentSettingsController(settingsStorage);
+			TorrentSettingsModel torrentSettings =
+				torrentSettingsController.GetTorrentSettings(manager.Torrent.InfoHash);
+			torrentSettings.LastState = manager.State;
+			torrentSettingsController.SetTorrentSettings(torrentSettings);
+		}
+		
 		protected virtual void OnStopTorrentActivated (object sender, System.EventArgs e)
 		{
 			TreePath [] treePaths;
@@ -1153,6 +1170,8 @@ namespace Monsoon
 				torrent = (TorrentManager) model.GetValue (iter,0);
 				try {
 					torrent.Stop ();
+					
+					UpdateTorrentSettings(torrent);
 				} catch {
 					logger.Error ("Torrent already stopped " + torrent.Torrent.Name);
 				}
@@ -1368,6 +1387,60 @@ namespace Monsoon
 		
 		public TorrentLabel SeedingLabel {
 			get { return uploadLabel; }
+		}
+
+		public GconfSettingsStorage SettingsStorage {
+			get {
+				return settingsStorage;
+			}
+		}
+
+		public UserEngineSettings UserEngineSettings {
+			get {
+				return userEngineSettings;
+			}
+		}
+
+		public PreferencesSettings PrefSettings {
+			get {
+				return prefSettings;
+			}
+		}
+
+		public UserTorrentSettings UserTorrentSettings {
+			get {
+				return userTorrentSettings;
+			}
+		}
+
+		public ArrayList Labels {
+			get {
+				return labels;
+			}
+		}
+
+		public ListStore TorrentListStore {
+			get {
+				return torrentListStore;
+			}
+		}
+
+		public Dictionary<TorrentManager, TreeIter> Torrents {
+			get {
+				return torrents;
+			}
+		}
+
+		public ListStore LabelListStore {
+			get {
+				return labelListStore;
+			}
+		}
+
+		public List<BlockEventArgs> Pieces {
+			get {
+				return pieces;
+			}
 		}
 	}
 }

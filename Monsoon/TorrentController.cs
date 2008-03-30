@@ -44,8 +44,8 @@ namespace Monsoon
 
 	public class TorrentController
 	{
-		public ClientEngine engine;	
-		internal EngineSettings engineSettings;
+		private ClientEngine engine;
+		private EngineSettings engineSettings;
 		private TorrentSettings torrentSettings;
 		private ListStore torrentListStore;
 		private UserTorrentSettings userTorrentSettings;
@@ -69,14 +69,14 @@ namespace Monsoon
 		
 		public TorrentController(MainWindow mainWindow)
 		{
-			this.userTorrentSettings = mainWindow.userTorrentSettings;
-			this.userEngineSettings = mainWindow.userEngineSettings;
-			this.prefSettings = mainWindow.prefSettings;
-			this.labels = mainWindow.labels;
-			this.torrentListStore = mainWindow.torrentListStore;
-			this.torrents = mainWindow.torrents;
+			this.userTorrentSettings = mainWindow.UserTorrentSettings;
+			this.userEngineSettings = mainWindow.UserEngineSettings;
+			this.prefSettings = mainWindow.PrefSettings;
+			this.labels = mainWindow.Labels;
+			this.torrentListStore = mainWindow.TorrentListStore;
+			this.torrents = mainWindow.Torrents;
 			this.mainWindow = mainWindow;
-			this.pieces = mainWindow.pieces;
+			this.pieces = mainWindow.Pieces;
 			this.torrentPreviousUpload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
 			this.torrentPreviousDownload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
 			
@@ -400,6 +400,12 @@ namespace Monsoon
 		public List<TorrentManager> TorrentsSeeding
 		{
 			get { return torrentsSeeding; }
+		}
+
+		public ClientEngine Engine {
+			get {
+				return engine;
+			}
 		}
 		
 		public void removeTorrent(TorrentManager torrent)

@@ -29,9 +29,10 @@
 //
 
 using System;
+using System.IO;
 using Gtk;
 using MonoTorrent.Common;
-using System.IO;
+using MonoTorrent.Client;
 
 namespace Monsoon
 {
@@ -41,6 +42,7 @@ namespace Monsoon
 		private TreeViewColumn filenameColumn;
 		private TreeViewColumn progressColumn;
 		//private TreeStore treeStore;
+		private GconfSettingsStorage settingsStorage;
 		private TorrentController torrentController;
 		
 		private Gtk.Menu contextMenu;
@@ -52,8 +54,9 @@ namespace Monsoon
 		private ImageMenuItem normalItem;
 		private ImageMenuItem nodownItem;
 		
-		public FileTreeView(TorrentController torrentController, TreeStore treeStore) : base()
+		public FileTreeView(GconfSettingsStorage settingsStorage, TorrentController torrentController, TreeStore treeStore) : base()
 		{
+			this.settingsStorage = settingsStorage;
 			this.torrentController = torrentController;
 			//this.treeStore = treeStore;
 			HeadersVisible = true;
@@ -161,7 +164,7 @@ namespace Monsoon
 			
 			ImageMenuItem item = (ImageMenuItem) sender;
 			
-			// Determine priority
+			// determine priority
 			if (item == highItem)
 				priority = Priority.High;
 			else if (item == highestItem)
@@ -181,10 +184,25 @@ namespace Monsoon
 			
 			file = (TorrentFile) Model.GetValue (iter, 1);
 			
+			// update priority in MonoTorrent
 			torrentController.SetFilePriority(file, priority);
 			
+			// update priority icon in view model
 			Model.SetValue(iter, 2, MainWindow.GetIconPixbuf(
 				GetPriorityIconName(priority)));
+			
+			// update priority in settings model
+			TorrentManager manager = (TorrentManager) Model.GetValue (iter, 0);
+			TorrentFileSettingsController fileSettingsController =
+				new TorrentFileSettingsController(settingsStorage);
+			TorrentFileSettingsModel fileSettings =
+					fileSettingsController.GetFileSettings(
+						manager.Torrent.InfoHash,
+						file.Path
+					);
+			
+			fileSettings.Priority = priority;
+			fileSettingsController.SetFileSettings(fileSettings);
 		}
 		
 		protected override bool	OnButtonPressEvent (Gdk.EventButton e)

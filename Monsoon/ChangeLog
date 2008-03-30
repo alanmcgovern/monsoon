@@ -1,3 +1,32 @@
+2008-03-30  Mirco Bauer <meebey@meebey.net> 
+
+	* MainWindow.cs: Made all public and internal fields private and created
+	  public properties for them.
+	
+	  Save torrent state changes to settings model.
+	
+	  Implemented auto-starting of torrents and restoring their priorities.
+	
+	  Updated author and copyright lines.
+	* PreferencesDialog.cs, LabelTreeView.cs, RssManager/RssManagerDialog.cs,
+	  RssManager/RssManagerController.cs: Use properties instead of public
+	  fields.
+	* Main.cs: Added license header.
+	
+	  Added global GConfSettingsStorage instance.
+	
+	* TorrentController.cs: Made all public and internal fields private and
+	  created public properties for them.
+	* TorrentSettingsController.cs, TorrentFileSettingsController.cs,
+	  TorrentSettingsModel.cs, TorrentFileSettingsModel.cs: Implemented
+	  persistent models using GConf for torrent settings and torrent file
+	  settings.
+	* FileTreeView.cs: Added gconf storage to ctor parameters.
+	
+	  Update changed priorities in settings model.
+	
+	* GconfSettingsStorage.cs: Fixed whitespace.
+
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* BEncodedSettingsStorage.cs, Monsoon.mdp, Makefile.am: GConf is available

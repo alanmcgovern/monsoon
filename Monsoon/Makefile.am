@@ -122,8 +122,12 @@ FILES =  \
 	SettingNotFoundException.cs \
 	TorrentContextMenu.cs \
 	TorrentController.cs \
+	TorrentFileSettingsController.cs \
+	TorrentFileSettingsModel.cs \
 	TorrentFilterModel.cs \
 	TorrentLabel.cs \
+	TorrentSettingsController.cs \
+	TorrentSettingsModel.cs \
 	TorrentStorage.cs \
 	TorrentTreeView.cs \
 	UnhandledExceptionDialog.cs \

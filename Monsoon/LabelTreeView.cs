@@ -72,9 +72,9 @@ namespace Monsoon
 			nameRendererCell.Editable = true;
 			nameRendererCell.Edited += delegate (object o, Gtk.EditedArgs args) {
 				Gtk.TreeIter iter;
-				mainWindow.labelListStore.GetIter (out iter, new Gtk.TreePath (args.Path));
+				mainWindow.LabelListStore.GetIter (out iter, new Gtk.TreePath (args.Path));
 			 
-				TorrentLabel label = (TorrentLabel) mainWindow.labelListStore.GetValue (iter, 0);
+				TorrentLabel label = (TorrentLabel) mainWindow.LabelListStore.GetValue (iter, 0);
 				label.Name = args.NewText;
 			};
 
@@ -101,8 +101,8 @@ namespace Monsoon
 			createItem.Image = new Image (Stock.Add, IconSize.Menu);
 			createItem.Activated += delegate (object o, EventArgs e) {
 				TorrentLabel l = new TorrentLabel(new ArrayList(), "New Label");
-				mainWindow.labelListStore.AppendValues(l);
-				mainWindow.labels.Add(l);
+				mainWindow.LabelListStore.AppendValues(l);
+				mainWindow.Labels.Add(l);
 			};
 			contextMenu.Append(createItem);
 			
@@ -115,12 +115,12 @@ namespace Monsoon
 				if (!Selection.GetSelected(out iter))
 					return;
 				
-				TorrentLabel label = (TorrentLabel) mainWindow.labelListStore.GetValue(iter, 0);
+				TorrentLabel label = (TorrentLabel) mainWindow.LabelListStore.GetValue(iter, 0);
 				if (label.Immutable)
 					return;
 				
-				mainWindow.labelListStore.Remove(ref iter);
-				mainWindow.labels.Remove(label);
+				mainWindow.LabelListStore.Remove(ref iter);
+				mainWindow.Labels.Remove(label);
 			};
 		}
 		

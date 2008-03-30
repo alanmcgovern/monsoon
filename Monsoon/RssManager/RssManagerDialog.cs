@@ -148,7 +148,7 @@ namespace Monsoon
 			filterTreeView.Model = filterListStore;
 			
 			savePathChooserButton = new FileChooserButton("Select a Save Path", FileChooserAction.SelectFolder);
-			savePathChooserButton.SetCurrentFolder(controller.TorrentController.engine.Settings.SavePath);
+			savePathChooserButton.SetCurrentFolder(controller.TorrentController.Engine.Settings.SavePath);
 			savePathChooserButton.ShowAll();
 			
 			filterTable.Attach(savePathChooserButton, 1, 2, 3, 4, AttachOptions.Fill, AttachOptions.Shrink, 0, 0); 
@@ -333,7 +333,7 @@ namespace Monsoon
 		protected virtual void OnAddFilterButtonClicked (object sender, System.EventArgs e)
 		{
 			RssFilter filter = new RssFilter();
-			filter.SavePath = controller.TorrentController.engine.Settings.SavePath;
+			filter.SavePath = controller.TorrentController.Engine.Settings.SavePath;
 			filterListStore.AppendValues(filter);
 			controller.AddFilter(filter);
 			//controller.Filters.Add(filter);

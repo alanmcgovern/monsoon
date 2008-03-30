@@ -148,7 +148,7 @@ namespace Monsoon
 			if(filter == null){
 				Console.Out.WriteLine("About to add with default savepath, URL: " + item.Link);
 				try {
-					controller.addTorrent(item.Link, true, false, false, null, controller.engine.Settings.SavePath, true);
+					controller.addTorrent(item.Link, true, false, false, null, controller.Engine.Settings.SavePath, true);
 				} catch {
 					logger.Error("RSS Manager: Unable to add - " + item.Title);
 				}

@@ -57,10 +57,10 @@ namespace Monsoon
 		public PreferencesDialog(MainWindow mainWindow)
 		{
 		//	this.userTorrentSettings = mainWindow.userTorrentSettings;
-			this.userEngineSettings = mainWindow.userEngineSettings;
-			this.prefSettings = mainWindow.prefSettings; 
-			this.labels = mainWindow.labels;	
-			this.filterListStore = mainWindow.labelListStore;
+			this.userEngineSettings = mainWindow.UserEngineSettings;
+			this.prefSettings = mainWindow.PrefSettings; 
+			this.labels = mainWindow.Labels;
+			this.filterListStore = mainWindow.LabelListStore;
 			this.trayIcon = mainWindow.TrayIcon;
 			this.mainWindow = mainWindow;
 			
