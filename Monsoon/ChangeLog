@@ -1,5 +1,10 @@
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* ListenPortController.cs: Added thread safety around the list of devices.
+	  Cleaned up some error messages
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Monsoon.mdp: By default enable debug output
 
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
