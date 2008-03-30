@@ -1,5 +1,10 @@
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* BEncodedSettingsStorage.cs, Monsoon.mdp, Makefile.am: GConf is available
+	  on all platforms, so dump this
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: Removed some junk methods
 
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 

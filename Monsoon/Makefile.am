@@ -82,7 +82,6 @@ all: $(ASSEMBLY) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICO
 FILES =  \
 	AboutDialog.cs \
 	AssemblyInfo.cs \
-	BEncodedSettingsStorage.cs \
 	ByteConverter.cs \
 	CellRendererPiece.cs \
 	CreateTorrentDialog.cs \
