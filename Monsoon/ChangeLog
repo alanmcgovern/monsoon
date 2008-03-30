@@ -1,3 +1,13 @@
+2008-03-30  Mirco Bauer <meebey@meebey.net> 
+
+	* FileTreeView.cs: Removes noise newlines.
+	
+	  Removed unused and unneeded PathLookup() method.
+	
+	  Removed unused RenderFilename() method.
+	
+	  Updated author and copyright lines.
+
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* libs/TrayLib.cs, Monsoon.mdp, Monsoon.exe.config: Created a dllmap for

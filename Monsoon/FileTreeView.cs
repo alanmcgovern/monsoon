@@ -3,8 +3,10 @@
 //
 // Author:
 //   Jared Hendry (buchan@gmail.com)
+//   Mirco Bauer (meebey@meebey.net)
 //
 // Copyright (C) 2007 Jared Hendry
+// Copyright (C) 2008 Mirco Bauer
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -33,8 +35,6 @@ using System.IO;
 
 namespace Monsoon
 {
-	
-	
 	public class FileTreeView : TreeView
 	{
 		private TreeViewColumn priorityColumn;
@@ -200,13 +200,6 @@ namespace Monsoon
 			return false;
 		}
 		
-		private void RenderFilename (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-		{
-			TorrentFile torrentFile = (TorrentFile) model.GetValue (iter, 1);
-			(cell as Gtk.CellRendererText).Text = torrentFile.Path;
-			
-		}
-		
 		private void RenderProgress (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			TorrentFile torrentFile = (TorrentFile) model.GetValue ( iter, 1);
@@ -219,26 +212,5 @@ namespace Monsoon
 			//else
 			//	(cell as Gtk.CellRendererProgress).Visible = true;
 		}
-		
-		/*
-		public bool PathLookup(out TreeIter iter, string path)
-		{
-			TreeIter currentIter;
-			iter = TreeIter.Zero;
-
-			if(!treeStore.GetIterFirst(out currentIter))
-				return false;
-			
-			do{
-				if(path == (string) Model.GetValue (currentIter, 0)){
-					iter = currentIter;
-					return true;
-				}
-			} while (treeStore.IterNext(ref currentIter));
-			
-			return false;
-		}
-		*/
-		
 	}
 }
