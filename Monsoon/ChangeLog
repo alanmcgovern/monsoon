@@ -1,3 +1,8 @@
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* libs/MonoTorrent.dll: Pushing new MonoTorrent to fix issues with pieces
+	  set to 'Do Not Download'
+
 2008-03-30  Mirco Bauer <meebey@meebey.net> 
 
 	* TorrentFileSettingsController.cs:  Fixed EncodeKey(), using a whitespace
