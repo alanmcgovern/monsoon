@@ -1,3 +1,7 @@
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* libs/MonoTorrent.dll: Pushed updated MT to fix per-file progress display
+
 2008-03-30  Mirco Bauer <meebey@meebey.net> 
 
 	* MainWindow.cs: Made all public and internal fields private and created
