@@ -104,13 +104,18 @@ namespace Monsoon
 				throw new ArgumentNullException("key");
 			}
 			
-			key = key.Replace(' ', '_');
-			key = key.Replace('/', '_');
-			key = key.Replace('(', '_');
-			key = key.Replace(')', '_');
-			key = key.Replace('\'', '_');
-			key = key.Replace('.', '_');
-			return key;
+			// replace all non alpha numeric characters with _
+			StringBuilder encodedKey = new StringBuilder(key.Length);
+			foreach (char c in key) {
+				if (Char.IsDigit(c) ||
+					Char.IsLetter(c) ||
+					c == '-') {
+					encodedKey.Append(c);
+				} else {
+					encodedKey.Append('_');
+				}
+			}
+			return encodedKey.ToString();
 		}
 	}
 }

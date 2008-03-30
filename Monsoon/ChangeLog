@@ -1,3 +1,8 @@
+2008-03-30  Mirco Bauer <meebey@meebey.net> 
+
+	* TorrentFileSettingsController.cs:  Fixed EncodeKey(), using a whitespace
+	  rather than a blacklist to replace not legal characters for gconf keys.
+
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* libs/MonoTorrent.dll: Pushed updated MT to fix per-file progress display
