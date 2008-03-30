@@ -1,5 +1,9 @@
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Monsoon.mdp: By default enable debug output
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Makefile.am: Fixed makefile issues after removing dep on bundled dbus
 
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
