@@ -1,3 +1,8 @@
+2008-03-30  Mirco Bauer <meebey@meebey.net> 
+
+	* AssemblyInfo.cs.in, AssemblyInfo.cs: Generate AssemblyInfo using
+	  autogen.sh/configure.
+
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Monsoon.mdp, Makefile.am: use Makefiles as primary project files

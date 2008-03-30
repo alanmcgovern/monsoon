@@ -56,7 +56,8 @@ AC_CONFIG_FILES([
 Makefile
 Monsoon/Makefile
 Monsoon/monsoon
-
 ])
 
-AC_OUTPUT
+AC_OUTPUT([
+Monsoon/AssemblyInfo.cs
+])
