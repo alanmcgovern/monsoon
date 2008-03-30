@@ -1,3 +1,9 @@
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Monsoon.mdp, Makefile.am, libs/NDesk.DBus.dll, libs/NDesk.DBus.GLib.dll,
+	  libs/NDesk.DBus.GLib.dll.config: Use the GAC'ed version of NDesk.Dbus
+	  and GLib
+
 2008-03-30  Mirco Bauer <meebey@meebey.net> 
 
 	* FileTreeView.cs: Removes noise newlines.
