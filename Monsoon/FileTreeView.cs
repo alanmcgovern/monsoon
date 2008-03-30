@@ -62,6 +62,28 @@ namespace Monsoon
 			BuildContextMenu ();
 		}
 		
+		public static string GetPriorityIconName(Priority priority)
+		{
+			switch (priority) {
+				case Priority.Immediate:
+					return "immediate.png";
+				case Priority.Highest:
+					return "highest.png";
+				case Priority.High:
+					return "high.png";
+				case Priority.Normal:
+					return null;
+				case Priority.Low:
+					return "low.png";
+				case Priority.Lowest:
+					return "lowest.png";
+				case Priority.DoNotDownload:
+					return "donotdownload.png";
+			}
+			
+			return null;
+		}
+		
 		private void BuildColumns ()
 		{
 			priorityColumn = new TreeViewColumn ();
@@ -79,11 +101,10 @@ namespace Monsoon
 			Gtk.CellRendererProgress progressCell = new CellRendererProgress ();
 			
 			priorityColumn.PackStart (priorityCell, true);
+			priorityColumn.SetAttributes (priorityCell, "pixbuf", 2);
 			filenameColumn.PackStart (filenameCell, true);
+			filenameColumn.SetAttributes (filenameCell, "text", 3);
 			progressColumn.PackStart(progressCell, true);
-			
-			priorityColumn.SetCellDataFunc (priorityCell, new Gtk.TreeCellDataFunc (RenderPriority)); 
-			filenameColumn.SetCellDataFunc (filenameCell, new Gtk.TreeCellDataFunc (RenderFilename));
 			progressColumn.SetCellDataFunc (progressCell, new Gtk.TreeCellDataFunc (RenderProgress));
 			
 			AppendColumn (priorityColumn);
@@ -135,6 +156,9 @@ namespace Monsoon
 			TorrentFile file;
 			Priority priority;
 			
+			if (!Selection.GetSelected (out iter))
+				return;
+			
 			ImageMenuItem item = (ImageMenuItem) sender;
 			
 			// Determine priority
@@ -155,12 +179,12 @@ namespace Monsoon
 			else
 				priority = Priority.Normal;
 			
-			if (!Selection.GetSelected (out iter))
-				return;
-			
 			file = (TorrentFile) Model.GetValue (iter, 1);
 			
 			torrentController.SetFilePriority(file, priority);
+			
+			Model.SetValue(iter, 2, MainWindow.GetIconPixbuf(
+				GetPriorityIconName(priority)));
 		}
 		
 		protected override bool	OnButtonPressEvent (Gdk.EventButton e)
@@ -181,25 +205,6 @@ namespace Monsoon
 			TorrentFile torrentFile = (TorrentFile) model.GetValue (iter, 1);
 			(cell as Gtk.CellRendererText).Text = torrentFile.Path;
 			
-		}
-		
-		private void RenderPriority (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-		{
-			TorrentFile torrentFile = (TorrentFile) model.GetValue (iter, 1);
-			if (torrentFile.Priority == Priority.DoNotDownload)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "donotdownload.png"));
-			else if (torrentFile.Priority == Priority.High)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "high.png"));
-			else if (torrentFile.Priority == Priority.Highest)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "highest.png"));
-			else if (torrentFile.Priority == Priority.Immediate)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "immediate.png"));
-			else if (torrentFile.Priority == Priority.Low)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "low.png"));
-			else if (torrentFile.Priority == Priority.Lowest)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, "lowest.png"));
-			else if (torrentFile.Priority == Priority.Normal)
-				(cell as Gtk.CellRendererPixbuf).Pixbuf = null;
 		}
 		
 		private void RenderProgress (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)

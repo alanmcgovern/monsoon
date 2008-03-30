@@ -309,8 +309,7 @@ namespace Monsoon
 		
 		private void BuildFileTreeView ()
 		{
-			fileTreeStore = new TreeStore (typeof(bool), typeof(TorrentFile));
-			//fileTreeStore = new TreeStore (typeof(string));
+			fileTreeStore = new TreeStore (typeof(bool), typeof(TorrentFile), typeof(Gdk.Pixbuf), typeof(string));
 			fileTreeView = new FileTreeView (torrentController, fileTreeStore);
 			fileTreeView.Model = fileTreeStore;
 			filesScrolledWindow.Add (fileTreeView);
@@ -866,6 +865,16 @@ namespace Monsoon
 			return true;
 		}
 		
+        
+		public static Gdk.Pixbuf GetIconPixbuf(string iconName)
+		{
+			if (iconName == null) {
+				return new Gdk.Pixbuf(IntPtr.Zero);
+			}
+			
+			return new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, iconName));
+		}
+        
 		private void updateFilesPage ()
 		{
 			TorrentManager manager;
@@ -876,13 +885,15 @@ namespace Monsoon
 			if (manager == null)
 				return;
 			
-			foreach(TorrentFile torrentFile in manager.Torrent.Files){
-				fileTreeStore.AppendValues(false, torrentFile);
+			foreach(TorrentFile torrentFile in manager.Torrent.Files) {
+				fileTreeStore.AppendValues(false, torrentFile,
+					GetIconPixbuf(
+						FileTreeView.GetPriorityIconName(torrentFile.Priority)
+					),
+					torrentFile.Path);
 			}
 			
-
 			//string [] splitPath = torrentFile.Path.Split(System.IO.Path.DirectorySeparatorChar);
-
 			
 			
 			/*

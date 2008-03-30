@@ -1,3 +1,15 @@
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, ChangeLog, FileTreeView.cs: Patch from meebey for #375214.
+
+2008-03-29  Mirco Bauer <meebey@meebey.net> 
+
+	* MainWindow.cs, FileTreeView.cs: Fixed handling of empty/cleared
+	  Gdk.PixBufs in the FileTreeView.
+	
+	  Enhanced rendering of priority and filename columns by replacing the
+	  expensive data funcs with plain model values.
+
 2008-03-29  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* MainWindow.cs, gtk-gui/Monsoon.MainWindow.cs, gtk-gui/gui.stetic: Can now
