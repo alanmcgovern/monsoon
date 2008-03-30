@@ -123,13 +123,13 @@ namespace Egg
 			// Implement;
 		}
  
-		[DllImport ("libgdk-x11-2.0.so.0")]
+		[DllImport ("libgdk-x11-2.0.dll")]
 		static extern IntPtr gdk_x11_display_get_xdisplay (IntPtr display);
-		[DllImport ("libgdk-x11-2.0.so.0")]
+		[DllImport ("libgdk-x11-2.0.dll")]
 		static extern IntPtr gdk_x11_get_server_time (IntPtr window);
-		[DllImport ("libgdk-x11-2.0.so.0")]
+		[DllImport ("libgdk-x11-2.0.dll")]
 		static extern void gdk_error_trap_push ();
-		[DllImport ("libgdk-x11-2.0.so.0")]
+		[DllImport ("libgdk-x11-2.0.dll")]
 		static extern void gdk_error_trap_pop ();
 		
 		[DllImport ("libX11", EntryPoint="XInternAtom")]
@@ -170,7 +170,7 @@ namespace Egg
 		VisibilityChangeMask    = 1<<16,
 		StructureNotifyMask     = 1<<17,
 		ResizeRedirectMask      = 1<<18,
-                SubstructureNotifyMask  = 1<<19,
+		SubstructureNotifyMask  = 1<<19,
 		SubstructureRedirectMask= 1<<20,
 		FocusChangeMask         = 1<<21,
 		PropertyChangeMask      = 1<<22,

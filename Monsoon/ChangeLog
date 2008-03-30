@@ -1,3 +1,8 @@
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* libs/TrayLib.cs, Monsoon.mdp, Monsoon.exe.config: Created a dllmap for
+	  p/invoking libgtk
+
 2008-03-30  Mirco Bauer <meebey@meebey.net> 
 
 	* AssemblyInfo.cs.in, AssemblyInfo.cs: Generate AssemblyInfo using
