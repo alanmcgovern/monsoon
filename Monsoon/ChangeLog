@@ -1,5 +1,9 @@
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Makefile.am: Fixed makefile issues after removing dep on bundled dbus
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Monsoon.mdp, Makefile.am, libs/NDesk.DBus.dll, libs/NDesk.DBus.GLib.dll,
 	  libs/NDesk.DBus.GLib.dll.config: Use the GAC'ed version of NDesk.Dbus
 	  and GLib

@@ -13,7 +13,6 @@ PROJECT_REFERENCES =
 BUILD_DIR = bin/Debug
 
 HIGH_PNG_SOURCE=icons/high.png
-NDESK_DBUS_GLIB_DLL_CONFIG_SOURCE=libs/NDesk.DBus.GLib.dll.config
 HIGHEST_PNG_SOURCE=icons/highest.png
 IMMEDIATE_PNG_SOURCE=icons/immediate.png
 RSS_PNG_SOURCE=icons/rss.png
@@ -40,7 +39,6 @@ PROJECT_REFERENCES =
 BUILD_DIR = bin/Release
 
 HIGH_PNG_SOURCE=icons/high.png
-NDESK_DBUS_GLIB_DLL_CONFIG_SOURCE=libs/NDesk.DBus.GLib.dll.config
 HIGHEST_PNG_SOURCE=icons/highest.png
 IMMEDIATE_PNG_SOURCE=icons/immediate.png
 RSS_PNG_SOURCE=icons/rss.png
@@ -61,7 +59,6 @@ AL=al2
 SATELLITE_ASSEMBLY_NAME=.resources.dll
 
 PROGRAMFILES = \
-	$(NDESK_DBUS_GLIB_DLL_CONFIG) \
 	$(MONOTORRENT_DLL) \
 	$(NDESK_DBUS_GLIB_DLL) \
 	$(MONO_NAT_DLL) \
@@ -149,7 +146,6 @@ DATA_FILES = \
 	icons/low.png \
 	icons/lowest.png \
 	icons/normal.png \
-	libs/NDesk.DBus.GLib.dll.config \
 	monsoon.desktop 
 
 RESOURCES =  \
@@ -174,8 +170,6 @@ REFERENCES =  \
 
 DLL_REFERENCES =  \
 	NLog.dll \
-	libs/NDesk.DBus.GLib.dll \
-	libs/NDesk.DBus.dll \
 	libs/Mono.Nat.dll \
 	libs/MonoTorrent.dll
 
@@ -184,7 +178,6 @@ CLEANFILES = $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) 
 include $(top_srcdir)/Makefile.include
 
 HIGH_PNG = $(BUILD_DIR)/icons/high.png
-NDESK_DBUS_GLIB_DLL_CONFIG = $(BUILD_DIR)/NDesk.DBus.GLib.dll.config
 HIGHEST_PNG = $(BUILD_DIR)/icons/highest.png
 IMMEDIATE_PNG = $(BUILD_DIR)/icons/immediate.png
 RSS_PNG = $(BUILD_DIR)/icons/rss.png
@@ -201,7 +194,6 @@ NLOG_DLL = $(BUILD_DIR)/NLog.dll
 LOW_PNG = $(BUILD_DIR)/icons/low.png
 
 $(eval $(call emit-deploy-target,HIGH_PNG))
-$(eval $(call emit-deploy-target,NDESK_DBUS_GLIB_DLL_CONFIG))
 $(eval $(call emit-deploy-target,HIGHEST_PNG))
 $(eval $(call emit-deploy-target,IMMEDIATE_PNG))
 $(eval $(call emit-deploy-target,RSS_PNG))

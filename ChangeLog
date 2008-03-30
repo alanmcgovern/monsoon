@@ -1,5 +1,9 @@
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Makefile.am: Fixed makefile issues after removing dep on bundled dbus
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* configure.ac: Use the GAC'ed version of NDesk.Dbus and GLib
 
 2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 

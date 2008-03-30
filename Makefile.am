@@ -1,5 +1,5 @@
 
-EXTRA_DIST =  expansions.m4 Monsoon/NLog.dll Monsoon/libs/MonoTorrent.dll Monsoon/libs/NDesk.DBus.dll Monsoon/libs/NDesk.DBus.GLib.dll Monsoon/libs/Mono.Nat.dll
+EXTRA_DIST =  expansions.m4 Monsoon/NLog.dll Monsoon/libs/MonoTorrent.dll Monsoon/libs/Mono.Nat.dll
 
 #Warning: This is an automatically generated file, do not edit!
 if ENABLE_DEBUG
