@@ -1,3 +1,10 @@
+2008-03-30  Mirco Bauer <meebey@meebey.net> 
+
+	* Main.cs: Added -d and --debug as parameter to enable logging.
+	
+	  Pass real version number to Gnome.Program.
+	* AssemblyInfo.cs: Fixed Version.
+
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* MainWindow.cs, ChangeLog, FileTreeView.cs: Patch from meebey for #375214.

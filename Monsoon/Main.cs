@@ -34,7 +34,18 @@ namespace Monsoon
 		{
 			isFirstRun = false;
 			CheckDataFolders();
-			BuildNlogConfig();
+			
+			bool debug = false;
+			foreach (string arg in args) {
+				if (arg == "-d" || arg == "--debug") {
+					debug = true;
+				}
+			}
+			
+			if (debug) {
+				BuildNlogConfig();
+			}
+			
 			logger.Info("Starting Monsoon");
 					
 			SetProcessName("monsoon");
@@ -48,7 +59,9 @@ namespace Monsoon
 			// This is so we can use IconEntry button
 			// Use Gnome.Program instead of Gtk.Application?
 			//Gnome.Program program = 
-			new Gnome.Program("monsoon", "0.1", Gnome.Modules.UI, args);
+			string version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+			Console.WriteLine(version);
+			new Gnome.Program("monsoon", version, Gnome.Modules.UI, args);
 			
 			try{
 				Application.Run();
