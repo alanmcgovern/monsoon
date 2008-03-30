@@ -28,118 +28,167 @@
 
 using System;
 using System.Threading;
+using System.Collections.Generic;
+using System.Net;
 
-using Nat;
+using Mono.Nat;
+using Mono.Nat.Pmp;
+using Mono.Nat.Upnp;
 
 namespace Monsoon
 {
 	public class ListenPortController
 	{
-		private UserEngineSettings engineSettings;
+		private UserEngineSettings settings;
 		
-		private NatController controller;
-		private INatDevice device;
+		private List<INatDevice> devices;
 		private Mapping map;
 		
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 		
 		public ListenPortController(UserEngineSettings engineSettings)
 		{
-			device = null;
-			this.engineSettings = engineSettings;
-			map = new Mapping(engineSettings.ListenPort, Protocol.Tcp);
-			controller = new NatController();
-
-			controller.DeviceFound += OnDeviceFound;
+			settings = engineSettings;
 			
+			devices = new List<INatDevice> ();
+			map = new Mapping (Protocol.Tcp, engineSettings.ListenPort, engineSettings.ListenPort);
+			map.Description = "Monsoon";
+			
+			IPAddress[] addresses = NatUtility.GetLocalAddresses (false);
+			
+			NatUtility.AddController (new UpnpNatController (addresses));
+			NatUtility.AddController (new PmpNatController (addresses));
+			
+			NatUtility.DeviceFound += OnDeviceFound;
 		}
 		
 		public void Start()
 		{
 			logger.Info("UPnP starting...");
-			controller.Start();
+			running = true;
+			NatUtility.StartDiscovery ();
 		}
 		
 		public void ChangePort()
 		{
 			logger.Info("UPnP changing port map");
 			RemoveMap();
-			map.Port = engineSettings.ListenPort;
+			map = new Mapping (map.Protocol, settings.ListenPort, settings.ListenPort);
+			map.Description = "Monsoon";
 			MapPort();
 		}
 		
 		public void Stop()
 		{
-			if(device == null)
+			if(devices.Count == 0)
 				return;
 				
 			logger.Info("UPnP shutting down");
-			try{
-				device.DeletePortMap(map);
-				logger.Info("UPnP port map removal successful("+ map.Protocol + "/" + map.Port + ")");
-			} catch(MappingException e){
-				logger.Error("UPnP failed to remove map(" + map.Protocol + "/" + map.Port + ")" + "Error: " + e.ErrorCode + " " + e.ErrorText);
+			running = false;
+			foreach (INatDevice device in devices)
+			{
+				try
+				{
+					device.DeletePortMap(map);
+					logger.Info("UPnP port map removal successful("+ map.Protocol + "/" + MappedPort + ")");
+				} 
+				catch(MappingException e)
+				{
+					logger.Error("UPnP failed to remove map(" + map.Protocol + "/" +  MappedPort + ")" + "Error: " + e.ErrorCode + " " + e.ErrorText);
+				}
 			}
 		}
 		
 		public void MapPort()
 		{
-			if(device == null)
+			if(devices.Count == 0)
 				return;
-				
-			logger.Info("UPnP attempting to map port("+ map.Protocol + "/" + map.Port + ")");
-			device.BeginCreatePortMap(map, "Monsoon", EndMapPort, map);
+			
+			logger.Info("UPnP attempting to map port("+ map.Protocol + "/" + MappedPort + ")");
+			foreach (INatDevice device in devices)
+			{
+				try
+				{
+					device.BeginCreatePortMap (map, EndMapPort, map);
+				}
+				catch (Exception ex)
+				{
+					logger.Info("Failed to map port {0} on {1}", map, device);
+				}
+			}
+			
 		}
 		
 		private void EndMapPort(IAsyncResult result)
 		{
-			if(device == null)
+			if(devices.Count == 0)
 				return;
-			try{				
-				device.EndCreatePortMap(result);
-				logger.Info("UPnP port mapping successful("+ map.Protocol + "/" + map.Port + ")");
-			} catch(MappingException e){
-				logger.Error("UPnP failed to map port(" + map.Protocol + "/" + map.Port + ")" + "Error: " + e.ErrorCode + " " + e.ErrorText);
+			foreach (INatDevice device in devices)
+			{
+				try
+				{
+					device.EndCreatePortMap(result);
+					logger.Info("UPnP port mapping successful("+ map.Protocol + "/" + MappedPort + ")");
+				} 
+				catch(MappingException e)
+				{
+					logger.Error("UPnP failed to map port(" + map.Protocol + "/" + MappedPort + ")" + "Error: " + e.ErrorCode + " " + e.ErrorText);
+				}
 			}
 		}
 		
 		public void RemoveMap()
 		{
-			if(device == null)
+			if(devices.Count == 0)
 				return;
 			
-			logger.Info("UPnP attempting to remove port map(" + map.Protocol + "/" + map.Port + ")");
-			device.BeginDeletePortMap(map, EndRemoveMap, map);
+			logger.Info("UPnP attempting to remove port map(" + map.Protocol + "/" + MappedPort + ")");
+			foreach (INatDevice device in devices)
+			{
+				try
+				{
+					device.BeginDeletePortMap(map, EndRemoveMap, map);
+				}
+				catch (MappingException e)
+				{
+					logger.Error("UPnP failed to map port(" + map.Protocol + "/" + MappedPort + ")" + "Error: " + e.ErrorCode + " " + e.ErrorText);
+				}
+			}
 		}
 		
 		private void EndRemoveMap(IAsyncResult result)
 		{
-			if(device == null)
-				return;
-			try{
-				device.EndDeletePortMap(result);
-				logger.Info("UPnP successfully removed port map(" + map.Protocol + "/" + map.Port + ")");
-			} catch(MappingException e){
-				logger.Error("UPnP failed to remove map port(" + map.Protocol + "/" + map.Port + ")" + "Error: " + e.ErrorCode + " " + e.ErrorText);
+			foreach (INatDevice device in devices)
+			{
+				try
+				{
+					device.EndDeletePortMap(result);
+					logger.Info("UPnP successfully removed port map(" + map.Protocol + "/" + MappedPort + ")");
+				}
+				catch(MappingException e)
+				{
+					logger.Error("UPnP failed to remove map port(" + map.Protocol + "/" + MappedPort + ")" + "Error: " + e.ErrorCode + " " + e.ErrorText);
+				}
 			}
 		}
 		
-		private void OnDeviceFound(object sender, Nat.DeviceEventArgs args)
+		private void OnDeviceFound(object sender, DeviceEventArgs args)
 		{
 			logger.Info("UPnP Device found");
-			// FIXME: What happens if more then one device is found? Yeeek, bad news
-			device = args.Device;
+			if (!devices.Contains(args.Device))
+				devices.Add(args.Device);
 			MapPort();
 		}
 		
+		private bool running;
 		public bool IsRunning
 		{
-			get { return controller.IsRunning; }
+			get { return running; }
 		}
 		
 		public int MappedPort
 		{
-			get { return map.Port; }
+			get { return map.PublicPort; }
 		}
 	}
 }
