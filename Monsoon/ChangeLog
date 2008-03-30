@@ -1,5 +1,10 @@
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* ListenPortController.cs: Bugfix from refactoring: When ending a map/unmap,
+	  don't iterate all the devices.
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* ListenPortController.cs: Added thread safety around the list of devices.
 	  Cleaned up some error messages
 
