@@ -60,7 +60,6 @@ namespace Monsoon
 			// Use Gnome.Program instead of Gtk.Application?
 			//Gnome.Program program = 
 			string version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
-			Console.WriteLine(version);
 			new Gnome.Program("monsoon", version, Gnome.Modules.UI, args);
 			
 			try{
