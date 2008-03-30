@@ -88,57 +88,57 @@ BINARIES = \
 	
 all: $(ASSEMBLY) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) $(BINARIES) 
 
-FILES = \
-	gtk-gui/generated.cs \
-	MainWindow.cs \
-	Main.cs \
-	AssemblyInfo.cs \
-	LabelTreeView.cs \
-	TorrentTreeView.cs \
+FILES =  \
 	AboutDialog.cs \
-	PreferencesDialog.cs \
-	TorrentController.cs \
-	ISettingsStorage.cs \
-	GconfSettingsStorage.cs \
-	UserTorrentSettings.cs \
-	UserEngineSettings.cs \
-	SettingNotFoundException.cs \
-	PeerTreeView.cs \
-	ByteConverter.cs \
-	CreateTorrentDialog.cs \
-	PreferencesSettings.cs \
-	FileTreeView.cs \
-	ISettings.cs \
-	InterfaceSettings.cs \
-	TorrentLabel.cs \
-	TorrentFilterModel.cs \
-	ListenPortController.cs \
+	AssemblyInfo.cs \
 	BEncodedSettingsStorage.cs \
-	EditColumnsDialog.cs \
-	PiecesTreeView.cs \
-	TorrentContextMenu.cs \
-	UnhandledExceptionDialog.cs \
-	TorrentStorage.cs \
-	CreateTorrentProgressDialog.cs \
+	ByteConverter.cs \
 	CellRendererPiece.cs \
+	CreateTorrentDialog.cs \
+	CreateTorrentProgressDialog.cs \
+	Defines.cs \
+	EditColumnsDialog.cs \
+	FileTreeView.cs \
+	GconfSettingsStorage.cs \
+	gtk-gui/generated.cs \
+	gtk-gui/Monsoon.CreateTorrentDialog.cs \
+	gtk-gui/Monsoon.CreateTorrentProgressDialog.cs \
+	gtk-gui/Monsoon.EditColumnsDialog.cs \
+	gtk-gui/Monsoon.MainWindow.cs \
+	gtk-gui/Monsoon.PreferencesDialog.cs \
+	gtk-gui/Monsoon.RssManagerDialog.cs \
+	gtk-gui/Monsoon.UnhandledExceptionDialog.cs \
+	InterfaceSettings.cs \
+	ISettings.cs \
+	ISettingsStorage.cs \
+	LabelTreeView.cs \
 	libs/NotifySharp/Global.cs \
 	libs/NotifySharp/Notification.cs \
 	libs/TrayLib.cs \
-	RssManager/RssManagerDialog.cs \
+	ListenPortController.cs \
+	Main.cs \
+	MainWindow.cs \
+	Menus/SpeedLimitMenu.cs \
+	PeerTreeView.cs \
+	PiecesTreeView.cs \
+	PreferencesDialog.cs \
+	PreferencesSettings.cs \
 	RssManager/RssFilter.cs \
+	RssManager/RssManagerController.cs \
+	RssManager/RssManagerDialog.cs \
 	RssManager/RssReader.cs \
 	RssManager/TorrentRssWatcher.cs \
-	RssManager/RssManagerController.cs \
 	RssManager/TorrentRssWatcherEventArgs.cs \
-	gtk-gui/Monsoon.RssManagerDialog.cs \
-	gtk-gui/Monsoon.UnhandledExceptionDialog.cs \
-	gtk-gui/Monsoon.PreferencesDialog.cs \
-	gtk-gui/Monsoon.CreateTorrentDialog.cs \
-	gtk-gui/Monsoon.MainWindow.cs \
-	gtk-gui/Monsoon.EditColumnsDialog.cs \
-	gtk-gui/Monsoon.CreateTorrentProgressDialog.cs \
-	Menus/SpeedLimitMenu.cs \
-	Defines.cs 
+	SettingNotFoundException.cs \
+	TorrentContextMenu.cs \
+	TorrentController.cs \
+	TorrentFilterModel.cs \
+	TorrentLabel.cs \
+	TorrentStorage.cs \
+	TorrentTreeView.cs \
+	UnhandledExceptionDialog.cs \
+	UserEngineSettings.cs \
+	UserTorrentSettings.cs 
 
 DATA_FILES = \
 	icons/rss.png \
@@ -152,7 +152,7 @@ DATA_FILES = \
 	libs/NDesk.DBus.GLib.dll.config \
 	monsoon.desktop 
 
-RESOURCES = \
+RESOURCES =  \
 	gtk-gui/gui.stetic \
 	gtk-gui/objects.xml 
 
@@ -160,12 +160,17 @@ EXTRAS = \
 	monsoon.in 
 
 REFERENCES =  \
-	System \
-	$(GTK_SHARP_20_LIBS) \
+	libs/Mono.Nat.dll \
+	libs/MonoTorrent.dll \
+	libs/NDesk.DBus.dll \
+	libs/NDesk.DBus.GLib.dll \
 	Mono.Posix \
-	System.Xml \
-	$(GNOME_SHARP_20_LIBS) \
-	$(GCONF_SHARP_20_LIBS)
+	NLog.dll \
+	-pkg:gconf-sharp-2.0 \
+	-pkg:gnome-sharp-2.0 \
+	-pkg:gtk-sharp-2.0 \
+	System \
+	System.Xml
 
 DLL_REFERENCES =  \
 	NLog.dll \

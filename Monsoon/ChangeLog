@@ -1,3 +1,7 @@
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Monsoon.mdp, Makefile.am: use Makefiles as primary project files
+
 2008-03-30  Mirco Bauer <meebey@meebey.net> 
 
 	* Main.cs: Removed unwanted Console.WriteLine() call.
