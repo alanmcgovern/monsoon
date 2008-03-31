@@ -87,7 +87,7 @@ namespace Monsoon
 			if (!GLib.Thread.Supported) {
 				GLib.Thread.Init();
 			}
-			//version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+
 			Application.Init("monsoon", ref args);
 			
 			mainWindow = new MainWindow (settingsStorage, userEngineSettings,

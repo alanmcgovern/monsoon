@@ -13,7 +13,7 @@ namespace Monsoon
 			Name = "Monsoon";
 			Authors = new String[]{"Alan McGovern (Library)",
 						"Jared Hendry (Interface)"};
-			
+			Version = Defines.Version;
 		}
 	}
 }

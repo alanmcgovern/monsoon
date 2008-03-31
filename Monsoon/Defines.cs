@@ -68,5 +68,12 @@ namespace Monsoon
 		{
 			get { return Path.Combine(AppSettingsPath, "torrents"); }
 		}
+		
+		static Defines()
+		{
+			string[] parts = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString().Split('.');
+			Version = parts[0] + '.' + parts[1];
+		}
+		public static readonly string Version;
 	}
 }

@@ -1,5 +1,9 @@
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Defines.cs, Main.cs, AboutDialog.cs: Show the version in the About dialog
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* FileTreeView.cs: if we have zero selected and we rightclick, we need to
 	  popup
 
