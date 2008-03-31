@@ -48,6 +48,11 @@
         <property name="Image">file:./icons/normal.png</property>
       </source>
     </icon-set>
+    <icon-set id="weather">
+      <source>
+        <property name="Image">stock:stock_weather-showers Dialog</property>
+      </source>
+    </icon-set>
   </icon-factory>
   <widget class="Gtk.Window" id="Monsoon.MainWindow" design-size="765 658">
     <action-group name="Default">
@@ -174,6 +179,7 @@
     <property name="MemberName" />
     <property name="Visible">False</property>
     <property name="Title" translatable="yes">Monsoon</property>
+    <property name="Icon">stock:stock_weather-showers Dialog</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
       <widget class="Gtk.VBox" id="vbox1">

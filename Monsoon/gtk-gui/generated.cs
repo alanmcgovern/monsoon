@@ -35,6 +35,8 @@ namespace Stetic {
                 w1.Add("lowest", w8);
                 Gtk.IconSet w9 = new Gtk.IconSet(new Gdk.Pixbuf(System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "./icons/normal.png")));
                 w1.Add("normal", w9);
+                Gtk.IconSet w10 = new Gtk.IconSet(Stetic.IconLoader.LoadIcon(iconRenderer, "stock_weather-showers", Gtk.IconSize.Dialog, 48));
+                w1.Add("weather", w10);
                 w1.AddDefault();
             }
         }

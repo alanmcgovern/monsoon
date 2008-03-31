@@ -1,5 +1,10 @@
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* gtk-gui/generated.cs, gtk-gui/Monsoon.MainWindow.cs, gtk-gui/gui.stetic:
+	  Now use the weather icon
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* monsoon.desktop: Added default icon.
 
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 

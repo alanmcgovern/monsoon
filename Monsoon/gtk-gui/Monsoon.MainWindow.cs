@@ -275,6 +275,7 @@ namespace Monsoon {
             this.AddAccelGroup(w1.AccelGroup);
             this.Name = "Monsoon.MainWindow";
             this.Title = Mono.Unix.Catalog.GetString("Monsoon");
+            this.Icon = Stetic.IconLoader.LoadIcon(this, "stock_weather-showers", Gtk.IconSize.Dialog, 48);
             // Container child Monsoon.MainWindow.Gtk.Container+ContainerChild
             this.vbox1 = new Gtk.VBox();
             this.vbox1.Name = "vbox1";
