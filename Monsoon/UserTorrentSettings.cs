@@ -90,11 +90,11 @@ namespace Monsoon
 		{
 			GconfSettingsStorage gconf = new GconfSettingsStorage();
 			
-			gconf.Store(UploadSlotsKey, uploadSlots);
-			gconf.Store(MaxConnectionsKey, maxConnections);
-			gconf.Store(MaxDownloadSpeedKey, maxDownloadSpeed);
-			gconf.Store(MaxUploadSpeedKey, maxUploadSpeed);
-			gconf.Store(FastResumeEnabledKey, fastResumeEnabled);
+			gconf.Store(UploadSlotsKey, settings.UploadSlots);
+			gconf.Store(MaxConnectionsKey, settings.MaxConnections);
+			gconf.Store(MaxDownloadSpeedKey, settings.MaxDownloadSpeed);
+			gconf.Store(MaxUploadSpeedKey, settings.MaxUploadSpeed);
+			gconf.Store(FastResumeEnabledKey, settings.FastResumeEnabled);
 		}
 		
 		public int UploadSlots
