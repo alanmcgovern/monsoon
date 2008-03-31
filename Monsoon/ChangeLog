@@ -1,3 +1,10 @@
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, Menus/SpeedLimitMenu.cs, Menus/SpeedMenuItem.cs,
+	  PeerTreeView.cs, PiecesTreeView.cs, ByteConverter.cs,
+	  gtk-gui/gui.stetic, Makefile.am, TorrentTreeView.cs: Updated the way the
+	  speed menu works to fix issue when going >= 1MB/sec
+
 2008-03-31  Mirco Bauer <meebey@meebey.net> 
 
 	* MainWindow.cs: Better error handling, GTK+ doesn't like exceptions.

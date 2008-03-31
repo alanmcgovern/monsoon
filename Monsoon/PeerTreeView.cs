@@ -125,14 +125,14 @@ namespace Monsoon
 		{
 			PeerId peer = (PeerId) model.GetValue (iter, 0);
 			if(peer.IsValid)
-			(cell as Gtk.CellRendererText).Text = ByteConverter.Convert(peer.Monitor.DownloadSpeed);
+			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSpeed (peer.Monitor.DownloadSpeed);
 		}
 		
 		private void RenderUp (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			PeerId peer = (PeerId) model.GetValue (iter, 0);
 			if(peer.IsValid)
-			(cell as Gtk.CellRendererText).Text = ByteConverter.Convert(peer.Monitor.UploadSpeed);
+			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSpeed (peer.Monitor.UploadSpeed);
 		}
 		
 		private void RenderSeeding (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)

@@ -14,7 +14,7 @@ namespace Monsoon
 	{
 		public event EventHandler ClickedItem;
 		private List<int> speeds;
-		private List<MenuItem> labels;
+		private List<SpeedMenuItem> labels;
 		private bool isUpload;
 		
 		public bool IsUpload
@@ -27,10 +27,10 @@ namespace Monsoon
 		{
 			
 			// This should always be an uneven number
-			labels = new List<MenuItem>(13);
+			labels = new List<SpeedMenuItem>(13);
 			speeds = new List<int> (labels.Capacity);
 			
-			MenuItem l = new MenuItem ("Unlimited");
+			SpeedMenuItem l = new SpeedMenuItem ("Unlimited");
 			l.Activated += delegate (object sender, EventArgs e) {
 				if (ClickedItem != null)
 					ClickedItem (sender, e);
@@ -39,7 +39,7 @@ namespace Monsoon
 			
 			for (int i = 0; i < labels.Capacity; i++)
 			{
-				l = new MenuItem ("");
+				l = new SpeedMenuItem ("");
 				l.Activated += delegate (object sender, EventArgs e) {
 					if (ClickedItem != null)
 						ClickedItem (sender, e);
@@ -47,14 +47,6 @@ namespace Monsoon
 				labels.Add(l);
 				Append(l);
 			}
-		}
-		
-		private void SetLabel (MenuItem item, int speed)
-		{
-			// The speed is passed in kB/sec, so convert back to b/Sec
-			Console.WriteLine("Setting: {0}", speed);
-			speed = Math.Max (0, speed) * 1024;
-			((Label) item.Child).Text = ByteConverter.Convert (speed);
 		}
 		
 		public void CalculateSpeeds(int currentSpeed)
@@ -85,6 +77,7 @@ namespace Monsoon
 				int s =  (int)(currentSpeed * ( (i+2.0)/centre));
 				if (!speeds.Contains(s))
 					speeds.Add(s);
+				
 				if(!speeds.Contains(currentSpeed + s))
 					speeds.Add(currentSpeed + s);
 			}
@@ -106,7 +99,7 @@ namespace Monsoon
 			speeds.Reverse();
 			
 			for (int i=0; i < speeds.Count; i++)
-				SetLabel (labels[i], speeds[i]);
+				labels[i].Speed = Math.Max (0, speeds[i]) * 1024;
 		}
 	}
 }

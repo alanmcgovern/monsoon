@@ -109,6 +109,7 @@ FILES =  \
 	Main.cs \
 	MainWindow.cs \
 	Menus/SpeedLimitMenu.cs \
+	Menus/SpeedMenuItem.cs \
 	PeerTreeView.cs \
 	PiecesTreeView.cs \
 	PreferencesDialog.cs \

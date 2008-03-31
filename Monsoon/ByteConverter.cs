@@ -33,23 +33,28 @@ namespace Monsoon
 
 	public static class ByteConverter
 	{
-		public static string Convert(double size)
-		{
-			return Convert(size, "{0:0.00}");
-		}
-		
-		public static string Convert (double size, string formatting)
+		private static string Convert(double size, string formatting)
 		{
 			if (size < 1024)
-				return string.Format (formatting, size) + " b";
+				return string.Format (formatting, size, "b");
 			
 			if(size < (1024 * 1024))
-				return string.Format (formatting, size / 1024) + " kB";
+				return string.Format (formatting, size / 1024, "kB");
 			
 			if(size < (1024 * 1024 * 1024))
-				return string.Format (formatting, size / (1024 * 1024)) + " MB";
+				return string.Format (formatting, size / (1024 * 1024),"MB");
 			
-			return string.Format (formatting, size / (1024 * 1024 * 1024 )) + " GB";
+			return string.Format (formatting, size / (1024 * 1024 * 1024 ), "GB");
+		}
+		
+		public static string ConvertSpeed (double size)
+		{
+			return Convert (size, "{0:0.00} {1}/s");
+		}
+		
+		public static string ConvertSize(double size)
+		{
+			return Convert (size, "{0:0.00} {1}");
 		}
 	}
 }

@@ -288,7 +288,7 @@ namespace Monsoon
 			
 			if(torrent == null)
 				return;
-			(cell as Gtk.CellRendererText).Text = ByteConverter.Convert(torrent.Monitor.DownloadSpeed)  + "/s";
+			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSpeed (torrent.Monitor.DownloadSpeed);
 		}
 		
 		private void RenderTorrentUpSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -298,7 +298,7 @@ namespace Monsoon
 			if(torrent == null)
 				return;
 			
-			(cell as Gtk.CellRendererText).Text = ByteConverter.Convert(torrent.Monitor.UploadSpeed) + "/s";
+			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSpeed (torrent.Monitor.UploadSpeed);
 		}
 		
 		private void RenderTorrentRatio (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
@@ -328,7 +328,7 @@ namespace Monsoon
 			if(torrent == null)
 				return;
 			
-			(cell as Gtk.CellRendererText).Text = ByteConverter.Convert(torrent.Torrent.Size);
+			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSize (torrent.Torrent.Size);
 		}
 	}
 }

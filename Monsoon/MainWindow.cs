@@ -632,16 +632,22 @@ namespace Monsoon
 			if (userEngineSettings.GlobalMaxDownloadSpeed == 0)
 				limited = "";
 			else
-				limited = ByteConverter.Convert(userEngineSettings.GlobalMaxDownloadSpeed, "[{0:0}] ").Split(' ')[0] + " ";
+				limited = "[" + ByteConverter.ConvertSpeed (userEngineSettings.GlobalMaxDownloadSpeed) + "]";
 			
-			statusDownloadLabel.Markup = "<small>D: " + limited + ByteConverter.Convert(torrentController.Engine.TotalDownloadSpeed) + "</small>";
+			statusDownloadLabel.Markup = string.Format("{0}{1}{2}{3}", "<small>D: ", 
+			                                           limited,
+			                                           ByteConverter.ConvertSpeed(torrentController.Engine.TotalDownloadSpeed),
+			                                           "</small>");
 			
 			if (userEngineSettings.GlobalMaxUploadSpeed == 0)
 				limited = "";
 			else
-				limited = ByteConverter.Convert(userEngineSettings.GlobalMaxUploadSpeed, "[{0:0}]").Split(' ')[0] + " ";
+				limited = string.Format("[{0}]", ByteConverter.ConvertSpeed (userEngineSettings.GlobalMaxUploadSpeed));
 			
-			statusUploadLabel.Markup = "<small>U: " + limited + ByteConverter.Convert(torrentController.Engine.TotalUploadSpeed) + "</small>";
+			statusUploadLabel.Markup = string.Format("{0}{1}{2}{3}",  "<small>U: ",
+			                                         limited, 
+			                                         ByteConverter.ConvertSpeed (torrentController.Engine.TotalUploadSpeed),
+			                                         "</small>");
 		}
 		
 		
@@ -1042,8 +1048,8 @@ namespace Monsoon
 			else
 				elapsedTimeValueLabel.Text = null;
 			
-			downloadedValueLabel.Text = ByteConverter.Convert (torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded);
-			uploadedValueLabel.Text = ByteConverter.Convert (torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded);
+			downloadedValueLabel.Text = ByteConverter.ConvertSize (torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded);
+			uploadedValueLabel.Text = ByteConverter.ConvertSize (torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded);
 			trackerUrlValueLabel.Text = manager.TrackerManager.CurrentTracker.ToString ();
 			trackerStatusValueLabel.Text = manager.TrackerManager.CurrentTracker.State.ToString ();
 			lastUpdatedLabel.Text = manager.TrackerManager.CurrentTracker.LastUpdated.ToString ("HH:mm:ss") ;
@@ -1055,9 +1061,9 @@ namespace Monsoon
 					updateInLabel.Text =  DateTime.MinValue.Add (nextUpdate - DateTime.Now).ToString("HH:mm:ss");
 			}
 			
-			swarmSpeedLabel.Text = ByteConverter.Convert(torrentController.GetTorrentSwarm(manager) * manager.Torrent.PieceLength);
+			swarmSpeedLabel.Text = ByteConverter.ConvertSpeed (torrentController.GetTorrentSwarm(manager) * manager.Torrent.PieceLength);
 			savePathValueLabel.Text = manager.SavePath;
-			sizeValueLabel.Text = ByteConverter.Convert (manager.Torrent.Size);
+			sizeValueLabel.Text = ByteConverter.ConvertSize (manager.Torrent.Size);
 			createdOnValueLabel.Text = manager.Torrent.CreationDate.ToLongDateString ();
 			commentValueLabel.Text = manager.Torrent.Comment;
 			messageLabel.Text = manager.TrackerManager.CurrentTracker.WarningMessage + manager.TrackerManager.CurrentTracker.FailureMessage;
@@ -1293,16 +1299,8 @@ namespace Monsoon
 			menu.ClickedItem += delegate (object sender, EventArgs e) {
 				menu.HideAll ();
 				
-				// Get the text from the selected item and trim out the kB/sec bit
-				MenuItem i = (MenuItem)sender;
-				string text = ((Label)i.Child).Text;
-				text = text.Split(' ')[0];
-				
-				// Parse the speed and convert to bytes/sec
-				double newSpeed;
-				if (!double.TryParse (text, out newSpeed))
-					newSpeed = 0;
-				newSpeed *= 1024;
+				SpeedMenuItem item = (SpeedMenuItem)sender;
+				int newSpeed = item.Speed;
 
 				// Update the settings
 				if (menu.IsUpload)

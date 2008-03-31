@@ -71,7 +71,7 @@ namespace Monsoon
 		private void RenderSize (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			BlockEventArgs blockEvent = (BlockEventArgs) model.GetValue (iter, 0);
-			(cell as Gtk.CellRendererText).Text = ByteConverter.Convert(blockEvent.Block.RequestLength);
+			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSize(blockEvent.Block.RequestLength * blockEvent.Piece.BlockCount);
 		}		
 		
 		private void RenderNumBlocks (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
