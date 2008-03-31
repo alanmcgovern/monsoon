@@ -283,8 +283,11 @@ namespace Monsoon
 		
 		private void OnPeerConnected (object sender, PeerConnectionEventArgs a)
 		{
+			logger.Debug("OnPeerConnected(): PeerID.Location: " + a.PeerID.Location);
+			
 			if(!a.PeerID.IsValid)
 				return;
+			
 			
 			Gtk.Application.Invoke (delegate {
 				mainWindow.Peers.Add (a.PeerID, mainWindow.PeerListStore.AppendValues (a.PeerID));
@@ -297,6 +300,8 @@ namespace Monsoon
 			
 			if(a.PeerID == null)
 				return;
+			
+			logger.Debug("OnPeerDisconnected(): PeerID.Location: " + a.PeerID.Location);
 			
 			Gtk.Application.Invoke (delegate {
 				lock(mainWindow.Peers){

@@ -1,3 +1,13 @@
+2008-03-31  Mirco Bauer <meebey@meebey.net> 
+
+	* MainWindow.cs: Better error handling, GTK+ doesn't like exceptions.
+	* PreferencesDialog.cs: Replaced Gnome.IconEntry and Gnome.IconSelection
+	  with Gtk.FileChooserDialog + preview widget.
+	* Main.cs: Initialize GLib and GTK+ instead of GNOME.
+	* TorrentLabel.cs: Fixed passing iconPath correctly to the other
+	  constructor.
+	* Monsoon.mdp, Makefile.am: Reference GLib.
+
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* gtk-gui/generated.cs, gtk-gui/Monsoon.MainWindow.cs, gtk-gui/gui.stetic:

@@ -72,9 +72,8 @@ namespace Monsoon
 		}
 		
 		public TorrentLabel(ArrayList torrents, string name, string iconPath)
-			: this (torrents, name, "gtk-about", false)
+			: this (torrents, name, iconPath, false)
 		{
-			
 		}
 		
 		public TorrentLabel(ArrayList torrents, string name, string iconPath, bool immutable)

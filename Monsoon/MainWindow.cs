@@ -779,7 +779,14 @@ namespace Monsoon
 		
 		protected virtual void OnPreferencesActivated (object sender, System.EventArgs e)
 		{
-			OpenPreferences();
+			try {
+				logger.Debug("OnPreferencesActivated()");
+				
+				OpenPreferences();
+			} catch (Exception ex) {
+				UnhandledExceptionDialog d = new UnhandledExceptionDialog(ex);
+				d.Run();
+			}
 		}
 
 		public void OpenPreferences()
@@ -790,6 +797,7 @@ namespace Monsoon
 		public void OpenPreferences(int pageIndex)
 		{
 			PreferencesDialog preferencesDialog = new PreferencesDialog (this);
+			logger.Debug("1");
 			preferencesDialog.SetPageIndex(pageIndex);
 			preferencesDialog.Run ();
 			preferencesDialog.Destroy ();

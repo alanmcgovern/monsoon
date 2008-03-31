@@ -83,15 +83,15 @@ namespace Monsoon
 			settingsStorage = new GconfSettingsStorage();
 			portController = new ListenPortController(userEngineSettings);
 			
-			Application.Init ();
+			// required for the MS .NET runtime that doesn't initialize glib automatically
+			if (!GLib.Thread.Supported) {
+				GLib.Thread.Init();
+			}
+			//version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+			Application.Init("monsoon", ref args);
+			
 			mainWindow = new MainWindow (settingsStorage, userEngineSettings,
 			                             portController, isFirstRun);
-			
-			// This is so we can use IconEntry button
-			// Use Gnome.Program instead of Gtk.Application?
-			//Gnome.Program program = 
-			string version = System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
-			new Gnome.Program("monsoon", version, Gnome.Modules.UI, args);
 			
 			try{
 				Application.Run();
@@ -107,7 +107,6 @@ namespace Monsoon
 			mainWindow.Stop ();
 			mainWindow.Destroy ();
 		}
-
 
 		public static void SetProcessName(string name)
 		{

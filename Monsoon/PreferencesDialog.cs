@@ -30,13 +30,12 @@ using System;
 using System.Collections;
 using MonoTorrent.Client;
 using Gtk;
-using Gnome;
 
 namespace Monsoon
 {
 	public partial class PreferencesDialog : Gtk.Dialog
 	{
-
+		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger (); 
 	//	private UserTorrentSettings userTorrentSettings;
 		private UserEngineSettings userEngineSettings;
 		private PreferencesSettings prefSettings;
@@ -50,7 +49,9 @@ namespace Monsoon
 		private LabelTreeView labelTreeView;
 		
 		private Egg.TrayIcon trayIcon;
-		private IconEntry selectIcon;
+		//private IconEntry selectIcon;
+		private string selectedIcon;
+		private Button selectButton;
 		
 		private MainWindow mainWindow;
 		
@@ -143,10 +144,16 @@ namespace Monsoon
 			//iconButton.Image = new Gtk.Image(Gtk.IconTheme.Default.LoadIcon("gtk-about", 32, 0));
 			//iconButton.Sensitive = true;
 			
+			/*
 			selectIcon = new IconEntry("", "Select an Icon");
 			iconEntryBox.Add(selectIcon);
 			selectIcon.ShowAll();
+			*/
 			
+			selectButton = new Button("Browse Icon");
+			selectButton.Clicked += OnIconButtonClicked;
+			selectButton.Show();
+			iconEntryBox.Add(selectButton);
 		}
 		
 		private void OnLabelSelectionChanged(object o, System.EventArgs args)
@@ -262,6 +269,7 @@ namespace Monsoon
 
 		protected virtual void OnIconButtonClicked (object sender, System.EventArgs e)
 		{
+			/*
 			IconSelection iconSelection = new IconSelection();
 			
 			Dialog dialog = new Dialog("Select Icon", this, DialogFlags.DestroyWithParent);
@@ -272,12 +280,54 @@ namespace Monsoon
 			dialog.Run();
 			
 			dialog.Destroy();
+			*/
 			
+			Gtk.FileChooserDialog chooser = new FileChooserDialog(
+				"Select an Icon",
+				this, FileChooserAction.Open,
+				Gtk.Stock.Cancel, ResponseType.Cancel,
+				Gtk.Stock.Open, ResponseType.Ok
+			);
+			Image previewImage = new Image();
+			previewImage.IconSize = 32;
+			chooser.PreviewWidget = previewImage;
+			chooser.UpdatePreview += delegate {
+				try {
+					if (chooser.PreviewFilename == null) {
+						return;
+					}
+					
+					Gdk.Pixbuf pixbuf = new Gdk.Pixbuf(chooser.PreviewFilename);
+					previewImage.Pixbuf = pixbuf;
+					chooser.PreviewWidgetActive = true;
+				} catch {
+					chooser.PreviewWidgetActive = false;
+				}
+			};
+			
+			if (chooser.Run() == (int) ResponseType.Ok) {
+				logger.Debug("OnIconButtonClicked(): selected icon: " + chooser.Filename);
+				Image img = new Gtk.Image(chooser.Filename);
+				selectButton.Image = img;
+				if (img.StorageType != ImageType.Image) {
+					logger.Error("OnIconButtonClicked(): invalid icon: " + chooser.Filename);
+					selectedIcon = null;
+				} else {
+					selectedIcon = chooser.Filename;
+				}
+			}
+			
+			chooser.Destroy();
 		}
 
 		protected virtual void OnAddLabelButtonClicked (object sender, System.EventArgs e)
 		{
-			TorrentLabel label = new TorrentLabel(new ArrayList(), nameEntry.Text, selectIcon.Filename);
+			TorrentLabel label;
+			if (selectedIcon != null) {
+				label = new TorrentLabel(new ArrayList(), nameEntry.Text, selectedIcon);
+			} else {
+				label = new TorrentLabel(new ArrayList(), nameEntry.Text);
+			}
 			labels.Add(label);
 			filterListStore.AppendValues(label);
 			//labelListStore.AppendValues(label.Icon, label.Name);

@@ -992,6 +992,7 @@ namespace Monsoon {
             this.statusbar2 = new Gtk.Statusbar();
             this.statusbar2.Name = "statusbar2";
             this.statusbar2.Spacing = 6;
+            this.statusbar2.HasResizeGrip = false;
             // Container child statusbar2.Gtk.Box+BoxChild
             this.eventDownload = new Gtk.EventBox();
             this.eventDownload.Name = "eventDownload";

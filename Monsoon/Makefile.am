@@ -158,6 +158,7 @@ REFERENCES =  \
 	Mono.Posix \
 	NLog.dll \
 	-pkg:gconf-sharp-2.0 \
+	-pkg:glib-sharp-2.0 \
 	-pkg:gtk-sharp-2.0 \
 	-pkg:ndesk-dbus-glib-1.0 \
 	System \
