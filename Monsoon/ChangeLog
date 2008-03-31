@@ -1,5 +1,9 @@
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Makefile.am: Updated makefile
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Monsoon.mdp: Removed unneeded references
 
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
