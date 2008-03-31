@@ -34,8 +34,14 @@ namespace Monsoon
 	
 	public class UserTorrentSettings : ISettings
 	{
-	 	static string SETTINGS_PATH = "TorrentSettings/";
+	 	static readonly string SETTINGS_PATH = "TorrentSettings/";
 	 	
+		static readonly string UploadSlotsKey = SETTINGS_PATH + "UploadSlots";
+		static readonly string MaxConnectionsKey = SETTINGS_PATH + "MaxConnections";
+		static readonly string MaxDownloadSpeedKey = SETTINGS_PATH + "MaxDownloadSpeed";
+		static readonly string MaxUploadSpeedKey = SETTINGS_PATH + "MaxUploadSpeed";
+		static readonly string FastResumeEnabledKey = SETTINGS_PATH + "FastResumeEnabled";
+		
 	 	private int uploadSlots;
 	 	private int maxConnections;
 	 	private int maxDownloadSpeed;
@@ -53,31 +59,31 @@ namespace Monsoon
 			GconfSettingsStorage gconf = new GconfSettingsStorage();
 			TorrentSettings defaults = new TorrentSettings();
 			try {
-				uploadSlots = (int) gconf.Retrieve(SETTINGS_PATH + "UploadSlots");
+				uploadSlots = (int) gconf.Retrieve(UploadSlotsKey);
 			} catch(SettingNotFoundException) {
 				uploadSlots = defaults.UploadSlots;
 			}
 			
 			try {
-				maxConnections = (int) gconf.Retrieve(SETTINGS_PATH + "MaxConnections");
+				maxConnections = (int) gconf.Retrieve(MaxConnectionsKey);
 			} catch(SettingNotFoundException) {
 				maxConnections = defaults.MaxConnections;
 			}
 			
 			try{
-				maxDownloadSpeed = (int) gconf.Retrieve(SETTINGS_PATH + "MaxDownloadSpeed");
+				maxDownloadSpeed = (int) gconf.Retrieve(MaxDownloadSpeedKey);
 			} catch(SettingNotFoundException){
 				maxDownloadSpeed = defaults.MaxDownloadSpeed;
 			}
 			
 			try {
-				maxUploadSpeed = (int) gconf.Retrieve(SETTINGS_PATH + "MaxUploadSpeed");
+				maxUploadSpeed = (int) gconf.Retrieve(MaxUploadSpeedKey);
 			} catch(SettingNotFoundException){
 				maxUploadSpeed = defaults.MaxUploadSpeed;
 			}
 			
 			try{
-				fastResumeEnabled = (bool) gconf.Retrieve(SETTINGS_PATH + "FastResumeEnabled");
+				fastResumeEnabled = (bool) gconf.Retrieve(FastResumeEnabledKey);
 			} catch(SettingNotFoundException){
 				fastResumeEnabled = defaults.FastResumeEnabled;
 			}
@@ -88,11 +94,11 @@ namespace Monsoon
 		{
 			GconfSettingsStorage gconf = new GconfSettingsStorage();
 			
-			gconf.Store(SETTINGS_PATH + "UploadSlots", uploadSlots);
-			gconf.Store(SETTINGS_PATH + "MaxConnections", maxConnections);
-			gconf.Store(SETTINGS_PATH + "MaxDownloadSpeed", maxDownloadSpeed);
-			gconf.Store(SETTINGS_PATH + "MaxUploadSpeed", maxUploadSpeed);
-			gconf.Store(SETTINGS_PATH + "FastResumeEnabled", fastResumeEnabled);		
+			gconf.Store(UploadSlotsKey, uploadSlots);
+			gconf.Store(MaxConnectionsKey, maxConnections);
+			gconf.Store(MaxDownloadSpeedKey, maxDownloadSpeed);
+			gconf.Store(MaxUploadSpeedKey, maxUploadSpeed);
+			gconf.Store(FastResumeEnabledKey, fastResumeEnabled);		
 		}
 		
 		public int UploadSlots
