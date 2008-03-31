@@ -1,5 +1,10 @@
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* FileTreeView.cs: if we have zero selected and we rightclick, we need to
+	  popup
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* FileTreeView.cs: Enabled multi-select in the torrent files view.
 
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 

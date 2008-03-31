@@ -206,7 +206,7 @@ namespace Monsoon
 				contextMenu.Popup();
 				return true;
 			}
-			else if (count == 1 && e.Button == 3)
+			else if (count <= 1 && e.Button == 3)
 			{
 				base.OnButtonPressEvent(e);
 				contextMenu.ShowAll();
