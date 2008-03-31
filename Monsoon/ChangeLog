@@ -1,5 +1,9 @@
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* UserTorrentSettings.cs: Cosmetic
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* UserTorrentSettings.cs: Cosmetic - store keys as static strings.
 
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 

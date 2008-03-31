@@ -42,50 +42,46 @@ namespace Monsoon
 		static readonly string MaxUploadSpeedKey = SETTINGS_PATH + "MaxUploadSpeed";
 		static readonly string FastResumeEnabledKey = SETTINGS_PATH + "FastResumeEnabled";
 		
-	 	private int uploadSlots;
-	 	private int maxConnections;
-	 	private int maxDownloadSpeed;
-	 	private int maxUploadSpeed;
-	 	private bool fastResumeEnabled;
+		private TorrentSettings settings;
 	 	
 	 	
 		public UserTorrentSettings()
 		{
+			settings = new TorrentSettings();
 			Restore();
 		}
 		
 		public void Restore()
 		{
 			GconfSettingsStorage gconf = new GconfSettingsStorage();
-			TorrentSettings defaults = new TorrentSettings();
 			try {
-				uploadSlots = (int) gconf.Retrieve(UploadSlotsKey);
+				UploadSlots = (int) gconf.Retrieve(UploadSlotsKey);
 			} catch(SettingNotFoundException) {
-				uploadSlots = defaults.UploadSlots;
+				
 			}
 			
 			try {
-				maxConnections = (int) gconf.Retrieve(MaxConnectionsKey);
+				MaxConnections = (int) gconf.Retrieve(MaxConnectionsKey);
 			} catch(SettingNotFoundException) {
-				maxConnections = defaults.MaxConnections;
+				
 			}
 			
 			try{
-				maxDownloadSpeed = (int) gconf.Retrieve(MaxDownloadSpeedKey);
+				MaxDownloadSpeed = (int) gconf.Retrieve(MaxDownloadSpeedKey);
 			} catch(SettingNotFoundException){
-				maxDownloadSpeed = defaults.MaxDownloadSpeed;
+				
 			}
 			
 			try {
-				maxUploadSpeed = (int) gconf.Retrieve(MaxUploadSpeedKey);
+				MaxUploadSpeed = (int) gconf.Retrieve(MaxUploadSpeedKey);
 			} catch(SettingNotFoundException){
-				maxUploadSpeed = defaults.MaxUploadSpeed;
+				
 			}
 			
 			try{
-				fastResumeEnabled = (bool) gconf.Retrieve(FastResumeEnabledKey);
+				FastResumeEnabled = (bool) gconf.Retrieve(FastResumeEnabledKey);
 			} catch(SettingNotFoundException){
-				fastResumeEnabled = defaults.FastResumeEnabled;
+				
 			}
 			
 		}
@@ -98,37 +94,37 @@ namespace Monsoon
 			gconf.Store(MaxConnectionsKey, maxConnections);
 			gconf.Store(MaxDownloadSpeedKey, maxDownloadSpeed);
 			gconf.Store(MaxUploadSpeedKey, maxUploadSpeed);
-			gconf.Store(FastResumeEnabledKey, fastResumeEnabled);		
+			gconf.Store(FastResumeEnabledKey, fastResumeEnabled);
 		}
 		
 		public int UploadSlots
 		{
-			get{ return this.uploadSlots; }
-			set{ this.uploadSlots = value;}
+			get{ return settings.UploadSlots; }
+			set{ settings.UploadSlots = value;}
 		}
 		
 		public int MaxConnections
 		{
-			get{ return this.maxConnections; }
-			set{ this.maxConnections = value;}
+			get{ return settings.MaxConnections; }
+			set{ settings.MaxConnections = value;}
 		}
 		
 		public int MaxDownloadSpeed
 		{
-			get{ return this.maxDownloadSpeed; }
-			set{ this.maxConnections = value; }
+			get{ return settings.MaxDownloadSpeed; }
+			set{ settings.MaxDownloadSpeed = value; }
 		}
 		
 		public int MaxUploadSpeed
 		{
-			get{ return this.maxUploadSpeed; }
-			set{ this.maxUploadSpeed = value; }
+			get{ return settings.MaxUploadSpeed; }
+			set{ settings.MaxUploadSpeed = value; }
 		}
 		
 		public bool FastResumeEnabled
 		{
-			get{ return this.fastResumeEnabled; }
-			set{ this.fastResumeEnabled = value; }
+			get{ return settings.FastResumeEnabled; }
+			set{ settings.FastResumeEnabled = value; }
 		}
 	}
 }
