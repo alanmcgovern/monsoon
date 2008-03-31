@@ -1,5 +1,9 @@
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Monsoon.mdp: Removed unneeded references
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* libs/MonoTorrent.dll: Fixes the issue with fast resume as in #375377
 
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
