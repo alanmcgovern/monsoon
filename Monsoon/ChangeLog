@@ -1,5 +1,9 @@
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* monsoon.desktop: Added generic name
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, Menus/SpeedLimitMenu.cs, Menus/SpeedMenuItem.cs,
 	  PeerTreeView.cs, PiecesTreeView.cs, ByteConverter.cs,
 	  gtk-gui/gui.stetic, Makefile.am, TorrentTreeView.cs: Updated the way the
