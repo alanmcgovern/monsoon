@@ -58,7 +58,7 @@ namespace Monsoon
 		{
 			this.settingsStorage = settingsStorage;
 			this.torrentController = torrentController;
-			//this.treeStore = treeStore;
+			this.Selection.Mode = SelectionMode.Multiple;
 			HeadersVisible = true;
 			
 			BuildColumns ();
@@ -131,7 +131,6 @@ namespace Monsoon
 			immediateItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "immediate.png"));
 			lowItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "low.png"));
 			lowestItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "lowest.png"));
-			//normalItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "normal.png"));
 			nodownItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "donotdownload.png"));
 			
 			
@@ -155,66 +154,67 @@ namespace Monsoon
 		
 		private void OnContextMenuItemClicked (object sender, EventArgs args)
 		{
-			TreeIter iter;
 			TorrentFile file;
 			Priority priority;
-			
-			if (!Selection.GetSelected (out iter))
-				return;
-			
-			ImageMenuItem item = (ImageMenuItem) sender;
-			
-			// determine priority
-			if (item == highItem)
-				priority = Priority.High;
-			else if (item == highestItem)
-				priority = Priority.Highest;
-			else if (item == immediateItem)
-				priority = Priority.Immediate;
-			else if (item == lowItem)
-				priority = Priority.Low;
-			else if (item == lowestItem)
-				priority = Priority.Lowest;
-			else if (item == normalItem)
-				priority = Priority.Normal;
-			else if (item == nodownItem)
-				priority = Priority.DoNotDownload;
-			else
-				priority = Priority.Normal;
-			
-			file = (TorrentFile) Model.GetValue (iter, 1);
-			
-			// update priority in MonoTorrent
-			torrentController.SetFilePriority(file, priority);
-			
-			// update priority icon in view model
-			Model.SetValue(iter, 2, MainWindow.GetIconPixbuf(
-				GetPriorityIconName(priority)));
-			
-			// update priority in settings model
-			TorrentManager manager = (TorrentManager) Model.GetValue (iter, 0);
-			TorrentFileSettingsController fileSettingsController =
-				new TorrentFileSettingsController(settingsStorage);
-			TorrentFileSettingsModel fileSettings =
-					fileSettingsController.GetFileSettings(
-						manager.Torrent.InfoHash,
-						file.Path
-					);
-			
-			fileSettings.Priority = priority;
-			fileSettingsController.SetFileSettings(fileSettings);
+			Selection.SelectedForeach(delegate (TreeModel model, TreePath path, TreeIter iter) {
+				ImageMenuItem item = (ImageMenuItem) sender;
+				
+				// determine priority
+				if (item == highItem)
+					priority = Priority.High;
+				else if (item == highestItem)
+					priority = Priority.Highest;
+				else if (item == immediateItem)
+					priority = Priority.Immediate;
+				else if (item == lowItem)
+					priority = Priority.Low;
+				else if (item == lowestItem)
+					priority = Priority.Lowest;
+				else if (item == normalItem)
+					priority = Priority.Normal;
+				else if (item == nodownItem)
+					priority = Priority.DoNotDownload;
+				else
+					priority = Priority.Normal;
+				
+				file = (TorrentFile) Model.GetValue (iter, 1);
+				
+				// update priority in MonoTorrent
+				torrentController.SetFilePriority(file, priority);
+				
+				// update priority icon in view model
+				Model.SetValue(iter, 2, MainWindow.GetIconPixbuf(GetPriorityIconName(priority)));
+				
+				// update priority in settings model
+				TorrentManager manager = (TorrentManager) Model.GetValue (iter, 0);
+				TorrentFileSettingsController fileSettingsController =
+					new TorrentFileSettingsController(settingsStorage);
+				TorrentFileSettingsModel fileSettings =
+					fileSettingsController.GetFileSettings(manager.Torrent.InfoHash, file.Path);
+
+				fileSettings.Priority = priority;
+				fileSettingsController.SetFileSettings(fileSettings);
+			});
 		}
 		
 		protected override bool	OnButtonPressEvent (Gdk.EventButton e)
 		{
-			// Call this first so context menu has a selected torrent
-			base.OnButtonPressEvent(e);
-			
-			if(e.Button == 3 && Selection.CountSelectedRows() == 1){
+			int count = Selection.CountSelectedRows ();
+			if (count > 1 && e.Button == 3)
+			{
 				contextMenu.ShowAll();
 				contextMenu.Popup();
+				return true;
+			}
+			else if (count == 1 && e.Button == 3)
+			{
+				base.OnButtonPressEvent(e);
+				contextMenu.ShowAll();
+				contextMenu.Popup();
+				return true;
 			}
 			
+			base.OnButtonPressEvent(e);
 			return false;
 		}
 		
@@ -224,11 +224,6 @@ namespace Monsoon
 			
 			(cell as Gtk.CellRendererProgress).Value = 0;
 			(cell as Gtk.CellRendererProgress).Value = (int)torrentFile.BitField.PercentComplete;
-			
-			//if (model.IterHasChild(iter))
-			//	(cell as Gtk.CellRendererProgress).Visible = false;
-			//else
-			//	(cell as Gtk.CellRendererProgress).Visible = true;
 		}
 	}
 }

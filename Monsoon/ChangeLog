@@ -1,5 +1,9 @@
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* FileTreeView.cs: Enabled multi-select in the torrent files view.
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* monsoon.desktop: Added generic name
 
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
