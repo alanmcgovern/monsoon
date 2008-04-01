@@ -1,5 +1,9 @@
 2008-04-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs: kB/sec means multiply, not divide
+
+2008-04-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: Spin buttons should be in kB/sec
 
 2008-04-01  Alan McGovern <alan.mcgovern@gmail.com> 
