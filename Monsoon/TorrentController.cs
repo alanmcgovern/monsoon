@@ -45,7 +45,6 @@ namespace Monsoon
 	public class TorrentController
 	{
 		private ClientEngine engine;
-		private EngineSettings engineSettings;
 		private TorrentSettings torrentSettings;
 		private ListStore torrentListStore;
 		private UserTorrentSettings userTorrentSettings;
@@ -81,11 +80,10 @@ namespace Monsoon
 			this.torrentPreviousDownload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
 			
 			fastResume = LoadFastResume();
-			
-			engineSettings = userEngineSettings.Settings;
+
 			torrentSettings = new TorrentSettings(userTorrentSettings.UploadSlots, userTorrentSettings.MaxConnections, userTorrentSettings.MaxDownloadSpeed, userTorrentSettings.MaxUploadSpeed, userTorrentSettings.FastResumeEnabled);
 			
-			engine = new ClientEngine(engineSettings);
+			engine = new ClientEngine(userEngineSettings);
 			
 			engine.ConnectionManager.PeerMessageTransferred += OnPeerMessageTransferred;
 			
