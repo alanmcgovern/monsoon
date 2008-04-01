@@ -153,19 +153,7 @@ namespace Monsoon
 			
 			return i;
 		}
-		
-		public void reloadEngineSettings()
-		{
-			engine.Settings.SavePath = userEngineSettings.SavePath;
-			engine.Settings.ListenPort = userEngineSettings.ListenPort;
-			engine.Settings.GlobalMaxConnections = userEngineSettings.GlobalMaxConnections;
-			engine.Settings.GlobalMaxDownloadSpeed = userEngineSettings.GlobalMaxDownloadSpeed;
-			engine.Settings.GlobalMaxUploadSpeed = userEngineSettings.GlobalMaxUploadSpeed;
-			
-			logger.Info("Engine settings reloaded");
-		}
-		
-		
+
 		// TODO: Refactor all of these functions!!!
 		public TorrentManager addTorrent(string torrentPath)
 		{
@@ -550,7 +538,6 @@ namespace Monsoon
 			logger.Info("Changing priority of " + torrentFile.Path + " to " + priority);
 			torrentFile.Priority = priority;
 		}
-		
 		
 		public TorrentManager GetSelectedTorrent()
 		{

@@ -812,8 +812,6 @@ namespace Monsoon
 			userEngineSettings.Store ();
 			prefSettings.Store ();
 			
-			torrentController.reloadEngineSettings ();
-			
 			if (prefSettings.ImportEnabled) {
 				logger.Info ("Starting import folder watcher");
 				folderWatcher.Start ();
@@ -1367,8 +1365,6 @@ namespace Monsoon
 			
 			userEngineSettings.Store ();
 			prefSettings.Store ();
-			
-			torrentController.reloadEngineSettings ();
 			
 			if (prefSettings.UpnpEnabled)
 				portController.Start();

@@ -1,5 +1,9 @@
 2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, TorrentController.cs: Nuke useless method
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* PreferencesSettings.cs, Main.cs, UserEngineSettings.cs,
 	  UserTorrentSettings.cs, InterfaceSettings.cs, GconfSettingsStorage.cs:
 	  Switched the GConf stuff to use a singleton
