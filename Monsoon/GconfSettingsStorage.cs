@@ -33,27 +33,39 @@ namespace Monsoon
 {
 	public class GconfSettingsStorage : ISettingsStorage
 	{
-		private GConf.Client client;
-		static string GCONF_APP_PATH = "/apps/monsoon/";
-		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+		private static GconfSettingsStorage instance = new GconfSettingsStorage();
 		
-		public GconfSettingsStorage()
+		private GConf.Client client;
+		private readonly string GCONF_APP_PATH = "/apps/monsoon/";
+		private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+		
+		public static GconfSettingsStorage Instance
+		{
+			get { return instance; }
+		}
+		
+		private GconfSettingsStorage()
 		{
 			client = new GConf.Client();
 		}
 		
 		public void Store(string key, object val)
 		{
-			client.Set(GCONF_APP_PATH + key, val);
+			lock (GCONF_APP_PATH)
+				client.Set(GCONF_APP_PATH + key, val);
 		}
 
 		public object Retrieve(string key)
 		{
 			object retrievedKey;
 			
-			try {
-				retrievedKey = client.Get(GCONF_APP_PATH + key);
-			} catch (GConf.NoSuchKeyException e) {
+			try
+			{
+				lock (GCONF_APP_PATH)
+					retrievedKey = client.Get(GCONF_APP_PATH + key);
+			}
+			catch (GConf.NoSuchKeyException e)
+			{
 				logger.Info("Key not found: " + e.Message);
 				throw new SettingNotFoundException("Setting '" + key + "' cannot be found"); 
 			}

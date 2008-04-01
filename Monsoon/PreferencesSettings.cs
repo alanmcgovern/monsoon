@@ -55,7 +55,7 @@ namespace Monsoon
 		
 		public void Restore()
 		{
-			GconfSettingsStorage gconf = new GconfSettingsStorage();
+			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
 			try {
 				enableNotifications = (bool) gconf.Retrieve(SETTINGS_PATH + "enableNotifications");
@@ -116,7 +116,7 @@ namespace Monsoon
 		
 		public void Store()
 		{
-			GconfSettingsStorage gconf = new GconfSettingsStorage();
+			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
 			gconf.Store(SETTINGS_PATH + "enableNotifications", enableNotifications);
 			gconf.Store(SETTINGS_PATH + "quitOnClose", quitOnClose);

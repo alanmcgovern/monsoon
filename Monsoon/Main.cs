@@ -80,7 +80,7 @@ namespace Monsoon
 			SetProcessName("monsoon");
 		
 			userEngineSettings = new UserEngineSettings();
-			settingsStorage = new GconfSettingsStorage();
+			settingsStorage = GconfSettingsStorage.Instance;
 			portController = new ListenPortController(userEngineSettings);
 			
 			// required for the MS .NET runtime that doesn't initialize glib automatically

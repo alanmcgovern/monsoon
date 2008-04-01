@@ -53,7 +53,7 @@ namespace Monsoon
 		
 		public void Restore()
 		{
-			GconfSettingsStorage gconf = new GconfSettingsStorage();
+			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			try {
 				UploadSlots = (int) gconf.Retrieve(UploadSlotsKey);
 			} catch(SettingNotFoundException) {
@@ -88,7 +88,7 @@ namespace Monsoon
 		
 		public void Store()
 		{
-			GconfSettingsStorage gconf = new GconfSettingsStorage();
+			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
 			gconf.Store(UploadSlotsKey, settings.UploadSlots);
 			gconf.Store(MaxConnectionsKey, settings.MaxConnections);

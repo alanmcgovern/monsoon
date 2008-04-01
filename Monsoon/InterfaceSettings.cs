@@ -50,7 +50,7 @@ namespace Monsoon
 		
 		public void Restore()
 		{
-			GconfSettingsStorage gconf = new GconfSettingsStorage();
+			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
 			try {
 				showDetails = (bool) gconf.Retrieve(SETTINGS_PATH + "showDetails");
@@ -212,7 +212,7 @@ namespace Monsoon
 		
 		public void Store()
 		{
-			GconfSettingsStorage gconf = new GconfSettingsStorage();
+			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
 			gconf.Store(SETTINGS_PATH + "showDetails", showDetails);
 			gconf.Store(SETTINGS_PATH + "showLabels", showLabels);

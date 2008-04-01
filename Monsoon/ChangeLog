@@ -1,3 +1,9 @@
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* PreferencesSettings.cs, Main.cs, UserEngineSettings.cs,
+	  UserTorrentSettings.cs, InterfaceSettings.cs, GconfSettingsStorage.cs:
+	  Switched the GConf stuff to use a singleton
+
 2008-04-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* MainWindow.cs: kB/sec means multiply, not divide

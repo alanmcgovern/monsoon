@@ -62,7 +62,7 @@ namespace Monsoon
 		
 		public void Restore()
 		{
-			GconfSettingsStorage gconf = new GconfSettingsStorage();
+			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			try{
 				settings.AllowLegacyConnections = (bool)gconf.Retrieve(AllowLegacyConnectionsKey);
 			} catch(SettingNotFoundException){
@@ -126,7 +126,7 @@ namespace Monsoon
 		
 		public void Store()
 		{	
-			GconfSettingsStorage gconf = new GconfSettingsStorage();
+			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
 			gconf.Store(AllowLegacyConnectionsKey, settings.AllowLegacyConnections);
 			gconf.Store(GlobalMaxConnectionsKey, settings.GlobalMaxConnections);
