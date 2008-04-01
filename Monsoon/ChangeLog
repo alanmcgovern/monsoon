@@ -1,5 +1,9 @@
 2008-04-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs: Spin buttons should be in kB/sec
+
+2008-04-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* UserEngineSettings.cs, TorrentController.cs: Fixed the way global rate
 	  limits were set. It works now.
 

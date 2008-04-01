@@ -1318,8 +1318,8 @@ namespace Monsoon
 				return;
 				
 			torrent.Settings.MaxConnections = (int) torrentMaxConnectionsSpinButton.Value;
-			torrent.Settings.MaxDownloadSpeed = (int) torrentDownloadRateSpinButton.Value;
-			torrent.Settings.MaxUploadSpeed = (int) torrentUploadRateSpinButton.Value;
+			torrent.Settings.MaxDownloadSpeed = (int) torrentDownloadRateSpinButton.Value / 1024;
+			torrent.Settings.MaxUploadSpeed = (int) torrentUploadRateSpinButton.Value / 1024;
 			torrent.Settings.UploadSlots = (int) torrentUploadSlotSpinButton.Value;
 		}
 
