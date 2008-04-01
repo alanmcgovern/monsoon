@@ -64,8 +64,7 @@ namespace Monsoon
 		private Dictionary<TorrentManager, TreeIter> torrents;
 		
 		private TorrentController torrentController;
-		
-		private GconfSettingsStorage settingsStorage;
+
 		private UserEngineSettings userEngineSettings;
 		private UserTorrentSettings userTorrentSettings;
 		private PreferencesSettings prefSettings;
@@ -110,7 +109,6 @@ namespace Monsoon
 		public MainWindow (GconfSettingsStorage settingsStorage, UserEngineSettings userEngineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
 		{
 			prefSettings = new PreferencesSettings ();
-			this.settingsStorage = settingsStorage;
 			this.userEngineSettings = userEngineSettings;
 			this.portController = portController;
 			userTorrentSettings = new UserTorrentSettings ();
@@ -341,7 +339,7 @@ namespace Monsoon
 		private void BuildFileTreeView ()
 		{
 			fileTreeStore = new TreeStore (typeof(TorrentManager), typeof(TorrentFile), typeof(Gdk.Pixbuf), typeof(string));
-			fileTreeView = new FileTreeView (settingsStorage, torrentController, fileTreeStore);
+			fileTreeView = new FileTreeView (GconfSettingsStorage.Instance, torrentController, fileTreeStore);
 			fileTreeView.Model = fileTreeStore;
 			filesScrolledWindow.Add (fileTreeView);
 			fileTreeView.Show();
@@ -926,7 +924,7 @@ namespace Monsoon
 			Console.WriteLine("Updating files page of: " + manager.Torrent.Name);
 			
 			TorrentFileSettingsController fileSettingsController =
-				new TorrentFileSettingsController(settingsStorage);
+				new TorrentFileSettingsController(GconfSettingsStorage.Instance);
 			foreach (TorrentFile torrentFile in manager.Torrent.Files) {
 				TorrentFileSettingsModel fileSettings =
 					fileSettingsController.GetFileSettings(
@@ -1162,7 +1160,7 @@ namespace Monsoon
 		private void UpdateTorrentSettings(TorrentManager manager)
 		{
 			TorrentSettingsController torrentSettingsController =
-				new TorrentSettingsController(settingsStorage);
+				new TorrentSettingsController(GconfSettingsStorage.Instance);
 			TorrentSettingsModel torrentSettings =
 				torrentSettingsController.GetTorrentSettings(manager.Torrent.InfoHash);
 			torrentSettings.LastState = manager.State;
@@ -1393,7 +1391,7 @@ namespace Monsoon
 
 		public GconfSettingsStorage SettingsStorage {
 			get {
-				return settingsStorage;
+				return GconfSettingsStorage.Instance;
 			}
 		}
 

@@ -1,5 +1,9 @@
 2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs: Cosmetic
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* UserEngineSettings.cs, TorrentController.cs: Make UserEngineSettings
 	  inherit from EngineSettings - cleaner.
 
