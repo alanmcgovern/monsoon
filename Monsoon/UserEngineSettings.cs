@@ -37,92 +37,88 @@ namespace Monsoon
 	{
 		static string SETTINGS_PATH = "EngineSettings/";
 		
-		static string AllowLegacyConnectionsKey = SETTINGS_PATH + "AllowLegacyConnections";
-		static string GlobalMaxConnectionsKey = SETTINGS_PATH + "GlobalMaxConnections";
-		static string GlobalMaxDownloadSpeedKey = SETTINGS_PATH + "GlobalMaxDownloadSpeed";
-		static string GlobalMaxHalfOpenConnectionsKey = SETTINGS_PATH + "GlobalMaxHalfOpenConnections";
-		static string GlobalMaxUploadSpeedKey = SETTINGS_PATH + "GlobalMaxUploadSpeed";
-		static string ListenPortKey = SETTINGS_PATH + "ListenPort";
-		static string SavePathKey = SETTINGS_PATH + "SavePath";
-		static string MaxReadRateKey = SETTINGS_PATH + "MaxReadRate";
-		static string MaxWriteRateKey = SETTINGS_PATH + "MaxWriteRate";
+		static readonly string AllowLegacyConnectionsKey = SETTINGS_PATH + "AllowLegacyConnections";
+		static readonly string GlobalMaxConnectionsKey = SETTINGS_PATH + "GlobalMaxConnections";
+		static readonly string GlobalMaxDownloadSpeedKey = SETTINGS_PATH + "GlobalMaxDownloadSpeed";
+		static readonly string GlobalMaxHalfOpenConnectionsKey = SETTINGS_PATH + "GlobalMaxHalfOpenConnections";
+		static readonly string GlobalMaxUploadSpeedKey = SETTINGS_PATH + "GlobalMaxUploadSpeed";
+		static readonly string ListenPortKey = SETTINGS_PATH + "ListenPort";
+		static readonly string SavePathKey = SETTINGS_PATH + "SavePath";
+		static readonly string MaxReadRateKey = SETTINGS_PATH + "MaxReadRate";
+		static readonly string MaxWriteRateKey = SETTINGS_PATH + "MaxWriteRate";
 		
-		private bool allowLegacyConnections;
-		private int globalMaxConnections;
-		private int globalMaxDownloadSpeed;
-		private int globalMaxHalfOpenConnections;
-		private int globalMaxUploadSpeed;
-		private int listenPort;
-		//private EncryptionType minEncryptionLevel;
-		private string savePath;
-		private int maxReadRate;
-		private int maxWriteRate;
+		private EngineSettings settings;
+		
+		public EngineSettings Settings
+		{
+			get { return settings; }
+		}
 		
 		public UserEngineSettings()
 		{
+			settings = new EngineSettings();
 			Restore();				
 		}
 		
 		public void Restore()
 		{
 			GconfSettingsStorage gconf = new GconfSettingsStorage();
-			EngineSettings defaults = new EngineSettings();
 			try{
-				allowLegacyConnections = (bool)gconf.Retrieve(AllowLegacyConnectionsKey);
+				settings.AllowLegacyConnections = (bool)gconf.Retrieve(AllowLegacyConnectionsKey);
 			} catch(SettingNotFoundException){
-				allowLegacyConnections = defaults.AllowLegacyConnections;
+				
 			}
 			
 			try{
-				globalMaxConnections = (int)gconf.Retrieve(GlobalMaxConnectionsKey);
+				settings.GlobalMaxConnections = (int)gconf.Retrieve(GlobalMaxConnectionsKey);
 			} catch(SettingNotFoundException){
-				globalMaxConnections = defaults.GlobalMaxConnections;
+				
 			}
 			
 			try{
-				globalMaxDownloadSpeed = (int)gconf.Retrieve(GlobalMaxDownloadSpeedKey);
+				settings.GlobalMaxDownloadSpeed = (int)gconf.Retrieve(GlobalMaxDownloadSpeedKey);
 			} catch(SettingNotFoundException){
-				globalMaxDownloadSpeed = defaults.GlobalMaxDownloadSpeed;
+				
 			}
 			
 			try{
-				globalMaxHalfOpenConnections = (int)gconf.Retrieve(GlobalMaxHalfOpenConnectionsKey);
+				settings.GlobalMaxHalfOpenConnections = (int)gconf.Retrieve(GlobalMaxHalfOpenConnectionsKey);
 			} catch(SettingNotFoundException){
-				globalMaxHalfOpenConnections = defaults.GlobalMaxHalfOpenConnections;
+				
 			}
 			
 			try{
-				globalMaxUploadSpeed = (int)gconf.Retrieve(GlobalMaxUploadSpeedKey);
+				settings.GlobalMaxUploadSpeed = (int)gconf.Retrieve(GlobalMaxUploadSpeedKey);
 			} catch(SettingNotFoundException){
-				globalMaxUploadSpeed = defaults.GlobalMaxUploadSpeed;
+				
 			}
 			
 			try{
-				listenPort = (int)gconf.Retrieve(ListenPortKey);
+				settings.ListenPort = (int)gconf.Retrieve(ListenPortKey);
 			} catch(SettingNotFoundException){
-				listenPort = defaults.ListenPort;
+				
 			}
 			
 			try{
-				maxReadRate = (int)gconf.Retrieve(MaxReadRateKey);
+				settings.MaxReadRate = (int)gconf.Retrieve(MaxReadRateKey);
 			} catch(SettingNotFoundException){
-				maxReadRate = defaults.MaxReadRate;
+				
 			}
 			
 			try{
-				maxWriteRate = (int)gconf.Retrieve(MaxWriteRateKey);
+				settings.MaxWriteRate = (int)gconf.Retrieve(MaxWriteRateKey);
 			} catch(SettingNotFoundException){
-				maxWriteRate = defaults.MaxWriteRate;
+				
 			}
 			
 			try{ 
-				savePath = (string)gconf.Retrieve(SavePathKey);
+				settings.SavePath = (string)gconf.Retrieve(SavePathKey);
 			} catch(SettingNotFoundException){
-				savePath = defaults.SavePath;
+				
 			} finally{
 				// If savePath has not been set, fallback to user's home directory
-				if (String.IsNullOrEmpty(savePath)) {
-					savePath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+				if (String.IsNullOrEmpty(settings.SavePath)) {
+					settings.SavePath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 				}
 			}
 			
@@ -132,69 +128,69 @@ namespace Monsoon
 		{	
 			GconfSettingsStorage gconf = new GconfSettingsStorage();
 			
-			gconf.Store(AllowLegacyConnectionsKey, allowLegacyConnections);
-			gconf.Store(GlobalMaxConnectionsKey, globalMaxConnections);
-			gconf.Store(GlobalMaxDownloadSpeedKey, globalMaxDownloadSpeed);
-			gconf.Store(GlobalMaxHalfOpenConnectionsKey, globalMaxHalfOpenConnections);
-			gconf.Store(GlobalMaxUploadSpeedKey, globalMaxUploadSpeed);
-			gconf.Store(ListenPortKey, listenPort);
-			gconf.Store(SavePathKey, savePath);
-			gconf.Store(MaxReadRateKey, maxReadRate);
-			gconf.Store(MaxWriteRateKey, maxWriteRate);
+			gconf.Store(AllowLegacyConnectionsKey, settings.AllowLegacyConnections);
+			gconf.Store(GlobalMaxConnectionsKey, settings.GlobalMaxConnections);
+			gconf.Store(GlobalMaxDownloadSpeedKey, settings.GlobalMaxDownloadSpeed);
+			gconf.Store(GlobalMaxHalfOpenConnectionsKey, settings.GlobalMaxHalfOpenConnections);
+			gconf.Store(GlobalMaxUploadSpeedKey, settings.GlobalMaxUploadSpeed);
+			gconf.Store(ListenPortKey, settings.ListenPort);
+			gconf.Store(SavePathKey, settings.SavePath);
+			gconf.Store(MaxReadRateKey, settings.MaxReadRate);
+			gconf.Store(MaxWriteRateKey, settings.MaxWriteRate);
 		}
 		
 		public bool AllowLegacyConnections
 		{
-			get { return allowLegacyConnections; }
-			set { allowLegacyConnections = value; }
+			get { return settings.AllowLegacyConnections; }
+			set { settings.AllowLegacyConnections = value; }
 		}
 		
 		public int GlobalMaxConnections
 		{
-			get { return globalMaxConnections; }
-			set { globalMaxConnections = value; }
+			get { return settings.GlobalMaxConnections; }
+			set { settings.GlobalMaxConnections = value; }
 		}
 		
 		public int GlobalMaxDownloadSpeed
 		{
-			get { return globalMaxDownloadSpeed; }
-			set { globalMaxDownloadSpeed = value; }
+			get { return settings.GlobalMaxDownloadSpeed; }
+			set { settings.GlobalMaxDownloadSpeed = value; }
 		}
 		
 		public int GlobalMaxHalfOpenConnections
 		{
-			get { return globalMaxHalfOpenConnections; }
-			set { globalMaxHalfOpenConnections = value; }
+			get { return settings.GlobalMaxHalfOpenConnections; }
+			set { settings.GlobalMaxHalfOpenConnections = value; }
 		}
 		
 		public int GlobalMaxUploadSpeed
 		{
-			get { return globalMaxUploadSpeed; }
-			set { globalMaxUploadSpeed = value; }
+			get { return settings.GlobalMaxUploadSpeed; }
+			set { settings.GlobalMaxUploadSpeed = value; }
 		}
 		
 		public int ListenPort
 		{
-			get { return listenPort; }
-			set { listenPort = value; }
+			get { return settings.ListenPort; }
+			set { settings.ListenPort = value; }
 		}
 		
 		public string SavePath
 		{
-			get { return savePath; }
-			set { savePath = value; }
+			get { return settings.SavePath; }
+			set { settings.SavePath = value; }
 		}
 		
 		public int MaxReadRate
 		{
-			get { return maxReadRate; }
-			set { maxReadRate = value; }
+			get { return settings.MaxReadRate; }
+			set { settings.MaxReadRate = value; }
 		}
 		
 		public int MaxWriteRate
 		{
-			get { return maxWriteRate; }
-			set { maxWriteRate = value; }
+			get { return settings.MaxWriteRate; }
+			set { settings.MaxWriteRate = value; }
 		}
 	}
 }

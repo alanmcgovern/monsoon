@@ -1,3 +1,8 @@
+2008-04-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* UserEngineSettings.cs, TorrentController.cs: Fixed the way global rate
+	  limits were set. It works now.
+
 2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Defines.cs, Main.cs, AboutDialog.cs: Show the version in the About dialog

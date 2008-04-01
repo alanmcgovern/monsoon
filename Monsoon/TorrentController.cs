@@ -82,7 +82,7 @@ namespace Monsoon
 			
 			fastResume = LoadFastResume();
 			
-			engineSettings = new EngineSettings(userEngineSettings.SavePath, userEngineSettings.ListenPort, userEngineSettings.GlobalMaxConnections, userEngineSettings.GlobalMaxHalfOpenConnections, userEngineSettings.GlobalMaxDownloadSpeed, userEngineSettings.GlobalMaxUploadSpeed, EncryptionType.None, userEngineSettings.AllowLegacyConnections);
+			engineSettings = userEngineSettings.Settings;
 			torrentSettings = new TorrentSettings(userTorrentSettings.UploadSlots, userTorrentSettings.MaxConnections, userTorrentSettings.MaxDownloadSpeed, userTorrentSettings.MaxUploadSpeed, userTorrentSettings.FastResumeEnabled);
 			
 			engine = new ClientEngine(engineSettings);
