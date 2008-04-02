@@ -24,16 +24,10 @@
     <File name="AboutDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="PreferencesDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="TorrentController.cs" subtype="Code" buildaction="Compile" />
-    <File name="ISettingsStorage.cs" subtype="Code" buildaction="Compile" />
-    <File name="UserTorrentSettings.cs" subtype="Code" buildaction="Compile" />
-    <File name="UserEngineSettings.cs" subtype="Code" buildaction="Compile" />
-    <File name="SettingNotFoundException.cs" subtype="Code" buildaction="Compile" />
     <File name="PeerTreeView.cs" subtype="Code" buildaction="Compile" />
     <File name="ByteConverter.cs" subtype="Code" buildaction="Compile" />
     <File name="CreateTorrentDialog.cs" subtype="Code" buildaction="Compile" />
-    <File name="PreferencesSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="FileTreeView.cs" subtype="Code" buildaction="Compile" />
-    <File name="InterfaceSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="TorrentLabel.cs" subtype="Code" buildaction="Compile" />
     <File name="TorrentFilterModel.cs" subtype="Code" buildaction="Compile" />
     <File name="ListenPortController.cs" subtype="Code" buildaction="Compile" />
@@ -80,6 +74,12 @@
     <File name="Menus/SpeedMenuItem.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/GconfSettingsStorage.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/ISettings.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/InterfaceSettings.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/ISettingsStorage.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/SettingNotFoundException.cs" subtype="Code" buildaction="Compile" />
+    <File name="UserTorrentSettings.cs" subtype="Code" buildaction="Compile" />
+    <File name="UserEngineSettings.cs" subtype="Code" buildaction="Compile" />
+    <File name="PreferencesSettings.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

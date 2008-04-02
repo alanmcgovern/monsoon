@@ -1,5 +1,15 @@
 2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Monsoon.mdp, InterfaceSettings.cs, ISettingsStorage.cs, Makefile.am,
+	  SettingNotFoundException.cs, Settings/InterfaceSettings.cs,
+	  Settings/ISettingsStorage.cs, Settings/SettingNotFoundException.cs:
+	  Moved all settings related stuff to one folder
+	* PreferencesSettings.cs, Settings/PreferencesSettings.cs,
+	  Settings/UserEngineSettings.cs, Settings/UserTorrentSettings.cs,
+	  UserEngineSettings.cs, UserTorrentSettings.cs: Moved all settings
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Settings, Monsoon.mdp, Makefile.am, ISettings.cs, Settings/ISettings.cs:
 	  Moving settings files to a subfolder
 

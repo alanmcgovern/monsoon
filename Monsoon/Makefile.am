@@ -100,8 +100,6 @@ FILES =  \
 	gtk-gui/Monsoon.PreferencesDialog.cs \
 	gtk-gui/Monsoon.RssManagerDialog.cs \
 	gtk-gui/Monsoon.UnhandledExceptionDialog.cs \
-	InterfaceSettings.cs \
-	ISettingsStorage.cs \
 	LabelTreeView.cs \
 	libs/NotifySharp/Global.cs \
 	libs/NotifySharp/Notification.cs \
@@ -121,9 +119,11 @@ FILES =  \
 	RssManager/RssReader.cs \
 	RssManager/TorrentRssWatcher.cs \
 	RssManager/TorrentRssWatcherEventArgs.cs \
-	SettingNotFoundException.cs \
 	Settings/GconfSettingsStorage.cs \
+	Settings/InterfaceSettings.cs \
 	Settings/ISettings.cs \
+	Settings/ISettingsStorage.cs \
+	Settings/SettingNotFoundException.cs \
 	TorrentContextMenu.cs \
 	TorrentController.cs \
 	TorrentFileSettingsController.cs \
