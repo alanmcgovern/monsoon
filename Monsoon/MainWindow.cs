@@ -691,7 +691,7 @@ namespace Monsoon
 			logger.Info ("Storing torrent settings");
 			
 			foreach (TorrentManager manager in torrents.Keys){
-				torrentsToStore.Add (new TorrentStorage(manager.Torrent.TorrentPath, manager.SavePath, manager.Settings, manager.State, torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded, torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded));	
+				torrentsToStore.Add (new TorrentStorage(manager.Torrent.TorrentPath, manager.SavePath, (UserTorrentSettings)manager.Settings, manager.State, torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded, torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded));	
 			}
 			
 			using (Stream fs = new FileStream (Defines.SerializedTorrentSettings, FileMode.Create))

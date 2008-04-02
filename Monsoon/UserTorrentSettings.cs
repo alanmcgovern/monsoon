@@ -32,7 +32,7 @@ using MonoTorrent.Client;
 namespace Monsoon
 {
 	
-	public class UserTorrentSettings : ISettings
+	public class UserTorrentSettings : TorrentSettings, ISettings
 	{
 	 	static readonly string SETTINGS_PATH = "TorrentSettings/";
 	 	
@@ -41,13 +41,9 @@ namespace Monsoon
 		static readonly string MaxDownloadSpeedKey = SETTINGS_PATH + "MaxDownloadSpeed";
 		static readonly string MaxUploadSpeedKey = SETTINGS_PATH + "MaxUploadSpeed";
 		static readonly string FastResumeEnabledKey = SETTINGS_PATH + "FastResumeEnabled";
-		
-		private TorrentSettings settings;
-	 	
-	 	
+
 		public UserTorrentSettings()
 		{
-			settings = new TorrentSettings();
 			Restore();
 		}
 		
@@ -90,41 +86,11 @@ namespace Monsoon
 		{
 			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
-			gconf.Store(UploadSlotsKey, settings.UploadSlots);
-			gconf.Store(MaxConnectionsKey, settings.MaxConnections);
-			gconf.Store(MaxDownloadSpeedKey, settings.MaxDownloadSpeed);
-			gconf.Store(MaxUploadSpeedKey, settings.MaxUploadSpeed);
-			gconf.Store(FastResumeEnabledKey, settings.FastResumeEnabled);
-		}
-		
-		public int UploadSlots
-		{
-			get{ return settings.UploadSlots; }
-			set{ settings.UploadSlots = value;}
-		}
-		
-		public int MaxConnections
-		{
-			get{ return settings.MaxConnections; }
-			set{ settings.MaxConnections = value;}
-		}
-		
-		public int MaxDownloadSpeed
-		{
-			get{ return settings.MaxDownloadSpeed; }
-			set{ settings.MaxDownloadSpeed = value; }
-		}
-		
-		public int MaxUploadSpeed
-		{
-			get{ return settings.MaxUploadSpeed; }
-			set{ settings.MaxUploadSpeed = value; }
-		}
-		
-		public bool FastResumeEnabled
-		{
-			get{ return settings.FastResumeEnabled; }
-			set{ settings.FastResumeEnabled = value; }
+			gconf.Store(UploadSlotsKey, UploadSlots);
+			gconf.Store(MaxConnectionsKey, MaxConnections);
+			gconf.Store(MaxDownloadSpeedKey, MaxDownloadSpeed);
+			gconf.Store(MaxUploadSpeedKey, MaxUploadSpeed);
+			gconf.Store(FastResumeEnabledKey, FastResumeEnabled);
 		}
 	}
 }

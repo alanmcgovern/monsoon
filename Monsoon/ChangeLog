@@ -1,5 +1,13 @@
 2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, TorrentStorage.cs, TorrentController.cs,
+	  UserTorrentSettings.cs: Made UserTorrentSettings inherit from
+	  TorrentSettings and updated serialization to support that.
+	
+	  Misc cleanups in TorrentController to remove unnecessary variables
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: Cosmetic
 
 2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 

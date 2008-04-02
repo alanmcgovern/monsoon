@@ -45,10 +45,7 @@ namespace Monsoon
 	public class TorrentController
 	{
 		private ClientEngine engine;
-		private TorrentSettings torrentSettings;
 		private ListStore torrentListStore;
-		private UserTorrentSettings userTorrentSettings;
-		private UserEngineSettings userEngineSettings;
 		private PreferencesSettings prefSettings;
 		private Dictionary<TorrentManager, TreeIter> torrents;
 		private Dictionary<TorrentManager, int> torrentSwarm;
@@ -68,8 +65,6 @@ namespace Monsoon
 		
 		public TorrentController(MainWindow mainWindow)
 		{
-			this.userTorrentSettings = mainWindow.UserTorrentSettings;
-			this.userEngineSettings = mainWindow.UserEngineSettings;
 			this.prefSettings = mainWindow.PrefSettings;
 			this.labels = mainWindow.Labels;
 			this.torrentListStore = mainWindow.TorrentListStore;
@@ -80,11 +75,7 @@ namespace Monsoon
 			this.torrentPreviousDownload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
 			
 			fastResume = LoadFastResume();
-
-			torrentSettings = new TorrentSettings(userTorrentSettings.UploadSlots, userTorrentSettings.MaxConnections, userTorrentSettings.MaxDownloadSpeed, userTorrentSettings.MaxUploadSpeed, userTorrentSettings.FastResumeEnabled);
-			
-			engine = new ClientEngine(userEngineSettings);
-			
+			engine = new ClientEngine(mainWindow.UserEngineSettings);
 			engine.ConnectionManager.PeerMessageTransferred += OnPeerMessageTransferred;
 			
 			hashProgress = new Dictionary<MonoTorrent.Client.TorrentManager,int>();
@@ -230,7 +221,7 @@ namespace Monsoon
 				throw new TorrentException("Failed to register " + newPath);
 			}
 			
-			TorrentSettings settings = savedSettings ?? torrentSettings.Clone ();
+			TorrentSettings settings = savedSettings ?? mainWindow.UserTorrentSettings.Clone ();
 			FastResume resume = this.fastResume.Find(delegate (FastResume f) { return Toolbox.ByteMatch(f.InfoHash, torrent.InfoHash); });
 			
 			if (resume != null)

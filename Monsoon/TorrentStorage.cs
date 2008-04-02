@@ -42,7 +42,7 @@ namespace Monsoon
 	{
 		private string torrentPath;
 		private string savePath;
-		private TorrentSettings settings;
+		private UserTorrentSettings settings;
 		private TorrentState state;
 		private long uploadedData;
 		private long downloadedData;
@@ -51,7 +51,7 @@ namespace Monsoon
 		{
 		}
 		
-		public TorrentStorage(string torrentPath, string savePath, TorrentSettings settings, TorrentState state, long uploadedData, long downloadedData)
+		public TorrentStorage(string torrentPath, string savePath, UserTorrentSettings settings, TorrentState state, long uploadedData, long downloadedData)
 		{
 			this.torrentPath = torrentPath;
 			this.savePath = savePath;
@@ -76,7 +76,7 @@ namespace Monsoon
 		}
 		
 		[XmlElement("Settings")]
-		public TorrentSettings Settings
+		public UserTorrentSettings Settings
 		{
 			get { return settings; }
 			set { settings = value; }
