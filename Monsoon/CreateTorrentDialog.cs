@@ -235,7 +235,14 @@ namespace Monsoon
 				BEncodedDictionary dict = creator.EndCreate(result);
 				System.IO.File.WriteAllBytes(savePathChooser.Filename, dict.Encode());
 				if(startSeedingCheckBox.Active)
+				{
+					Torrent t = Torrent.Load(dict);
+					BitField bf = new BitField(t.Pieces.Count);
+					bf.Not();
+					MonoTorrent.Client.FastResume fresume = new MonoTorrent.Client.FastResume (t.InfoHash, bf, new List<MonoTorrent.Client.Peer>());
+					torrentController.FastResume.Add(fresume);
 					torrentController.addTorrent(savePathChooser.Filename, startSeedingCheckBox.Active);
+				}
 				logger.Debug("Torrent file created");
 			}catch(Exception e){
 				logger.Error("Failed to create torrent - " + e.Message);

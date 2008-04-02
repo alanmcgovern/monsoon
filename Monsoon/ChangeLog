@@ -1,5 +1,11 @@
 2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* CreateTorrentDialog.cs, TorrentController.cs: If auto-seed is chosen when
+	  creating a torrent, fake some fastresume data so it doesn't hashcheck a
+	  second time.
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Monsoon.mdp, InterfaceSettings.cs, ISettingsStorage.cs, Makefile.am,
 	  SettingNotFoundException.cs, Settings/InterfaceSettings.cs,
 	  Settings/ISettingsStorage.cs, Settings/SettingNotFoundException.cs:

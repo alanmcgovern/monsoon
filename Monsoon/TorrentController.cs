@@ -60,7 +60,10 @@ namespace Monsoon
 		private ArrayList labels;
 		private List<BlockEventArgs> pieces;
 		private List<FastResume> fastResume;
-				
+		public List<FastResume> FastResume
+		{
+			get { return fastResume; }
+		}
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 		
 		public TorrentController(MainWindow mainWindow)
