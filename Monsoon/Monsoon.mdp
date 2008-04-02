@@ -25,7 +25,6 @@
     <File name="PreferencesDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="TorrentController.cs" subtype="Code" buildaction="Compile" />
     <File name="ISettingsStorage.cs" subtype="Code" buildaction="Compile" />
-    <File name="GconfSettingsStorage.cs" subtype="Code" buildaction="Compile" />
     <File name="UserTorrentSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="UserEngineSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="SettingNotFoundException.cs" subtype="Code" buildaction="Compile" />
@@ -34,7 +33,6 @@
     <File name="CreateTorrentDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="PreferencesSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="FileTreeView.cs" subtype="Code" buildaction="Compile" />
-    <File name="ISettings.cs" subtype="Code" buildaction="Compile" />
     <File name="InterfaceSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="TorrentLabel.cs" subtype="Code" buildaction="Compile" />
     <File name="TorrentFilterModel.cs" subtype="Code" buildaction="Compile" />
@@ -79,6 +77,9 @@
     <File name="TorrentSettingsController.cs" subtype="Code" buildaction="Compile" />
     <File name="TorrentFileSettingsController.cs" subtype="Code" buildaction="Compile" />
     <File name="TorrentFileSettingsModel.cs" subtype="Code" buildaction="Compile" />
+    <File name="Menus/SpeedMenuItem.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/GconfSettingsStorage.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/ISettings.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
@@ -94,6 +95,7 @@
     <ProjectReference type="Gac" localcopy="True" refto="gdk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="glib-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="gconf-sharp-peditors, Version=2.16.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </References>
   <GtkDesignInfo isWidgetLibrary="True" gtkVersion="2.8.3">
     <ExportedWidgets>

@@ -1,5 +1,10 @@
 2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Settings, Monsoon.mdp, Makefile.am, ISettings.cs, Settings/ISettings.cs:
+	  Moving settings files to a subfolder
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, TorrentStorage.cs, TorrentController.cs,
 	  UserTorrentSettings.cs: Made UserTorrentSettings inherit from
 	  TorrentSettings and updated serialization to support that.
