@@ -67,7 +67,7 @@ namespace Monsoon
 		
 		private TorrentController torrentController;
 
-		private UserEngineSettings userEngineSettings;
+		private EngineSettings userEngineSettings;
 		private Monsoon.SettingsController<TorrentSettings> userTorrentSettings;
 		private PreferencesSettings prefSettings;
 		private SettingsController<InterfaceSettings> interfaceSettings;
@@ -123,7 +123,7 @@ namespace Monsoon
 			}
 		}
 
-		public UserEngineSettings UserEngineSettings {
+		public EngineSettings UserEngineSettings {
 			get {
 				return userEngineSettings;
 			}
@@ -171,7 +171,7 @@ namespace Monsoon
 			}
 		}
 		
-		public MainWindow (GconfSettingsStorage settingsStorage, UserEngineSettings userEngineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
+		public MainWindow (GconfSettingsStorage settingsStorage, EngineSettings userEngineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
 		{
 			interfaceSettings = new GConfInterfaceSettingsController ();
 			userTorrentSettings = new Monsoon.GconfTorrentSettingsController ();
@@ -897,7 +897,6 @@ namespace Monsoon
 			preferencesDialog.Destroy ();
 			
 			userTorrentSettings.Save ();
-			userEngineSettings.Store ();
 			prefSettings.Store ();
 			
 			if (prefSettings.ImportEnabled) {
@@ -1451,7 +1450,6 @@ namespace Monsoon
 			userEngineSettings.GlobalMaxDownloadSpeed = 0;
 			userEngineSettings.GlobalMaxUploadSpeed = 0;
 			
-			userEngineSettings.Store ();
 			prefSettings.Store ();
 			
 			if (prefSettings.UpnpEnabled)

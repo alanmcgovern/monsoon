@@ -38,6 +38,7 @@ using Gtk;
 using NLog;
 using NLog.Targets; 
 using NLog.Config; 
+using MonoTorrent.Client;
 
 namespace Monsoon
 {
@@ -50,7 +51,7 @@ namespace Monsoon
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger(); 		
 		private ListenPortController portController;
 		private GconfSettingsStorage settingsStorage;
-		private UserEngineSettings userEngineSettings;
+		private SettingsController<EngineSettings> userEngineSettings;
 		private MainWindow mainWindow;
 		private bool isFirstRun;
 		
@@ -79,9 +80,15 @@ namespace Monsoon
 					
 			SetProcessName("monsoon");
 		
-			userEngineSettings = new UserEngineSettings();
+			userEngineSettings = new GconfEngineSettingsController ();
+			try {
+				userEngineSettings.Load();
+			}
+			catch (Exception ex) {
+				logger.Error("Could not load engine settings: {0}", ex.Message);
+			}
 			settingsStorage = GconfSettingsStorage.Instance;
-			portController = new ListenPortController(userEngineSettings);
+			portController = new ListenPortController(userEngineSettings.Settings);
 			
 			// required for the MS .NET runtime that doesn't initialize glib automatically
 			if (!GLib.Thread.Supported) {
@@ -93,7 +100,7 @@ namespace Monsoon
 			
 			Application.Init("monsoon", ref args);
 			
-			mainWindow = new MainWindow (settingsStorage, userEngineSettings,
+			mainWindow = new MainWindow (settingsStorage, userEngineSettings.Settings,
 									portController, isFirstRun);
 			
 			try{
@@ -105,6 +112,12 @@ namespace Monsoon
 				exDialog.Run();
 				mainWindow.Stop();
 				exDialog.Destroy();
+			}
+			try {
+				userEngineSettings.Save ();
+			}
+			catch (Exception ex) {
+				logger.Error("Could save engine settings: {0}", ex.Message);
 			}
 			portController.Stop();
 			mainWindow.Stop ();

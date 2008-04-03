@@ -34,19 +34,20 @@ using System.Net;
 using Mono.Nat;
 using Mono.Nat.Pmp;
 using Mono.Nat.Upnp;
+using MonoTorrent.Client;
 
 namespace Monsoon
 {
 	public class ListenPortController
 	{
-		private UserEngineSettings settings;
+		private EngineSettings settings;
 		
 		private List<INatDevice> devices;
 		private Mapping map;
 		
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 		
-		public ListenPortController(UserEngineSettings engineSettings)
+		public ListenPortController(EngineSettings engineSettings)
 		{
 			settings = engineSettings;
 			

@@ -37,7 +37,7 @@ namespace Monsoon
 	{
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger (); 
 	//	private UserTorrentSettings userTorrentSettings;
-		private UserEngineSettings userEngineSettings;
+		private EngineSettings userEngineSettings;
 		private PreferencesSettings prefSettings;
 		
 		private FileChooserButton downloadLocationButton;
@@ -207,8 +207,8 @@ namespace Monsoon
 		{
 			portSpinButton.Value = userEngineSettings.ListenPort;
 			maxConnectionsSpinButton.Value = userEngineSettings.GlobalMaxConnections;
-			maxDownloadSpeedSpinButton.Value = userEngineSettings.GlobalMaxDownloadSpeed;
-			maxUploadSpeedSpinButton.Value = userEngineSettings.GlobalMaxUploadSpeed;
+			maxDownloadSpeedSpinButton.Value = userEngineSettings.GlobalMaxDownloadSpeed / 1024;
+			maxUploadSpeedSpinButton.Value = userEngineSettings.GlobalMaxUploadSpeed / 1024;
 			
 			upnpCheckBox.Active = prefSettings.UpnpEnabled;
 			startNewTorrentsCheckBox.Active = prefSettings.StartNewTorrents;
@@ -248,12 +248,12 @@ namespace Monsoon
 
 		protected virtual void OnMaxDownloadSpeedSpinButtonValueChanged (object sender, System.EventArgs e)
 		{
-			userEngineSettings.GlobalMaxDownloadSpeed = (int)maxDownloadSpeedSpinButton.Value;
+			userEngineSettings.GlobalMaxDownloadSpeed = (int)maxDownloadSpeedSpinButton.Value * 1024;
 		}
 
 		protected virtual void OnMaxUploadSpeedSpinButtonValueChanged (object sender, System.EventArgs e)
 		{
-			userEngineSettings.GlobalMaxUploadSpeed = (int)maxUploadSpeedSpinButton.Value;
+			userEngineSettings.GlobalMaxUploadSpeed = (int)maxUploadSpeedSpinButton.Value * 1024;
 		}
 
 		protected virtual void OnImportTorrentsCheckBoxClicked (object sender, System.EventArgs e)

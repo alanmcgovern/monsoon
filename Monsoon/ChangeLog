@@ -1,5 +1,13 @@
 2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, Main.cs, UserEngineSettings.cs,
+	  ListenPortController.cs, Settings/GconfEngineSettingsController.cs,
+	  Monsoon.mdp, Makefile.am: Replaced UserEngineSettings with an
+	  EngineSettingsController
+	* PreferencesDialog.cs: Upload/Download limits are now in kB/sec
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: Fixed breakage from fixing a conflict incorrectly
 	* Settings/ISettingsStorage.cs, Settings/GconfSettingsStorage.cs,
 	  Monsoon.mdp, Makefile.am: Ditched extra files

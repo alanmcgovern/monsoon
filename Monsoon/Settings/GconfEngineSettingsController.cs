@@ -33,7 +33,7 @@ using MonoTorrent.Common;
 namespace Monsoon
 {
 	
-	public class UserEngineSettings : EngineSettings
+	public class GconfEngineSettingsController : SettingsController<EngineSettings>
 	{
 		static string SETTINGS_PATH = "EngineSettings/";
 		
@@ -47,88 +47,82 @@ namespace Monsoon
 		static readonly string MaxReadRateKey = SETTINGS_PATH + "MaxReadRate";
 		static readonly string MaxWriteRateKey = SETTINGS_PATH + "MaxWriteRate";
 
-		public UserEngineSettings()
-		{
-			Restore();				
-		}
-		
-		public void Restore()
+		public override void Load ()
 		{
 			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			try{
-				AllowLegacyConnections = (bool)gconf.Retrieve(AllowLegacyConnectionsKey);
+				Settings.AllowLegacyConnections = (bool)gconf.Retrieve(AllowLegacyConnectionsKey);
 			} catch(SettingNotFoundException){
 				
 			}
 			
 			try{
-				GlobalMaxConnections = (int)gconf.Retrieve(GlobalMaxConnectionsKey);
+				Settings.GlobalMaxConnections = (int)gconf.Retrieve(GlobalMaxConnectionsKey);
 			} catch(SettingNotFoundException){
 				
 			}
 			
 			try{
-				GlobalMaxDownloadSpeed = (int)gconf.Retrieve(GlobalMaxDownloadSpeedKey);
+				Settings.GlobalMaxDownloadSpeed = (int)gconf.Retrieve(GlobalMaxDownloadSpeedKey);
 			} catch(SettingNotFoundException){
 				
 			}
 			
 			try{
-				GlobalMaxHalfOpenConnections = (int)gconf.Retrieve(GlobalMaxHalfOpenConnectionsKey);
+				Settings.GlobalMaxHalfOpenConnections = (int)gconf.Retrieve(GlobalMaxHalfOpenConnectionsKey);
 			} catch(SettingNotFoundException){
 				
 			}
 			
 			try{
-				GlobalMaxUploadSpeed = (int)gconf.Retrieve(GlobalMaxUploadSpeedKey);
+				Settings.GlobalMaxUploadSpeed = (int)gconf.Retrieve(GlobalMaxUploadSpeedKey);
 			} catch(SettingNotFoundException){
 				
 			}
 			
 			try{
-				ListenPort = (int)gconf.Retrieve(ListenPortKey);
+				Settings.ListenPort = (int)gconf.Retrieve(ListenPortKey);
 			} catch(SettingNotFoundException){
 				
 			}
 			
 			try{
-				MaxReadRate = (int)gconf.Retrieve(MaxReadRateKey);
+				Settings.MaxReadRate = (int)gconf.Retrieve(MaxReadRateKey);
 			} catch(SettingNotFoundException){
 				
 			}
 			
 			try{
-				MaxWriteRate = (int)gconf.Retrieve(MaxWriteRateKey);
+				Settings.MaxWriteRate = (int)gconf.Retrieve(MaxWriteRateKey);
 			} catch(SettingNotFoundException){
 				
 			}
 			
 			try{ 
-				SavePath = (string)gconf.Retrieve(SavePathKey);
+				Settings.SavePath = (string)gconf.Retrieve(SavePathKey);
 			} catch(SettingNotFoundException){
 				
 			} finally{
 				// If savePath has not been set, fallback to user's home directory
-				if (String.IsNullOrEmpty(SavePath)) {
-					SavePath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+				if (String.IsNullOrEmpty(Settings.SavePath)) {
+					Settings.SavePath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 				}
 			}
-			
 		}
 		
-		public void Store()
-		{	
+		public override void Save ()
+		{
 			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
-			gconf.Store(AllowLegacyConnectionsKey, AllowLegacyConnections);
-			gconf.Store(GlobalMaxConnectionsKey, GlobalMaxConnections);
-			gconf.Store(GlobalMaxDownloadSpeedKey, GlobalMaxDownloadSpeed);
-			gconf.Store(GlobalMaxHalfOpenConnectionsKey, GlobalMaxHalfOpenConnections);
-			gconf.Store(GlobalMaxUploadSpeedKey, GlobalMaxUploadSpeed);
-			gconf.Store(ListenPortKey, ListenPort);
-			gconf.Store(SavePathKey, SavePath);
-			gconf.Store(MaxReadRateKey, MaxReadRate);
-			gconf.Store(MaxWriteRateKey, MaxWriteRate);
+			gconf.Store(AllowLegacyConnectionsKey, Settings.AllowLegacyConnections);
+			gconf.Store(GlobalMaxConnectionsKey, Settings.GlobalMaxConnections);
+			gconf.Store(GlobalMaxDownloadSpeedKey, Settings.GlobalMaxDownloadSpeed);
+			gconf.Store(GlobalMaxHalfOpenConnectionsKey, Settings.GlobalMaxHalfOpenConnections);
+			gconf.Store(GlobalMaxUploadSpeedKey, Settings.GlobalMaxUploadSpeed);
+			gconf.Store(ListenPortKey, Settings.ListenPort);
+			gconf.Store(SavePathKey, Settings.SavePath);
+			gconf.Store(MaxReadRateKey, Settings.MaxReadRate);
+			gconf.Store(MaxWriteRateKey, Settings.MaxWriteRate);
 		}
 	}
 }
