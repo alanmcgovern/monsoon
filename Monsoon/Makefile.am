@@ -135,7 +135,7 @@ FILES = \
 	Settings/InterfaceSettings.cs \
 	Settings/SettingsController.cs \
 	Settings/SettingNotFoundException.cs \
-	PreferencesSettings.cs 
+	Settings/PreferencesSettings.cs 
 
 DATA_FILES = \
 	icons/rss.png \

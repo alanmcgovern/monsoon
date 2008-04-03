@@ -1,5 +1,10 @@
 2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Monsoon.mdp, Makefile.am, PreferencesSettings.cs,
+	  Settings/PreferencesSettings.cs: Moved preferencessettings
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, PreferencesDialog.cs, Main.cs, TorrentController.cs:
 	  Misc variable renaming
 

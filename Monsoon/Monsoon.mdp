@@ -74,11 +74,11 @@
     <File name="Settings/GconfSettingsStorage.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/InterfaceSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/SettingNotFoundException.cs" subtype="Code" buildaction="Compile" />
-    <File name="PreferencesSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/SettingsController.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/GConfInterfaceSettingsController.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/GconfTorrentSettingsController.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/GconfEngineSettingsController.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/PreferencesSettings.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
