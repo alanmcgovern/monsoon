@@ -1,5 +1,9 @@
 2008-04-03  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs: Changed the way the exceptions are handled
+
+2008-04-03  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, PreferencesSettings.cs, UserEngineSettings.cs,
 	  UserTorrentSettings.cs, Settings/InterfaceSettings.cs,
 	  Settings/GConfInterfaceSettingsController.cs,

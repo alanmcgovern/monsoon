@@ -109,13 +109,6 @@ namespace Monsoon
 		public MainWindow (GconfSettingsStorage settingsStorage, UserEngineSettings userEngineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
 		{
 			interfaceSettings = new GConfInterfaceSettingsController ();
-			try {
-				interfaceSettings.Load ();
-			}
-			catch(Exception ex) {
-				logger.Warn ("Couldn't load the interface settings: {0}", ex.Message);
-			}
-			
 			prefSettings = new PreferencesSettings ();
 			this.userEngineSettings = userEngineSettings;
 			this.portController = portController;
@@ -256,47 +249,56 @@ namespace Monsoon
 		
 		private void RestoreInterfaceSettings ()
 		{
-			InterfaceSettings interfaceSettings = this.interfaceSettings.Settings;
-			
-			logger.Info ("Restoring interface settings");
-			SetDefaultSize (interfaceSettings.WindowWidth, interfaceSettings.WindowHeight);
-			
-			// moved here
-			ShowAll();
-			
-			if (interfaceSettings.WindowYPos == 0 && interfaceSettings.WindowXPos == 0)
-				SetPosition (WindowPosition.Center);
-			else
-				Move (interfaceSettings.WindowXPos, interfaceSettings.WindowYPos);
-			
-			vPaned.Position = interfaceSettings.VPaned;
-			hPaned.Position = interfaceSettings.HPaned;
-			
-			ShowDetailedInfo.Active = interfaceSettings.ShowDetails;
-			ShowLabels.Active = interfaceSettings.ShowLabels;
-			labelViewScrolledWindow.Visible = interfaceSettings.ShowLabels;
-			detailNotebook.Visible = interfaceSettings.ShowDetails;
-			
-			// Restore columns
-			torrentTreeView.nameColumn.FixedWidth = interfaceSettings.NameColumnWidth;
-			torrentTreeView.doneColumn.FixedWidth = interfaceSettings.DoneColumnWidth;
-			torrentTreeView.statusColumn.FixedWidth = interfaceSettings.StatusColumnWidth;
-			torrentTreeView.seedsColumn.FixedWidth = interfaceSettings.SeedsColumnWidth;
-			torrentTreeView.peersColumn.FixedWidth = interfaceSettings.PeersColumnWidth;
-			torrentTreeView.downSpeedColumn.FixedWidth = interfaceSettings.DlSpeedColumnWidth;
-			torrentTreeView.upSpeedColumn.FixedWidth = interfaceSettings.UpSpeedColumnWidth;
-			torrentTreeView.ratioColumn.FixedWidth = interfaceSettings.RatioColumnWidth;
-			torrentTreeView.sizeColumn.FixedWidth = interfaceSettings.SizeColumnWidth;
-			
-			torrentTreeView.nameColumn.Visible = interfaceSettings.NameColumnVisible;
-			torrentTreeView.doneColumn.Visible = interfaceSettings.DoneColumnVisible;
-			torrentTreeView.statusColumn.Visible = interfaceSettings.StatusColumnVisible;
-			torrentTreeView.seedsColumn.Visible = interfaceSettings.SeedsColumnVisible;
-			torrentTreeView.peersColumn.Visible = interfaceSettings.PeersColumnVisible;
-			torrentTreeView.downSpeedColumn.Visible = interfaceSettings.DlSpeedColumnVisible;
-			torrentTreeView.upSpeedColumn.Visible = interfaceSettings.UpSpeedColumnVisible;
-			torrentTreeView.ratioColumn.Visible = interfaceSettings.RatioColumnVisible;
-			torrentTreeView.sizeColumn.Visible = interfaceSettings.SizeColumnVisible;
+			try
+			{
+				interfaceSettings.Load ();
+				
+				InterfaceSettings settings = interfaceSettings.Settings;
+				
+				logger.Info ("Restoring interface settings");
+				SetDefaultSize (settings.WindowWidth, settings.WindowHeight);
+				
+				// moved here
+				ShowAll();
+				
+				if (settings.WindowYPos == 0 && settings.WindowXPos == 0)
+					SetPosition (WindowPosition.Center);
+				else
+					Move (settings.WindowXPos, settings.WindowYPos);
+				
+				vPaned.Position = settings.VPaned;
+				hPaned.Position = settings.HPaned;
+				
+				ShowDetailedInfo.Active = settings.ShowDetails;
+				ShowLabels.Active = settings.ShowLabels;
+				labelViewScrolledWindow.Visible = settings.ShowLabels;
+				detailNotebook.Visible = settings.ShowDetails;
+				
+				// Restore columns
+				torrentTreeView.nameColumn.FixedWidth = settings.NameColumnWidth;
+				torrentTreeView.doneColumn.FixedWidth = settings.DoneColumnWidth;
+				torrentTreeView.statusColumn.FixedWidth = settings.StatusColumnWidth;
+				torrentTreeView.seedsColumn.FixedWidth = settings.SeedsColumnWidth;
+				torrentTreeView.peersColumn.FixedWidth = settings.PeersColumnWidth;
+				torrentTreeView.downSpeedColumn.FixedWidth = settings.DlSpeedColumnWidth;
+				torrentTreeView.upSpeedColumn.FixedWidth = settings.UpSpeedColumnWidth;
+				torrentTreeView.ratioColumn.FixedWidth = settings.RatioColumnWidth;
+				torrentTreeView.sizeColumn.FixedWidth = settings.SizeColumnWidth;
+				
+				torrentTreeView.nameColumn.Visible = settings.NameColumnVisible;
+				torrentTreeView.doneColumn.Visible = settings.DoneColumnVisible;
+				torrentTreeView.statusColumn.Visible = settings.StatusColumnVisible;
+				torrentTreeView.seedsColumn.Visible = settings.SeedsColumnVisible;
+				torrentTreeView.peersColumn.Visible = settings.PeersColumnVisible;
+				torrentTreeView.downSpeedColumn.Visible = settings.DlSpeedColumnVisible;
+				torrentTreeView.upSpeedColumn.Visible = settings.UpSpeedColumnVisible;
+				torrentTreeView.ratioColumn.Visible = settings.RatioColumnVisible;
+				torrentTreeView.sizeColumn.Visible = settings.SizeColumnVisible;
+			}
+			catch (Exception ex)
+			{
+				logger.Error ("Couldn't load interface settings: {0}", ex.Message);
+			}
 		}
 		
 		private void StoreInterfaceSettings ()
