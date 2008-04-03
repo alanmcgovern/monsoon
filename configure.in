@@ -1,5 +1,3 @@
-dnl Warning: This is an automatically generated file, do not edit!
-dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.54])
 AC_INIT([Monsoon], [0.11])
 AM_INIT_AUTOMAKE([foreign])
@@ -50,16 +48,25 @@ PKG_CHECK_MODULES([GLIB_SHARP_20], [glib-sharp-2.0])
 PKG_CHECK_MODULES([GTK_SHARP_20], [gtk-sharp-2.0])
 PKG_CHECK_MODULES([NDESK_DBUS_GLIB_10], [ndesk-dbus-glib-1.0])
 
-dnl package checks, per config
+# I18N
+AC_PROG_INTLTOOL([0.25])
+AM_PROG_LIBTOOL
 
+ALL_LINGUAS="de"
+GETTEXT_PACKAGE=monsoon
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package])
+AM_GLIB_GNU_GETTEXT
+
+dnl package checks, per config
 
 AC_CONFIG_FILES([
 Makefile
 Monsoon/Makefile
 Monsoon/monsoon
-
 ])
 
 AC_OUTPUT([
-  	 Monsoon/AssemblyInfo.cs
-  	 ])
+Monsoon/AssemblyInfo.cs
+po/Makefile.in
+])

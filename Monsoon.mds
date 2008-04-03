@@ -11,7 +11,6 @@
   </Configurations>
   <StartMode startupentry="Monsoon" single="True">
     <Execute type="None" entry="Monsoon" />
-    <Execute type="None" entry="Monsoon" />
   </StartMode>
   <MonoDevelop.ChangeLogAddIn.ChangeLogInfo policy="OneChangeLogInProjectRootDirectory" />
   <Entries>

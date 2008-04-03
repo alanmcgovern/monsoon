@@ -1,3 +1,7 @@
+2008-04-04  Mirco Bauer <meebey@meebey.net> 
+
+	* MainWindow.cs, Main.cs: Added gettext support / integration.
+
 2008-04-03  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* MainWindow.cs: Changed the way the exceptions are handled

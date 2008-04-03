@@ -88,10 +88,13 @@ namespace Monsoon
 				GLib.Thread.Init();
 			}
 
+			Mono.Unix.Catalog.Init("monsoon", "locale");
+			Console.WriteLine(_("Starting Monsoon"));
+			
 			Application.Init("monsoon", ref args);
 			
 			mainWindow = new MainWindow (settingsStorage, userEngineSettings,
-			                             portController, isFirstRun);
+									portController, isFirstRun);
 			
 			try{
 				Application.Run();
@@ -110,38 +113,38 @@ namespace Monsoon
 
 		public static void SetProcessName(string name)
 		{
-			if(prctl(15 /* PR_SET_NAME */, Encoding.ASCII.GetBytes(name + "\0"), 0, 0, 0) != 0) {
-				throw new ApplicationException("Error setting process name: " +	Mono.Unix.Native.Stdlib.GetLastError());
+			if (prctl(15 /* PR_SET_NAME */, Encoding.ASCII.GetBytes(name + "\0"), 0, 0, 0) != 0) {
+				throw new ApplicationException(_("Error setting process name: " +	Mono.Unix.Native.Stdlib.GetLastError()));
 			}
 		}
 		
 		private void BuildNlogConfig()
 		{
 			LoggingConfiguration config = new LoggingConfiguration(); 
-         
-        	// Create targets 
-         	ConsoleTarget consoleTarget = new ConsoleTarget(); 
-        	config.AddTarget("console", consoleTarget); 
-         
-        	FileTarget fileTarget = new FileTarget(); 
-        	config.AddTarget("file", fileTarget); 
-	        
-	        //memoryTarget = new MemoryTarget();
-	        //config.AddTarget("memory", memoryTarget);
-	        
-	        // define layout
-	        consoleTarget.Layout = "${date:format=HH\\:MM\\:ss} ${level} ${logger} ${message}"; 
-	        fileTarget.FileName = Defines.LogFile; 
-	        fileTarget.Layout = "${level} ${stacktrace} ${message}"; 
-	        //memoryTarget.Layout = "${date:format=HH\\:MM\\:ss} ${level} ${logger} ${message}";
-	        
-	        // define rules 
-	        LoggingRule rule1 = new LoggingRule("*", LogLevel.Debug, consoleTarget); 
-	        config.LoggingRules.Add(rule1); 
-	        LoggingRule rule2 = new LoggingRule("*", LogLevel.Debug, fileTarget); 
-	        config.LoggingRules.Add(rule2); 
-	        //LoggingRule rule3 = new LoggingRule("*", LogLevel.Debug, fileTarget);
-	        //config.LoggingRules.Add(rule3);
+		 
+			// Create targets 
+		 	ConsoleTarget consoleTarget = new ConsoleTarget(); 
+			config.AddTarget("console", consoleTarget); 
+		 
+			FileTarget fileTarget = new FileTarget(); 
+			config.AddTarget("file", fileTarget); 
+			
+			//memoryTarget = new MemoryTarget();
+			//config.AddTarget("memory", memoryTarget);
+			
+			// define layout
+			consoleTarget.Layout = "${date:format=HH\\:MM\\:ss} ${level} ${logger} ${message}"; 
+			fileTarget.FileName = Defines.LogFile; 
+			fileTarget.Layout = "${level} ${stacktrace} ${message}"; 
+			//memoryTarget.Layout = "${date:format=HH\\:MM\\:ss} ${level} ${logger} ${message}";
+			
+			// define rules 
+			LoggingRule rule1 = new LoggingRule("*", LogLevel.Debug, consoleTarget); 
+			config.LoggingRules.Add(rule1); 
+			LoggingRule rule2 = new LoggingRule("*", LogLevel.Debug, fileTarget); 
+			config.LoggingRules.Add(rule2); 
+			//LoggingRule rule3 = new LoggingRule("*", LogLevel.Debug, fileTarget);
+			//config.LoggingRules.Add(rule3);
 			LogManager.Configuration = config; 
 		}
 		
@@ -159,6 +162,11 @@ namespace Monsoon
 				Directory.CreateDirectory(Defines.TorrentFolder);
 			}
 			
+		}
+		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
 		}
 	}
 }

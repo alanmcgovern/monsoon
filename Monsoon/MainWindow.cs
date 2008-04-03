@@ -49,7 +49,9 @@ using MonoTorrent.TorrentWatcher;
 namespace Monsoon
 {
 	public partial class MainWindow: Gtk.Window
-	{	
+	{
+		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger ();
+		
 		private LabelTreeView labelTreeView;
 		private ListStore labelListStore;
 		
@@ -103,8 +105,71 @@ namespace Monsoon
 			get { return peerListStore; }
 		}
 		
-		//private MemoryTarget memoryTarget;
-		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger (); 
+		public TorrentLabel AllLabel {
+			get { return allLabel; }
+		}
+		
+		public TorrentLabel DownloadingLabel {
+			get { return downloadingLabel; }
+		}
+		
+		public TorrentLabel SeedingLabel {
+			get { return uploadLabel; }
+		}
+
+		public GconfSettingsStorage SettingsStorage {
+			get {
+				return GconfSettingsStorage.Instance;
+			}
+		}
+
+		public UserEngineSettings UserEngineSettings {
+			get {
+				return userEngineSettings;
+			}
+		}
+
+		public PreferencesSettings PrefSettings {
+			get {
+				return prefSettings;
+			}
+		}
+
+		public UserTorrentSettings UserTorrentSettings {
+			get {
+				return userTorrentSettings;
+			}
+		}
+
+		public ArrayList Labels {
+			get {
+				return labels;
+			}
+		}
+
+		public ListStore TorrentListStore {
+			get {
+				return torrentListStore;
+			}
+		}
+
+		public Dictionary<TorrentManager, TreeIter> Torrents {
+			get {
+				return torrents;
+			}
+		}
+
+		public ListStore LabelListStore {
+			get {
+				return labelListStore;
+			}
+		}
+
+		public List<BlockEventArgs> Pieces {
+			get {
+				return pieces;
+			}
+		}
 		
 		public MainWindow (GconfSettingsStorage settingsStorage, UserEngineSettings userEngineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
 		{
@@ -193,21 +258,21 @@ namespace Monsoon
 			EventBox eventBox = new EventBox ();
 			trayMenu = new Menu ();
 			
-			ImageMenuItem quitItem = new ImageMenuItem ("Quit");
+			ImageMenuItem quitItem = new ImageMenuItem (_("Quit"));
 			quitItem.Image = new Image (Stock.Quit, IconSize.Menu);
 			quitItem.Activated += delegate(object sender, EventArgs args)
 			{
 				OnDeleteEvent (sender ,new DeleteEventArgs ());
 			};
 			
-			ImageMenuItem stop = new ImageMenuItem("Stop All");
+			ImageMenuItem stop = new ImageMenuItem (_("Stop All"));
 			stop.Image = new Image (Stock.Stop, IconSize.Menu);
 			stop.Activated += delegate {
 				foreach (TorrentManager m in torrentController.Torrents)
 					m.Stop ();
 			};
 			
-			ImageMenuItem start = new ImageMenuItem ("Start All");
+			ImageMenuItem start = new ImageMenuItem (_("Start All"));
 			start.Image = new Image (Stock.MediaPlay, IconSize.Menu);
 			start.Activated += delegate {
 				foreach (TorrentManager m in torrentController.Torrents)
@@ -394,10 +459,10 @@ namespace Monsoon
 			//	allList.Add (manager);
 			//}
 			
-			allLabel = new TorrentLabel (new ArrayList(), "All", "gtk-home", true);
-			deleteLabel = new TorrentLabel (new ArrayList(), "Remove", "gtk-remove", true);
-			downloadingLabel = new TorrentLabel (new ArrayList(), "Downloading", "gtk-go-down", true);
-			uploadLabel = new TorrentLabel (new ArrayList(), "Seeding", "gtk-go-up", true);
+			allLabel = new TorrentLabel (new ArrayList(), _("All"), "gtk-home", true);
+			deleteLabel = new TorrentLabel (new ArrayList(), _("Remove"), "gtk-remove", true);
+			downloadingLabel = new TorrentLabel (new ArrayList(), _("Downloading"), "gtk-go-down", true);
+			uploadLabel = new TorrentLabel (new ArrayList(), _("Seeding"), "gtk-go-up", true);
 		
 			labelListStore.AppendValues (allLabel);
 			labelListStore.AppendValues (downloadingLabel);
@@ -723,7 +788,7 @@ namespace Monsoon
 			logger.Info ("Storing labels");
 			
 			foreach (TorrentLabel label in labels) {
-				if (label.Name == "All" || label.Name == "Downloading" || label.Name == "Seeding")
+				if (label.Name == _("All") || label.Name == _("Downloading") || label.Name == _("Seeding"))
 					continue;
 				labelsToStore.Add (label);
 			}
@@ -851,12 +916,12 @@ namespace Monsoon
 		{
 			FileFilter torrentFilter = new FileFilter ();
 			FileFilter allFilter = new FileFilter ();
-			FileChooserDialog fileChooser = new FileChooserDialog ("Open torrent(s)", this, FileChooserAction.Open, Gtk.Stock.Cancel, ResponseType.Cancel, Gtk.Stock.Open, ResponseType.Accept);
+			FileChooserDialog fileChooser = new FileChooserDialog (_("Open torrent(s)"), this, FileChooserAction.Open, Gtk.Stock.Cancel, ResponseType.Cancel, Gtk.Stock.Open, ResponseType.Accept);
 			
-			torrentFilter.Name = "Torrent files";
+			torrentFilter.Name = _("Torrent files");
 			torrentFilter.AddPattern ("*.torrent");
 			
-			allFilter.Name = "All files";
+			allFilter.Name = _("All files");
 			allFilter.AddPattern ("*.*");
 			
 			fileChooser.AddFilter (torrentFilter);
@@ -1124,18 +1189,18 @@ namespace Monsoon
 				startTorrentButton.Sensitive = true;
 				if (state == TorrentState.Downloading || state == TorrentState.Seeding) {
 					startTorrentButton.StockId = "gtk-media-pause";
-					startTorrentButton.Label = "Pause";
+					startTorrentButton.Label = _("Pause");
 					stopTorrentButton.Sensitive = true;
 				} else if(state == TorrentState.Paused) {
 					stopTorrentButton.Sensitive = true;
 					startTorrentButton.StockId = "gtk-media-play";
-					startTorrentButton.Label = "Start";
+					startTorrentButton.Label = _("Start");
 				} else if(state == TorrentState.Hashing) {
 					startTorrentButton.StockId = "gtk-media-play";
 					stopTorrentButton.Sensitive = true;
 				} else {
 					startTorrentButton.StockId = "gtk-media-play";
-					startTorrentButton.Label = "Start";
+					startTorrentButton.Label = _("Start");
 					stopTorrentButton.Sensitive = false;
 				}
 			}	
@@ -1249,8 +1314,8 @@ namespace Monsoon
 			MessageDialog messageDialog = new MessageDialog (this,
 						DialogFlags.DestroyWithParent,
 						MessageType.Question, 
-						ButtonsType.YesNo, "Remove torrent and delete data?");
-			messageDialog.Title = "Delete torrent"; 
+						ButtonsType.YesNo, _("Remove torrent and delete data?"));
+			messageDialog.Title = _("Delete torrent"); 
 			ResponseType result = (ResponseType)messageDialog.Run();
 			messageDialog.Hide();
 			
@@ -1390,70 +1455,9 @@ namespace Monsoon
 			rssDialog.Destroy ();
 		}
 		
-		public TorrentLabel AllLabel {
-			get { return allLabel; }
-		}
-		
-		public TorrentLabel DownloadingLabel {
-			get { return downloadingLabel; }
-		}
-		
-		public TorrentLabel SeedingLabel {
-			get { return uploadLabel; }
-		}
-
-		public GconfSettingsStorage SettingsStorage {
-			get {
-				return GconfSettingsStorage.Instance;
-			}
-		}
-
-		public UserEngineSettings UserEngineSettings {
-			get {
-				return userEngineSettings;
-			}
-		}
-
-		public PreferencesSettings PrefSettings {
-			get {
-				return prefSettings;
-			}
-		}
-
-		public UserTorrentSettings UserTorrentSettings {
-			get {
-				return userTorrentSettings;
-			}
-		}
-
-		public ArrayList Labels {
-			get {
-				return labels;
-			}
-		}
-
-		public ListStore TorrentListStore {
-			get {
-				return torrentListStore;
-			}
-		}
-
-		public Dictionary<TorrentManager, TreeIter> Torrents {
-			get {
-				return torrents;
-			}
-		}
-
-		public ListStore LabelListStore {
-			get {
-				return labelListStore;
-			}
-		}
-
-		public List<BlockEventArgs> Pieces {
-			get {
-				return pieces;
-			}
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
 		}
 	}
 }

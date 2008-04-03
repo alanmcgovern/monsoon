@@ -1,3 +1,11 @@
+2008-04-04  Mirco Bauer <meebey@meebey.net> 
+
+	* intltool-extract.in, intltool-update.in, Makefile.am, po/de.po,
+	  po/Makefile.in.in, po/POTFILES.in: Added gettext support / integration.
+	* configure.in, configure.ac, autogen.sh: Renamed configure.ac to
+	  configure.in, we manage it now.
+	* Monsoon.mds: Fixed.
+
 2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Makefile.am: Fixed makefile issues after removing dep on bundled dbus
