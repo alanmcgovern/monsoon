@@ -33,7 +33,7 @@ namespace Monsoon
 {
 	
 	
-	public class PreferencesSettings: ISettings
+	public class PreferencesSettings
 	{
 		static string SETTINGS_PATH = "PreferencesSettings/";
 	 	

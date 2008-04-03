@@ -72,13 +72,14 @@
     <File name="TorrentFileSettingsModel.cs" subtype="Code" buildaction="Compile" />
     <File name="Menus/SpeedMenuItem.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/GconfSettingsStorage.cs" subtype="Code" buildaction="Compile" />
-    <File name="Settings/ISettings.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/InterfaceSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/ISettingsStorage.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/SettingNotFoundException.cs" subtype="Code" buildaction="Compile" />
     <File name="UserTorrentSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="UserEngineSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="PreferencesSettings.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/SettingsController.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/GConfInterfaceSettingsController.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />

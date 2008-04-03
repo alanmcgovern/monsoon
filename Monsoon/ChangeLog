@@ -1,5 +1,14 @@
 2008-04-03  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, PreferencesSettings.cs, UserEngineSettings.cs,
+	  UserTorrentSettings.cs, Settings/InterfaceSettings.cs,
+	  Settings/GConfInterfaceSettingsController.cs,
+	  Settings/SettingsController.cs, Settings/ISettings.cs, Monsoon.mdp,
+	  Makefile.am: Began refactoring the way settings are stored. Moved
+	  InterfaceSettings to the new API.
+
+2008-04-03  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	
 
 2008-04-03  Alan McGovern <alan.mcgovern@gmail.com> 

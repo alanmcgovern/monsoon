@@ -128,10 +128,11 @@ FILES = \
 	TorrentFileSettingsController.cs \
 	TorrentFileSettingsModel.cs \
 	Menus/SpeedMenuItem.cs \
+	Settings/GConfInterfaceSettingsController.cs\
 	Settings/GconfSettingsStorage.cs \
-	Settings/ISettings.cs \
 	Settings/InterfaceSettings.cs \
 	Settings/ISettingsStorage.cs \
+	Settings/SettingsController.cs \
 	Settings/SettingNotFoundException.cs \
 	UserTorrentSettings.cs \
 	UserEngineSettings.cs \

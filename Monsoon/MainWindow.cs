@@ -68,7 +68,7 @@ namespace Monsoon
 		private UserEngineSettings userEngineSettings;
 		private UserTorrentSettings userTorrentSettings;
 		private PreferencesSettings prefSettings;
-		private InterfaceSettings interfaceSettings;
+		private SettingsController<InterfaceSettings> interfaceSettings;
 		
 		private PeerTreeView peerTreeView;
 		private ListStore peerListStore;
@@ -108,11 +108,18 @@ namespace Monsoon
 		
 		public MainWindow (GconfSettingsStorage settingsStorage, UserEngineSettings userEngineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
 		{
+			interfaceSettings = new GConfInterfaceSettingsController ();
+			try {
+				interfaceSettings.Load ();
+			}
+			catch(Exception ex) {
+				logger.Warn ("Couldn't load the interface settings: {0}", ex.Message);
+			}
+			
 			prefSettings = new PreferencesSettings ();
 			this.userEngineSettings = userEngineSettings;
 			this.portController = portController;
 			userTorrentSettings = new UserTorrentSettings ();
-			interfaceSettings = new InterfaceSettings ();
 			
 			labels = new ArrayList ();
 			torrents = new Dictionary<MonoTorrent.Client.TorrentManager,Gtk.TreeIter> ();
@@ -129,7 +136,7 @@ namespace Monsoon
 			
 			GLib.Timeout.Add (1000, new GLib.TimeoutHandler (updateView));
 			
-			RestoreInterface ();
+			RestoreInterfaceSettings ();
 			
 			//portController = new ListenPortController(userEngineSettings);
 			if (prefSettings.UpnpEnabled)
@@ -247,8 +254,10 @@ namespace Monsoon
 			}
 		}
 		
-		private void RestoreInterface()
+		private void RestoreInterfaceSettings ()
 		{
+			InterfaceSettings interfaceSettings = this.interfaceSettings.Settings;
+			
 			logger.Info ("Restoring interface settings");
 			SetDefaultSize (interfaceSettings.WindowWidth, interfaceSettings.WindowHeight);
 			
@@ -290,8 +299,10 @@ namespace Monsoon
 			torrentTreeView.sizeColumn.Visible = interfaceSettings.SizeColumnVisible;
 		}
 		
-		private void StoreInterface ()
+		private void StoreInterfaceSettings ()
 		{
+			InterfaceSettings interfaceSettings = this.interfaceSettings.Settings;
+			
 			int w, h;
 			int x, y;
 		
@@ -332,7 +343,7 @@ namespace Monsoon
 			interfaceSettings.SizeColumnWidth = torrentTreeView.ratioColumn.Width;
 			interfaceSettings.SizeColumnVisible = torrentTreeView.ratioColumn.Visible;
 					
-			interfaceSettings.Store ();
+			this.interfaceSettings.Save ();
 		}
 		
 		
@@ -671,7 +682,7 @@ namespace Monsoon
 				}	
 			}
 			
-			StoreInterface ();
+			StoreInterfaceSettings ();
 			StoreLabels ();
 			rssManagerController.Store();
 			torrentController.StoreFastResume ();

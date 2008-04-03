@@ -33,7 +33,7 @@ using MonoTorrent.Common;
 namespace Monsoon
 {
 	
-	public class UserEngineSettings : EngineSettings, ISettings
+	public class UserEngineSettings : EngineSettings
 	{
 		static string SETTINGS_PATH = "EngineSettings/";
 		

@@ -32,7 +32,7 @@ using MonoTorrent.Client;
 namespace Monsoon
 {
 	
-	public class UserTorrentSettings : TorrentSettings, ISettings
+	public class UserTorrentSettings : TorrentSettings
 	{
 	 	static readonly string SETTINGS_PATH = "TorrentSettings/";
 	 	
