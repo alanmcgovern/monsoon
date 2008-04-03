@@ -135,9 +135,9 @@ namespace Monsoon
 			}
 		}
 
-		public UserTorrentSettings UserTorrentSettings {
+		public TorrentSettings UserTorrentSettings {
 			get {
-				return userTorrentSettings;
+				return userTorrentSettings.Settings;
 			}
 		}
 

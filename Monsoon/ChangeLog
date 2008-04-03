@@ -1,5 +1,11 @@
 2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs: Fixed breakage from fixing a conflict incorrectly
+	* Settings/ISettingsStorage.cs, Settings/GconfSettingsStorage.cs,
+	  Monsoon.mdp, Makefile.am: Ditched extra files
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, TorrentStorage.cs, UserTorrentSettings.cs,
 	  Settings/GconfTorrentSettingsController.cs, Monsoon.mdp,
 	  Makefile.am: Replaced UserTorrentSettings with a

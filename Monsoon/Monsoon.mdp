@@ -73,7 +73,6 @@
     <File name="Menus/SpeedMenuItem.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/GconfSettingsStorage.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/InterfaceSettings.cs" subtype="Code" buildaction="Compile" />
-    <File name="Settings/ISettingsStorage.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/SettingNotFoundException.cs" subtype="Code" buildaction="Compile" />
     <File name="UserEngineSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="PreferencesSettings.cs" subtype="Code" buildaction="Compile" />

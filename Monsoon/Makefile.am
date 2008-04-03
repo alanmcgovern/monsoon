@@ -132,7 +132,6 @@ FILES = \
 	Settings/GconfSettingsStorage.cs \
 	Settings/GconfTorrentSettingsController.cs \
 	Settings/InterfaceSettings.cs \
-	Settings/ISettingsStorage.cs \
 	Settings/SettingsController.cs \
 	Settings/SettingNotFoundException.cs \
 	UserEngineSettings.cs \

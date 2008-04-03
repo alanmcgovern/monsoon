@@ -31,7 +31,7 @@ using GConf;
 
 namespace Monsoon
 {
-	public class GconfSettingsStorage : ISettingsStorage
+	public class GconfSettingsStorage
 	{
 		private static GconfSettingsStorage instance = new GconfSettingsStorage();
 		
