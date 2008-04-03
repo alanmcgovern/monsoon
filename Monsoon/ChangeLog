@@ -1,5 +1,10 @@
 2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, PreferencesDialog.cs, Main.cs, TorrentController.cs:
+	  Misc variable renaming
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, Main.cs, UserEngineSettings.cs,
 	  ListenPortController.cs, Settings/GconfEngineSettingsController.cs,
 	  Monsoon.mdp, Makefile.am: Replaced UserEngineSettings with an

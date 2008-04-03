@@ -51,7 +51,7 @@ namespace Monsoon
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger(); 		
 		private ListenPortController portController;
 		private GconfSettingsStorage settingsStorage;
-		private SettingsController<EngineSettings> userEngineSettings;
+		private SettingsController<EngineSettings> engineSettings;
 		private MainWindow mainWindow;
 		private bool isFirstRun;
 		
@@ -80,15 +80,15 @@ namespace Monsoon
 					
 			SetProcessName("monsoon");
 		
-			userEngineSettings = new GconfEngineSettingsController ();
+			engineSettings = new GconfEngineSettingsController ();
 			try {
-				userEngineSettings.Load();
+				engineSettings.Load();
 			}
 			catch (Exception ex) {
 				logger.Error("Could not load engine settings: {0}", ex.Message);
 			}
 			settingsStorage = GconfSettingsStorage.Instance;
-			portController = new ListenPortController(userEngineSettings.Settings);
+			portController = new ListenPortController(engineSettings.Settings);
 			
 			// required for the MS .NET runtime that doesn't initialize glib automatically
 			if (!GLib.Thread.Supported) {
@@ -100,7 +100,7 @@ namespace Monsoon
 			
 			Application.Init("monsoon", ref args);
 			
-			mainWindow = new MainWindow (settingsStorage, userEngineSettings.Settings,
+			mainWindow = new MainWindow (settingsStorage, engineSettings.Settings,
 									portController, isFirstRun);
 			
 			try{
@@ -114,7 +114,7 @@ namespace Monsoon
 				exDialog.Destroy();
 			}
 			try {
-				userEngineSettings.Save ();
+				engineSettings.Save ();
 			}
 			catch (Exception ex) {
 				logger.Error("Could save engine settings: {0}", ex.Message);

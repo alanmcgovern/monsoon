@@ -78,7 +78,7 @@ namespace Monsoon
 			this.torrentPreviousDownload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
 			
 			fastResume = LoadFastResume();
-			engine = new ClientEngine(mainWindow.UserEngineSettings);
+			engine = new ClientEngine(mainWindow.EngineSettings);
 			engine.ConnectionManager.PeerMessageTransferred += OnPeerMessageTransferred;
 			
 			hashProgress = new Dictionary<MonoTorrent.Client.TorrentManager,int>();
@@ -224,7 +224,7 @@ namespace Monsoon
 				throw new TorrentException("Failed to register " + newPath);
 			}
 			
-			TorrentSettings settings = savedSettings ?? mainWindow.UserTorrentSettings.Clone ();
+			TorrentSettings settings = savedSettings ?? mainWindow.DefaultTorrentSettings.Clone ();
 			FastResume resume = this.fastResume.Find(delegate (FastResume f) { return Toolbox.ByteMatch(f.InfoHash, torrent.InfoHash); });
 			
 			if (resume != null)

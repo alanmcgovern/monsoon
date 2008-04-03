@@ -67,8 +67,8 @@ namespace Monsoon
 		
 		private TorrentController torrentController;
 
-		private EngineSettings userEngineSettings;
-		private Monsoon.SettingsController<TorrentSettings> userTorrentSettings;
+		private EngineSettings engineSettings;
+		private Monsoon.SettingsController<TorrentSettings> defaultTorrentSettings;
 		private PreferencesSettings prefSettings;
 		private SettingsController<InterfaceSettings> interfaceSettings;
 		
@@ -123,9 +123,9 @@ namespace Monsoon
 			}
 		}
 
-		public EngineSettings UserEngineSettings {
+		public EngineSettings EngineSettings {
 			get {
-				return userEngineSettings;
+				return engineSettings;
 			}
 		}
 
@@ -135,9 +135,9 @@ namespace Monsoon
 			}
 		}
 
-		public TorrentSettings UserTorrentSettings {
+		public TorrentSettings DefaultTorrentSettings {
 			get {
-				return userTorrentSettings.Settings;
+				return defaultTorrentSettings.Settings;
 			}
 		}
 
@@ -171,13 +171,13 @@ namespace Monsoon
 			}
 		}
 		
-		public MainWindow (GconfSettingsStorage settingsStorage, EngineSettings userEngineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
+		public MainWindow (GconfSettingsStorage settingsStorage, EngineSettings engineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
 		{
 			interfaceSettings = new GConfInterfaceSettingsController ();
-			userTorrentSettings = new Monsoon.GconfTorrentSettingsController ();
+			defaultTorrentSettings = new Monsoon.GconfTorrentSettingsController ();
 			
 			prefSettings = new PreferencesSettings ();
-			this.userEngineSettings = userEngineSettings;
+			this.engineSettings = engineSettings;
 			this.portController = portController;
 			
 			labels = new ArrayList ();
@@ -317,7 +317,7 @@ namespace Monsoon
 		{
 			try	
 			{
-				userTorrentSettings.Load ();
+				defaultTorrentSettings.Load ();
 			}
 			catch (Exception ex)
 			{
@@ -717,20 +717,20 @@ namespace Monsoon
 		private void updateStatusBar()
 		{
 			string limited;
-			if (userEngineSettings.GlobalMaxDownloadSpeed == 0)
+			if (engineSettings.GlobalMaxDownloadSpeed == 0)
 				limited = "";
 			else
-				limited = "[" + ByteConverter.ConvertSpeed (userEngineSettings.GlobalMaxDownloadSpeed) + "]";
+				limited = "[" + ByteConverter.ConvertSpeed (engineSettings.GlobalMaxDownloadSpeed) + "]";
 			
 			statusDownloadLabel.Markup = string.Format("{0}{1}{2}{3}", "<small>D: ", 
 			                                           limited,
 			                                           ByteConverter.ConvertSpeed(torrentController.Engine.TotalDownloadSpeed),
 			                                           "</small>");
 			
-			if (userEngineSettings.GlobalMaxUploadSpeed == 0)
+			if (engineSettings.GlobalMaxUploadSpeed == 0)
 				limited = "";
 			else
-				limited = string.Format("[{0}]", ByteConverter.ConvertSpeed (userEngineSettings.GlobalMaxUploadSpeed));
+				limited = string.Format("[{0}]", ByteConverter.ConvertSpeed (engineSettings.GlobalMaxUploadSpeed));
 			
 			statusUploadLabel.Markup = string.Format("{0}{1}{2}{3}",  "<small>U: ",
 			                                         limited, 
@@ -896,7 +896,7 @@ namespace Monsoon
 			preferencesDialog.Run ();
 			preferencesDialog.Destroy ();
 			
-			userTorrentSettings.Save ();
+			defaultTorrentSettings.Save ();
 			prefSettings.Store ();
 			
 			if (prefSettings.ImportEnabled) {
@@ -913,7 +913,7 @@ namespace Monsoon
 				if (!portController.IsRunning) {
 					portController.Start ();
 				}
-				else if (portController.MappedPort != userEngineSettings.ListenPort) {
+				else if (portController.MappedPort != engineSettings.ListenPort) {
 					portController.ChangePort ();
 				} else {
 					portController.MapPort ();
@@ -1371,13 +1371,13 @@ namespace Monsoon
 			eventUpload.ButtonPressEvent += delegate {
 				menu.ShowAll ();
 				menu.IsUpload = true;
-				menu.CalculateSpeeds (userEngineSettings.GlobalMaxUploadSpeed);
+				menu.CalculateSpeeds (engineSettings.GlobalMaxUploadSpeed);
 				menu.Popup ();
 			};
 			eventDownload.ButtonPressEvent += delegate {
 				menu.ShowAll ();
 				menu.IsUpload = false;
-				menu.CalculateSpeeds (userEngineSettings.GlobalMaxDownloadSpeed);
+				menu.CalculateSpeeds (engineSettings.GlobalMaxDownloadSpeed);
 				menu.Popup ();
 			};
 
@@ -1389,9 +1389,9 @@ namespace Monsoon
 
 				// Update the settings
 				if (menu.IsUpload)
-					userEngineSettings.GlobalMaxUploadSpeed = (int)newSpeed;
+					engineSettings.GlobalMaxUploadSpeed = (int)newSpeed;
 				else
-					userEngineSettings.GlobalMaxDownloadSpeed = (int)newSpeed;
+					engineSettings.GlobalMaxDownloadSpeed = (int)newSpeed;
 				updateStatusBar ();
 			};
 		}
@@ -1443,12 +1443,12 @@ namespace Monsoon
 
 		private void OnDruidFinishedClicked(object o, EventArgs args)
 		{
-			userEngineSettings.ListenPort = new System.Random().Next(30000, 36000);
-			userEngineSettings.SavePath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+			engineSettings.ListenPort = new System.Random().Next(30000, 36000);
+			engineSettings.SavePath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 			prefSettings.TorrentStorageLocation = Defines.TorrentFolder;
 			prefSettings.UpnpEnabled = true;
-			userEngineSettings.GlobalMaxDownloadSpeed = 0;
-			userEngineSettings.GlobalMaxUploadSpeed = 0;
+			engineSettings.GlobalMaxDownloadSpeed = 0;
+			engineSettings.GlobalMaxUploadSpeed = 0;
 			
 			prefSettings.Store ();
 			

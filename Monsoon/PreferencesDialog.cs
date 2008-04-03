@@ -37,7 +37,7 @@ namespace Monsoon
 	{
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger (); 
 	//	private UserTorrentSettings userTorrentSettings;
-		private EngineSettings userEngineSettings;
+		private EngineSettings engineSettings;
 		private PreferencesSettings prefSettings;
 		
 		private FileChooserButton downloadLocationButton;
@@ -58,7 +58,7 @@ namespace Monsoon
 		public PreferencesDialog(MainWindow mainWindow)
 		{
 		//	this.userTorrentSettings = mainWindow.userTorrentSettings;
-			this.userEngineSettings = mainWindow.UserEngineSettings;
+			this.engineSettings = mainWindow.EngineSettings;
 			this.prefSettings = mainWindow.PrefSettings; 
 			this.labels = mainWindow.Labels;
 			this.filterListStore = mainWindow.LabelListStore;
@@ -176,7 +176,7 @@ namespace Monsoon
 		private void buildFoldersPanel()
 		{
 			downloadLocationButton = new FileChooserButton("Download location", FileChooserAction.SelectFolder);
-			downloadLocationButton.SetCurrentFolder(userEngineSettings.SavePath);
+			downloadLocationButton.SetCurrentFolder(engineSettings.SavePath);
 			
 			downloadLocationButton.CurrentFolderChanged += OnDownloadLocationButtonFolderChanged;
 			foldersTable.Attach(downloadLocationButton, 1, 2, 0, 1);
@@ -205,10 +205,10 @@ namespace Monsoon
 		
 		private void restorePreferences()
 		{
-			portSpinButton.Value = userEngineSettings.ListenPort;
-			maxConnectionsSpinButton.Value = userEngineSettings.GlobalMaxConnections;
-			maxDownloadSpeedSpinButton.Value = userEngineSettings.GlobalMaxDownloadSpeed / 1024;
-			maxUploadSpeedSpinButton.Value = userEngineSettings.GlobalMaxUploadSpeed / 1024;
+			portSpinButton.Value = engineSettings.ListenPort;
+			maxConnectionsSpinButton.Value = engineSettings.GlobalMaxConnections;
+			maxDownloadSpeedSpinButton.Value = engineSettings.GlobalMaxDownloadSpeed / 1024;
+			maxUploadSpeedSpinButton.Value = engineSettings.GlobalMaxUploadSpeed / 1024;
 			
 			upnpCheckBox.Active = prefSettings.UpnpEnabled;
 			startNewTorrentsCheckBox.Active = prefSettings.StartNewTorrents;
@@ -218,17 +218,17 @@ namespace Monsoon
 
 		protected virtual void OnPortSpinButtonValueChanged (object sender, System.EventArgs e)
 		{
-			userEngineSettings.ListenPort = (int)portSpinButton.Value;
+			engineSettings.ListenPort = (int)portSpinButton.Value;
 		}
 
 		protected virtual void OnMaxConnectionsSpinButtonValueChanged (object sender, System.EventArgs e)
 		{
-			userEngineSettings.GlobalMaxConnections = (int) maxConnectionsSpinButton.Value;
+			engineSettings.GlobalMaxConnections = (int) maxConnectionsSpinButton.Value;
 		}
 		
 		private void OnDownloadLocationButtonFolderChanged (object sender, System.EventArgs e)
 		{
-			userEngineSettings.SavePath = downloadLocationButton.CurrentFolder;
+			engineSettings.SavePath = downloadLocationButton.CurrentFolder;
 		}
 		
 		private void OnTorrentStorageLocationFolderChanged(object sender, System.EventArgs e)
@@ -248,12 +248,12 @@ namespace Monsoon
 
 		protected virtual void OnMaxDownloadSpeedSpinButtonValueChanged (object sender, System.EventArgs e)
 		{
-			userEngineSettings.GlobalMaxDownloadSpeed = (int)maxDownloadSpeedSpinButton.Value * 1024;
+			engineSettings.GlobalMaxDownloadSpeed = (int)maxDownloadSpeedSpinButton.Value * 1024;
 		}
 
 		protected virtual void OnMaxUploadSpeedSpinButtonValueChanged (object sender, System.EventArgs e)
 		{
-			userEngineSettings.GlobalMaxUploadSpeed = (int)maxUploadSpeedSpinButton.Value * 1024;
+			engineSettings.GlobalMaxUploadSpeed = (int)maxUploadSpeedSpinButton.Value * 1024;
 		}
 
 		protected virtual void OnImportTorrentsCheckBoxClicked (object sender, System.EventArgs e)
