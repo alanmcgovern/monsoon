@@ -1,3 +1,10 @@
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, TorrentStorage.cs, UserTorrentSettings.cs,
+	  Settings/GconfTorrentSettingsController.cs, Monsoon.mdp,
+	  Makefile.am: Replaced UserTorrentSettings with a
+	  TorrentSettingsController.
+
 2008-04-04  Mirco Bauer <meebey@meebey.net> 
 
 	* MainWindow.cs, Main.cs: Added gettext support / integration.

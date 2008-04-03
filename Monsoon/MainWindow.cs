@@ -68,7 +68,7 @@ namespace Monsoon
 		private TorrentController torrentController;
 
 		private UserEngineSettings userEngineSettings;
-		private UserTorrentSettings userTorrentSettings;
+		private Monsoon.SettingsController<TorrentSettings> userTorrentSettings;
 		private PreferencesSettings prefSettings;
 		private SettingsController<InterfaceSettings> interfaceSettings;
 		
@@ -174,10 +174,11 @@ namespace Monsoon
 		public MainWindow (GconfSettingsStorage settingsStorage, UserEngineSettings userEngineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
 		{
 			interfaceSettings = new GConfInterfaceSettingsController ();
+			userTorrentSettings = new Monsoon.GconfTorrentSettingsController ();
+			
 			prefSettings = new PreferencesSettings ();
 			this.userEngineSettings = userEngineSettings;
 			this.portController = portController;
-			userTorrentSettings = new UserTorrentSettings ();
 			
 			labels = new ArrayList ();
 			torrents = new Dictionary<MonoTorrent.Client.TorrentManager,Gtk.TreeIter> ();
@@ -195,6 +196,7 @@ namespace Monsoon
 			GLib.Timeout.Add (1000, new GLib.TimeoutHandler (updateView));
 			
 			RestoreInterfaceSettings ();
+			RestoreUserTorrentSettings ();
 			
 			//portController = new ListenPortController(userEngineSettings);
 			if (prefSettings.UpnpEnabled)
@@ -311,7 +313,17 @@ namespace Monsoon
 				trayMenu.Popup();
 			}
 		}
-		
+		private void RestoreUserTorrentSettings ()
+		{
+			try	
+			{
+				userTorrentSettings.Load ();
+			}
+			catch (Exception ex)
+			{
+				logger.Error("Could not load default torrent settings: {0}", ex);
+			}
+		}
 		private void RestoreInterfaceSettings ()
 		{
 			try
@@ -769,7 +781,7 @@ namespace Monsoon
 			logger.Info ("Storing torrent settings");
 			
 			foreach (TorrentManager manager in torrents.Keys){
-				torrentsToStore.Add (new TorrentStorage(manager.Torrent.TorrentPath, manager.SavePath, (UserTorrentSettings)manager.Settings, manager.State, torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded, torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded));	
+				torrentsToStore.Add (new TorrentStorage(manager.Torrent.TorrentPath, manager.SavePath, manager.Settings, manager.State, torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded, torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded));	
 			}
 			
 			using (Stream fs = new FileStream (Defines.SerializedTorrentSettings, FileMode.Create))
@@ -884,7 +896,7 @@ namespace Monsoon
 			preferencesDialog.Run ();
 			preferencesDialog.Destroy ();
 			
-			userTorrentSettings.Store ();
+			userTorrentSettings.Save ();
 			userEngineSettings.Store ();
 			prefSettings.Store ();
 			
