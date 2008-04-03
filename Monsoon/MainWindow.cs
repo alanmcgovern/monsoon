@@ -585,8 +585,8 @@ namespace Monsoon
 			torrentUploadSlotSpinButton.Sensitive = true;
 			
 			// Load selected torrents's settings
-			torrentUploadRateSpinButton.Value = torrent.Settings.MaxUploadSpeed;
-			torrentDownloadRateSpinButton.Value = torrent.Settings.MaxDownloadSpeed;
+			torrentUploadRateSpinButton.Value = torrent.Settings.MaxUploadSpeed / 1024;;
+			torrentDownloadRateSpinButton.Value = torrent.Settings.MaxDownloadSpeed / 1024;
 			torrentMaxConnectionsSpinButton.Value = torrent.Settings.MaxConnections;
 			torrentUploadSlotSpinButton.Value = torrent.Settings.UploadSlots;
 			
