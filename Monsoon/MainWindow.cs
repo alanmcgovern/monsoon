@@ -450,7 +450,7 @@ namespace Monsoon
 			torrentListStore = new ListStore (typeof(TorrentManager));
 			torrentController = new TorrentController (this);
 			torrentTreeView = new TorrentTreeView (torrentController);
-			
+			torrentTreeView.DeleteTorrent += delegate { DeleteAndRemoveSelection(); };
 			//torrentTreeView.Model = torrentListStore;
 			torrentTreeView.Selection.Changed += OnTorrentSelectionChanged;
 			
@@ -1067,7 +1067,7 @@ namespace Monsoon
 			TreePath [] treePaths;
 			TreeModel filteredModel;
 			
-			if(torrentsSelected.CountSelectedRows() != 1) 
+			if(torrentsSelected == null || torrentsSelected.CountSelectedRows() != 1) 
 				return null;
 				
 			treePaths = torrentsSelected.GetSelectedRows( out filteredModel);
@@ -1328,12 +1328,16 @@ namespace Monsoon
 			createTorrentDialog.Destroy ();
 			
 		}
-	
-		protected virtual void OnDeleteTorrentButtonActivated (object sender, System.EventArgs e)
+		private void OnDeleteTorrentButtonActivated (object o, EventArgs e)
+		{
+			DeleteAndRemoveSelection ();
+		}
+		
+		private void DeleteAndRemoveSelection ()
 		{
 			ArrayList torrentsToRemove = new ArrayList();
 			MessageDialog messageDialog = new MessageDialog (this,
-						DialogFlags.DestroyWithParent,
+						DialogFlags.Modal,
 						MessageType.Question, 
 						ButtonsType.YesNo, _("Remove torrent and delete data?"));
 			messageDialog.Title = _("Delete torrent"); 

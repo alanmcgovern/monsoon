@@ -36,6 +36,8 @@ namespace Monsoon
 {
 	public class TorrentTreeView : TreeView
 	{
+		public event EventHandler DeleteTorrent;
+		
 		public TreeViewColumn nameColumn;
 		public TreeViewColumn statusColumn;
 		public TreeViewColumn doneColumn;
@@ -47,6 +49,7 @@ namespace Monsoon
 		public TreeViewColumn sizeColumn;
 		
 		private TorrentController torrentController;
+		private TorrentContextMenu menu;
 		
 		private TargetEntry[] targetEntries;
 		private TargetEntry[] sourceEntries;
@@ -55,10 +58,6 @@ namespace Monsoon
 		public TorrentTreeView(TorrentController torrentController) : base()
 		{
 			this.torrentController = torrentController;
-			
-			targetEntries = new TargetEntry[]{
-				new TargetEntry("text/uri-list", 0, 0) 
-			};
 			
 			sourceEntries = new TargetEntry[]{
 				new TargetEntry("application/x-monotorrent-torrentmanager-objects", 0, 0)
@@ -78,6 +77,16 @@ namespace Monsoon
 			
 			this.EnableModelDragSource(Gdk.ModifierType.Button1Mask, sourceEntries, Gdk.DragAction.Copy);
 			DragDataGet += OnTorrentDragDataGet;
+			
+			targetEntries = new TargetEntry[]{
+				new TargetEntry("text/uri-list", 0, 0) 
+			};
+			
+			menu = new TorrentContextMenu(torrentController);
+			menu.DeleteTorrent += delegate {
+				if (DeleteTorrent != null)
+					DeleteTorrent(this, EventArgs.Empty);
+			};
 		}
 
 
@@ -87,9 +96,9 @@ namespace Monsoon
 			base.OnButtonPressEvent(e);
 			
 			if(e.Button == 3 && Selection.CountSelectedRows() == 1){
-				TorrentContextMenu contextMenu = new TorrentContextMenu(torrentController);
-				contextMenu.ShowAll();
-				contextMenu.Popup();
+				menu.ShowAll ();
+				menu.Popup ();
+				return true;
 			}
 			
 			return false;
