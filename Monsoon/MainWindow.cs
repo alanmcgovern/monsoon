@@ -1415,7 +1415,7 @@ namespace Monsoon
 			torrent.Settings.MaxConnections = (int) torrentMaxConnectionsSpinButton.Value;
 			torrent.Settings.MaxDownloadSpeed = (int) torrentDownloadRateSpinButton.Value * 1024;
 			torrent.Settings.MaxUploadSpeed = (int) torrentUploadRateSpinButton.Value * 1024;
-			torrent.Settings.UploadSlots = (int) torrentUploadSlotSpinButton.Value;
+			torrent.Settings.UploadSlots = Math.Max (2, (int) torrentUploadSlotSpinButton.Value);
 		}
 
 		protected virtual void OnColumnsActivated (object sender, System.EventArgs e)
