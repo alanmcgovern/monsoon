@@ -146,7 +146,7 @@ namespace Monsoon
 		{
 			PeerId peer = (PeerId) model.GetValue (iter, 0);
 			if(peer.IsValid)
-			(cell as Gtk.CellRendererToggle).Active = peer.IsInterested;
+			(cell as Gtk.CellRendererToggle).Active = peer.AmInterested;
 		}
 		
 		
