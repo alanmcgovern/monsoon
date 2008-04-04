@@ -31,12 +31,8 @@ using System.IO;
 
 namespace Monsoon
 {
-	
-	
 	public class PreferencesSettings
 	{
-		static string SETTINGS_PATH = "PreferencesSettings/";
-	 	
 	 	private string torrentStorageLocation;
 	 	private string importLocation;
 	 	private bool startNewTorrents;
@@ -47,87 +43,8 @@ namespace Monsoon
 		private bool enableNotifications;
 		private bool quitOnClose;
 		private bool enableTray;
-	 	
-		public PreferencesSettings()
-		{
-			Restore();
-		}
-		
-		public void Restore()
-		{
-			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
-			
-			try {
-				enableNotifications = (bool) gconf.Retrieve(SETTINGS_PATH + "enableNotifications");
-			} catch (SettingNotFoundException) {
-				enableNotifications = true;
-			}
-			
-			try {
-				quitOnClose = (bool) gconf.Retrieve(SETTINGS_PATH + "quitOnClose");
-			} catch (SettingNotFoundException) {
-				quitOnClose = false;
-			}
-			
-			try {
-				enableTray = (bool) gconf.Retrieve(SETTINGS_PATH + "enableTray");
-			} catch (SettingNotFoundException) {
-				enableTray = true;
-			}
-			
-			try {
-				torrentStorageLocation = (string) gconf.Retrieve(SETTINGS_PATH + "torrentStorageLocation");
-			} catch(SettingNotFoundException) {
-				torrentStorageLocation = Defines.SerializedTorrentSettings;
-			}
-			
-			try {
-				importLocation = (string) gconf.Retrieve(SETTINGS_PATH + "importLocation");
-			} catch (SettingNotFoundException) {
-			
-				importLocation = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
-			}
-			
-			try {	
-				upnpEnabled = (bool) gconf.Retrieve(SETTINGS_PATH + "upnpEnabled");
-			} catch (SettingNotFoundException) {
-				upnpEnabled = false;
-			}
-			
-			try {
-				startNewTorrents = (bool) gconf.Retrieve(SETTINGS_PATH + "startNewTorrents");
-			} catch (SettingNotFoundException) {
-				startNewTorrents = true;
-			}
-			
-			try {
-				importEnabled = (bool) gconf.Retrieve(SETTINGS_PATH + "importEnabled");
-			} catch (SettingNotFoundException) {
-				importEnabled = false;
-			}
-			
-			try {
-				removeOnImport = (bool) gconf.Retrieve(SETTINGS_PATH + "removeOnImport");
-			} catch (SettingNotFoundException) {
-				removeOnImport = false;
-			}
-				
-		}
-		
-		public void Store()
-		{
-			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
-			
-			gconf.Store(SETTINGS_PATH + "enableNotifications", enableNotifications);
-			gconf.Store(SETTINGS_PATH + "quitOnClose", quitOnClose);
-			gconf.Store(SETTINGS_PATH + "enableTray", enableTray);
-			gconf.Store(SETTINGS_PATH + "torrentStorageLocation", torrentStorageLocation);
-			gconf.Store(SETTINGS_PATH + "startNewTorrents", startNewTorrents);
-			gconf.Store(SETTINGS_PATH + "importLocation", importLocation);
-			gconf.Store(SETTINGS_PATH + "upnpEnabled", upnpEnabled);
-			gconf.Store(SETTINGS_PATH + "importEnabled", importEnabled);
-			gconf.Store(SETTINGS_PATH + "removeOnImport", removeOnImport);
-		}
+
+
 		public bool EnableNotifications {
 			get { return enableNotifications; }
 			set { enableNotifications = value; }

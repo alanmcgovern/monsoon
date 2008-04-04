@@ -68,7 +68,7 @@ namespace Monsoon
 		
 		public TorrentController(MainWindow mainWindow)
 		{
-			this.prefSettings = mainWindow.PrefSettings;
+			this.prefSettings = mainWindow.Preferences;
 			this.labels = mainWindow.Labels;
 			this.torrentListStore = mainWindow.TorrentListStore;
 			this.torrents = mainWindow.Torrents;

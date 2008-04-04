@@ -59,7 +59,7 @@ namespace Monsoon
 		{
 		//	this.userTorrentSettings = mainWindow.userTorrentSettings;
 			this.engineSettings = mainWindow.EngineSettings;
-			this.prefSettings = mainWindow.PrefSettings; 
+			this.prefSettings = mainWindow.Preferences; 
 			this.labels = mainWindow.Labels;
 			this.filterListStore = mainWindow.LabelListStore;
 			this.trayIcon = mainWindow.TrayIcon;

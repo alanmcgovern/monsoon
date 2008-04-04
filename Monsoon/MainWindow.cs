@@ -68,8 +68,8 @@ namespace Monsoon
 		private TorrentController torrentController;
 
 		private EngineSettings engineSettings;
-		private Monsoon.SettingsController<TorrentSettings> defaultTorrentSettings;
-		private PreferencesSettings prefSettings;
+		private SettingsController<TorrentSettings> defaultTorrentSettings;
+		private SettingsController<PreferencesSettings> prefSettings;
 		private SettingsController<InterfaceSettings> interfaceSettings;
 		
 		private PeerTreeView peerTreeView;
@@ -129,9 +129,9 @@ namespace Monsoon
 			}
 		}
 
-		public PreferencesSettings PrefSettings {
+		public PreferencesSettings Preferences {
 			get {
-				return prefSettings;
+				return prefSettings.Settings;
 			}
 		}
 
@@ -174,9 +174,8 @@ namespace Monsoon
 		public MainWindow (GconfSettingsStorage settingsStorage, EngineSettings engineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
 		{
 			interfaceSettings = new GConfInterfaceSettingsController ();
-			defaultTorrentSettings = new Monsoon.GconfTorrentSettingsController ();
-			
-			prefSettings = new PreferencesSettings ();
+			defaultTorrentSettings = new GconfTorrentSettingsController ();
+			prefSettings = new GconfPreferencesSettingsController ();
 			this.engineSettings = engineSettings;
 			this.portController = portController;
 			
@@ -197,9 +196,10 @@ namespace Monsoon
 			
 			RestoreInterfaceSettings ();
 			RestoreUserTorrentSettings ();
+			RestorePreferencesSettings ();
 			
 			//portController = new ListenPortController(userEngineSettings);
-			if (prefSettings.UpnpEnabled)
+			if (Preferences.UpnpEnabled)
 				portController.Start();
 			
 			torrentController.LoadStoredTorrents ();
@@ -236,10 +236,10 @@ namespace Monsoon
 			
 			RestoreLabels ();
 			
-			folderWatcher = new TorrentFolderWatcher (new DirectoryInfo (prefSettings.ImportLocation));
+			folderWatcher = new TorrentFolderWatcher (new DirectoryInfo (Preferences.ImportLocation));
 			folderWatcher.TorrentFound += torrentController.OnTorrentFound;
 			
-			if (prefSettings.ImportEnabled) {
+			if (Preferences.ImportEnabled) {
 				logger.Info ("Starting import folder watcher");
 				folderWatcher.Start ();
 			}
@@ -291,7 +291,7 @@ namespace Monsoon
 			trayIcon.Icon = new Image (Stock.Network, IconSize.Menu).Pixbuf;
 			trayIcon.Add (eventBox);
 			
-			if(prefSettings.EnableTray)
+			if(Preferences.EnableTray)
 				trayIcon.ShowAll ();
 		}
 		
@@ -377,7 +377,17 @@ namespace Monsoon
 				logger.Error ("Couldn't load interface settings: {0}", ex.Message);
 			}
 		}
-		
+		private void RestorePreferencesSettings ()
+		{
+			try	
+			{
+				prefSettings.Load ();
+			}
+			catch (Exception ex)
+			{
+				logger.Error("Could not load preferences: {0}", ex);
+			}
+		}
 		private void StoreInterfaceSettings ()
 		{
 			InterfaceSettings interfaceSettings = this.interfaceSettings.Settings;
@@ -743,7 +753,7 @@ namespace Monsoon
 		{
 			Hide ();
 			
-			if(prefSettings.QuitOnClose && sender == this){
+			if(Preferences.QuitOnClose && sender == this){
 				a.RetVal = true;
 				return;
 			}
@@ -897,9 +907,9 @@ namespace Monsoon
 			preferencesDialog.Destroy ();
 			
 			defaultTorrentSettings.Save ();
-			prefSettings.Store ();
+			prefSettings.Save ();
 			
-			if (prefSettings.ImportEnabled) {
+			if (Preferences.ImportEnabled) {
 				logger.Info ("Starting import folder watcher");
 				folderWatcher.Start ();
 			} else {
@@ -909,7 +919,7 @@ namespace Monsoon
 				folderWatcher.Stop ();
 			}
 			
-			if (prefSettings.UpnpEnabled) {
+			if (Preferences.UpnpEnabled) {
 				if (!portController.IsRunning) {
 					portController.Start ();
 				}
@@ -918,7 +928,7 @@ namespace Monsoon
 				} else {
 					portController.MapPort ();
 				}
-			} else if (!prefSettings.UpnpEnabled && portController.IsRunning) {
+			} else if (!Preferences.UpnpEnabled && portController.IsRunning) {
 				portController.RemoveMap();
 			}
 		}
@@ -1445,14 +1455,14 @@ namespace Monsoon
 		{
 			engineSettings.ListenPort = new System.Random().Next(30000, 36000);
 			engineSettings.SavePath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
-			prefSettings.TorrentStorageLocation = Defines.TorrentFolder;
-			prefSettings.UpnpEnabled = true;
+			Preferences.TorrentStorageLocation = Defines.TorrentFolder;
+			Preferences.UpnpEnabled = true;
 			engineSettings.GlobalMaxDownloadSpeed = 0;
 			engineSettings.GlobalMaxUploadSpeed = 0;
 			
-			prefSettings.Store ();
+			prefSettings.Save ();
 			
-			if (prefSettings.UpnpEnabled)
+			if (Preferences.UpnpEnabled)
 				portController.Start();
 			
 			logger.Info("First run wizard complete!");

@@ -1,5 +1,12 @@
 2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, PreferencesDialog.cs, TorrentController.cs,
+	  Settings/PreferencesSettings.cs,
+	  Settings/GconfPreferencesSettingsController.cs, Monsoon.mdp,
+	  Makefile.am: Moved preferences settings to the new API
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Monsoon.mdp, Makefile.am, PreferencesSettings.cs,
 	  Settings/PreferencesSettings.cs: Moved preferencessettings
 

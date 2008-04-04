@@ -129,13 +129,14 @@ FILES = \
 	TorrentFileSettingsModel.cs \
 	Menus/SpeedMenuItem.cs \
 	Settings/GconfEngineSettingsController.cs \
-	Settings/GConfInterfaceSettingsController.cs\
+	Settings/GConfInterfaceSettingsController.cs \
+	Settings/GconfPreferencesSettingsController.cs \
 	Settings/GconfSettingsStorage.cs \
 	Settings/GconfTorrentSettingsController.cs \
 	Settings/InterfaceSettings.cs \
 	Settings/SettingsController.cs \
 	Settings/SettingNotFoundException.cs \
-	Settings/PreferencesSettings.cs 
+	Settings/PreferencesSettings.cs  
 
 DATA_FILES = \
 	icons/rss.png \
