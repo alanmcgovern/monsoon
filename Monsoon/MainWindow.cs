@@ -450,7 +450,8 @@ namespace Monsoon
 			torrentListStore = new ListStore (typeof(TorrentManager));
 			torrentController = new TorrentController (this);
 			torrentTreeView = new TorrentTreeView (torrentController);
-			torrentTreeView.DeleteTorrent += delegate { DeleteAndRemoveSelection(); };
+			torrentTreeView.DeleteTorrent += delegate { DeleteAndRemoveSelection (); };
+			torrentTreeView.RemoveTorrent += delegate { RemoveTorrent (); };
 			//torrentTreeView.Model = torrentListStore;
 			torrentTreeView.Selection.Changed += OnTorrentSelectionChanged;
 			
@@ -1289,6 +1290,22 @@ namespace Monsoon
 		
 		protected virtual void OnRemoveTorrentButtonActivated (object sender, System.EventArgs e)
 		{
+			RemoveTorrent ();
+		}
+		
+		private void RemoveTorrent ()
+		{
+			MessageDialog messageDialog = new MessageDialog (this,
+						DialogFlags.Modal,
+						MessageType.Question, 
+						ButtonsType.YesNo, _("Are you sure you want to remove the torrent?"));
+			messageDialog.Title = _("Remove torrent"); 
+			ResponseType result = (ResponseType)messageDialog.Run();
+			messageDialog.Hide();
+			
+			if (result != ResponseType.Yes)
+				return;
+			
 			TreePath [] treePaths;
 			TreeModel model;
 			ArrayList torrentsToRemove = new ArrayList ();
@@ -1310,9 +1327,7 @@ namespace Monsoon
 			foreach (TorrentManager toDelete in torrentsToRemove) {
 				torrentController.removeTorrent (toDelete);
 			}
-			
 		}
-		
 		
 		protected virtual void OnNewActivated (object sender, System.EventArgs e)
 		{
@@ -1339,7 +1354,7 @@ namespace Monsoon
 			MessageDialog messageDialog = new MessageDialog (this,
 						DialogFlags.Modal,
 						MessageType.Question, 
-						ButtonsType.YesNo, _("Remove torrent and delete data?"));
+						ButtonsType.YesNo, _("Remove torrent and delete all data?"));
 			messageDialog.Title = _("Delete torrent"); 
 			ResponseType result = (ResponseType)messageDialog.Run();
 			messageDialog.Hide();

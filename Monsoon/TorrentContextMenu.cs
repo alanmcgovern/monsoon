@@ -39,6 +39,7 @@ namespace Monsoon
 	public class TorrentContextMenu : Gtk.Menu
 	{
 		public event EventHandler DeleteTorrent;
+		public event EventHandler RemoveTorrent;
 		
 		private TorrentController torrentController;
 		private TorrentManager selectedTorrent;
@@ -69,7 +70,11 @@ namespace Monsoon
 			openItem.Activated += OnOpenItemActivated;
 			startItem.Activated += OnStartItemActivated;
 			stopItem.Activated += OnStopItemActivated;
-			removeItem.Activated += OnRemoveItemActivated;
+			removeItem.Activated += delegate {
+				if (RemoveTorrent != null)
+					RemoveTorrent (this, EventArgs.Empty);
+			};
+			
 			deleteItem.Activated += delegate {
 				if (DeleteTorrent != null)
 					DeleteTorrent(this, EventArgs.Empty);
@@ -142,15 +147,6 @@ namespace Monsoon
 			{
 				logger.Warn("Unable to stop " + selectedTorrent.Torrent.Name);
 			}
-		}
-		
-		private void OnRemoveItemActivated(object sender, EventArgs args)
-		{
-			selectedTorrent = torrentController.GetSelectedTorrent();
-			if (selectedTorrent == null)
-				return;
-			
-			torrentController.removeTorrent(selectedTorrent, true);
 		}
 		
 		private void OnRecheckItemActivated(object sender, EventArgs args)

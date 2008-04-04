@@ -37,6 +37,7 @@ namespace Monsoon
 	public class TorrentTreeView : TreeView
 	{
 		public event EventHandler DeleteTorrent;
+		public event EventHandler RemoveTorrent;
 		
 		public TreeViewColumn nameColumn;
 		public TreeViewColumn statusColumn;
@@ -86,6 +87,10 @@ namespace Monsoon
 			menu.DeleteTorrent += delegate {
 				if (DeleteTorrent != null)
 					DeleteTorrent(this, EventArgs.Empty);
+			};
+			menu.RemoveTorrent += delegate {
+				if (RemoveTorrent != null)
+					RemoveTorrent (this, EventArgs.Empty);
 			};
 		}
 
