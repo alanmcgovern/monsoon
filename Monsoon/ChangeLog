@@ -1,5 +1,9 @@
 2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs: Fixed saving of the size column settings
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: Ensure settings are loaded before using them
 
 2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 

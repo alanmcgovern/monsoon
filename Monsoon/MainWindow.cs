@@ -430,9 +430,9 @@ namespace Monsoon
 			interfaceSettings.UpSpeedColumnVisible = torrentTreeView.upSpeedColumn.Visible;
 			interfaceSettings.RatioColumnWidth = torrentTreeView.ratioColumn.Width;
 			interfaceSettings.RatioColumnVisible = torrentTreeView.ratioColumn.Visible;
-			interfaceSettings.SizeColumnWidth = torrentTreeView.ratioColumn.Width;
-			interfaceSettings.SizeColumnVisible = torrentTreeView.ratioColumn.Visible;
-					
+			interfaceSettings.SizeColumnWidth = torrentTreeView.sizeColumn.Width;
+			interfaceSettings.SizeColumnVisible = torrentTreeView.sizeColumn.Visible;
+
 			this.interfaceSettings.Save ();
 		}
 		
