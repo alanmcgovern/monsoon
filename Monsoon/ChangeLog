@@ -1,5 +1,9 @@
 2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, TorrentTreeView.cs: Removed unnecessary logic
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* AboutDialog.cs: Updated the about window
 
 2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 

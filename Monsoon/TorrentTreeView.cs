@@ -269,10 +269,7 @@ namespace Monsoon
 			if(torrent.State == TorrentState.Hashing) {
 					(cell as Gtk.CellRendererProgress).Value = (int)torrentController.GetTorrentHashProgress(torrent);
 			} else {
-				if(torrent.Progress > int.MinValue && torrent.Progress < int.MaxValue)
-					(cell as Gtk.CellRendererProgress).Value = (int)torrent.Progress;
-				else
-					(cell as Gtk.CellRendererProgress).Value = 0;
+				(cell as Gtk.CellRendererProgress).Value = (int)torrent.Progress;
 			}
 		}
 		

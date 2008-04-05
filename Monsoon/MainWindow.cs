@@ -1135,10 +1135,8 @@ namespace Monsoon
 			 	statusProgressBar.Fraction = (int)torrentController.GetTorrentHashProgress(manager) / 100f;
 			 	statusProgressBar.Text = manager.State + (torrentController.GetTorrentHashProgress(manager) / 100f).ToString (" 0%");
 			} else {
-				if ((manager.Progress/100f) >= 0 && (manager.Progress/100f) <= 1 ) {
-					statusProgressBar.Fraction = manager.Progress / 100f;
-					statusProgressBar.Text = manager.State + (manager.Progress / 100f).ToString (" 0%");
-				}
+				statusProgressBar.Fraction = manager.Progress / 100f;
+				statusProgressBar.Text = manager.State + (manager.Progress / 100f).ToString (" 0%");
 			}
 			
 			if (manager.State != TorrentState.Stopped)
