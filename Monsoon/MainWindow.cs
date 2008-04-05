@@ -173,17 +173,17 @@ namespace Monsoon
 		
 		public MainWindow (GconfSettingsStorage settingsStorage, EngineSettings engineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
 		{
-			interfaceSettings = new GConfInterfaceSettingsController ();
-			defaultTorrentSettings = new GconfTorrentSettingsController ();
-			prefSettings = new GconfPreferencesSettingsController ();
 			this.engineSettings = engineSettings;
 			this.portController = portController;
 			
+			interfaceSettings = new GConfInterfaceSettingsController ();
+			defaultTorrentSettings = new GconfTorrentSettingsController ();
+			prefSettings = new GconfPreferencesSettingsController ();
+			
+			LoadAllSettings ();
+			
 			labels = new ArrayList ();
 			torrents = new Dictionary<MonoTorrent.Client.TorrentManager,Gtk.TreeIter> ();
-			
-			RestorePreferencesSettings ();
-			RestoreUserTorrentSettings ();
 			
 			Build ();
 			BuildTray();
@@ -314,8 +314,27 @@ namespace Monsoon
 				trayMenu.Popup();
 			}
 		}
-		private void RestoreUserTorrentSettings ()
+		
+		private void LoadAllSettings ()
 		{
+			try
+			{
+				interfaceSettings.Load ();
+			}
+			catch (Exception ex)
+			{
+				logger.Error ("Couldn't load interface settings: {0}", ex.Message);
+			}
+			
+			try	
+			{
+				prefSettings.Load ();
+			}
+			catch (Exception ex)
+			{
+				logger.Error("Could not load preferences: {0}", ex);
+			}
+			
 			try	
 			{
 				defaultTorrentSettings.Load ();
@@ -325,70 +344,52 @@ namespace Monsoon
 				logger.Error("Could not load default torrent settings: {0}", ex);
 			}
 		}
+		
 		private void RestoreInterfaceSettings ()
 		{
-			try
-			{
-				interfaceSettings.Load ();
-				
-				InterfaceSettings settings = interfaceSettings.Settings;
-				
-				logger.Info ("Restoring interface settings");
-				SetDefaultSize (settings.WindowWidth, settings.WindowHeight);
-				
-				// moved here
-				ShowAll();
-				
-				if (settings.WindowYPos == 0 && settings.WindowXPos == 0)
-					SetPosition (WindowPosition.Center);
-				else
-					Move (settings.WindowXPos, settings.WindowYPos);
-				
-				vPaned.Position = settings.VPaned;
-				hPaned.Position = settings.HPaned;
-				
-				ShowDetailedInfo.Active = settings.ShowDetails;
-				ShowLabels.Active = settings.ShowLabels;
-				labelViewScrolledWindow.Visible = settings.ShowLabels;
-				detailNotebook.Visible = settings.ShowDetails;
-				
-				// Restore columns
-				torrentTreeView.nameColumn.FixedWidth = settings.NameColumnWidth;
-				torrentTreeView.doneColumn.FixedWidth = settings.DoneColumnWidth;
-				torrentTreeView.statusColumn.FixedWidth = settings.StatusColumnWidth;
-				torrentTreeView.seedsColumn.FixedWidth = settings.SeedsColumnWidth;
-				torrentTreeView.peersColumn.FixedWidth = settings.PeersColumnWidth;
-				torrentTreeView.downSpeedColumn.FixedWidth = settings.DlSpeedColumnWidth;
-				torrentTreeView.upSpeedColumn.FixedWidth = settings.UpSpeedColumnWidth;
-				torrentTreeView.ratioColumn.FixedWidth = settings.RatioColumnWidth;
-				torrentTreeView.sizeColumn.FixedWidth = settings.SizeColumnWidth;
-				
-				torrentTreeView.nameColumn.Visible = settings.NameColumnVisible;
-				torrentTreeView.doneColumn.Visible = settings.DoneColumnVisible;
-				torrentTreeView.statusColumn.Visible = settings.StatusColumnVisible;
-				torrentTreeView.seedsColumn.Visible = settings.SeedsColumnVisible;
-				torrentTreeView.peersColumn.Visible = settings.PeersColumnVisible;
-				torrentTreeView.downSpeedColumn.Visible = settings.DlSpeedColumnVisible;
-				torrentTreeView.upSpeedColumn.Visible = settings.UpSpeedColumnVisible;
-				torrentTreeView.ratioColumn.Visible = settings.RatioColumnVisible;
-				torrentTreeView.sizeColumn.Visible = settings.SizeColumnVisible;
-			}
-			catch (Exception ex)
-			{
-				logger.Error ("Couldn't load interface settings: {0}", ex.Message);
-			}
+			InterfaceSettings settings = interfaceSettings.Settings;
+			
+			logger.Info ("Restoring interface settings");
+			SetDefaultSize (settings.WindowWidth, settings.WindowHeight);
+			
+			// moved here
+			ShowAll();
+			
+			if (settings.WindowYPos == 0 && settings.WindowXPos == 0)
+				SetPosition (WindowPosition.Center);
+			else
+				Move (settings.WindowXPos, settings.WindowYPos);
+			
+			vPaned.Position = settings.VPaned;
+			hPaned.Position = settings.HPaned;
+			
+			ShowDetailedInfo.Active = settings.ShowDetails;
+			ShowLabels.Active = settings.ShowLabels;
+			labelViewScrolledWindow.Visible = settings.ShowLabels;
+			detailNotebook.Visible = settings.ShowDetails;
+			
+			// Restore columns
+			torrentTreeView.nameColumn.FixedWidth = settings.NameColumnWidth;
+			torrentTreeView.doneColumn.FixedWidth = settings.DoneColumnWidth;
+			torrentTreeView.statusColumn.FixedWidth = settings.StatusColumnWidth;
+			torrentTreeView.seedsColumn.FixedWidth = settings.SeedsColumnWidth;
+			torrentTreeView.peersColumn.FixedWidth = settings.PeersColumnWidth;
+			torrentTreeView.downSpeedColumn.FixedWidth = settings.DlSpeedColumnWidth;
+			torrentTreeView.upSpeedColumn.FixedWidth = settings.UpSpeedColumnWidth;
+			torrentTreeView.ratioColumn.FixedWidth = settings.RatioColumnWidth;
+			torrentTreeView.sizeColumn.FixedWidth = settings.SizeColumnWidth;
+			
+			torrentTreeView.nameColumn.Visible = settings.NameColumnVisible;
+			torrentTreeView.doneColumn.Visible = settings.DoneColumnVisible;
+			torrentTreeView.statusColumn.Visible = settings.StatusColumnVisible;
+			torrentTreeView.seedsColumn.Visible = settings.SeedsColumnVisible;
+			torrentTreeView.peersColumn.Visible = settings.PeersColumnVisible;
+			torrentTreeView.downSpeedColumn.Visible = settings.DlSpeedColumnVisible;
+			torrentTreeView.upSpeedColumn.Visible = settings.UpSpeedColumnVisible;
+			torrentTreeView.ratioColumn.Visible = settings.RatioColumnVisible;
+			torrentTreeView.sizeColumn.Visible = settings.SizeColumnVisible;
 		}
-		private void RestorePreferencesSettings ()
-		{
-			try	
-			{
-				prefSettings.Load ();
-			}
-			catch (Exception ex)
-			{
-				logger.Error("Could not load preferences: {0}", ex);
-			}
-		}
+
 		private void StoreInterfaceSettings ()
 		{
 			InterfaceSettings interfaceSettings = this.interfaceSettings.Settings;
