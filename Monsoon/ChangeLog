@@ -1,5 +1,9 @@
 2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* AboutDialog.cs: Wrap the license
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, PreferencesDialog.cs, LabelTreeView.cs,
 	  TorrentLabel.cs, TorrentController.cs, CreateTorrentDialog.cs,
 	  RssManager/RssManagerController.cs: Replace usage of ArrayList with
