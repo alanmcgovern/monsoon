@@ -83,6 +83,7 @@ BINARIES = \
 all: $(ASSEMBLY) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) $(BINARIES) 
 
 FILES = \
+        AssemblyInfo.cs \
 	gtk-gui/generated.cs \
 	MainWindow.cs \
 	Main.cs \

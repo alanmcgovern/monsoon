@@ -1,5 +1,9 @@
 2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Monsoon.mdp, Makefile.am: AssemblyInfo.cs was missing from the build
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: Split the loading of settings from disk away from
 	  restoring them into the GUI.
 
