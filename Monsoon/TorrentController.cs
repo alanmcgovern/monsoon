@@ -57,7 +57,7 @@ namespace Monsoon
 		private List<TorrentManager> torrentsDownloading;
 		private List<TorrentManager> torrentsSeeding;
 		private List<TorrentManager> allTorrents;
-		private ArrayList labels;
+		private List<TorrentLabel> labels;
 		private List<BlockEventArgs> pieces;
 		private List<FastResume> fastResume;
 		public List<FastResume> FastResume

@@ -1,5 +1,12 @@
 2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, PreferencesDialog.cs, LabelTreeView.cs,
+	  TorrentLabel.cs, TorrentController.cs, CreateTorrentDialog.cs,
+	  RssManager/RssManagerController.cs: Replace usage of ArrayList with
+	  List<T>
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, TorrentTreeView.cs: Removed unnecessary logic
 
 2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 

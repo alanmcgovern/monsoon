@@ -42,7 +42,7 @@ namespace Monsoon
 	{
 		
 		private List<RssItem> history;
-		private ArrayList feeds;
+		private List<string> feeds;
 		private List<RssFilter> filters;
 		private Dictionary<string, TorrentRssWatcher> watchers;
 		private List<RssItem> items;
@@ -58,7 +58,7 @@ namespace Monsoon
 		public RssManagerController(TorrentController controller)
 		{
 			history = new List<Monsoon.RssItem>();
-			feeds = new ArrayList();
+			feeds = new List<string> ();
 			filters = new List<Monsoon.RssFilter>();
 			watchers = new Dictionary<string,Monsoon.TorrentRssWatcher>();
 			items = new List<Monsoon.RssItem>();
@@ -184,8 +184,8 @@ namespace Monsoon
 			{
 				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
 				
-				XmlSerializer s = new XmlSerializer (typeof(ArrayList));
-				s.Serialize(writer, feeds);
+				XmlSerializer s = new XmlSerializer (typeof(string[]));
+				s.Serialize(writer, feeds.ToArray());
 			}
 		}
 		
@@ -220,8 +220,8 @@ namespace Monsoon
 		
 		public void RestoreFeeds()
 		{
-			ArrayList feedsToRestore = null;
-			XmlSerializer xs = new XmlSerializer (typeof(ArrayList));
+			string[] feedsToRestore = null;
+			XmlSerializer xs = new XmlSerializer (typeof(string[]));
 			
 			logger.Info ("Restoring RSS feeds");
 			
@@ -231,17 +231,14 @@ namespace Monsoon
 					return;
 				
 				using (FileStream fs = File.OpenRead(Defines.SerializedRssFeeds))
-					feedsToRestore = (ArrayList) xs.Deserialize(fs);
+					feedsToRestore = (string[]) xs.Deserialize(fs);
 			}
 			catch
 			{
 				logger.Error("Error opening rssfeeds.xml");
 				return;
 			}
-				
-			foreach(string feed in feedsToRestore){
-				feeds.Add(feed);
-			}
+			feeds.AddRange(feedsToRestore);
 		}
 		
 		
@@ -354,7 +351,7 @@ namespace Monsoon
 			get { return history; }
 		}
 		
-		public ArrayList Feeds {
+		public List<string> Feeds {
 			get { return feeds; }
 		}
 		

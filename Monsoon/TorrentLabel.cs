@@ -27,7 +27,7 @@
 //
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -49,34 +49,29 @@ namespace Monsoon
 		
 		// Temporary solution until TreeModelFilter is able to be subclassed
 		private ListStore model;
-		private ArrayList torrents;
+		private List<TorrentManager> torrents;
 		
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 		
 		
 		public TorrentLabel()
 		{
-			torrents = new ArrayList();
+			torrents = new List<TorrentManager> ();
 			icon = Gtk.IconTheme.Default.LoadIcon("gtk-about", 16, 0);
 			model = new ListStore (typeof(TorrentManager));
 		}
 		
 		
-		public TorrentLabel(ArrayList torrents) : this(torrents, null)
-		{		
-		}
-		
-		
-		public TorrentLabel(ArrayList torrents, string name) : this(torrents, name, "gtk-about")
+		public TorrentLabel(string name) : this(name, "gtk-about")
 		{
 		}
 		
-		public TorrentLabel(ArrayList torrents, string name, string iconPath)
-			: this (torrents, name, iconPath, false)
+		public TorrentLabel(string name, string iconPath)
+			: this (name, iconPath, false)
 		{
 		}
 		
-		public TorrentLabel(ArrayList torrents, string name, string iconPath, bool immutable)
+		public TorrentLabel(string name, string iconPath, bool immutable)
 		{
 			Gdk.Pixbuf icon;
 			this.immutable = immutable;
@@ -90,14 +85,14 @@ namespace Monsoon
 			}
 
 			this.iconPath = iconPath;
-			this.torrents = torrents;
+			this.torrents = new List<TorrentManager> ();
 			this.name = name;
 			this.icon = icon;
 			model = new ListStore (typeof(TorrentManager));
 		}
 		
 		[XmlIgnore]
-		public ArrayList Torrents {
+		public List<TorrentManager> Torrents {
 			get { return torrents; }
 		}
 		
@@ -118,11 +113,11 @@ namespace Monsoon
 		public string [] TorrentPaths
 		{
 			get { 
-				ArrayList list = new ArrayList();
+				List<string> list = new List<string> ();
 				foreach(TorrentManager manager in torrents){
 					list.Add(manager.Torrent.TorrentPath);
 				}
-				return (string[])list.ToArray(typeof(string));
+				return list.ToArray ();
 			}
 			
 			set{ torrentPaths = value; }

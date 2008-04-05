@@ -27,7 +27,7 @@
 //
 
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using MonoTorrent.Client;
 using Gtk;
 
@@ -45,7 +45,7 @@ namespace Monsoon
 		private FileChooserButton importLocationButton;
 		
 		private ListStore filterListStore;
-		private ArrayList labels;
+		private List<TorrentLabel> labels;
 		private LabelTreeView labelTreeView;
 		
 		private Egg.TrayIcon trayIcon;
@@ -324,9 +324,9 @@ namespace Monsoon
 		{
 			TorrentLabel label;
 			if (selectedIcon != null) {
-				label = new TorrentLabel(new ArrayList(), nameEntry.Text, selectedIcon);
+				label = new TorrentLabel(nameEntry.Text, selectedIcon);
 			} else {
-				label = new TorrentLabel(new ArrayList(), nameEntry.Text);
+				label = new TorrentLabel(nameEntry.Text);
 			}
 			labels.Add(label);
 			filterListStore.AppendValues(label);

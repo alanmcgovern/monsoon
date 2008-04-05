@@ -156,7 +156,7 @@ namespace Monsoon
 		public string [] GetTrackers()
 		{
 			TreeIter iter;
-			ArrayList trackers = new ArrayList();
+			List<string> trackers = new List<string> ();
 			
 			if(!trackerListStore.GetIterFirst(out iter))
 				return null;
@@ -167,7 +167,7 @@ namespace Monsoon
 					break;
 			}
 			
-			return (string[])trackers.ToArray(typeof(string));			
+			return trackers.ToArray();			
 		}
 
 		protected virtual void OnCreateButtonClicked (object sender, System.EventArgs e)

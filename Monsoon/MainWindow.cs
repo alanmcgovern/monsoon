@@ -84,7 +84,7 @@ namespace Monsoon
 		private ListStore piecesListStore;
 		private List<BlockEventArgs> pieces;
 		
-		private ArrayList labels;
+		private List<TorrentLabel> labels;
 		private ListenPortController portController;
 		
 		private TorrentFolderWatcher folderWatcher;
@@ -141,7 +141,7 @@ namespace Monsoon
 			}
 		}
 
-		public ArrayList Labels {
+		public List<TorrentLabel> Labels {
 			get {
 				return labels;
 			}
@@ -182,7 +182,7 @@ namespace Monsoon
 			
 			LoadAllSettings ();
 			
-			labels = new ArrayList ();
+			labels = new  List<TorrentLabel> ();
 			torrents = new Dictionary<MonoTorrent.Client.TorrentManager,Gtk.TreeIter> ();
 			
 			Build ();
@@ -471,23 +471,13 @@ namespace Monsoon
 			labelTreeView.Selection.Changed += OnLabelSelectionChanged;
 			labelViewScrolledWindow.Add (labelTreeView);
 			labelTreeView.Show ();
-				
-			//torrentFilter = new Gtk.TreeModelFilter (torrentListStore, null);
-			//torrentFilter = new TorrentFilterModel(torrentListStore, null);
-			//torrentFilter.VisibleFunc = new Gtk.TreeModelFilterVisibleFunc (FilterTorrentTree);
-			
+
 			torrentTreeView.Model = torrentListStore;
-			//torrentTreeView.Model = torrentFilter;
-			
-			//ArrayList allList = new ArrayList ();
-			//foreach(TorrentManager manager in torrents.Keys){
-			//	allList.Add (manager);
-			//}
-			
-			allLabel = new TorrentLabel (new ArrayList(), _("All"), "gtk-home", true);
-			deleteLabel = new TorrentLabel (new ArrayList(), _("Remove"), "gtk-remove", true);
-			downloadingLabel = new TorrentLabel (new ArrayList(), _("Downloading"), "gtk-go-down", true);
-			uploadLabel = new TorrentLabel (new ArrayList(), _("Seeding"), "gtk-go-up", true);
+
+			allLabel = new TorrentLabel (_("All"), "gtk-home", true);
+			deleteLabel = new TorrentLabel (_("Remove"), "gtk-remove", true);
+			downloadingLabel = new TorrentLabel (_("Downloading"), "gtk-go-down", true);
+			uploadLabel = new TorrentLabel (_("Seeding"), "gtk-go-up", true);
 		
 			labelListStore.AppendValues (allLabel);
 			labelListStore.AppendValues (downloadingLabel);
@@ -789,7 +779,7 @@ namespace Monsoon
 		
 		private void StoreTorrentSettings ()
 		{
-			ArrayList torrentsToStore = new ArrayList ();
+			List<TorrentStorage> torrentsToStore = new List<TorrentStorage> ();
 			
 			logger.Info ("Storing torrent settings");
 			
@@ -802,13 +792,13 @@ namespace Monsoon
 				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
 				
 				XmlSerializer s = new XmlSerializer (typeof(TorrentStorage[]));
-				s.Serialize (writer, torrentsToStore.ToArray (typeof(TorrentStorage)));
+				s.Serialize (writer, torrentsToStore.ToArray());
 			}
 		}
 
 		private void StoreLabels ()
 		{
-			ArrayList labelsToStore = new ArrayList ();
+			List<TorrentLabel> labelsToStore = new List<TorrentLabel> ();
 			
 			logger.Info ("Storing labels");
 			
@@ -822,7 +812,7 @@ namespace Monsoon
 			{
 				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
 				XmlSerializer s = new XmlSerializer (typeof(TorrentLabel[]));
-				s.Serialize(writer, labelsToStore.ToArray (typeof(TorrentLabel)));
+				s.Serialize(writer, labelsToStore.ToArray ());
 			}
 		}
 		
@@ -1308,7 +1298,7 @@ namespace Monsoon
 			
 			TreePath [] treePaths;
 			TreeModel model;
-			ArrayList torrentsToRemove = new ArrayList ();
+			List<TorrentManager> torrentsToRemove = new List<TorrentManager> ();
 			
 			//treePaths = torrentTreeView.Selection.GetSelectedRows();
 			treePaths = torrentsSelected.GetSelectedRows (out model);
@@ -1350,7 +1340,7 @@ namespace Monsoon
 		
 		private void DeleteAndRemoveSelection ()
 		{
-			ArrayList torrentsToRemove = new ArrayList();
+			List<TorrentManager> torrentsToRemove = new List<TorrentManager> ();
 			MessageDialog messageDialog = new MessageDialog (this,
 						DialogFlags.Modal,
 						MessageType.Question, 

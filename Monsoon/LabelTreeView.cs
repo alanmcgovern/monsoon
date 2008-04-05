@@ -28,8 +28,8 @@
 
 using Gtk;
 using System;
-using System.Collections;
-
+using System.Collections.Generic;
+using MonoTorrent.Client;
 
 namespace Monsoon
 {
@@ -100,7 +100,7 @@ namespace Monsoon
 			createItem = new ImageMenuItem ("Create");
 			createItem.Image = new Image (Stock.Add, IconSize.Menu);
 			createItem.Activated += delegate (object o, EventArgs e) {
-				TorrentLabel l = new TorrentLabel(new ArrayList(), "New Label");
+				TorrentLabel l = new TorrentLabel("New Label");
 				mainWindow.LabelListStore.AppendValues(l);
 				mainWindow.Labels.Add(l);
 			};
