@@ -182,6 +182,9 @@ namespace Monsoon
 			labels = new ArrayList ();
 			torrents = new Dictionary<MonoTorrent.Client.TorrentManager,Gtk.TreeIter> ();
 			
+			RestorePreferencesSettings ();
+			RestoreUserTorrentSettings ();
+			
 			Build ();
 			BuildTray();
 			BuildPiecesTreeView();
@@ -195,8 +198,6 @@ namespace Monsoon
 			GLib.Timeout.Add (1000, new GLib.TimeoutHandler (updateView));
 			
 			RestoreInterfaceSettings ();
-			RestoreUserTorrentSettings ();
-			RestorePreferencesSettings ();
 			
 			//portController = new ListenPortController(userEngineSettings);
 			if (Preferences.UpnpEnabled)
