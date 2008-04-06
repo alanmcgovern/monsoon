@@ -95,6 +95,7 @@
         <property name="Label" translatable="yes" />
         <property name="Sensitive">False</property>
         <property name="StockId">gtk-media-stop</property>
+        <property name="Tooltip" translatable="yes">Stop the torrent</property>
         <signal name="Activated" handler="OnStopTorrentActivated" />
       </action>
       <action id="removeTorrentButton">
@@ -102,12 +103,14 @@
         <property name="Label" translatable="yes" />
         <property name="Sensitive">False</property>
         <property name="StockId">gtk-remove</property>
+        <property name="Tooltip" translatable="yes">Remove the torrent</property>
         <signal name="Activated" handler="OnRemoveTorrentButtonActivated" />
       </action>
       <action id="preferences">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-preferences</property>
+        <property name="Tooltip" translatable="yes">Open the preferences dialog</property>
         <signal name="Activated" handler="OnPreferencesActivated" />
       </action>
       <action id="deleteTorrentButton">
@@ -115,6 +118,7 @@
         <property name="Label" translatable="yes" />
         <property name="Sensitive">False</property>
         <property name="StockId">gtk-delete</property>
+        <property name="Tooltip" translatable="yes">Remove the torrent and delete its data</property>
         <signal name="Activated" handler="OnDeleteTorrentButtonActivated" />
       </action>
       <action id="EditColumns">
@@ -144,12 +148,14 @@
         <property name="Label" translatable="yes">_Open Torrent</property>
         <property name="ShortLabel" translatable="yes">_Open Torrent</property>
         <property name="StockId">gtk-open</property>
+        <property name="Tooltip" translatable="yes">Open existing torrent file</property>
         <signal name="Activated" handler="OnOpenActivated" />
       </action>
       <action id="startTorrentButton">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
         <property name="StockId">gtk-media-play</property>
+        <property name="Tooltip" translatable="yes">Start the torrent</property>
         <signal name="Activated" handler="OnStartTorrentActivated" />
       </action>
       <action id="NewTorrent">
@@ -157,6 +163,7 @@
         <property name="Label" translatable="yes">_New Torrent</property>
         <property name="ShortLabel" translatable="yes">_New Torrent</property>
         <property name="StockId">gtk-new</property>
+        <property name="Tooltip" translatable="yes">Create a new torrent</property>
         <signal name="Activated" handler="OnNewActivated" />
       </action>
       <action id="druidDebug">
@@ -173,6 +180,7 @@
         <property name="Label" translatable="yes">Plugins</property>
         <property name="ShortLabel" translatable="yes">Plugins</property>
         <property name="StockId">rss</property>
+        <property name="Tooltip" translatable="yes">Open the RSS manager</property>
         <signal name="Activated" handler="OnPluginsActivated" />
       </action>
     </action-group>

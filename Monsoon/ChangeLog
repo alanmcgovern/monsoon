@@ -1,3 +1,8 @@
+2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* gtk-gui/Monsoon.MainWindow.cs, gtk-gui/gui.stetic: Add tooltips to
+	  the menu items
+
 2008-04-06  Mirco Bauer <meebey@meebey.net> 
 
 	
