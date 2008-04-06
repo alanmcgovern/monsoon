@@ -33,30 +33,23 @@ using System.Xml.Serialization;
 
 namespace Monsoon
 {
+	[Serializable]
 	[XmlRoot("Files")]
 	public class TorrentFileSettingsModel
 	{
 		private string       path;
 		private Priority     priority;
 
-		[XmlElement("Priority")]
-		public Priority Priority {
-			get {
-				return priority;
-			}
-			set {
-				priority = value;
-			}
+		public Priority Priority
+		{
+			get { return priority; }
+			set { priority = value; }
 		}
 
-		[XmlElement("Path")]
-		public string Path {
-			get {
-				return path;
-			}
-			set {
-				path = value;
-			}
+		public string Path
+		{
+			get { return path; }
+			set { path = value; }
 		}
 		
 		public TorrentFileSettingsModel()

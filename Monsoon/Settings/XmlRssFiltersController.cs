@@ -43,36 +43,29 @@ namespace Monsoon
 		
 		public override void Load ()
 		{
-			RssFilter [] filtersToRestore = null;
 			XmlSerializer xs = new XmlSerializer (typeof(RssFilter[]));
 			
 			logger.Info ("Restoring RSS feeds");
 			
-			if (System.IO.File.Exists(Defines.SerializedRssFilters)) {
-				FileStream fs = null;
-				
-				try {
-					fs = System.IO.File.Open(Defines.SerializedRssFilters, System.IO.FileMode.Open);
-				} catch {
-					logger.Error("Error opening rssfilters.xml");
-				}
-				
-				try {				
-					filtersToRestore = (RssFilter[]) xs.Deserialize(fs);
-				} catch {
-					logger.Error("Failed to restore RSS filters");
+			try
+			{
+				if (!System.IO.File.Exists (Defines.SerializedRssFilters))
 					return;
-				} finally {				
-					fs.Close();
-				}
 				
-				foreach(RssFilter filter in filtersToRestore){
-					Console.Out.WriteLine("Filter:" + filter.Name);
-					Settings.Add(filter);
+				using (FileStream fs = File.Open (Defines.SerializedRssFilters, FileMode.Open))
+				{
+					Settings.Clear ();
+					Settings.AddRange ((RssFilter[]) xs.Deserialize (fs));
 				}
 			}
-			
-			
+			catch (IOException)
+			{
+				logger.Error ("Error opening rssfilters.xml");
+			}
+			catch (Exception)
+			{
+				logger.Error ("Failed to restore RSS filters");
+			}
 		}
 		
 		public override void Save ()
@@ -87,7 +80,5 @@ namespace Monsoon
 				s.Serialize(writer, Settings.ToArray ());
 			}
 		}
-
-
 	}
 }

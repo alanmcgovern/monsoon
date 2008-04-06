@@ -43,7 +43,6 @@ namespace Monsoon
 		
 		public override void Load ()
 		{
-			List<string> feedsToRestore = new List<string>(); 
 			XmlSerializer xs = new XmlSerializer (typeof(List<string>));
 			
 			logger.Info ("Restoring RSS feeds");
@@ -54,16 +53,15 @@ namespace Monsoon
 					return;
 				
 				using (FileStream fs = File.OpenRead(Defines.SerializedRssFeeds))
-					feedsToRestore = (List<string>) xs.Deserialize(fs);
+					Settings.AddRange ((List<string>) xs.Deserialize(fs));
 			}
-			catch
+			catch (IOException)
+			{
+				logger.Error ("Error opening {0}", Defines.SerializedRssFeeds);
+			}
+			catch (Exception)
 			{
 				logger.Error("Error restoring RSS feeds");
-			}
-			
-			
-			foreach(string feed in feedsToRestore) {
-				Settings.Add(feed);
 			}
 		}
 		

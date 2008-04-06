@@ -43,37 +43,26 @@ namespace Monsoon
 		
 		public override void Load ()
 		{
-			RssItem[] historyToRestore = null;
 			XmlSerializer xs = new XmlSerializer (typeof(RssItem[]));
 			
 			logger.Info ("Restoring RSS history");
 			
-			if (!System.IO.File.Exists(Defines.SerializedRssHistroy)) {
-				logger.Error("{0} does not exist", Defines.SerializedRssHistroy);				
-				return;
+			try
+			{
+				if (!File.Exists(Defines.SerializedRssHistroy))
+					return;
+					
+				using (Stream fs = File.Open(Defines.SerializedRssHistroy, FileMode.Open))
+					Settings.AddRange ((RssItem[]) xs.Deserialize (fs));
 			}
-			
-			FileStream fs = null;
-				
-			try {
-				fs = System.IO.File.Open(Defines.SerializedRssHistroy, System.IO.FileMode.Open);
-			} catch {
+			catch (IOException)
+			{
 				logger.Error("Error opening rsshistory.xml");
 			}
-			
-			try {				
-				historyToRestore = (RssItem[]) xs.Deserialize(fs);
-			} catch {
+			catch (Exception)
+			{
 				logger.Error("Failed to restore history");
-				return;
-			} finally {				
-				fs.Close();
 			}
-			
-			foreach(RssItem item in historyToRestore){
-				Settings.Add(item);
-			}
-
 		}
 		
 		public override void Save ()
@@ -88,7 +77,5 @@ namespace Monsoon
 				s.Serialize(writer, Settings.ToArray());
 			}
 		}
-
-
 	}
 }

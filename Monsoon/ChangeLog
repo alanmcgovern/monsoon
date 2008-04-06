@@ -1,5 +1,12 @@
 2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Settings/XmlRssHistoryController.cs,
+	  Settings/XmlRssFeedsController.cs,
+	  Settings/XmlRssFiltersController.cs, TorrentFileSettingsModel.cs:
+	  Small refactorings to xml saving code
+
+2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* TorrentStorage.cs: Added the Serializable attribute and removed
 	  excess attributes 
 
