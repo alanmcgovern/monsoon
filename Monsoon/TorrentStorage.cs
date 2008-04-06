@@ -36,7 +36,7 @@ using MonoTorrent.Common;
 
 namespace Monsoon
 {
-
+	[Serializable]
 	[XmlRoot("Torrent")]
 	public class TorrentStorage
 	{
@@ -53,56 +53,48 @@ namespace Monsoon
 		{
 			files = new List<TorrentFileSettingsModel>();
 		}
-				
-		[XmlAttribute("TorrentPath")]
+
 		public string TorrentPath
 		{
 			get { return torrentPath; }
 			set { torrentPath = value; }
 		}
-		
-		[XmlElement("SavePath")]
+
 		public string SavePath
 		{
 			get { return savePath; }
 			set { savePath = value; }
 		}
-		
-		[XmlElement("Settings")]
+
 		public TorrentSettings Settings
 		{
 			get { return settings; }
 			set { settings = value; }
 		}
-		
-		[XmlElement("State")]
+
 		public TorrentState State
 		{
 			get { return state; }
 			set { state = value; }
 		}
-		
-		[XmlElement("UploadedData")]
+
 		public long UploadedData
 		{
 			get { return uploadedData; }
 			set { uploadedData = value; }
 		}
 		
-		[XmlElement("DownloadedData")]
 		public long DownloadedData
 		{
 			get { return downloadedData; }
 			set { downloadedData = value; }
 		}
 		
-		[XmlElement("InfoHash")]
 		public string InfoHash {
 			get { return infoHash; }
 			set { infoHash = value; }
 		}
 
-		[XmlElement("Files")]
 		public List<TorrentFileSettingsModel> Files {
 			get { return files; }
 			set { files = value; }

@@ -1,5 +1,10 @@
 2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* TorrentStorage.cs: Added the Serializable attribute and removed
+	  excess attributes 
+
+2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* TorrentTreeView.cs: Fixed drap'n'drop.
 
 2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
