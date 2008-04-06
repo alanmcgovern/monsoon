@@ -56,24 +56,24 @@
   </icon-factory>
   <widget class="Gtk.Window" id="Monsoon.MainWindow" design-size="765 658">
     <action-group name="Default">
-      <action id="File">
+      <action id="FileAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">File</property>
+        <property name="Label" translatable="yes">_File</property>
         <property name="ShortLabel" translatable="yes">File</property>
       </action>
-      <action id="Edit">
+      <action id="EditAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Edit</property>
+        <property name="Label" translatable="yes">_Edit</property>
         <property name="ShortLabel" translatable="yes">Edit</property>
       </action>
-      <action id="View">
+      <action id="ViewAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">View</property>
+        <property name="Label" translatable="yes">_View</property>
         <property name="ShortLabel" translatable="yes">View</property>
       </action>
-      <action id="Help">
+      <action id="HelpAction">
         <property name="Type">Action</property>
-        <property name="Label" translatable="yes">Help</property>
+        <property name="Label" translatable="yes">_Help</property>
         <property name="ShortLabel" translatable="yes">Help</property>
       </action>
       <action id="About">
@@ -188,22 +188,22 @@
           <widget class="Gtk.MenuBar" id="menubar1">
             <property name="MemberName" />
             <node name="menubar1" type="Menubar">
-              <node type="Menu" action="File">
+              <node type="Menu" action="FileAction">
                 <node type="Menuitem" action="NewTorrent" />
                 <node type="Menuitem" action="OpenTorrent" />
                 <node type="Separator" />
                 <node type="Menuitem" action="Quit" />
               </node>
-              <node type="Menu" action="Edit">
+              <node type="Menu" action="EditAction">
                 <node type="Menuitem" action="preferences" />
               </node>
-              <node type="Menu" action="View">
+              <node type="Menu" action="ViewAction">
                 <node type="Menuitem" action="EditColumns" />
                 <node type="Separator" />
                 <node type="Menuitem" action="ShowLabels" />
                 <node type="Menuitem" action="ShowDetailedInfo" />
               </node>
-              <node type="Menu" action="Help">
+              <node type="Menu" action="HelpAction">
                 <node type="Menuitem" action="About" />
               </node>
             </node>
@@ -268,7 +268,7 @@
               <widget class="Gtk.VPaned" id="vPaned">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="Position">172</property>
+                <property name="Position">165</property>
                 <child>
                   <widget class="Gtk.ScrolledWindow" id="torrentViewScrolledWindow">
                     <property name="MemberName" />
@@ -2516,6 +2516,7 @@
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="Label" translatable="yes">Single File</property>
+                                <property name="Active">True</property>
                                 <property name="DrawIndicator">True</property>
                                 <property name="HasLabel">True</property>
                                 <property name="UseUnderline">True</property>

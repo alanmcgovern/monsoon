@@ -13,13 +13,13 @@ namespace Monsoon {
     
     public partial class MainWindow {
         
-        private Gtk.Action File;
+        private Gtk.Action FileAction;
         
-        private Gtk.Action Edit;
+        private Gtk.Action EditAction;
         
-        private Gtk.Action View;
+        private Gtk.Action ViewAction;
         
-        private Gtk.Action Help;
+        private Gtk.Action HelpAction;
         
         private Gtk.Action About;
         
@@ -218,18 +218,18 @@ namespace Monsoon {
             // Widget Monsoon.MainWindow
             Gtk.UIManager w1 = new Gtk.UIManager();
             Gtk.ActionGroup w2 = new Gtk.ActionGroup("Default");
-            this.File = new Gtk.Action("File", Mono.Unix.Catalog.GetString("File"), null, null);
-            this.File.ShortLabel = Mono.Unix.Catalog.GetString("File");
-            w2.Add(this.File, null);
-            this.Edit = new Gtk.Action("Edit", Mono.Unix.Catalog.GetString("Edit"), null, null);
-            this.Edit.ShortLabel = Mono.Unix.Catalog.GetString("Edit");
-            w2.Add(this.Edit, null);
-            this.View = new Gtk.Action("View", Mono.Unix.Catalog.GetString("View"), null, null);
-            this.View.ShortLabel = Mono.Unix.Catalog.GetString("View");
-            w2.Add(this.View, null);
-            this.Help = new Gtk.Action("Help", Mono.Unix.Catalog.GetString("Help"), null, null);
-            this.Help.ShortLabel = Mono.Unix.Catalog.GetString("Help");
-            w2.Add(this.Help, null);
+            this.FileAction = new Gtk.Action("FileAction", Mono.Unix.Catalog.GetString("_File"), null, null);
+            this.FileAction.ShortLabel = Mono.Unix.Catalog.GetString("File");
+            w2.Add(this.FileAction, null);
+            this.EditAction = new Gtk.Action("EditAction", Mono.Unix.Catalog.GetString("_Edit"), null, null);
+            this.EditAction.ShortLabel = Mono.Unix.Catalog.GetString("Edit");
+            w2.Add(this.EditAction, null);
+            this.ViewAction = new Gtk.Action("ViewAction", Mono.Unix.Catalog.GetString("_View"), null, null);
+            this.ViewAction.ShortLabel = Mono.Unix.Catalog.GetString("View");
+            w2.Add(this.ViewAction, null);
+            this.HelpAction = new Gtk.Action("HelpAction", Mono.Unix.Catalog.GetString("_Help"), null, null);
+            this.HelpAction.ShortLabel = Mono.Unix.Catalog.GetString("Help");
+            w2.Add(this.HelpAction, null);
             this.About = new Gtk.Action("About", Mono.Unix.Catalog.GetString("_About"), null, "gtk-about");
             this.About.ShortLabel = Mono.Unix.Catalog.GetString("_About");
             w2.Add(this.About, null);
@@ -280,7 +280,7 @@ namespace Monsoon {
             this.vbox1 = new Gtk.VBox();
             this.vbox1.Name = "vbox1";
             // Container child vbox1.Gtk.Box+BoxChild
-            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='File'><menuitem action='NewTorrent'/><menuitem action='OpenTorrent'/><separator/><menuitem action='Quit'/></menu><menu action='Edit'><menuitem action='preferences'/></menu><menu action='View'><menuitem action='EditColumns'/><separator/><menuitem action='ShowLabels'/><menuitem action='ShowDetailedInfo'/></menu><menu action='Help'><menuitem action='About'/></menu></menubar></ui>");
+            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='FileAction'><menuitem action='NewTorrent'/><menuitem action='OpenTorrent'/><separator/><menuitem action='Quit'/></menu><menu action='EditAction'><menuitem action='preferences'/></menu><menu action='ViewAction'><menuitem action='EditColumns'/><separator/><menuitem action='ShowLabels'/><menuitem action='ShowDetailedInfo'/></menu><menu action='HelpAction'><menuitem action='About'/></menu></menubar></ui>");
             this.menubar1 = ((Gtk.MenuBar)(w1.GetWidget("/menubar1")));
             this.menubar1.Name = "menubar1";
             this.vbox1.Add(this.menubar1);
@@ -315,7 +315,7 @@ namespace Monsoon {
             this.vPaned = new Gtk.VPaned();
             this.vPaned.CanFocus = true;
             this.vPaned.Name = "vPaned";
-            this.vPaned.Position = 172;
+            this.vPaned.Position = 165;
             // Container child vPaned.Gtk.Paned+PanedChild
             this.torrentViewScrolledWindow = new Gtk.ScrolledWindow();
             this.torrentViewScrolledWindow.CanFocus = true;
