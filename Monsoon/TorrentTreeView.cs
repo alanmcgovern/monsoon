@@ -146,15 +146,15 @@ namespace Monsoon
 			ratioColumn = new TreeViewColumn();
 			sizeColumn = new TreeViewColumn();
 			
-			nameColumn.Title = "Name";
-			statusColumn.Title = "Status";
-			doneColumn.Title = "Done";
-			seedsColumn.Title = "Seeds";
-			peersColumn.Title = "Peers";
-			downSpeedColumn.Title = "DL Speed";
-			upSpeedColumn.Title = "UP Speed";
-			ratioColumn.Title = "Ratio";
-			sizeColumn.Title = "Size";
+			nameColumn.Title = _("Name");
+			statusColumn.Title = _("Status");
+			doneColumn.Title = _("Done");
+			seedsColumn.Title = _("Seeds");
+			peersColumn.Title = _("Peers");
+			downSpeedColumn.Title = _("DL Speed");
+			upSpeedColumn.Title = _("UP Speed");
+			ratioColumn.Title = _("Ratio");
+			sizeColumn.Title = _("Size");
 			
 			nameColumn.Resizable = true;
 			statusColumn.Resizable = true;
@@ -340,6 +340,11 @@ namespace Monsoon
 				return;
 			
 			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSize (torrent.Torrent.Size);
+		}
+		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
 		}
 	}
 }

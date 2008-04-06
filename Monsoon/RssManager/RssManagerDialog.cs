@@ -138,7 +138,7 @@ namespace Monsoon
 			filterFeedCombobox.Model = filterFeedListStore;
 			filterFeedCombobox.SetActiveIter(allIter);
 			
-			filterColumn.Title = "Filter";
+			filterColumn.Title = _("Filter");
 			Gtk.CellRendererText filterCell = new Gtk.CellRendererText ();
 			filterColumn.PackStart (filterCell, true);
 			filterColumn.SetCellDataFunc (filterCell, new Gtk.TreeCellDataFunc (RenderFilter));
@@ -185,7 +185,7 @@ namespace Monsoon
 			
 			TreeViewColumn itemColumn = new TreeViewColumn();
 			Gtk.CellRendererText itemCell = new Gtk.CellRendererText ();
-			itemColumn.Title = "Item";
+			itemColumn.Title = _("Item");
 			itemColumn.PackStart (itemCell, true);
 			itemColumn.SetCellDataFunc (itemCell, new Gtk.TreeCellDataFunc (RenderItem));
 			
@@ -290,7 +290,7 @@ namespace Monsoon
 			
 			TreeViewColumn itemColumn = new TreeViewColumn();
 			Gtk.CellRendererText itemCell = new Gtk.CellRendererText ();
-			itemColumn.Title = "Item";
+			itemColumn.Title = _("Item");
 			itemColumn.PackStart (itemCell, true);
 			itemColumn.SetCellDataFunc (itemCell, new Gtk.TreeCellDataFunc (RenderItem));
 				
@@ -480,6 +480,11 @@ namespace Monsoon
 		protected virtual void OnFeedComboboxChanged (object sender, System.EventArgs e)
 		{
 			feedfilter.Refilter();
+		}
+		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
 		}
 	}
 }

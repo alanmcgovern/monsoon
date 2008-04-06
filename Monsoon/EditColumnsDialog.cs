@@ -19,7 +19,7 @@ namespace Monsoon
 			
 			this.torrentTreeView = torrentTreeView;
 			
-			Title = "Edit columns";
+			Title = _("Edit columns");
 			Modal = true;
 			
 			nameVisibleCheckButton.Active = torrentTreeView.nameColumn.Visible;
@@ -88,5 +88,9 @@ namespace Monsoon
 			torrentTreeView.sizeColumn.Visible = sizeVisibleCheckButton.Active;
 		}
 		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
+		}
 	}
 }

@@ -68,5 +68,6 @@ Monsoon/monsoon
 
 AC_OUTPUT([
 Monsoon/AssemblyInfo.cs
+Monsoon/Defines.cs
 po/Makefile.in
 ])

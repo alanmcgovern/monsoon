@@ -22,11 +22,17 @@ namespace Monsoon
 			exceptionImage.IconName = Stock.DialogError;
 			exceptionImage.IconSize = 6;
 			
-			exceptionLabel.Text = "An unhandled exception has been encountered:\n" + e.Message;
+			exceptionLabel.Text = String.Format(_("An unhandled exception has been encountered:\n{0}"),
+			                                    e.Message);
 			
 			TextBuffer buffer;
 			buffer = exceptionTextView.Buffer;
 			buffer.Text = e.ToString() + e.StackTrace;
+		}
+		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
 		}
 	}
 }

@@ -29,11 +29,12 @@ namespace Monsoon
 			blockColumn = new TreeViewColumn();
 			//completedColumn = new TreeViewColumn();
 			
-			numberColumn.Title = "#";
-			sizeColumn.Title = "Size";
-			numBlocksColumn.Title = "# of Blocks";
-			blockColumn.Title = "Blocks";
-			//completedColumn.Title = "Completed";
+			// I18N: number of / amount
+			numberColumn.Title = _("#");
+			sizeColumn.Title = _("Size");
+			numBlocksColumn.Title = _("# of Blocks");
+			blockColumn.Title = _("Blocks");
+			//completedColumn.Title = _("Completed");
 			
 			Gtk.CellRendererText numberCell = new Gtk.CellRendererText();
 			Gtk.CellRendererText sizeCell = new Gtk.CellRendererText();
@@ -93,5 +94,9 @@ namespace Monsoon
 			(cell as Gtk.CellRendererText).Text = (blockEvent.Piece.TotalReceived / blockEvent.Block.RequestLength).ToString("0.00");
 		}
 		*/
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
+		}
 	}
 }

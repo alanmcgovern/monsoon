@@ -97,8 +97,8 @@ namespace Monsoon
 			filenameColumn.Resizable = true;
 			
 			priorityColumn.Title = "";
-			filenameColumn.Title = "Filename";
-			progressColumn.Title = "Progress";
+			filenameColumn.Title = _("Filename");
+			progressColumn.Title = _("Progress");
 			
 			Gtk.CellRendererPixbuf priorityCell = new CellRendererPixbuf ();
 			Gtk.CellRendererText filenameCell = new CellRendererText ();
@@ -224,6 +224,11 @@ namespace Monsoon
 			
 			(cell as Gtk.CellRendererProgress).Value = 0;
 			(cell as Gtk.CellRendererProgress).Value = (int)torrentFile.BitField.PercentComplete;
+		}
+		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
 		}
 	}
 }

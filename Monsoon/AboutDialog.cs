@@ -3,21 +3,21 @@ using System;
 
 namespace Monsoon
 {
-	
-	
 	public class AboutDialog : Gtk.AboutDialog
 	{
-		
 		public AboutDialog() : base()
 		{
-			Name = "Monsoon";
-			Authors = new String[]{"Alan McGovern (Library)",
-						"Jared Hendry (Interface)"};
+			Name = Defines.ApplicationName;
+			Authors = new String[] {
+						"Alan McGovern (Library)",
+						"Jared Hendry (Interface)",
+						"Mirco Bauer (I18N integration)"
+			};
 			
 			Version = Defines.Version;
 			this.TranslatorCredits = string.Format("{1}{0}{2}{0}{3}", Environment.NewLine,
 			                                       _("French - Olivier Dufour"),
-			                                       _("German - Mirco Bauer"),
+			                                       _("German - Mirco Bauer <meebey@meebey.net>"),
 			                                       _("Spanish - Mario Sopena"));
 			this.WrapLicense = true;
 			License = @"Copyright (C) 2006-2008 Alan McGovern, Jared Hendry

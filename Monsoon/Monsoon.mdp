@@ -63,12 +63,9 @@
     <File name="gtk-gui/Monsoon.EditColumnsDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="gtk-gui/Monsoon.CreateTorrentProgressDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="Menus/SpeedLimitMenu.cs" subtype="Code" buildaction="Compile" />
-    <File name="Defines.cs" subtype="Code" buildaction="Compile" />
+    <File name="Defines.cs.in" subtype="Code" buildaction="Compile" />
     <File name="monsoon.desktop" subtype="Code" buildaction="FileCopy" DeployService.TargetDirectoryId="Linux.DesktopApplications" />
     <File name="Monsoon.exe.config" subtype="Code" buildaction="FileCopy" />
-    <File name="TorrentSettingsModel.cs" subtype="Code" buildaction="Compile" />
-    <File name="TorrentSettingsController.cs" subtype="Code" buildaction="Compile" />
-    <File name="TorrentFileSettingsController.cs" subtype="Code" buildaction="Compile" />
     <File name="TorrentFileSettingsModel.cs" subtype="Code" buildaction="Compile" />
     <File name="Menus/SpeedMenuItem.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/GconfSettingsStorage.cs" subtype="Code" buildaction="Compile" />

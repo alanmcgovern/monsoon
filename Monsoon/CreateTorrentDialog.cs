@@ -90,7 +90,7 @@ namespace Monsoon
 			trackerTreeView.Model = trackerListStore;
 			
 			TreeViewColumn trackerColumn = new TreeViewColumn ();
-			trackerColumn.Title = "Trackers";
+			trackerColumn.Title = _("Trackers");
 			
 			CellRendererText trackerTextCell = new CellRendererText ();
 			trackerColumn.PackStart(trackerTextCell, true);
@@ -200,7 +200,7 @@ namespace Monsoon
             			creator.Announces[0].Add(s);
             		
 			creator.Comment = Comment;
-			creator.CreatedBy = "Monsoon";
+			creator.CreatedBy = Defines.ApplicationName;
 			
 			creator.Path = SavePath;
 
@@ -260,6 +260,10 @@ namespace Monsoon
 		protected virtual void OnFileRadioButtonToggled (object sender, System.EventArgs e)
 		{
 		}
-
+		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
+		}
 	}
 }

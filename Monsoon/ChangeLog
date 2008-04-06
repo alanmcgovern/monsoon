@@ -1,3 +1,20 @@
+2008-04-06  Mirco Bauer <meebey@meebey.net> 
+
+	* Defines.cs, Defines.cs.in: Generate Defines.cs for prefix path required
+	  for gettext initialization.
+	* Main.cs: Initialize gettext with locales in application directory and a
+	  fallback to system locales.
+	* UnhandledExceptionDialog.cs, CreateTorrentDialog.cs, PeerTreeView.cs,
+	  PiecesTreeView.cs, FileTreeView.cs, RssManager/RssManagerDialog.cs,
+	  EditColumnsDialog.cs, TorrentTreeView.cs: Wrap messages with gettext
+	  calls.
+	* AboutDialog.cs: Fixed whitespace.
+	
+	  Use Defines.ApplicatioName instead of hardcoded string.
+	
+	  Added myself to authors.
+	* Monsoon.mdp: Synced project file.
+
 2008-04-06  Jared Hendry <hendry.jared@gmail.com> 
 
 	* MainWindow.cs: Move serialization out to Xml*Controllers

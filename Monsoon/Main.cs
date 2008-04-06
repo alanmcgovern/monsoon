@@ -31,6 +31,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 using Gtk;
@@ -95,7 +96,13 @@ namespace Monsoon
 				GLib.Thread.Init();
 			}
 
-			Mono.Unix.Catalog.Init("monsoon", "locale");
+			string localeDir = Path.Combine(Defines.ApplicationDirectory, "locale");
+			if (!Directory.Exists(localeDir)) {
+				localeDir = Path.Combine(Defines.InstallPrefix, "share");
+				localeDir = Path.Combine(localeDir, "locale");
+			}
+			Mono.Unix.Catalog.Init("monsoon", localeDir);
+			logger.Debug("Using locale data from: {0}", localeDir);
 			Console.WriteLine(_("Starting Monsoon"));
 			
 			Application.Init("monsoon", ref args);

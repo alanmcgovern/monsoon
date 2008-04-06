@@ -61,12 +61,12 @@ namespace Monsoon
 			seedingColumn = new TreeViewColumn();
 			interestedColumn = new TreeViewColumn();
 			
-			addressColumn.Title = "IP Address";
-			clientColumn.Title = "Client";
-			downColumn.Title = "DL Speed";
-			upColumn.Title = "UP Speed";
-			seedingColumn.Title = "Seeding";
-			interestedColumn.Title = "Interested";
+			addressColumn.Title = _("IP Address");
+			clientColumn.Title = _("Client");
+			downColumn.Title = _("DL Speed");
+			upColumn.Title = _("UP Speed");
+			seedingColumn.Title = _("Seeding");
+			interestedColumn.Title = _("Interested");
 			
 			addressColumn.Expand = true;
 			clientColumn.Expand = true;
@@ -149,6 +149,9 @@ namespace Monsoon
 			(cell as Gtk.CellRendererToggle).Active = peer.AmInterested;
 		}
 		
-		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
+		}
 	}
 }
