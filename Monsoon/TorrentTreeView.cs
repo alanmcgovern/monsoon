@@ -60,6 +60,10 @@ namespace Monsoon
 		{
 			this.torrentController = torrentController;
 			
+			targetEntries = new TargetEntry[]{
+				new TargetEntry("text/uri-list", 0, 0) 
+			};
+			
 			sourceEntries = new TargetEntry[]{
 				new TargetEntry("application/x-monotorrent-torrentmanager-objects", 0, 0)
 			};
@@ -78,10 +82,7 @@ namespace Monsoon
 			
 			this.EnableModelDragSource(Gdk.ModifierType.Button1Mask, sourceEntries, Gdk.DragAction.Copy);
 			DragDataGet += OnTorrentDragDataGet;
-			
-			targetEntries = new TargetEntry[]{
-				new TargetEntry("text/uri-list", 0, 0) 
-			};
+
 			
 			menu = new TorrentContextMenu(torrentController);
 			menu.DeleteTorrent += delegate {
