@@ -1,0 +1,53 @@
+There are three sections:
+A) New translations
+B) Updating existing translations
+C) Testing a translation
+
+Follow the steps designated in each section to modify or
+test your translation.
+
+
+A) New Translations
+-------------------------------------------
+
+1) Execute these commands:
+	$ ./autogen.sh
+	$ cd po
+	$ make monsoon.pot
+
+2) A file called monsoon.pot has now been created in the po
+   directory. Rename this file to $LANG$.po. For example,
+   if you were translating german you would call it 'de.po'.
+
+3) Open this file in your favourite text editor and fill in
+   the required translations.
+
+4) Edit configure.in and go to line 55 and include your
+   translation in the list of languages. If you were
+   including 'de.po' you would make the following modification.
+
+-ALL_LINGUAS="es fr"
++ALL_LINGUAS="es fr de"
+
+5) When you're finished, run 'svn diff' and save the output.
+   Send that in as your translation.
+
+
+B) Updating an existing translation
+-------------------------------------------
+
+To update an existing translation, you need to do the following:
+
+1) Execute the following commands:
+	$ svn up
+	$ cd po
+	$ make update-po
+
+2) Open the required language file in your text editor and search
+   for "fuzzy" or "". These are places which need to be updated.
+
+3) When complete run the following command and submit the
+   'language.patch' file. Replace $LANG$ with the language
+   you are translating. For German, this would be 'de'.
+
+$ svn diff $LANG$.po > langauge.patch
