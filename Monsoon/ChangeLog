@@ -1,3 +1,7 @@
+2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Settings/XmlTorrentLabelController.cs: Cosmetic - reduced LOC
+
 2008-04-06  Mirco Bauer <meebey@meebey.net> 
 
 	* Defines.cs, Defines.cs.in: Generate Defines.cs for prefix path required

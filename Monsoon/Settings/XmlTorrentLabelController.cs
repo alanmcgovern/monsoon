@@ -43,28 +43,19 @@ namespace Monsoon
 		
 		public override void Load ()
 		{
-			TorrentLabel [] labelsToRestore = null;
 			XmlSerializer xs = new XmlSerializer(typeof(TorrentLabel[]));
-			
-			Settings.Clear();
 
 			if (!System.IO.File.Exists(Defines.SerializedLabels))
 				return;
 			
-			FileStream fs = null;
-			
-			try {
-				fs = System.IO.File.OpenRead(Defines.SerializedLabels);
-				labelsToRestore = (TorrentLabel[]) xs.Deserialize(fs);
-			} catch {
-				logger.Error("Failed to restore Labels");
-				return;
-			} finally {
-				fs.Close();
-			}
-			
-			foreach(TorrentLabel torrentLabel in labelsToRestore) {
-				Settings.Add(torrentLabel);
+			using (FileStream fs = System.IO.File.OpenRead(Defines.SerializedLabels))
+			{
+				try {
+					Settings.Clear();
+					Settings.AddRange ((TorrentLabel[]) xs.Deserialize(fs));
+				} catch {
+					logger.Error("Failed to restore Labels");
+				}
 			}
 		}
 		
