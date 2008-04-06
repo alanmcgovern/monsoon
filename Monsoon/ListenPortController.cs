@@ -53,7 +53,7 @@ namespace Monsoon
 			
 			devices = new List<INatDevice> ();
 			map = new Mapping (Protocol.Tcp, engineSettings.ListenPort, engineSettings.ListenPort);
-			map.Description = "Monsoon";
+			map.Description = Defines.ApplicationName;
 			
 			IPAddress[] addresses = NatUtility.GetLocalAddresses (false);
 			
@@ -75,7 +75,7 @@ namespace Monsoon
 			logger.Info("UPnP changing port map");
 			RemoveMap();
 			map = new Mapping (map.Protocol, settings.ListenPort, settings.ListenPort);
-			map.Description = "Monsoon";
+			map.Description = Defines.ApplicationName;
 			MapPort();
 		}
 		
@@ -110,7 +110,7 @@ namespace Monsoon
 				{
 					device.BeginCreatePortMap (map, EndMapPort, device);
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
 					logger.Info("Failed to map port {0} on {1}", map, device);
 				}

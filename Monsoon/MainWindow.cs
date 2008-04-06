@@ -206,34 +206,32 @@ namespace Monsoon
 			torrentController.LoadStoredTorrents ();
 			
 			// auto-start torrents
-			TorrentSettingsController torrentSettingsController =
-				new TorrentSettingsController(settingsStorage);
-			TorrentFileSettingsController fileSettingsController =
-				new TorrentFileSettingsController(settingsStorage);
-			foreach (TorrentManager manager in torrentController.Torrents) {
-				TorrentSettingsModel torrentSettings =
-					torrentSettingsController.GetTorrentSettings(manager.Torrent.InfoHash);
-				
-				if (torrentSettings.LastState == TorrentState.Downloading) {
-					// restore priority
-					foreach (TorrentFile torrentFile in manager.Torrent.Files) {
-						TorrentFileSettingsModel fileSettings =
-							fileSettingsController.GetFileSettings(
-								manager.Torrent.InfoHash,
-								torrentFile.Path
-							);
-						Console.WriteLine("restoring priority for: " + torrentFile.Path +
-						                  "  to " + fileSettings.Priority);
-						torrentFile.Priority = fileSettings.Priority;
-					}
-				}
-				    
-				if (torrentSettings.LastState == TorrentState.Downloading ||
-					torrentSettings.LastState == TorrentState.Seeding) {
-					Console.WriteLine("auto-starting: " + manager.Torrent.Name);
-					manager.Start();
-				}
-			}
+//			TorrentSettingsController torrentSettingsController =
+//				new TorrentSettingsController(settingsStorage);
+//			TorrentFileSettingsController fileSettingsController =
+//				new TorrentFileSettingsController(settingsStorage);
+//			foreach (TorrentManager manager in torrentController.Torrents) {
+//				TorrentSettingsModel torrentSettings =
+//					torrentSettingsController.GetTorrentSettings(manager.Torrent.InfoHash);
+//				
+//				if (torrentSettings.LastState == TorrentState.Downloading) {
+//					// restore priority
+//					foreach (TorrentFile torrentFile in manager.Torrent.Files) {
+//						TorrentFileSettingsModel fileSettings =
+//							fileSettingsController.GetFileSettings(
+//								manager.Torrent.InfoHash,
+//								torrentFile.Path
+//							);
+//						torrentFile.Priority = fileSettings.Priority;
+//					}
+//				}
+//				    
+//				if (torrentSettings.LastState == TorrentState.Downloading ||
+//					torrentSettings.LastState == TorrentState.Seeding) {
+//					Console.WriteLine("auto-starting: " + manager.Torrent.Name);
+//					manager.Start();
+//				}
+//			}
 			
 			RestoreLabels ();
 			
@@ -441,7 +439,7 @@ namespace Monsoon
 		private void BuildFileTreeView ()
 		{
 			fileTreeStore = new TreeStore (typeof(TorrentManager), typeof(TorrentFile), typeof(Gdk.Pixbuf), typeof(string));
-			fileTreeView = new FileTreeView (GconfSettingsStorage.Instance, torrentController, fileTreeStore);
+			fileTreeView = new FileTreeView (this, torrentController, fileTreeStore);
 			fileTreeView.Model = fileTreeStore;
 			filesScrolledWindow.Add (fileTreeView);
 			fileTreeView.Show();
@@ -751,103 +749,97 @@ namespace Monsoon
 				return;
 			}
 			
-			StoreTorrentSettings ();
-			List<WaitHandle> handles = new List<WaitHandle> ();
-			foreach (TorrentManager manager in torrents.Keys){
-				if(manager.State == TorrentState.Stopped)
-					continue;
-				try{
-					handles.Add (manager.Stop ());
-				}
-				catch{
-					logger.Error ("Cannot stop torrent " + manager.Torrent.Name);
-				}	
-			}
+		
+			foreach (WaitHandle h in this.torrentController.Engine.StopAll())
+				h.WaitOne (TimeSpan.FromSeconds(10), false);	
+
+//			List<WaitHandle> handles = new List<WaitHandle> ();
+//			foreach (TorrentManager manager in torrents.Keys){
+//				if(manager.State == TorrentState.Stopped)
+//					continue;
+//				try{
+//					handles.Add (manager.Stop ());
+//				}
+//				catch{
+//					logger.Error ("Cannot stop torrent " + manager.Torrent.Name);
+//				}	
+//			}
 			
 			StoreInterfaceSettings ();
 			StoreLabels ();
 			rssManagerController.Store();
 			torrentController.StoreFastResume ();
 			
-			foreach (WaitHandle h in handles)
-				h.WaitOne(TimeSpan.FromSeconds(1.5), false);
+//			foreach (WaitHandle h in handles)
+//				h.WaitOne(TimeSpan.FromSeconds(1.5), false);
 			
 			Application.Quit ();
-
+			this.torrentController.Engine.Dispose();						
 			a.RetVal = true;
 		}
 		
-		private void StoreTorrentSettings ()
+		public void StoreTorrentSettings ()
 		{
-			List<TorrentStorage> torrentsToStore = new List<TorrentStorage> ();
+			XmlTorrentStorageController controller = new XmlTorrentStorageController();
 			
 			logger.Info ("Storing torrent settings");
-			
+
 			foreach (TorrentManager manager in torrents.Keys){
-				torrentsToStore.Add (new TorrentStorage(manager.Torrent.TorrentPath, manager.SavePath, manager.Settings, manager.State, torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded, torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded));	
+				TorrentStorage torrentToStore = new TorrentStorage();
+				torrentToStore.TorrentPath = manager.Torrent.TorrentPath;
+				torrentToStore.SavePath = manager.SavePath;
+				torrentToStore.Settings = manager.Settings;
+				torrentToStore.State = manager.State;
+				torrentToStore.UploadedData = torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded;
+				torrentToStore.DownloadedData = torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded;
+				torrentToStore.InfoHash = Convert.ToString(manager.GetHashCode());
+				foreach(TorrentFile file in manager.FileManager.Files) {
+					TorrentFileSettingsModel fileSettings = new TorrentFileSettingsModel();
+					fileSettings.Path = file.Path;
+					fileSettings.Priority = file.Priority;
+					torrentToStore.Files.Add(fileSettings);
+				}
+				controller.Settings.Add(torrentToStore);	
 			}
-			
-			using (Stream fs = new FileStream (Defines.SerializedTorrentSettings, FileMode.Create))
-			{
-				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-				
-				XmlSerializer s = new XmlSerializer (typeof(TorrentStorage[]));
-				s.Serialize (writer, torrentsToStore.ToArray());
-			}
+			controller.Save();
 		}
 
 		private void StoreLabels ()
 		{
-			List<TorrentLabel> labelsToStore = new List<TorrentLabel> ();
+			XmlTorrentLabelController labelController = new XmlTorrentLabelController();
 			
 			logger.Info ("Storing labels");
+
+			labelController.Settings.Clear();
 			
+			// FIXME: This is bad -- differentiate between application and user created labels properly
 			foreach (TorrentLabel label in labels) {
 				if (label.Name == _("All") || label.Name == _("Downloading") || label.Name == _("Seeding"))
 					continue;
-				labelsToStore.Add (label);
+				labelController.Settings.Add(label);
 			}
 			
-			using (Stream fs = new FileStream (Defines.SerializedLabels, FileMode.Create))
-			{
-				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-				XmlSerializer s = new XmlSerializer (typeof(TorrentLabel[]));
-				s.Serialize(writer, labelsToStore.ToArray ());
-			}
+			labelController.Save();
 		}
 		
 		private void RestoreLabels()
 		{			
-			TorrentLabel [] labelsToRestore = null;
-			XmlSerializer xs = new XmlSerializer (typeof(TorrentLabel[]));
-			
+			XmlTorrentLabelController labelController = new XmlTorrentLabelController();
 			logger.Info ("Restoring labels");
 			
-			try
-			{
-				if (!System.IO.File.Exists(Defines.SerializedLabels))
-					return;
-
-				using (FileStream fs = System.IO.File.OpenRead(Defines.SerializedLabels))
-					labelsToRestore = (TorrentLabel[]) xs.Deserialize(fs);
-			}
-			catch
-			{
-				logger.Error("Error opening " + Defines.SerializedLabels);
-				return;
-			}
-					
-			foreach (TorrentLabel label in labelsToRestore) {
+			labelController.Load();
+			
+			foreach (TorrentLabel label in labelController.Settings) {
 				labelListStore.AppendValues (label);
 				labels.Add (label);
+				
 				// Restore previously labeled torrents
 				foreach (TorrentManager torrentManager in torrents.Keys){
 					if(label.TruePaths == null)
 						continue;
 					foreach (string path in label.TruePaths){
-						if (path == torrentManager.Torrent.TorrentPath){
+						if (path == torrentManager.Torrent.TorrentPath)
 							label.AddTorrent(torrentManager);
-						}
 					}
 				}
 			}
@@ -866,11 +858,7 @@ namespace Monsoon
 		}
 
 		public void Stop()
-		{
-			foreach (WaitHandle h in this.torrentController.Engine.StopAll())
-				h.WaitOne (TimeSpan.FromSeconds(10), false);
-			
-			this.torrentController.Engine.Dispose();
+		{			
 			OnDeleteEvent (null,new DeleteEventArgs ());
 		}
 		
@@ -1015,15 +1003,15 @@ namespace Monsoon
 			
 			Console.WriteLine("Updating files page of: " + manager.Torrent.Name);
 			
-			TorrentFileSettingsController fileSettingsController =
-				new TorrentFileSettingsController(GconfSettingsStorage.Instance);
+//			TorrentFileSettingsController fileSettingsController =
+//				new TorrentFileSettingsController(GconfSettingsStorage.Instance);
 			foreach (TorrentFile torrentFile in manager.Torrent.Files) {
-				TorrentFileSettingsModel fileSettings =
-					fileSettingsController.GetFileSettings(
-						manager.Torrent.InfoHash,
-						torrentFile.Path
-					);
-				torrentFile.Priority = fileSettings.Priority;
+//				TorrentFileSettingsModel fileSettings =
+//					fileSettingsController.GetFileSettings(
+//						manager.Torrent.InfoHash,
+//						torrentFile.Path
+//					);
+//				torrentFile.Priority = fileSettings.Priority;
 				
 				fileTreeStore.AppendValues(manager, torrentFile,
 					GetIconPixbuf(
@@ -1249,12 +1237,13 @@ namespace Monsoon
 
 		private void UpdateTorrentSettings(TorrentManager manager)
 		{
-			TorrentSettingsController torrentSettingsController =
-				new TorrentSettingsController(GconfSettingsStorage.Instance);
-			TorrentSettingsModel torrentSettings =
-				torrentSettingsController.GetTorrentSettings(manager.Torrent.InfoHash);
-			torrentSettings.LastState = manager.State;
-			torrentSettingsController.SetTorrentSettings(torrentSettings);
+		//	TorrentSettingsController torrentSettingsController =
+		//		new TorrentSettingsController(GconfSettingsStorage.Instance);
+		//	TorrentSettingsModel torrentSettings =
+		//		torrentSettingsController.GetTorrentSettings(manager.Torrent.InfoHash);
+		//	torrentSettings.LastState = manager.State;
+		//	torrentSettingsController.SetTorrentSettings(torrentSettings);
+			StoreTorrentSettings();
 		}
 		
 		protected virtual void OnStopTorrentActivated (object sender, System.EventArgs e)

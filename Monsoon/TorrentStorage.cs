@@ -46,21 +46,14 @@ namespace Monsoon
 		private TorrentState state;
 		private long uploadedData;
 		private long downloadedData;
+		private string infoHash;
+		List<TorrentFileSettingsModel> files;
 		
 		public TorrentStorage()
 		{
+			files = new List<TorrentFileSettingsModel>();
 		}
-		
-		public TorrentStorage(string torrentPath, string savePath, TorrentSettings settings, TorrentState state, long uploadedData, long downloadedData)
-		{
-			this.torrentPath = torrentPath;
-			this.savePath = savePath;
-			this.settings = settings;
-			this.state = state;
-			this.uploadedData = uploadedData;
-			this.downloadedData = downloadedData;
-		}
-		
+				
 		[XmlAttribute("TorrentPath")]
 		public string TorrentPath
 		{
@@ -102,5 +95,18 @@ namespace Monsoon
 			get { return downloadedData; }
 			set { downloadedData = value; }
 		}
+		
+		[XmlElement("InfoHash")]
+		public string InfoHash {
+			get { return infoHash; }
+			set { infoHash = value; }
+		}
+
+		[XmlElement("Files")]
+		public List<TorrentFileSettingsModel> Files {
+			get { return files; }
+			set { files = value; }
+		}
+		
 	}
 }

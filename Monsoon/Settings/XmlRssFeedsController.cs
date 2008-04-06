@@ -1,10 +1,10 @@
 //
-// TorrentFileSettingsController.cs
+// XmlRssFeedsController.cs
 //
 // Author:
-//   Mirco Bauer (meebey@meebey.net)
+//   Jared Hendry (hendry.jared@gmail.com)
 //
-// Copyright (C) 2008 Mirco Bauer
+// Copyright (C) 2008 Jared Hendry
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -27,40 +27,58 @@
 //
 
 using System;
-using MonoTorrent.Common;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
+using System.IO;
+using System.Text;
 
 namespace Monsoon
 {
-	[XmlRoot("Files")]
-	public class TorrentFileSettingsModel
+	
+	
+	public class XmlRssFeedsController : SettingsController<List<string>>
 	{
-		private string       path;
-		private Priority     priority;
-
-		[XmlElement("Priority")]
-		public Priority Priority {
-			get {
-				return priority;
+		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+		
+		public override void Load ()
+		{
+			List<string> feedsToRestore = new List<string>(); 
+			XmlSerializer xs = new XmlSerializer (typeof(List<string>));
+			
+			logger.Info ("Restoring RSS feeds");
+			
+			try
+			{
+				if (!System.IO.File.Exists(Defines.SerializedRssFeeds))
+					return;
+				
+				using (FileStream fs = File.OpenRead(Defines.SerializedRssFeeds))
+					feedsToRestore = (List<string>) xs.Deserialize(fs);
 			}
-			set {
-				priority = value;
+			catch
+			{
+				logger.Error("Error restoring RSS feeds");
 			}
-		}
-
-		[XmlElement("Path")]
-		public string Path {
-			get {
-				return path;
-			}
-			set {
-				path = value;
+			
+			
+			foreach(string feed in feedsToRestore) {
+				Settings.Add(feed);
 			}
 		}
 		
-		public TorrentFileSettingsModel()
+		public override void Save ()
 		{
+						
+			using (Stream fs = new FileStream (Defines.SerializedRssFeeds, FileMode.Create))
+			{
+				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
+				
+				XmlSerializer s = new XmlSerializer (typeof(List<string>));
+				s.Serialize(writer, Settings);
+			}
 		}
+
+
 	}
 }

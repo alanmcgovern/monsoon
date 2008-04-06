@@ -42,8 +42,8 @@ namespace Monsoon
 		private TreeViewColumn filenameColumn;
 		private TreeViewColumn progressColumn;
 		//private TreeStore treeStore;
-		private GconfSettingsStorage settingsStorage;
 		private TorrentController torrentController;
+		private MainWindow mainWindow;
 		
 		private Gtk.Menu contextMenu;
 		private ImageMenuItem highItem;
@@ -54,13 +54,14 @@ namespace Monsoon
 		private ImageMenuItem normalItem;
 		private ImageMenuItem nodownItem;
 		
-		public FileTreeView(GconfSettingsStorage settingsStorage, TorrentController torrentController, TreeStore treeStore) : base()
+		
+		public FileTreeView(MainWindow mainWindow, TorrentController torrentController, TreeStore treeStore) : base()
 		{
-			this.settingsStorage = settingsStorage;
+			this.mainWindow = mainWindow;
 			this.torrentController = torrentController;
 			this.Selection.Mode = SelectionMode.Multiple;
 			HeadersVisible = true;
-			
+
 			BuildColumns ();
 			BuildContextMenu ();
 		}
@@ -186,14 +187,13 @@ namespace Monsoon
 				Model.SetValue(iter, 2, MainWindow.GetIconPixbuf(GetPriorityIconName(priority)));
 				
 				// update priority in settings model
-				TorrentManager manager = (TorrentManager) Model.GetValue (iter, 0);
-				TorrentFileSettingsController fileSettingsController =
-					new TorrentFileSettingsController(settingsStorage);
-				TorrentFileSettingsModel fileSettings =
-					fileSettingsController.GetFileSettings(manager.Torrent.InfoHash, file.Path);
+				//TorrentManager manager = (TorrentManager) Model.GetValue (iter, 0);
+				//TorrentFileSettingsController fileSettingsController =new TorrentFileSettingsController(settingsStorage);
+				//TorrentFileSettingsModel fileSettings =	fileSettingsController.GetFileSettings(manager.Torrent.InfoHash, file.Path);
 
-				fileSettings.Priority = priority;
-				fileSettingsController.SetFileSettings(fileSettings);
+				//fileSettings.Priority = priority;
+				//fileSettingsController.SetFileSettings(fileSettings);
+				mainWindow.StoreTorrentSettings();
 			});
 		}
 		

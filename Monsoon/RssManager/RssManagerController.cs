@@ -58,7 +58,7 @@ namespace Monsoon
 		public RssManagerController(TorrentController controller)
 		{
 			history = new List<Monsoon.RssItem>();
-			feeds = new List<string> ();
+			feeds = new List<string>();
 			filters = new List<Monsoon.RssFilter>();
 			watchers = new Dictionary<string,Monsoon.TorrentRssWatcher>();
 			items = new List<Monsoon.RssItem>();
@@ -174,137 +174,70 @@ namespace Monsoon
 		
 		public void StoreFeeds()
 		{
-			logger.Info ("Storing feeds");
+			XmlRssFeedsController controller = new XmlRssFeedsController();
 			
-			foreach(string feed in feeds){
-				Console.Out.WriteLine("Storing feed: " + feed);
-			}
+			controller.Settings.Clear();
 			
-			using (Stream fs = new FileStream (Defines.SerializedRssFeeds, FileMode.Create))
-			{
-				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-				
-				XmlSerializer s = new XmlSerializer (typeof(string[]));
-				s.Serialize(writer, feeds.ToArray());
+			foreach(String feed in feeds) {
+				controller.Settings.Add(feed);
 			}
+			 
+			controller.Save();
 		}
 		
 		
 		public void StoreHistory()
 		{	
-			logger.Info ("Storing history");
-	
-			using (Stream fs = new FileStream (Defines.SerializedRssHistroy, FileMode.Create))
-			{
-				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-				
-				XmlSerializer s = new XmlSerializer (typeof(RssItem[]));
-				s.Serialize(writer, history.ToArray());
+			XmlRssHistoryController controller = new XmlRssHistoryController();
+			controller.Settings.Clear();
+			
+			foreach(RssItem item in history) {
+				controller.Settings.Add(item);
 			}
+			
+			controller.Save();
 		}
 		
 		
 		public void StoreFilters()
 		{
-			logger.Info ("Storing filters");
-	
-			using (Stream fs = new FileStream (Defines.SerializedRssFilters, FileMode.Create))
-			{
-				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-				
-				XmlSerializer s = new XmlSerializer (typeof(RssFilter[]));
-				s.Serialize(writer, filters.ToArray ());
+			XmlRssFiltersController controller = new XmlRssFiltersController();
+			controller.Settings.Clear();
+			
+			foreach(RssFilter filter in filters) {
+				controller.Settings.Add(filter);
 			}
+			
+			controller.Save();			
 		}
 		
 		
 		public void RestoreFeeds()
 		{
-			string[] feedsToRestore = null;
-			XmlSerializer xs = new XmlSerializer (typeof(string[]));
-			
-			logger.Info ("Restoring RSS feeds");
-			
-			try
-			{
-				if (!System.IO.File.Exists(Defines.SerializedRssFeeds))
-					return;
-				
-				using (FileStream fs = File.OpenRead(Defines.SerializedRssFeeds))
-					feedsToRestore = (string[]) xs.Deserialize(fs);
-			}
-			catch
-			{
-				logger.Error("Error opening rssfeeds.xml");
-				return;
-			}
-			feeds.AddRange(feedsToRestore);
+			XmlRssFeedsController controller = new XmlRssFeedsController();
+			controller.Load();
+			feeds = controller.Settings;
 		}
 		
 		
 		public void RestoreHistory()
 		{
-			RssItem[] historyToRestore = null;
-			XmlSerializer xs = new XmlSerializer (typeof(RssItem[]));
+			XmlRssHistoryController controller = new XmlRssHistoryController();
+			controller.Load();
 			
-			logger.Info ("Restoring RSS history");
-			
-			if (System.IO.File.Exists(Defines.SerializedRssHistroy)) {
-				FileStream fs = null;
-				
-				try {
-					fs = System.IO.File.Open(Defines.SerializedRssHistroy, System.IO.FileMode.Open);
-				} catch {
-					logger.Error("Error opening rsshistory.xml");
-				}
-				
-				try {				
-					historyToRestore = (RssItem[]) xs.Deserialize(fs);
-				} catch {
-					logger.Error("Failed to restore history");
-					return;
-				} finally {				
-					fs.Close();
-				}
-				
-				foreach(RssItem item in historyToRestore){
+			foreach(RssItem item in controller.Settings){
 					history.Add(item);
 					historyListStore.AppendValues(item);
-				}
 			}
 		}
 		
 		
 		public void RestoreFilters()
 		{
-			RssFilter [] filtersToRestore = null;
-			XmlSerializer xs = new XmlSerializer (typeof(RssFilter[]));
+			XmlRssFiltersController controller = new XmlRssFiltersController();
 			
-			logger.Info ("Restoring RSS feeds");
-			
-			if (System.IO.File.Exists(Defines.SerializedRssFilters)) {
-				FileStream fs = null;
-				
-				try {
-					fs = System.IO.File.Open(Defines.SerializedRssFilters, System.IO.FileMode.Open);
-				} catch {
-					logger.Error("Error opening rssfilters.xml");
-				}
-				
-				try {				
-					filtersToRestore = (RssFilter[]) xs.Deserialize(fs);
-				} catch {
-					logger.Error("Failed to restore RSS filters");
-					return;
-				} finally {				
-					fs.Close();
-				}
-				
-				foreach(RssFilter filter in filtersToRestore){
-					Console.Out.WriteLine("Filter:" + filter.Name);
-					filters.Add(filter);
-				}
-			}
+			controller.Load();
+			filters = controller.Settings;
 			
 			RefreshWatchers();
 		}

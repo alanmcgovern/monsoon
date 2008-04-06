@@ -103,16 +103,10 @@ namespace Monsoon
 			mainWindow = new MainWindow (settingsStorage, engineSettings.Settings,
 									portController, isFirstRun);
 			
-			try{
-				Application.Run();
-			} catch(Exception e){
-				Console.Out.WriteLine(e.ToString());
-				Application.Init();
-				UnhandledExceptionDialog exDialog = new UnhandledExceptionDialog(e);
-				exDialog.Run();
-				mainWindow.Stop();
-				exDialog.Destroy();
-			}
+			GLib.ExceptionManager.UnhandledException += new GLib.UnhandledExceptionHandler(OnUnhandledException);
+			
+			Application.Run();
+
 			try {
 				engineSettings.Save ();
 			}
@@ -129,6 +123,13 @@ namespace Monsoon
 			if (prctl(15 /* PR_SET_NAME */, Encoding.ASCII.GetBytes(name + "\0"), 0, 0, 0) != 0) {
 				throw new ApplicationException(_("Error setting process name: " +	Mono.Unix.Native.Stdlib.GetLastError()));
 			}
+		}
+		
+		private void OnUnhandledException(GLib.UnhandledExceptionArgs args)
+		{
+			UnhandledExceptionDialog exDialog = new UnhandledExceptionDialog((Exception)args.ExceptionObject);
+			exDialog.Run();
+			args.ExitApplication = true;
 		}
 		
 		private void BuildNlogConfig()

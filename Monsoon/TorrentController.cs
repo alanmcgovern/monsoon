@@ -257,7 +257,9 @@ namespace Monsoon
 
 			// add to "All" label
 			mainWindow.AllLabel.AddTorrent(manager);
-						
+					
+			mainWindow.StoreTorrentSettings();
+			
 			return manager;
 		}
 		
@@ -339,7 +341,6 @@ namespace Monsoon
 		private void OnTorrentStateChanged(object sender, TorrentStateChangedEventArgs args)
 		{
 			TorrentManager manager = (TorrentManager)sender;
-			
 			Gtk.Application.Invoke (delegate {
 				if (args.OldState == TorrentState.Downloading) {
 					logger.Debug("Removing " + manager.Torrent.Name + " from download label");
@@ -454,6 +455,7 @@ namespace Monsoon
 				hashProgress.Remove(torrent);
 			
 			engine.Unregister(torrent);
+			mainWindow.StoreTorrentSettings();
 		}
 		
 		public void OnTorrentFound(object sender, TorrentWatcherEventArgs args)
@@ -468,28 +470,11 @@ namespace Monsoon
 		public void LoadStoredTorrents()
 		{
 			TorrentManager manager;
-
-			string storedTorrentFile = Defines.SerializedTorrentSettings;
 			
-			TorrentStorage [] torrentsToRestore = null;
-			XmlSerializer xs = new XmlSerializer(typeof(TorrentStorage[]));
-			
-			logger.Info("Loading stored torrents from " + prefSettings.TorrentStorageLocation);
-			try
-			{
-				if(!File.Exists(storedTorrentFile))
-					return;
-				
-				using (FileStream fs = File.Open(storedTorrentFile, FileMode.Open))
-					torrentsToRestore = (TorrentStorage[]) xs.Deserialize(fs);
-			}
-			catch
-			{
-				logger.Error("Error opening torrents.xml");
-				return;
-			}
+			XmlTorrentStorageController controller = new XmlTorrentStorageController();
+			controller.Load();
 
-			foreach(TorrentStorage torrentStore in torrentsToRestore){
+			foreach(TorrentStorage torrentStore in controller.Settings){
 				try{
 					manager = addTorrent(torrentStore.TorrentPath, false, false, false, torrentStore.Settings);
 				} catch (TorrentException e) {
@@ -500,6 +485,14 @@ namespace Monsoon
 				torrentPreviousUpload.Add(manager, torrentStore.UploadedData);
 				torrentPreviousDownload.Add(manager, torrentStore.DownloadedData);
 				
+				foreach(TorrentFile file in manager.FileManager.Files) {
+					foreach(TorrentFileSettingsModel settings in torrentStore.Files) {
+						if (settings.Path != file.Path)
+							continue;
+						file.Priority = settings.Priority;
+					}
+				}				
+				
 				if(torrentStore.State == TorrentState.Downloading || torrentStore.State == TorrentState.Seeding){
 					try{
 						manager.Start();
@@ -507,7 +500,7 @@ namespace Monsoon
 						logger.Error("Could not restore state of " + manager.Torrent.Name);
 						continue;
 					}
-				}
+				}		                                                                       
 			}
 		}
 		

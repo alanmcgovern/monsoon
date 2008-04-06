@@ -1,3 +1,21 @@
+2008-04-06  Jared Hendry <hendry.jared@gmail.com> 
+
+	* MainWindow.cs: Move serialization out to Xml*Controllers
+	* TorrentStorage.cs: Merged Torrent*SettingsModel data into class
+	* Main.cs: Now use UnhandledExceptionManager instead of trying to restart
+	  Gtk loop
+	* TorrentController.cs, RssManager/RssManagerController.cs: Switch to new
+	  Xml*Controllers
+	* ListenPortController.cs: Switch to using Defines.ApplicationName
+	* TorrentFileSettingsController.cs, TorrentSettingsController.cs: Switch to
+	  new XmlTorrentStorageController
+	* FileTreeView.cs: Moved TorrentFileSettings and TorrentSettings to
+	  TorrentStorage
+	* monsoon.desktop: Added mimetype and more specific categories
+	* TorrentFileSettingsModel.cs, TorrentSettingsModel.cs: Merged into
+	  TorrentStorage
+	* Monsoon.mdp, Makefile.am: Added files
+
 2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* AboutDialog.cs: Wrap the license

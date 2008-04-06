@@ -80,6 +80,11 @@
     <File name="Settings/GconfEngineSettingsController.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/PreferencesSettings.cs" subtype="Code" buildaction="Compile" />
     <File name="Settings/GconfPreferencesSettingsController.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/XmlTorrentLabelController.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/XmlTorrentStorageController.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/XmlRssFeedsController.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/XmlRssFiltersController.cs" subtype="Code" buildaction="Compile" />
+    <File name="Settings/XmlRssHistoryController.cs" subtype="Code" buildaction="Compile" />
     <File name="AssemblyInfo.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>

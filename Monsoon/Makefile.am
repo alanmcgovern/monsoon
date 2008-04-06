@@ -124,9 +124,6 @@ FILES = \
 	gtk-gui/Monsoon.CreateTorrentProgressDialog.cs \
 	Menus/SpeedLimitMenu.cs \
 	Defines.cs \
-	TorrentSettingsModel.cs \
-	TorrentSettingsController.cs \
-	TorrentFileSettingsController.cs \
 	TorrentFileSettingsModel.cs \
 	Menus/SpeedMenuItem.cs \
 	Settings/GconfEngineSettingsController.cs \
@@ -137,7 +134,12 @@ FILES = \
 	Settings/InterfaceSettings.cs \
 	Settings/SettingsController.cs \
 	Settings/SettingNotFoundException.cs \
-	Settings/PreferencesSettings.cs  
+	Settings/PreferencesSettings.cs \
+	Settings/XmlTorrentLabelController.cs \
+	Settings/XmlRssFeedsController.cs \	
+	Settings/XmlRssHistoryController.cs \
+	Settings/XmlRssFiltersController.cs \
+	Settings/XmlTorrentStorageController.cs
 
 DATA_FILES = \
 	icons/rss.png \
