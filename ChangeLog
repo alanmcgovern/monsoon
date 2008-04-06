@@ -1,5 +1,9 @@
 2008-04-06  Mirco Bauer <meebey@meebey.net> 
 
+	* po/es.po, po/fr.po, po/de.po: Updated translations.
+
+2008-04-06  Mirco Bauer <meebey@meebey.net> 
+
 	* configure.in: Generate Defines.cs for prefix path required for gettext
 	  initialization.
 	* intltool-merge.in: Added missing file for I18N.
