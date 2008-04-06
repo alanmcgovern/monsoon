@@ -242,9 +242,9 @@ namespace Monsoon {
             this.removeTorrentButton = new Gtk.Action("removeTorrentButton", null, Mono.Unix.Catalog.GetString("Remove the torrent"), "gtk-remove");
             this.removeTorrentButton.Sensitive = false;
             w2.Add(this.removeTorrentButton, null);
-            this.preferences = new Gtk.Action("preferences", null, null, "gtk-preferences");
+            this.preferences = new Gtk.Action("preferences", null, Mono.Unix.Catalog.GetString("Open the preferences dialog"), "gtk-preferences");
             w2.Add(this.preferences, null);
-            this.deleteTorrentButton = new Gtk.Action("deleteTorrentButton", null, Mono.Unix.Catalog.GetString("Remove the torrent and delete its data"), "gtk-delete");
+            this.deleteTorrentButton = new Gtk.Action("deleteTorrentButton", null, Mono.Unix.Catalog.GetString("Remove the torrent and delete it's data"), "gtk-delete");
             this.deleteTorrentButton.Sensitive = false;
             w2.Add(this.deleteTorrentButton, null);
             this.EditColumns = new Gtk.Action("EditColumns", Mono.Unix.Catalog.GetString("Edit Columns"), null, null);
@@ -268,7 +268,7 @@ namespace Monsoon {
             this.druidDebug.ShortLabel = Mono.Unix.Catalog.GetString("Druid Debug");
             this.druidDebug.Visible = false;
             w2.Add(this.druidDebug, null);
-            this.Plugins = new Gtk.Action("Plugins", Mono.Unix.Catalog.GetString("Plugins"), Mono.Unix.Catalog.GetString("Open the RSS"), "rss");
+            this.Plugins = new Gtk.Action("Plugins", Mono.Unix.Catalog.GetString("Plugins"), Mono.Unix.Catalog.GetString("Open the RSS manager"), "rss");
             this.Plugins.ShortLabel = Mono.Unix.Catalog.GetString("Plugins");
             w2.Add(this.Plugins, null);
             w1.InsertActionGroup(w2, 0);

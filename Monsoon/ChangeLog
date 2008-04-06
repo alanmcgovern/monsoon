@@ -1,5 +1,9 @@
 2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* gtk-gui/Monsoon.MainWindow.cs: Added missing change
+
+2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* gtk-gui/gui.stetic: Fix my engrish
 
 2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
