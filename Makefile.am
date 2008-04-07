@@ -1,5 +1,5 @@
 
-EXTRA_DIST =  expansions.m4 Monsoon/NLog.dll Monsoon/libs/MonoTorrent.dll Monsoon/libs/Mono.Nat.dll
+EXTRA_DIST =  expansions.m4 Monsoon/NLog.dll Monsoon/libs/MonoTorrent.dll Monsoon/libs/Mono.Nat.dll intltool-update.in
 
 SUBDIRS = 	Monsoon \
 		po
