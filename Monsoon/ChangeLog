@@ -1,3 +1,17 @@
+2008-04-08  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Menus/SpeedLimitMenu.cs, Menus/SpeedMenuItem.cs,
+	  TorrentFilterModel.cs, CreateTorrentProgressDialog.cs,
+	  UnhandledExceptionDialog.cs, PiecesTreeView.cs, AboutDialog.cs,
+	  Settings/GconfTorrentSettingsController.cs,
+	  Settings/InterfaceSettings.cs,
+	  Settings/GConfInterfaceSettingsController.cs,
+	  Settings/GconfPreferencesSettingsController.cs,
+	  Settings/SettingsController.cs,
+	  Settings/GconfEngineSettingsController.cs,
+	  Settings/XmlTorrentStorageController.cs, EditColumnsDialog.cs:
+	  Added missing license headers
+
 2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* gtk-gui/Monsoon.MainWindow.cs: Added missing change

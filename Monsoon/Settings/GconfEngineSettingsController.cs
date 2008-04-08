@@ -1,5 +1,5 @@
 //
-// UserEngineSettings.cs
+// GconfEngineSettingsController.cs
 //
 // Author:
 //   Jared Hendry (buchan@gmail.com)
