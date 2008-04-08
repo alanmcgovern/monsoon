@@ -21,6 +21,33 @@ aclocalinclude="-I . $ACLOCAL_FLAGS"
 
 DIE=0
 
+function check_autotool_version () {
+	which $1 &>/dev/null || {
+		error "$1 is not installed, and is required to configure $PACKAGE"
+	}
+
+	version=$($1 --version | head -n 1 | cut -f4 -d' ')
+	major=$(echo $version | cut -f1 -d.)
+	minor=$(echo $version | cut -f2 -d.)
+	rev=$(echo $version | cut -f3 -d.)
+	major_check=$(echo $2 | cut -f1 -d.)
+	minor_check=$(echo $2 | cut -f2 -d.)
+	rev_check=$(echo $2 | cut -f3 -d.)
+
+	if [ $major -lt $major_check ]; then
+		do_bail=yes
+	elif [[ $minor -lt $minor_check && $major = $major_check ]]; then
+		do_bail=yes
+	elif [[ $rev -lt $rev_check && $minor = $minor_check && $major = $major_check ]]; then
+		do_bail=yes
+	fi
+
+	if [ x"$do_bail" = x"yes" ]; then
+    echo "$1 version $2 or better is required to configure $PROJECT"
+		DIE=1
+	fi
+}
+
 ($AUTOCONF --version) < /dev/null > /dev/null 2>&1 || {
         echo
         echo "You must have autoconf installed to compile $PROJECT."
@@ -46,6 +73,8 @@ DIE=0
     DIE=1
   }
 }
+
+check_autotool_version intltoolize 0.21.0
 
 if test "$DIE" -eq 1; then
         exit 1
