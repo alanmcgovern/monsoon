@@ -63,13 +63,32 @@ namespace Monsoon
 
 		public MainClass(string [] args)
 		{
+			// required for the MS .NET runtime that doesn't initialize glib automatically
+			if (!GLib.Thread.Supported) {
+				GLib.Thread.Init();
+			}
+			
 			isFirstRun = false;
 			CheckDataFolders();
 			
 			bool debug = false;
 			foreach (string arg in args) {
+				Console.WriteLine(arg);
 				if (arg == "-d" || arg == "--debug") {
 					debug = true;
+				}
+				else if (File.Exists(arg)) {
+					GLib.Timeout.Add (1000, delegate {
+						try
+						{
+							mainWindow.TorrentController.addTorrent(arg);
+						}
+						catch (Exception ex)
+						{
+							logger.Error("Couldn't load torrent: {0}", arg);
+						}
+						return false;
+					});
 				}
 			}
 			
@@ -90,11 +109,6 @@ namespace Monsoon
 			}
 			settingsStorage = GconfSettingsStorage.Instance;
 			portController = new ListenPortController(engineSettings.Settings);
-			
-			// required for the MS .NET runtime that doesn't initialize glib automatically
-			if (!GLib.Thread.Supported) {
-				GLib.Thread.Init();
-			}
 
 			string localeDir = Path.Combine(Defines.ApplicationDirectory, "locale");
 			if (!Directory.Exists(localeDir)) {

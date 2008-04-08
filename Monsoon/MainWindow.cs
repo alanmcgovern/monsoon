@@ -134,6 +134,12 @@ namespace Monsoon
 				return prefSettings.Settings;
 			}
 		}
+		
+		public TorrentController TorrentController {
+			get {
+				return torrentController;
+			}
+		}
 
 		public TorrentSettings DefaultTorrentSettings {
 			get {
