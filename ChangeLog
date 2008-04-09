@@ -1,3 +1,8 @@
+2008-04-09  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* po/es.po, po/fr.po, po/de.po: Fixed license headers.
+	* configure.in, po/bg.po: Added bulgarian translation
+
 2008-04-06  Mirco Bauer <meebey@meebey.net> 
 
 	* po/es.po, po/fr.po, po/de.po: Updated translations.
