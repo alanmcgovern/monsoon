@@ -1,6 +1,6 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Spanish translation for Monsoon
+# Copyright (C) 2008 Alan McGovern
+# This file is distributed under the same license as the monsoon package.
 # Mario Sopena <mario.sopena@gmail.com>, 2008
 #
 #, fuzzy
