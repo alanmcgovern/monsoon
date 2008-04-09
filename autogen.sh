@@ -23,7 +23,9 @@ DIE=0
 
 function check_autotool_version () {
 	which $1 &>/dev/null || {
-		error "$1 is not installed, and is required to configure $PACKAGE"
+		echo "$1 is not installed, and is required to configure $PACKAGE"
+		DIE=1
+		return
 	}
 
 	version=$($1 --version | head -n 1 | cut -f4 -d' ')
@@ -34,7 +36,7 @@ function check_autotool_version () {
 	minor_check=$(echo $2 | cut -f2 -d.)
 	rev_check=$(echo $2 | cut -f3 -d.)
 
-	if [ $major -lt $major_check ]; then
+	if [[ $major -lt $major_check ]]; then
 		do_bail=yes
 	elif [[ $minor -lt $minor_check && $major = $major_check ]]; then
 		do_bail=yes
