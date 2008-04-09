@@ -1,5 +1,10 @@
 2008-04-09  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Monsoon.mdp: Should use the Defines.cs, not 
+	Defines.cs.in
+
+2008-04-09  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* po/es.po, po/fr.po, po/de.po: Fixed license headers.
 	* configure.in, po/bg.po: Added bulgarian translation
 
