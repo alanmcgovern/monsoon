@@ -1148,9 +1148,13 @@ namespace Monsoon
 			hashFailsLabel.Text = manager.HashFails.ToString ();
 			
 			if (manager.State != TorrentState.Stopped){
-				DateTime nextUpdate = manager.TrackerManager.LastUpdated.AddSeconds(manager.TrackerManager.CurrentTracker.UpdateInterval);
-				if(nextUpdate > DateTime.Now)
-					updateInLabel.Text =  DateTime.MinValue.Add (nextUpdate - DateTime.Now).ToString("HH:mm:ss");
+				if (manager.TrackerManager.CurrentTracker != null)
+				{
+					DateTime nextUpdate = manager.TrackerManager.LastUpdated.AddSeconds(manager.TrackerManager.CurrentTracker.UpdateInterval);
+				
+					if(nextUpdate > DateTime.Now)
+						updateInLabel.Text =  DateTime.MinValue.Add (nextUpdate - DateTime.Now).ToString("HH:mm:ss");
+				}
 			}
 			
 			swarmSpeedLabel.Text = ByteConverter.ConvertSpeed (torrentController.GetTorrentSwarm(manager) * manager.Torrent.PieceLength);

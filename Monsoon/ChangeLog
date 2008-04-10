@@ -1,5 +1,15 @@
 2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, ChangeLog: Last fix for null trackers
+
+2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* TorrentContextMenu.cs: Don't auto-start the torrent
+	after hash-checking
+
+
+2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* FileTreeView.cs, gtk-gui/gui.stetic,
 	  gtk-gui/Monsoon.LoadTorrentDialog.cs, LoadTorrentDialog.cs:
 	  LoadTorrentDialog now builds a tree view of the files in the
