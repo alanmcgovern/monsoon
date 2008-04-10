@@ -31,9 +31,9 @@ namespace Monsoon {
         
         private Gtk.Label label3;
         
-        private Gtk.Label label5;
+        private Gtk.Label lblName;
         
-        private Gtk.Label label6;
+        private Gtk.Label lblSize;
         
         private Gtk.Label GtkLabel2;
         
@@ -101,7 +101,8 @@ namespace Monsoon {
             // Container child table1.Gtk.Table+TableChild
             this.label2 = new Gtk.Label();
             this.label2.Name = "label2";
-            this.label2.LabelProp = Mono.Unix.Catalog.GetString("Name");
+            this.label2.Xalign = 0F;
+            this.label2.LabelProp = Mono.Unix.Catalog.GetString("Name:");
             this.table1.Add(this.label2);
             Gtk.Table.TableChild w4 = ((Gtk.Table.TableChild)(this.table1[this.label2]));
             w4.XOptions = ((Gtk.AttachOptions)(4));
@@ -109,7 +110,8 @@ namespace Monsoon {
             // Container child table1.Gtk.Table+TableChild
             this.label3 = new Gtk.Label();
             this.label3.Name = "label3";
-            this.label3.LabelProp = Mono.Unix.Catalog.GetString("Size");
+            this.label3.Xalign = 0F;
+            this.label3.LabelProp = Mono.Unix.Catalog.GetString("Size:");
             this.table1.Add(this.label3);
             Gtk.Table.TableChild w5 = ((Gtk.Table.TableChild)(this.table1[this.label3]));
             w5.TopAttach = ((uint)(1));
@@ -117,21 +119,23 @@ namespace Monsoon {
             w5.XOptions = ((Gtk.AttachOptions)(4));
             w5.YOptions = ((Gtk.AttachOptions)(4));
             // Container child table1.Gtk.Table+TableChild
-            this.label5 = new Gtk.Label();
-            this.label5.Name = "label5";
-            this.label5.LabelProp = Mono.Unix.Catalog.GetString("Suse-11.0-i386.iso");
-            this.table1.Add(this.label5);
-            Gtk.Table.TableChild w6 = ((Gtk.Table.TableChild)(this.table1[this.label5]));
+            this.lblName = new Gtk.Label();
+            this.lblName.Name = "lblName";
+            this.lblName.Xalign = 0F;
+            this.lblName.LabelProp = Mono.Unix.Catalog.GetString("Suse-11.0-i386.iso");
+            this.table1.Add(this.lblName);
+            Gtk.Table.TableChild w6 = ((Gtk.Table.TableChild)(this.table1[this.lblName]));
             w6.LeftAttach = ((uint)(1));
             w6.RightAttach = ((uint)(2));
             w6.XOptions = ((Gtk.AttachOptions)(4));
             w6.YOptions = ((Gtk.AttachOptions)(4));
             // Container child table1.Gtk.Table+TableChild
-            this.label6 = new Gtk.Label();
-            this.label6.Name = "label6";
-            this.label6.LabelProp = Mono.Unix.Catalog.GetString("700MB");
-            this.table1.Add(this.label6);
-            Gtk.Table.TableChild w7 = ((Gtk.Table.TableChild)(this.table1[this.label6]));
+            this.lblSize = new Gtk.Label();
+            this.lblSize.Name = "lblSize";
+            this.lblSize.Xalign = 0F;
+            this.lblSize.LabelProp = Mono.Unix.Catalog.GetString("700MB");
+            this.table1.Add(this.lblSize);
+            Gtk.Table.TableChild w7 = ((Gtk.Table.TableChild)(this.table1[this.lblSize]));
             w7.TopAttach = ((uint)(1));
             w7.BottomAttach = ((uint)(2));
             w7.LeftAttach = ((uint)(1));

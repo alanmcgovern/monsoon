@@ -1,5 +1,12 @@
 2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* FileTreeView.cs, gtk-gui/gui.stetic,
+	  gtk-gui/Monsoon.LoadTorrentDialog.cs, LoadTorrentDialog.cs:
+	  LoadTorrentDialog now builds a tree view of the files in the
+	  torrent. The files can be selected/unselected.
+
+2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: There may not always be a tracker. If tracker is null,
 	  clear label text
 

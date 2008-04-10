@@ -105,7 +105,7 @@ namespace Monsoon
 			Gtk.CellRendererProgress progressCell = new CellRendererProgress ();
 			
 			priorityColumn.PackStart (priorityCell, true);
-			priorityColumn.SetAttributes (priorityCell, "pixbuf", 2);
+			priorityColumn.SetCellDataFunc (priorityCell, new Gtk.TreeCellDataFunc (RenderPriority));
 			filenameColumn.PackStart (filenameCell, true);
 			filenameColumn.SetAttributes (filenameCell, "text", 3);
 			progressColumn.PackStart(progressCell, true);
@@ -216,6 +216,13 @@ namespace Monsoon
 			
 			base.OnButtonPressEvent(e);
 			return false;
+		}
+		
+		private void RenderPriority (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+		{
+			TorrentFile torrentFile = (TorrentFile) model.GetValue ( iter, 1);
+			
+			(cell as Gtk.CellRendererPixbuf).Pixbuf = MainWindow.GetIconPixbuf(GetPriorityIconName(torrentFile.Priority));
 		}
 		
 		private void RenderProgress (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)

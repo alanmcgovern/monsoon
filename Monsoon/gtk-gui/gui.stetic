@@ -300,7 +300,7 @@
                   <widget class="Gtk.Notebook" id="detailNotebook">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="CurrentPage">4</property>
+                    <property name="CurrentPage">1</property>
                     <child>
                       <widget class="Gtk.ScrolledWindow" id="scrolledwindow1">
                         <property name="MemberName" />
@@ -4171,7 +4171,8 @@
                             <child>
                               <widget class="Gtk.Label" id="label2">
                                 <property name="MemberName" />
-                                <property name="LabelProp" translatable="yes">Name</property>
+                                <property name="Xalign">0</property>
+                                <property name="LabelProp" translatable="yes">Name:</property>
                               </widget>
                               <packing>
                                 <property name="AutoSize">True</property>
@@ -4188,7 +4189,8 @@
                             <child>
                               <widget class="Gtk.Label" id="label3">
                                 <property name="MemberName" />
-                                <property name="LabelProp" translatable="yes">Size</property>
+                                <property name="Xalign">0</property>
+                                <property name="LabelProp" translatable="yes">Size:</property>
                               </widget>
                               <packing>
                                 <property name="TopAttach">1</property>
@@ -4205,8 +4207,9 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Label" id="label5">
+                              <widget class="Gtk.Label" id="lblName">
                                 <property name="MemberName" />
+                                <property name="Xalign">0</property>
                                 <property name="LabelProp" translatable="yes">Suse-11.0-i386.iso</property>
                               </widget>
                               <packing>
@@ -4224,8 +4227,9 @@
                               </packing>
                             </child>
                             <child>
-                              <widget class="Gtk.Label" id="label6">
+                              <widget class="Gtk.Label" id="lblSize">
                                 <property name="MemberName" />
+                                <property name="Xalign">0</property>
                                 <property name="LabelProp" translatable="yes">700MB</property>
                               </widget>
                               <packing>

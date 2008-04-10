@@ -7,51 +7,116 @@
 using System;
 using Gtk;
 using MonoTorrent.Common;
+using System.Collections.Generic;
 
 namespace Monsoon
 {
 	public partial class LoadTorrentDialog : Gtk.Dialog
 	{
 		private Gtk.TreeStore store;
-		public LoadTorrentDialog()
+		private Torrent torrent;
+		
+		public LoadTorrentDialog(Torrent torrent)
 		{
 			this.Build();
-			store = new Gtk.TreeStore (typeof (string), typeof (ToggleButton));
+			PopulateStore (torrent);
+			BuildColumns();
+			
+			this.lblName.Text = torrent.Name;
+			this.lblSize.Text = ByteConverter.ConvertSize (torrent.Size);
+		}
+		
+		private void BuildColumns ()
+		{
+			Gtk.CellRendererToggle toggler = new Gtk.CellRendererToggle ();
+			torrentTreeView.AppendColumn ("Checkbox", toggler, "active", 1);
+			torrentTreeView.AppendColumn ("Filename", new CellRendererText(), "text", 0);
+			
+			toggler.Toggled += OnToggled;
+		}
+		
+		private void OnToggled (object o, Gtk.ToggledArgs e)
+		{
+			TreeIter iter;
+			store.GetIter (out iter, new TreePath(e.Path));
+			bool value = !(bool)store.GetValue(iter, 1);
+			
+			store.SetValue (iter, 1, value);
+			TorrentFile file = (TorrentFile)store.GetValue (iter, 2);
+			if (file != null)
+				file.Priority = value ? Priority.Normal : Priority.DoNotDownload;
 
-			TreeIter music = store.AppendValues ("Music");
-			TreeIter radiohead = store.AppendValues (music, "Radiohead");
-			store.AppendValues (radiohead, "Kid A");
+			if (store.IterHasChild (iter))
+			{
+				store.IterChildren (out iter, iter);
+				RecurseToggle (iter, value);
+			}
+		}
+		
+		private void PopulateStore (Torrent torrent)
+		{
+			store = new Gtk.TreeStore (typeof (string), typeof (bool), typeof (TorrentFile));
 			
-			TreeIter hail = store.AppendValues (radiohead, "Hail To The Thief");
-			store.AppendValues (hail, "Track 1");
-			store.AppendValues (hail, "Track 2");
-			store.AppendValues (hail, "Track 3");
-			
-			TreeIter rem = store.AppendValues (music, "R.E.M.");
-			store.AppendValues (rem, "The Best Of");
-			store.AppendValues (rem, "Green");
-			
-			store.AppendValues ("Stuff.txt");
-			store.AppendValues ("What do ya think?");
-			
+			TreeIter iter = store.AppendValues ("Files", true);
+			foreach (TorrentFile file in torrent.Files)
+			{
+				string[] parts = file.Path.Split (System.IO.Path.DirectorySeparatorChar);
+				RecursiveAdd (iter, new List<string>(parts), file);
+			}
+
 			torrentTreeView.Model = store;
+		}
+		
+		private void RecursiveAdd (TreeIter parent, List<string> parts, TorrentFile file)
+		{
+			if (parts.Count == 0)
+			{
+				store.SetValue (parent, 2, file);
+				return;
+			}
+			TreeIter siblings;
+			if (!store.IterChildren (out siblings, parent))
+			{
+				siblings = store.AppendValues (parent, parts[0], true);
+				parts.RemoveAt(0);
+				RecursiveAdd (siblings, parts, file);
+				return;
+			}
+			else	
+			{
+				do
+				{
+					if (store.GetValue (siblings, 0).Equals (parts[0]))
+					{
+						parts.RemoveAt(0);
+						RecursiveAdd (siblings, parts, file);
+						return;
+					}
+				} while (store.IterNext (ref siblings));
+			}
 			
-			Gtk.TreeViewColumn secondColumn = new Gtk.TreeViewColumn();
-			secondColumn.Title = "Checkbox";
-			Gtk.CellRendererToggle secondCell = new Gtk.CellRendererToggle ();
-			secondColumn.PackStart (secondCell, true);
-			secondColumn.AddAttribute (secondCell, "toggle", 0);
-			torrentTreeView.AppendColumn (secondColumn);
-			
-			Gtk.TreeViewColumn firstColumn = new Gtk.TreeViewColumn();
-			firstColumn.Title = "First";
-			Gtk.CellRendererText firstCell = new Gtk.CellRendererText ();
-			firstColumn.PackStart (firstCell, true);
-			firstColumn.AddAttribute (firstCell, "text", 0);
-			torrentTreeView.AppendColumn (firstColumn);
-			
-			torrentTreeView.EnableTreeLines = true;
-			torrentTreeView.ExpanderColumn.Alignment = 0;
+			siblings = store.AppendValues (parent, parts[0], true);
+			parts.RemoveAt(0);
+			RecursiveAdd (siblings, parts, file);
+		}
+		
+		private void RecurseToggle (TreeIter iter, bool value)
+		{
+			do
+			{
+				if (store.IterHasChild (iter))
+				{
+					TreeIter child;
+					store.IterChildren (out child, iter);
+					RecurseToggle (child, value);
+				}
+				
+				store.SetValue (iter, 1, value);
+				TorrentFile file = (TorrentFile)store.GetValue (iter, 2);
+				if (file != null)
+					file.Priority = value ? Priority.Normal : Priority.DoNotDownload;
+				
+			} while (store.IterNext (ref iter));
 		}
 	}
 }
