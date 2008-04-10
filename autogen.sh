@@ -21,7 +21,7 @@ aclocalinclude="-I . $ACLOCAL_FLAGS"
 
 DIE=0
 
-function check_autotool_version () {
+check_autotool_version() {
 	which $1 &>/dev/null || {
 		echo "$1 is not installed, and is required to configure $PACKAGE"
 		DIE=1
@@ -36,11 +36,11 @@ function check_autotool_version () {
 	minor_check=$(echo $2 | cut -f2 -d.)
 	rev_check=$(echo $2 | cut -f3 -d.)
 
-	if [[ $major -lt $major_check ]]; then
+	if test $major -lt $major_check ; then
 		do_bail=yes
-	elif [[ $minor -lt $minor_check && $major = $major_check ]]; then
+	elif test $minor -lt $minor_check -a $major = $major_check ; then
 		do_bail=yes
-	elif [[ $rev -lt $rev_check && $minor = $minor_check && $major = $major_check ]]; then
+	elif test $rev -lt $rev_check -a $minor = $minor_check -a $major = $major_check ; then
 		do_bail=yes
 	fi
 
