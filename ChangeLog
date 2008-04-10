@@ -1,5 +1,13 @@
 2008-04-09  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Monsoon/Monsoon.mdp,
+	* Monsoon/Makefile.am,
+ 	* Monsoon/LoadTorrentDialog.cs,
+	* Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs
+	 Begin stubbing out a new dialog for loading torrents.
+
+2008-04-09  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Monsoon.mdp: Should use the Defines.cs, not 
 	Defines.cs.in
 

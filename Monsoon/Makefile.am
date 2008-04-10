@@ -96,6 +96,7 @@ FILES = \
 	ByteConverter.cs \
 	CreateTorrentDialog.cs \
 	FileTreeView.cs \
+	LoadTorrentDialog.cs \
 	TorrentLabel.cs \
 	TorrentFilterModel.cs \
 	ListenPortController.cs \
@@ -119,6 +120,7 @@ FILES = \
 	gtk-gui/Monsoon.UnhandledExceptionDialog.cs \
 	gtk-gui/Monsoon.PreferencesDialog.cs \
 	gtk-gui/Monsoon.CreateTorrentDialog.cs \
+	gtk-gui/Monsoon.LoadTorrentDialog.cs \
 	gtk-gui/Monsoon.MainWindow.cs \
 	gtk-gui/Monsoon.EditColumnsDialog.cs \
 	gtk-gui/Monsoon.CreateTorrentProgressDialog.cs \
