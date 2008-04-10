@@ -158,7 +158,7 @@ namespace Monsoon
 			try{
 				if(selectedTorrent.State != TorrentState.Stopped)
 					selectedTorrent.Stop();
-				selectedTorrent.HashCheck(true);
+				selectedTorrent.HashCheck(false);
 			} catch(Exception){
 				logger.Warn("Unable to force re-hash on " + selectedTorrent.Torrent.Name);
 			}
