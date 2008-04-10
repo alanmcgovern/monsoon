@@ -1,5 +1,10 @@
 2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* TorrentTreeView.cs: Make the torrent status translatable and give a
+	  better status description
+
+2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, ChangeLog: Last fix for null trackers
 
 2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 

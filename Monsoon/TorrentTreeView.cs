@@ -253,12 +253,36 @@ namespace Monsoon
 			}else if (torrent.State == TorrentState.Hashing){
 				(cell as Gtk.CellRendererText).Foreground = "purple";
 			}else if (torrent.State == TorrentState.Seeding){
+				(cell as Gtk.CellRendererText).Foreground = "darkgreen";
+			}else if (torrent.State == TorrentState.Stopped && torrent.Complete){
 				(cell as Gtk.CellRendererText).Foreground = "blue";
-			}else {
+			} else {
 				(cell as Gtk.CellRendererText).Foreground = "red";
 			}
 	
-			(cell as Gtk.CellRendererText).Text = torrent.State.ToString();
+			(cell as Gtk.CellRendererText).Text = GetStatusString (torrent);
+		}
+		
+		private string GetStatusString (TorrentManager manager)
+		{
+			if (manager == null)
+				return "";
+			
+			switch (manager.State)
+			{
+			case TorrentState.Stopped:
+				return manager.Complete ? "Finished" : "Stopped";
+			case TorrentState.Seeding:
+				return "Finished & Sharing";
+			case TorrentState.Downloading:
+				return "Downloading";
+			case TorrentState.Hashing:
+				return "Hashing";
+			case TorrentState.Paused:
+				return "Paused";
+			default:
+				return manager.State.ToString ();
+			}
 		}
 		
 		private void RenderTorrentDone (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
