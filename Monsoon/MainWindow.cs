@@ -1130,9 +1130,21 @@ namespace Monsoon
 			
 			downloadedValueLabel.Text = ByteConverter.ConvertSize (torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded);
 			uploadedValueLabel.Text = ByteConverter.ConvertSize (torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded);
-			trackerUrlValueLabel.Text = manager.TrackerManager.CurrentTracker.ToString ();
-			trackerStatusValueLabel.Text = manager.TrackerManager.CurrentTracker.State.ToString ();
-			lastUpdatedLabel.Text = manager.TrackerManager.CurrentTracker.LastUpdated.ToString ("HH:mm:ss") ;
+			if (manager.TrackerManager.CurrentTracker == null)
+			{
+				trackerUrlValueLabel.Text = "";
+				trackerStatusValueLabel.Text = "";
+				lastUpdatedLabel.Text = "";
+				messageLabel.Text = "";
+			}
+			
+			else
+			{
+				trackerUrlValueLabel.Text = manager.TrackerManager.CurrentTracker.ToString ();
+				trackerStatusValueLabel.Text = manager.TrackerManager.CurrentTracker.State.ToString ();
+				lastUpdatedLabel.Text = manager.TrackerManager.CurrentTracker.LastUpdated.ToString ("HH:mm:ss") ;
+				messageLabel.Text = manager.TrackerManager.CurrentTracker.WarningMessage + manager.TrackerManager.CurrentTracker.FailureMessage;
+			}
 			hashFailsLabel.Text = manager.HashFails.ToString ();
 			
 			if (manager.State != TorrentState.Stopped){
@@ -1146,7 +1158,6 @@ namespace Monsoon
 			sizeValueLabel.Text = ByteConverter.ConvertSize (manager.Torrent.Size);
 			createdOnValueLabel.Text = manager.Torrent.CreationDate.ToLongDateString ();
 			commentValueLabel.Text = manager.Torrent.Comment;
-			messageLabel.Text = manager.TrackerManager.CurrentTracker.WarningMessage + manager.TrackerManager.CurrentTracker.FailureMessage;
 		}
 		
 		private void updateToolBar ()

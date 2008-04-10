@@ -1,3 +1,8 @@
+2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: There may not always be a tracker. If tracker is null,
+	  clear label text
+
 2008-04-08  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Menus/SpeedLimitMenu.cs, Menus/SpeedMenuItem.cs,
