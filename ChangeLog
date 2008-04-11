@@ -1,3 +1,8 @@
+2008-04-11  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* configure.in, po/pt_BR.po, po/nl.po:
+	Added pt_BR and nl translation
+
 2008-04-09  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Monsoon/Monsoon.mdp,
