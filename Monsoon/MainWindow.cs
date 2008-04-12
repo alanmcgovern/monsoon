@@ -943,7 +943,7 @@ namespace Monsoon
 				logger.Debug ("Open torrent dialog response recieved");
 				foreach (String fileName in fileChooser.Filenames) {
 					try {
-						torrentController.addTorrent(fileName);
+						torrentController.MainWindow.LoadTorrent (fileName);
 					} catch (Exception ex) {
 						MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, ex.Message);
 						errorDialog.Run();
@@ -1497,6 +1497,33 @@ namespace Monsoon
 		private static string _(string s)
 		{
 			return Mono.Unix.Catalog.GetString(s);
+		}
+		
+		public void LoadTorrent (string path)
+		{
+			Torrent torrent;
+			if (Torrent.TryLoad (path, out torrent))
+			{
+				LoadTorrentDialog dialog = new LoadTorrentDialog(torrent, engineSettings.SavePath);
+				if (dialog.Run () == (int)ResponseType.Ok)
+					torrentController.addTorrent (torrent, dialog.SelectedPath);
+				
+				dialog.Destroy ();
+			}
+			else
+			{
+				MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent,
+				                                              MessageType.Error, ButtonsType.Close,
+				                                              "Invalid torrent selected");
+				errorDialog.Run();
+				errorDialog.Destroy();
+			}
+		}
+		
+		public void LoadTorrent(string path, bool autoStart, bool moveToStorage, bool removeOriginal, TorrentSettings settings, string savePath, bool isUrl)
+		{
+#warning URL based torrents arent being loaded
+			//return torrentController.addTorrent(path, autoStart, moveToStorage, removeOriginal, settings, savePath, isUrl);
 		}
 	}
 }

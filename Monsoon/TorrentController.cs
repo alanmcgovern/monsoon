@@ -64,6 +64,11 @@ namespace Monsoon
 		{
 			get { return fastResume; }
 		}
+		public MainWindow MainWindow
+		{
+			get { return mainWindow; }
+		}
+		
 		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 		
 		public TorrentController(MainWindow mainWindow)
@@ -147,45 +152,33 @@ namespace Monsoon
 		}
 
 		// TODO: Refactor all of these functions!!!
-		public TorrentManager addTorrent(string torrentPath)
+		public TorrentManager addTorrent(Torrent torrent)
 		{
-			return addTorrent(torrentPath, prefSettings.StartNewTorrents, true);
+			return addTorrent(torrent, prefSettings.StartNewTorrents);
 		}
 		
-		public TorrentManager addTorrent(string torrentPath, bool startTorrent)
+		public TorrentManager addTorrent (Torrent torrent, string savePath)
 		{
-			return addTorrent(torrentPath, startTorrent, true);
+			return addTorrent(torrent, prefSettings.StartNewTorrents, false, null, savePath, false);
 		}
 		
-		public TorrentManager addTorrent(string torrentPath, bool startTorrent, bool moveToStorage)
+		public TorrentManager addTorrent(Torrent torrent, bool startTorrent)
 		{
-			return addTorrent(torrentPath, startTorrent, moveToStorage, false, null);
+			return addTorrent(torrent, startTorrent, false, null);
 		}
-		public TorrentManager addTorrent(string torrentPath, bool startTorrent, bool moveToStorage, bool removeOriginal, TorrentSettings savedSettings)
+		public TorrentManager addTorrent(Torrent torrent, bool startTorrent, bool removeOriginal, TorrentSettings savedSettings)
 		{
-			return addTorrent(torrentPath, startTorrent, moveToStorage, removeOriginal, savedSettings, engine.Settings.SavePath, false);
+			return addTorrent(torrent, startTorrent, removeOriginal, savedSettings, engine.Settings.SavePath, false);
 		}
-		public TorrentManager addTorrent(string torrentPath, bool startTorrent, bool moveToStorage, bool removeOriginal, TorrentSettings savedSettings, string savePath, bool isUrl)
+		public TorrentManager addTorrent(Torrent torrent, bool startTorrent, bool removeOriginal, TorrentSettings savedSettings, string savePath, bool isUrl)
 		{
-			Torrent torrent;
-			Torrent torrentCheck;
+			string torrentPath = torrent.TorrentPath;
+			Torrent torrentCheck = torrent;
 			TorrentManager manager;
 			string newPath;
 			
 			if(!Directory.Exists(savePath))
 				throw new TorrentException("Torrent save path does not exist, " + savePath);
-		
-			if(!isUrl && !File.Exists(torrentPath))
-				throw new TorrentException("Torrent path does not exist, " + torrentPath);
-			
-			// Check to see if Torrent is valid
-			if (!isUrl && !Torrent.TryLoad(torrentPath, out torrentCheck)) {
-				logger.Error("Failed to add torrent, " + Path.GetFileName(torrentPath) + " is not valid.");
-				throw new TorrentException("Failed to add torrent, " + Path.GetFileName(torrentPath) + " is not valid.");
-			} else if(isUrl && !Torrent.TryLoad( new System.Uri(torrentPath), Path.Combine(prefSettings.TorrentStorageLocation, Path.GetFileName(torrentPath)), out torrentCheck)) {
-				logger.Error("Failed to add URL, " + torrentPath + " is not valid.");
-				throw new TorrentException("Failed to add URL, " + torrentPath + " is not valid.");
-			}
 			
 			// Check to see if torrent already exists
 			if (engine.Contains (torrentCheck)) {
@@ -194,7 +187,7 @@ namespace Monsoon
 			}
 			
 			// Move torrent to storage folder
-			if (!isUrl && moveToStorage && (prefSettings.TorrentStorageLocation != Directory.GetParent(torrentPath).ToString()) ) {
+			if (torrentPath != null && (prefSettings.TorrentStorageLocation != Directory.GetParent(torrentPath).ToString()) ) {
 				newPath = Path.Combine(prefSettings.TorrentStorageLocation, Path.GetFileName(torrentPath));
 				logger.Debug("Copying torrent to " + newPath);	
 				File.Copy(torrentPath, newPath, true);
@@ -223,6 +216,9 @@ namespace Monsoon
 				logger.Error("Failed to register " + newPath);
 				throw new TorrentException("Failed to register " + newPath);
 			}
+			
+			for (int i = 0; i < torrentCheck.Files.Length; i++)
+				torrent.Files[i].Priority = torrentCheck.Files[i].Priority;
 			
 			TorrentSettings settings = savedSettings ?? mainWindow.DefaultTorrentSettings.Clone ();
 			FastResume resume = this.fastResume.Find(delegate (FastResume f) { return Toolbox.ByteMatch(f.InfoHash, torrent.InfoHash); });
@@ -464,7 +460,10 @@ namespace Monsoon
 				return;
 				
 			logger.Info("New torrent detected, adding " + args.TorrentPath);
-			addTorrent(args.TorrentPath, prefSettings.StartNewTorrents, true, prefSettings.RemoveOnImport, null);
+			GLib.Timeout.Add (1000, delegate {
+				mainWindow.LoadTorrent (args.TorrentPath);
+				return false;
+			});
 		}
 		
 		public void LoadStoredTorrents()
@@ -476,7 +475,8 @@ namespace Monsoon
 
 			foreach(TorrentStorage torrentStore in controller.Settings){
 				try{
-					manager = addTorrent(torrentStore.TorrentPath, false, false, false, torrentStore.Settings);
+					Torrent t = Torrent.Load (torrentStore.TorrentPath);
+					manager = addTorrent(t, false, false, torrentStore.Settings);
 				} catch (TorrentException e) {
 					logger.Error(e.Message);
 					continue;

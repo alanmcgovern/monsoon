@@ -4145,8 +4145,10 @@
                             <property name="MemberName" />
                             <property name="Spacing">6</property>
                             <child>
-                              <widget class="Gtk.FileChooserButton" id="filechooserbutton4">
+                              <widget class="Gtk.FileChooserButton" id="fileChooser">
                                 <property name="MemberName" />
+                                <property name="Title" translatable="yes">Select A Folder</property>
+                                <property name="Action">SelectFolder</property>
                               </widget>
                               <packing>
                                 <property name="Position">0</property>

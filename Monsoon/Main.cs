@@ -81,7 +81,11 @@ namespace Monsoon
 					GLib.Timeout.Add (1000, delegate {
 						try
 						{
-							mainWindow.TorrentController.addTorrent(arg);
+							MonoTorrent.Common.Torrent t;
+							if (!MonoTorrent.Common.Torrent.TryLoad (arg, out t))
+								return false;
+							
+							mainWindow.TorrentController.addTorrent(t);
 						}
 						catch (Exception ex)
 						{

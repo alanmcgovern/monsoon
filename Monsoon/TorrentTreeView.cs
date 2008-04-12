@@ -130,9 +130,9 @@ namespace Monsoon
 				Uri uri = new Uri(s.TrimEnd());
 				if(uri.IsFile){
 					logger.Info("URI dropped " + uri);
-						torrentController.addTorrent(uri.LocalPath);
+					torrentController.MainWindow.LoadTorrent (uri.LocalPath);
 				}
-			}		
+			}
 		}
 			
 		private void buildColumns()

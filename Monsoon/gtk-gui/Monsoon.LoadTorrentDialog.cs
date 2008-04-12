@@ -23,7 +23,7 @@ namespace Monsoon {
         
         private Gtk.HBox hbox5;
         
-        private Gtk.FileChooserButton filechooserbutton4;
+        private Gtk.FileChooserButton fileChooser;
         
         private Gtk.Table table1;
         
@@ -83,10 +83,10 @@ namespace Monsoon {
             this.hbox5.Name = "hbox5";
             this.hbox5.Spacing = 6;
             // Container child hbox5.Gtk.Box+BoxChild
-            this.filechooserbutton4 = new Gtk.FileChooserButton(Mono.Unix.Catalog.GetString("Select A File"), ((Gtk.FileChooserAction)(0)));
-            this.filechooserbutton4.Name = "filechooserbutton4";
-            this.hbox5.Add(this.filechooserbutton4);
-            Gtk.Box.BoxChild w2 = ((Gtk.Box.BoxChild)(this.hbox5[this.filechooserbutton4]));
+            this.fileChooser = new Gtk.FileChooserButton(Mono.Unix.Catalog.GetString("Select A Folder"), ((Gtk.FileChooserAction)(2)));
+            this.fileChooser.Name = "fileChooser";
+            this.hbox5.Add(this.fileChooser);
+            Gtk.Box.BoxChild w2 = ((Gtk.Box.BoxChild)(this.hbox5[this.fileChooser]));
             w2.Position = 0;
             this.vbox5.Add(this.hbox5);
             Gtk.Box.BoxChild w3 = ((Gtk.Box.BoxChild)(this.vbox5[this.hbox5]));

@@ -236,12 +236,12 @@ namespace Monsoon
 				System.IO.File.WriteAllBytes(savePathChooser.Filename, dict.Encode());
 				if(startSeedingCheckBox.Active)
 				{
-					Torrent t = Torrent.Load(dict);
+					Torrent t = Torrent.Load(savePathChooser.Filename);
 					BitField bf = new BitField(t.Pieces.Count);
 					bf.Not();
 					MonoTorrent.Client.FastResume fresume = new MonoTorrent.Client.FastResume (t.InfoHash, bf, new List<MonoTorrent.Client.Peer>());
 					torrentController.FastResume.Add(fresume);
-					torrentController.addTorrent(savePathChooser.Filename, startSeedingCheckBox.Active);
+					torrentController.addTorrent(t, startSeedingCheckBox.Active);
 				}
 				logger.Debug("Torrent file created");
 			}catch(Exception e){

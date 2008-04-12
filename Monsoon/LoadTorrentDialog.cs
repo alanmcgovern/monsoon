@@ -16,14 +16,31 @@ namespace Monsoon
 		private Gtk.TreeStore store;
 		private Torrent torrent;
 		
-		public LoadTorrentDialog(Torrent torrent)
+		public string SelectedPath
 		{
+			get { return this.fileChooser.CurrentFolder; }
+		}
+		
+		public LoadTorrentDialog(Torrent torrent)
+			: this (torrent, "")
+		{
+
+		}
+		
+		public LoadTorrentDialog (Torrent torrent, string defaultPath)
+		{
+			if (torrent == null)
+				throw new System.ArgumentNullException ("torrent");
+			if (defaultPath == null)
+				throw new System.ArgumentNullException ("defaultPath");
+			
 			this.Build();
 			PopulateStore (torrent);
 			BuildColumns();
 			
 			this.lblName.Text = torrent.Name;
 			this.lblSize.Text = ByteConverter.ConvertSize (torrent.Size);
+			fileChooser.SetCurrentFolder(defaultPath);
 		}
 		
 		private void BuildColumns ()
@@ -74,6 +91,7 @@ namespace Monsoon
 				store.SetValue (parent, 2, file);
 				return;
 			}
+			
 			TreeIter siblings;
 			if (!store.IterChildren (out siblings, parent))
 			{
