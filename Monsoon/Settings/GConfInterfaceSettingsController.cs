@@ -196,6 +196,12 @@ namespace Monsoon
 			} catch(SettingNotFoundException){
 				Settings.SizeColumnVisible = true;
 			}
+			
+			try{
+				Settings.ShowLoadDialog = (bool) gconf.Retrieve (SETTINGS_PATH + "ShowLoadDialog");
+			} catch (SettingNotFoundException) {
+				Settings.ShowLoadDialog = true;
+			}
 		}
 
 		public override void Save ()
@@ -231,6 +237,8 @@ namespace Monsoon
 			gconf.Store(SETTINGS_PATH + "Columns/Ratio/Visible", Settings.RatioColumnVisible);
 			gconf.Store(SETTINGS_PATH + "Columns/Size/Width", Settings.SizeColumnWidth);
 			gconf.Store(SETTINGS_PATH + "Columns/Size/Visible", Settings.SizeColumnVisible);
+			
+			gconf.Store(SETTINGS_PATH + "ShowLoadDialog", Settings.ShowLoadDialog);
 		}
 	}
 }

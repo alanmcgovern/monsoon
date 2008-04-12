@@ -946,7 +946,7 @@ namespace Monsoon
 				logger.Debug ("Open torrent dialog response recieved");
 				foreach (String fileName in fileChooser.Filenames) {
 					try {
-						torrentController.MainWindow.LoadTorrent (fileName);
+						torrentController.MainWindow.LoadTorrent (fileName, true);
 					} catch (Exception ex) {
 						MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, ex.Message);
 						errorDialog.Run();
@@ -1489,14 +1489,36 @@ namespace Monsoon
 		
 		public void LoadTorrent (string path)
 		{
+			LoadTorrent (path, interfaceSettings.Settings.ShowLoadDialog);
+		}
+		
+		public void LoadTorrent (string path, bool ask)
+		{
 			Torrent torrent;
 			if (Torrent.TryLoad (path, out torrent))
 			{
-				LoadTorrentDialog dialog = new LoadTorrentDialog(torrent, engineSettings.SavePath);
-				if (dialog.Run () == (int)ResponseType.Ok)
-					torrentController.addTorrent (torrent, dialog.SelectedPath);
+				string savePath = engineSettings.SavePath;
+				if (ask)
+				{
+					LoadTorrentDialog dialog = new LoadTorrentDialog(torrent, savePath);
+					dialog.AlwaysAsk = interfaceSettings.Settings.ShowLoadDialog;
+					
+					try
+					{
+						int response = dialog.Run ();
+						interfaceSettings.Settings.ShowLoadDialog = dialog.AlwaysAsk;
+						if (response != (int)ResponseType.Ok)
+							return;
+						
+						savePath = dialog.SelectedPath;
+					}
+					finally
+					{
+						dialog.Destroy ();
+					}
+				}
 				
-				dialog.Destroy ();
+				torrentController.addTorrent (torrent, savePath);
 			}
 			else
 			{
