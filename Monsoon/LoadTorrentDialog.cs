@@ -82,18 +82,16 @@ namespace Monsoon
 				RecursiveAdd (siblings, parts, file);
 				return;
 			}
-			else	
+
+			do
 			{
-				do
+				if (store.GetValue (siblings, 0).Equals (parts[0]))
 				{
-					if (store.GetValue (siblings, 0).Equals (parts[0]))
-					{
-						parts.RemoveAt(0);
-						RecursiveAdd (siblings, parts, file);
-						return;
-					}
-				} while (store.IterNext (ref siblings));
-			}
+					parts.RemoveAt(0);
+					RecursiveAdd (siblings, parts, file);
+					return;
+				}
+			} while (store.IterNext (ref siblings));
 			
 			siblings = store.AppendValues (parent, parts[0], true);
 			parts.RemoveAt(0);

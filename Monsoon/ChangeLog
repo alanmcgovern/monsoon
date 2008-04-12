@@ -1,5 +1,9 @@
 2008-04-12  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* LoadTorrentDialog.cs, FileTreeView.cs: Cosmetic changes
+
+2008-04-12  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Makefile.am: Removed whitespace to fix a warning
 
 2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 

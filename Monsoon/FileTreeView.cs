@@ -229,7 +229,6 @@ namespace Monsoon
 		{
 			TorrentFile torrentFile = (TorrentFile) model.GetValue ( iter, 1);
 			
-			(cell as Gtk.CellRendererProgress).Value = 0;
 			(cell as Gtk.CellRendererProgress).Value = (int)torrentFile.BitField.PercentComplete;
 		}
 		
