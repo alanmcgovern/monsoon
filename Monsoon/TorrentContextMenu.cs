@@ -129,9 +129,9 @@ namespace Monsoon
 			}else{
 				try{
 					selectedTorrent.Start();
-				}catch(Exception){
-				
-				}	logger.Warn("Unable to start " + selectedTorrent.Torrent.Name);
+				}catch(Exception ex){
+					logger.Warn("Unable to start {0}: {1}", selectedTorrent.Torrent.Name, ex);
+				}	
 			}
 		}
 		
