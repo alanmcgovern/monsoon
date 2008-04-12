@@ -1,5 +1,10 @@
 2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Settings/InterfaceSettings.cs: Add a setting to persist
+	  'ShowLoadDialog'  across sessions
+
+2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* LoadTorrentDialog.cs: Expand the rows by default. Expose a property
 	  to show whether the dialog should always be opened or not
 

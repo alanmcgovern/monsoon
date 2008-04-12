@@ -61,7 +61,14 @@ namespace Monsoon
 		private bool upSpeedColumnVisible;
 		private bool ratioColumnVisible;
 		private bool sizeColumnVisible;
+		
+		private bool showLoadDialog;
 
+		public bool ShowLoadDialog {
+			get { return showLoadDialog; }
+			set { showLoadDialog = value; }
+		}
+		
 		public bool ShowDetails {
 			get { return showDetails; }
 			set { showDetails = value; }
