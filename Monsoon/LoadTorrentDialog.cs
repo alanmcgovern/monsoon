@@ -16,6 +16,12 @@ namespace Monsoon
 		private Gtk.TreeStore store;
 		private Torrent torrent;
 		
+		public bool AlwaysAsk
+		{
+			get { return checkbutton2.Active; }
+			set { checkbutton2.Active = value; }
+		}
+		
 		public string SelectedPath
 		{
 			get { return this.fileChooser.CurrentFolder; }
@@ -46,7 +52,7 @@ namespace Monsoon
 		private void BuildColumns ()
 		{
 			Gtk.CellRendererToggle toggler = new Gtk.CellRendererToggle ();
-			torrentTreeView.AppendColumn ("Checkbox", toggler, "active", 1);
+			torrentTreeView.AppendColumn ("", toggler, "active", 1);
 			torrentTreeView.AppendColumn ("Filename", new CellRendererText(), "text", 0);
 			
 			toggler.Toggled += OnToggled;
@@ -74,7 +80,8 @@ namespace Monsoon
 		{
 			store = new Gtk.TreeStore (typeof (string), typeof (bool), typeof (TorrentFile));
 			
-			TreeIter iter = store.AppendValues ("Files", true);
+			TreeIter iter = store.AppendValues ("", true);
+			
 			foreach (TorrentFile file in torrent.Files)
 			{
 				string[] parts = file.Path.Split (System.IO.Path.DirectorySeparatorChar);
@@ -82,6 +89,7 @@ namespace Monsoon
 			}
 
 			torrentTreeView.Model = store;
+			torrentTreeView.ExpandAll ();
 		}
 		
 		private void RecursiveAdd (TreeIter parent, List<string> parts, TorrentFile file)

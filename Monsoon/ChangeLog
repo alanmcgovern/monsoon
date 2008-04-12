@@ -1,5 +1,10 @@
 2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* LoadTorrentDialog.cs: Expand the rows by default. Expose a property
+	  to show whether the dialog should always be opened or not
+
+2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, Main.cs, FileTreeView.cs: Fixed an issue saving state
 	  when the GUI was shutting down - it was being saved twice.
 
