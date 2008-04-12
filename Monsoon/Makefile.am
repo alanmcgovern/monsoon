@@ -138,7 +138,7 @@ FILES = \
 	Settings/SettingNotFoundException.cs \
 	Settings/PreferencesSettings.cs \
 	Settings/XmlTorrentLabelController.cs \
-	Settings/XmlRssFeedsController.cs \	
+	Settings/XmlRssFeedsController.cs \
 	Settings/XmlRssHistoryController.cs \
 	Settings/XmlRssFiltersController.cs \
 	Settings/XmlTorrentStorageController.cs
