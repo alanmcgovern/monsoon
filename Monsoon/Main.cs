@@ -139,7 +139,7 @@ namespace Monsoon
 				logger.Error("Could save engine settings: {0}", ex.Message);
 			}
 			portController.Stop();
-			mainWindow.Stop ();
+			//mainWindow.Stop ();
 			mainWindow.Destroy ();
 		}
 

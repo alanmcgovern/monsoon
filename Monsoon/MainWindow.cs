@@ -445,7 +445,7 @@ namespace Monsoon
 		private void BuildFileTreeView ()
 		{
 			fileTreeStore = new TreeStore (typeof(TorrentManager), typeof(TorrentFile), typeof(Gdk.Pixbuf), typeof(string));
-			fileTreeView = new FileTreeView (this, torrentController, fileTreeStore);
+			fileTreeView = new FileTreeView (torrentController, fileTreeStore);
 			fileTreeView.Model = fileTreeStore;
 			filesScrolledWindow.Add (fileTreeView);
 			fileTreeView.Show();
@@ -755,7 +755,9 @@ namespace Monsoon
 				return;
 			}
 			
-		
+			// This should be stored before the torrent is stopped
+			StoreTorrentSettings ();
+			
 			foreach (WaitHandle h in this.torrentController.Engine.StopAll())
 				h.WaitOne (TimeSpan.FromSeconds(10), false);	
 
@@ -795,6 +797,7 @@ namespace Monsoon
 				torrentToStore.TorrentPath = manager.Torrent.TorrentPath;
 				torrentToStore.SavePath = manager.SavePath;
 				torrentToStore.Settings = manager.Settings;
+				Console.WriteLine ("£*&$(£@*&%(@£&%(: Storing: {0}", manager.State);
 				torrentToStore.State = manager.State;
 				torrentToStore.UploadedData = torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded;
 				torrentToStore.DownloadedData = torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded;
@@ -1248,23 +1251,10 @@ namespace Monsoon
 						torrent.Start ();
 						logger.Info ("Torrent started " + torrent.Torrent.Name);
 					}
-					
-					UpdateTorrentSettings(torrent);
 				} catch {
 					logger.Error ("Torrent already started " + torrent.Torrent.Name);
 				}
 			}
-		}
-
-		private void UpdateTorrentSettings(TorrentManager manager)
-		{
-		//	TorrentSettingsController torrentSettingsController =
-		//		new TorrentSettingsController(GconfSettingsStorage.Instance);
-		//	TorrentSettingsModel torrentSettings =
-		//		torrentSettingsController.GetTorrentSettings(manager.Torrent.InfoHash);
-		//	torrentSettings.LastState = manager.State;
-		//	torrentSettingsController.SetTorrentSettings(torrentSettings);
-			StoreTorrentSettings();
 		}
 		
 		protected virtual void OnStopTorrentActivated (object sender, System.EventArgs e)
@@ -1280,8 +1270,6 @@ namespace Monsoon
 				torrent = (TorrentManager) model.GetValue (iter,0);
 				try {
 					torrent.Stop ();
-					
-					UpdateTorrentSettings(torrent);
 				} catch {
 					logger.Error ("Torrent already stopped " + torrent.Torrent.Name);
 				}

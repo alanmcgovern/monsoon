@@ -43,7 +43,6 @@ namespace Monsoon
 		private TreeViewColumn progressColumn;
 		//private TreeStore treeStore;
 		private TorrentController torrentController;
-		private MainWindow mainWindow;
 		
 		private Gtk.Menu contextMenu;
 		private ImageMenuItem highItem;
@@ -55,9 +54,8 @@ namespace Monsoon
 		private ImageMenuItem nodownItem;
 		
 		
-		public FileTreeView(MainWindow mainWindow, TorrentController torrentController, TreeStore treeStore) : base()
+		public FileTreeView(TorrentController torrentController, TreeStore treeStore) : base()
 		{
-			this.mainWindow = mainWindow;
 			this.torrentController = torrentController;
 			this.Selection.Mode = SelectionMode.Multiple;
 			HeadersVisible = true;
@@ -105,7 +103,7 @@ namespace Monsoon
 			Gtk.CellRendererProgress progressCell = new CellRendererProgress ();
 			
 			priorityColumn.PackStart (priorityCell, true);
-			priorityColumn.SetCellDataFunc (priorityCell, new Gtk.TreeCellDataFunc (RenderPriority));
+			priorityColumn.SetAttributes (priorityCell, "pixbuf", 2);
 			filenameColumn.PackStart (filenameCell, true);
 			filenameColumn.SetAttributes (filenameCell, "text", 3);
 			progressColumn.PackStart(progressCell, true);
@@ -185,15 +183,6 @@ namespace Monsoon
 				
 				// update priority icon in view model
 				Model.SetValue(iter, 2, MainWindow.GetIconPixbuf(GetPriorityIconName(priority)));
-				
-				// update priority in settings model
-				//TorrentManager manager = (TorrentManager) Model.GetValue (iter, 0);
-				//TorrentFileSettingsController fileSettingsController =new TorrentFileSettingsController(settingsStorage);
-				//TorrentFileSettingsModel fileSettings =	fileSettingsController.GetFileSettings(manager.Torrent.InfoHash, file.Path);
-
-				//fileSettings.Priority = priority;
-				//fileSettingsController.SetFileSettings(fileSettings);
-				mainWindow.StoreTorrentSettings();
 			});
 		}
 		
@@ -216,13 +205,6 @@ namespace Monsoon
 			
 			base.OnButtonPressEvent(e);
 			return false;
-		}
-		
-		private void RenderPriority (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-		{
-			TorrentFile torrentFile = (TorrentFile) model.GetValue ( iter, 1);
-			
-			(cell as Gtk.CellRendererPixbuf).Pixbuf = MainWindow.GetIconPixbuf(GetPriorityIconName(torrentFile.Priority));
 		}
 		
 		private void RenderProgress (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)

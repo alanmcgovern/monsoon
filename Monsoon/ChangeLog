@@ -1,3 +1,8 @@
+2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, Main.cs, FileTreeView.cs: Fixed an issue saving state
+	  when the GUI was shutting down - it was being saved twice.
+
 2008-04-12  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* TorrentContextMenu.cs: The warning should be inside the catch block
