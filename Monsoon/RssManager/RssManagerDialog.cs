@@ -133,7 +133,7 @@ namespace Monsoon
 			filterFeedCombobox.AddAttribute(textRenderer, "text", 0);
 			
 			filterFeedListStore = new ListStore(typeof(string));
-			allIter = filterFeedListStore.AppendValues("All");
+			allIter = filterFeedListStore.AppendValues(_("All"));
 		   	
 			filterFeedCombobox.Model = filterFeedListStore;
 			filterFeedCombobox.SetActiveIter(allIter);
@@ -147,7 +147,7 @@ namespace Monsoon
 			
 			filterTreeView.Model = filterListStore;
 			
-			savePathChooserButton = new FileChooserButton("Select a Save Path", FileChooserAction.SelectFolder);
+			savePathChooserButton = new FileChooserButton(_("Select a Save Path"), FileChooserAction.SelectFolder);
 			savePathChooserButton.SetCurrentFolder(controller.TorrentController.Engine.Settings.SavePath);
 			savePathChooserButton.ShowAll();
 			
@@ -228,7 +228,7 @@ namespace Monsoon
 			
 			if(args.Event.Button == 3){
 				Menu menu = new Menu();
-				ImageMenuItem downloadItem = new ImageMenuItem ("Download");
+				ImageMenuItem downloadItem = new ImageMenuItem (_("Download"));
 				downloadItem.Image = new Image (Stock.GoDown, IconSize.Menu);
 				downloadItem.Activated += OnDownloadMenuItemActivated;
 				menu.Append(downloadItem);

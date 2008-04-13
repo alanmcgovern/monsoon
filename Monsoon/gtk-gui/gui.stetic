@@ -2524,7 +2524,6 @@
                                 <property name="MemberName" />
                                 <property name="CanFocus">True</property>
                                 <property name="Label" translatable="yes">Single File</property>
-                                <property name="Active">True</property>
                                 <property name="DrawIndicator">True</property>
                                 <property name="HasLabel">True</property>
                                 <property name="UseUnderline">True</property>
@@ -4149,6 +4148,7 @@
                                 <property name="MemberName" />
                                 <property name="Title" translatable="yes">Select A Folder</property>
                                 <property name="Action">SelectFolder</property>
+                                <property name="ShowHidden">True</property>
                               </widget>
                               <packing>
                                 <property name="Position">0</property>

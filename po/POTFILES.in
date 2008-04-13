@@ -3,11 +3,16 @@ Monsoon/AboutDialog.cs
 Monsoon/CreateTorrentDialog.cs
 Monsoon/EditColumnsDialog.cs
 Monsoon/FileTreeView.cs
+Monsoon/LabelTreeView.cs
 Monsoon/Main.cs
 Monsoon/MainWindow.cs
+Monsoon/Menus/SpeedLimitMenu.cs
 Monsoon/PeerTreeView.cs
+Monsoon/PreferencesDialog.cs
 Monsoon/PiecesTreeView.cs
+Monsoon/RssManager/RssFilter.cs
 Monsoon/RssManager/RssManagerDialog.cs
+Monsoon/TorrentContextMenu.cs
 Monsoon/TorrentTreeView.cs
 Monsoon/UnhandledExceptionDialog.cs
 Monsoon/gtk-gui/MainWindow.cs

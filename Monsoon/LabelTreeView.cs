@@ -97,16 +97,16 @@ namespace Monsoon
 		{
 			contextMenu = new Menu ();
 			
-			createItem = new ImageMenuItem ("Create");
+			createItem = new ImageMenuItem (_("Create"));
 			createItem.Image = new Image (Stock.Add, IconSize.Menu);
 			createItem.Activated += delegate (object o, EventArgs e) {
-				TorrentLabel l = new TorrentLabel("New Label");
+				TorrentLabel l = new TorrentLabel(_("New Label"));
 				mainWindow.LabelListStore.AppendValues(l);
 				mainWindow.Labels.Add(l);
 			};
 			contextMenu.Append(createItem);
 			
-			removeItem = new ImageMenuItem ("Remove");
+			removeItem = new ImageMenuItem (_("Remove"));
 			removeItem.Image = new Image (Stock.Remove, IconSize.Menu);
 			contextMenu.Add (removeItem);
 			removeItem.Activated += delegate (object o, EventArgs e) {
@@ -164,6 +164,11 @@ namespace Monsoon
 		{
 			TorrentLabel label = (TorrentLabel) model.GetValue (iter, 0);
 			(cell as Gtk.CellRendererText).Text = "(" + label.Size + ")";
+		}
+		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
 		}
 	}
 }

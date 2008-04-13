@@ -328,7 +328,7 @@ namespace Monsoon {
             this.detailNotebook = new Gtk.Notebook();
             this.detailNotebook.CanFocus = true;
             this.detailNotebook.Name = "detailNotebook";
-            this.detailNotebook.CurrentPage = 4;
+            this.detailNotebook.CurrentPage = 1;
             // Container child detailNotebook.Gtk.Notebook+NotebookChild
             this.scrolledwindow1 = new Gtk.ScrolledWindow();
             this.scrolledwindow1.CanFocus = true;

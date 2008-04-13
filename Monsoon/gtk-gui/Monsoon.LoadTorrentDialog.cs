@@ -85,6 +85,7 @@ namespace Monsoon {
             // Container child hbox5.Gtk.Box+BoxChild
             this.fileChooser = new Gtk.FileChooserButton(Mono.Unix.Catalog.GetString("Select A Folder"), ((Gtk.FileChooserAction)(2)));
             this.fileChooser.Name = "fileChooser";
+            this.fileChooser.ShowHidden = true;
             this.hbox5.Add(this.fileChooser);
             Gtk.Box.BoxChild w2 = ((Gtk.Box.BoxChild)(this.hbox5[this.fileChooser]));
             w2.Position = 0;
