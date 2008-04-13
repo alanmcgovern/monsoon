@@ -35,7 +35,7 @@ namespace Monsoon
 {
 	public partial class PreferencesDialog : Gtk.Dialog
 	{
-		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger (); 
+		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 	//	private UserTorrentSettings userTorrentSettings;
 		private EngineSettings engineSettings;
 		private PreferencesSettings prefSettings;

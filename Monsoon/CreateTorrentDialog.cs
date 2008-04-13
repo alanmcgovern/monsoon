@@ -47,7 +47,7 @@ namespace Monsoon
 		private CreateTorrentProgressDialog progressDialog;
 		private FileChooserDialog savePathChooser;
 		
-		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		public CreateTorrentDialog(TorrentController torrentController)
 		{

@@ -43,13 +43,23 @@ using MonoTorrent.Client;
 
 namespace Monsoon
 {
+	public class EmptyLogger : NLog.Logger
+	{
+		public EmptyLogger ()
+		{
+			
+		}
+	}
+	
 	class MainClass
 	{
+		public static bool DebugEnabled;
+		
 		// SetProcessName code from http://abock.org/2006/02/09/changing-process-name-in-mono/
 		[DllImport("libc")]
 		private static extern int prctl(int option, byte [] arg2, ulong arg3, ulong arg4, ulong arg5);
 
-		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger(); 		
+		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		private ListenPortController portController;
 		private GconfSettingsStorage settingsStorage;
 		private SettingsController<EngineSettings> engineSettings;
@@ -71,11 +81,11 @@ namespace Monsoon
 			isFirstRun = false;
 			CheckDataFolders();
 			
-			bool debug = false;
+			DebugEnabled = false;
 			foreach (string arg in args) {
 				Console.WriteLine(arg);
 				if (arg == "-d" || arg == "--debug") {
-					debug = true;
+					DebugEnabled = true;
 				}
 				else if (File.Exists(arg)) {
 					GLib.Timeout.Add (1000, delegate {
@@ -96,7 +106,7 @@ namespace Monsoon
 				}
 			}
 			
-			if (debug) {
+			if (DebugEnabled) {
 				BuildNlogConfig();
 			}
 			

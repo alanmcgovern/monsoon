@@ -52,7 +52,7 @@ namespace Monsoon
 		// Eerrrmm
 		private Gtk.ListStore historyListStore;
 		
-		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		
 		public RssManagerController(TorrentController controller)

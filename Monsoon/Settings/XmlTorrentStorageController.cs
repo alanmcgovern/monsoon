@@ -39,7 +39,7 @@ namespace Monsoon
 	
 	public class XmlTorrentStorageController : SettingsController<List<TorrentStorage>>
 	{
-		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		public override void Load ()
 		{

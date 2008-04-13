@@ -1,5 +1,20 @@
 2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, PreferencesDialog.cs, Main.cs, TorrentLabel.cs,
+	  CreateTorrentDialog.cs, TorrentController.cs,
+	  ListenPortController.cs, TorrentContextMenu.cs,
+	  Settings/XmlRssHistoryController.cs,
+	  Settings/GconfSettingsStorage.cs,
+	  Settings/XmlTorrentLabelController.cs,
+	  Settings/XmlRssFeedsController.cs,
+	  Settings/XmlRssFiltersController.cs,
+	  Settings/XmlTorrentStorageController.cs,
+	  RssManager/RssManagerDialog.cs, RssManager/RssManagerController.cs,
+	  TorrentTreeView.cs: Cut 200ms off the startup time when debug spew
+	  is disabled.
+
+2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* TorrentLabel.cs: removed unneccessary attributes
 
 2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 

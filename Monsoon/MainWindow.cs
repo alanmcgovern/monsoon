@@ -50,7 +50,7 @@ namespace Monsoon
 {
 	public partial class MainWindow: Gtk.Window
 	{
-		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger ();
+		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		private LabelTreeView labelTreeView;
 		private ListStore labelListStore;

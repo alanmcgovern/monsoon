@@ -53,7 +53,7 @@ namespace Monsoon
 		
 		private RssManagerController controller;
 		
-		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger ();
+		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		
 		public RssManagerDialog(RssManagerController controller)

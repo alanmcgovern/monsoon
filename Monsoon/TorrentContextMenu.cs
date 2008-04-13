@@ -43,7 +43,7 @@ namespace Monsoon
 		
 		private TorrentController torrentController;
 		private TorrentManager selectedTorrent;
-		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		public TorrentContextMenu(TorrentController torrentController)
 		{

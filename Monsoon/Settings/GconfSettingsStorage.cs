@@ -37,7 +37,7 @@ namespace Monsoon
 		
 		private GConf.Client client;
 		private readonly string GCONF_APP_PATH = "/apps/monsoon/";
-		private NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		public static GconfSettingsStorage Instance
 		{

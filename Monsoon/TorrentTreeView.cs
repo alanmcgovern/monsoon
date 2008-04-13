@@ -54,7 +54,7 @@ namespace Monsoon
 		
 		private TargetEntry[] targetEntries;
 		private TargetEntry[] sourceEntries;
-		private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		public TorrentTreeView(TorrentController torrentController) : base()
 		{
