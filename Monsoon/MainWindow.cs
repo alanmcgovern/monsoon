@@ -796,7 +796,6 @@ namespace Monsoon
 				torrentToStore.TorrentPath = manager.Torrent.TorrentPath;
 				torrentToStore.SavePath = manager.SavePath;
 				torrentToStore.Settings = manager.Settings;
-				Console.WriteLine ("£*&$(£@*&%(@£&%(: Storing: {0}", manager.State);
 				torrentToStore.State = manager.State;
 				torrentToStore.UploadedData = torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded;
 				torrentToStore.DownloadedData = torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded;
