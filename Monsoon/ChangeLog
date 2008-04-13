@@ -1,5 +1,9 @@
 2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* TorrentLabel.cs: removed unneccessary attributes
+
+2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, FileTreeView.cs, Model, Model/TorrentFileModel.cs,
 	  Monsoon.mdp, Makefile.am: Tidied up the way pixbufs are loaded.
 

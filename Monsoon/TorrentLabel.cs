@@ -96,13 +96,11 @@ namespace Monsoon
 			get { return torrents; }
 		}
 		
-		[XmlAttribute("Name")]
 		public string Name {
 			get { return name; }
 			set { name = value; }
 		}
 		
-		//[XmlAttribute("Immutable")]
 		public bool Immutable
 		{
 			get { return immutable; }
@@ -131,8 +129,6 @@ namespace Monsoon
 			get { return torrentPaths; } 
 		}
 		
-		
-		//[XmlElement("Icon")]
 		public string IconPath	{
 			get { return iconPath; }
 			set { 
