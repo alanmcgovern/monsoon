@@ -1,0 +1,18 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Monsoon
+Comment=BitTorrent Client
+Exec=monsoon
+Terminal=false
+Type=Application
+Categories=GNOME;Internet;FileTransfer;Network;
+X-GNOME-Bugzilla-Bugzilla=Novell
+X-GNOME-Bugzilla-Product=Mono:Tools
+X-GNOME-Bugzilla-Component=Monsoon
+X-Desktop-File-Install-Version=0.9
+OnlyShowIn=GNOME;
+Name[en_GB]=Monsoon
+Icon=stock_weather-showers.png
+GenericName=BitTorrent Client
+MimeType=application/x-bittorrent;

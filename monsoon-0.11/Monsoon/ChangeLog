@@ -1,0 +1,608 @@
+2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* TorrentTreeView.cs: Changing from 'Finished & Sharing' to 'Seeding'.
+
+2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* AboutDialog.cs: Updated the list of translators
+
+2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: Reenable the hacky way of updating the labels
+
+2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* TorrentTreeView.cs: Make the torrent status translatable and give a
+	  better status description
+
+2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: Last fix for null trackers
+
+2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	
+
+2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
+ 
+	* MainWindow.cs: There may not always be a tracker. If tracker is null,
+	clear label text
+ 
+
+2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* gtk-gui/gui.stetic: Fix my engrish
+
+2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* gtk-gui/Monsoon.MainWindow.cs, gtk-gui/gui.stetic: Add tooltips to
+	  the menu items
+
+2008-04-06  Mirco Bauer <meebey@meebey.net> 
+
+	
+
+2008-04-06  Mirco Bauer <meebey@meebey.net> 
+
+	* Defines.cs.in: Fixed autoconf variable name/substitution.
+
+2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Settings/XmlRssHistoryController.cs,
+	  Settings/XmlRssFeedsController.cs,
+	  Settings/XmlRssFiltersController.cs, TorrentFileSettingsModel.cs:
+	  Small refactorings to xml saving code
+
+2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* TorrentStorage.cs: Added the Serializable attribute and removed
+	  excess attributes 
+
+2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* TorrentTreeView.cs: Fixed drap'n'drop.
+
+2008-04-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Settings/XmlTorrentLabelController.cs: Cosmetic - reduced LOC
+
+2008-04-06  Mirco Bauer <meebey@meebey.net> 
+
+	* Defines.cs, Defines.cs.in: Generate Defines.cs for prefix path required
+	  for gettext initialization.
+	* Main.cs: Initialize gettext with locales in application directory and a
+	  fallback to system locales.
+	* UnhandledExceptionDialog.cs, CreateTorrentDialog.cs, PeerTreeView.cs,
+	  PiecesTreeView.cs, FileTreeView.cs, RssManager/RssManagerDialog.cs,
+	  EditColumnsDialog.cs, TorrentTreeView.cs: Wrap messages with gettext
+	  calls.
+	* AboutDialog.cs: Fixed whitespace.
+	
+	  Use Defines.ApplicatioName instead of hardcoded string.
+	
+	  Added myself to authors.
+	* Monsoon.mdp: Synced project file.
+
+2008-04-06  Jared Hendry <hendry.jared@gmail.com> 
+
+	* MainWindow.cs: Move serialization out to Xml*Controllers
+	* TorrentStorage.cs: Merged Torrent*SettingsModel data into class
+	* Main.cs: Now use UnhandledExceptionManager instead of trying to restart
+	  Gtk loop
+	* TorrentController.cs, RssManager/RssManagerController.cs: Switch to new
+	  Xml*Controllers
+	* ListenPortController.cs: Switch to using Defines.ApplicationName
+	* TorrentFileSettingsController.cs, TorrentSettingsController.cs: Switch to
+	  new XmlTorrentStorageController
+	* FileTreeView.cs: Moved TorrentFileSettings and TorrentSettings to
+	  TorrentStorage
+	* monsoon.desktop: Added mimetype and more specific categories
+	* TorrentFileSettingsModel.cs, TorrentSettingsModel.cs: Merged into
+	  TorrentStorage
+	* Monsoon.mdp, Makefile.am: Added files
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* AboutDialog.cs: Wrap the license
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, PreferencesDialog.cs, LabelTreeView.cs,
+	  TorrentLabel.cs, TorrentController.cs, CreateTorrentDialog.cs,
+	  RssManager/RssManagerController.cs: Replace usage of ArrayList with
+	  List<T>
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, TorrentTreeView.cs: Removed unnecessary logic
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* AboutDialog.cs: Updated the about window
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Monsoon.mdp, Makefile.am: AssemblyInfo.cs was missing from the build
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: Split the loading of settings from disk away from
+	  restoring them into the GUI.
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: Fixed saving of the size column settings
+
+2008-04-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: Ensure settings are loaded before using them
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, TorrentContextMenu.cs, TorrentTreeView.cs: Context
+	  menu now has a prompt if you click delete.
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, PreferencesDialog.cs, TorrentController.cs,
+	  Settings/PreferencesSettings.cs,
+	  Settings/GconfPreferencesSettingsController.cs, Monsoon.mdp,
+	  Makefile.am: Moved preferences settings to the new API
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Monsoon.mdp, Makefile.am, PreferencesSettings.cs,
+	  Settings/PreferencesSettings.cs: Moved preferencessettings
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, PreferencesDialog.cs, Main.cs, TorrentController.cs:
+	  Misc variable renaming
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, Main.cs, UserEngineSettings.cs,
+	  ListenPortController.cs, Settings/GconfEngineSettingsController.cs,
+	  Monsoon.mdp, Makefile.am: Replaced UserEngineSettings with an
+	  EngineSettingsController
+	* PreferencesDialog.cs: Upload/Download limits are now in kB/sec
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: Fixed breakage from fixing a conflict incorrectly
+	* Settings/ISettingsStorage.cs, Settings/GconfSettingsStorage.cs,
+	  Monsoon.mdp, Makefile.am: Ditched extra files
+
+2008-04-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, TorrentStorage.cs, UserTorrentSettings.cs,
+	  Settings/GconfTorrentSettingsController.cs, Monsoon.mdp,
+	  Makefile.am: Replaced UserTorrentSettings with a
+	  TorrentSettingsController.
+
+2008-04-04  Mirco Bauer <meebey@meebey.net> 
+
+	* MainWindow.cs, Main.cs: Added gettext support / integration.
+
+2008-04-03  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: Changed the way the exceptions are handled
+
+2008-04-03  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, PreferencesSettings.cs, UserEngineSettings.cs,
+	  UserTorrentSettings.cs, Settings/InterfaceSettings.cs,
+	  Settings/GConfInterfaceSettingsController.cs,
+	  Settings/SettingsController.cs, Settings/ISettings.cs, Monsoon.mdp,
+	  Makefile.am: Began refactoring the way settings are stored. Moved
+	  InterfaceSettings to the new API.
+
+2008-04-03  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	
+
+2008-04-03  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* libs/Mono.Nat.dll: Pushing updated mono.nat which contains fixes for
+	  certain netgear routers.
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* CreateTorrentDialog.cs, TorrentController.cs: If auto-seed is chosen when
+	  creating a torrent, fake some fastresume data so it doesn't hashcheck a
+	  second time.
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Monsoon.mdp, InterfaceSettings.cs, ISettingsStorage.cs, Makefile.am,
+	  SettingNotFoundException.cs, Settings/InterfaceSettings.cs,
+	  Settings/ISettingsStorage.cs, Settings/SettingNotFoundException.cs:
+	  Moved all settings related stuff to one folder
+	* PreferencesSettings.cs, Settings/PreferencesSettings.cs,
+	  Settings/UserEngineSettings.cs, Settings/UserTorrentSettings.cs,
+	  UserEngineSettings.cs, UserTorrentSettings.cs: Moved all settings
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Settings, Monsoon.mdp, Makefile.am, ISettings.cs, Settings/ISettings.cs:
+	  Moving settings files to a subfolder
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, TorrentStorage.cs, TorrentController.cs,
+	  UserTorrentSettings.cs: Made UserTorrentSettings inherit from
+	  TorrentSettings and updated serialization to support that.
+	
+	  Misc cleanups in TorrentController to remove unnecessary variables
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: Cosmetic
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* UserEngineSettings.cs, TorrentController.cs: Make UserEngineSettings
+	  inherit from EngineSettings - cleaner.
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, TorrentController.cs: Nuke useless method
+
+2008-04-02  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* PreferencesSettings.cs, Main.cs, UserEngineSettings.cs,
+	  UserTorrentSettings.cs, InterfaceSettings.cs, GconfSettingsStorage.cs:
+	  Switched the GConf stuff to use a singleton
+
+2008-04-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: kB/sec means multiply, not divide
+
+2008-04-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: Spin buttons should be in kB/sec
+
+2008-04-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* UserEngineSettings.cs, TorrentController.cs: Fixed the way global rate
+	  limits were set. It works now.
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Defines.cs, Main.cs, AboutDialog.cs: Show the version in the About dialog
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* FileTreeView.cs: if we have zero selected and we rightclick, we need to
+	  popup
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* FileTreeView.cs: Enabled multi-select in the torrent files view.
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* monsoon.desktop: Added generic name
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, Menus/SpeedLimitMenu.cs, Menus/SpeedMenuItem.cs,
+	  PeerTreeView.cs, PiecesTreeView.cs, ByteConverter.cs,
+	  gtk-gui/gui.stetic, Makefile.am, TorrentTreeView.cs: Updated the way the
+	  speed menu works to fix issue when going >= 1MB/sec
+
+2008-03-31  Mirco Bauer <meebey@meebey.net> 
+
+	* MainWindow.cs: Better error handling, GTK+ doesn't like exceptions.
+	* PreferencesDialog.cs: Replaced Gnome.IconEntry and Gnome.IconSelection
+	  with Gtk.FileChooserDialog + preview widget.
+	* Main.cs: Initialize GLib and GTK+ instead of GNOME.
+	* TorrentLabel.cs: Fixed passing iconPath correctly to the other
+	  constructor.
+	* Monsoon.mdp, Makefile.am: Reference GLib.
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* gtk-gui/generated.cs, gtk-gui/Monsoon.MainWindow.cs, gtk-gui/gui.stetic:
+	  Now use the weather icon
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* monsoon.desktop: Added default icon.
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Makefile.am: Updated makefile
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Monsoon.mdp: Removed unneeded references
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* libs/MonoTorrent.dll: Fixes the issue with fast resume as in #375377
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* UserTorrentSettings.cs: Cosmetic
+
+2008-03-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* UserTorrentSettings.cs: Cosmetic - store keys as static strings.
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* libs/MonoTorrent.dll: Pushing new MonoTorrent to fix issues with pieces
+	  set to 'Do Not Download'
+
+2008-03-30  Mirco Bauer <meebey@meebey.net> 
+
+	* TorrentFileSettingsController.cs:  Fixed EncodeKey(), using a whitespace
+	  rather than a blacklist to replace not legal characters for gconf keys.
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* libs/MonoTorrent.dll: Pushed updated MT to fix per-file progress display
+
+2008-03-30  Mirco Bauer <meebey@meebey.net> 
+
+	* MainWindow.cs: Made all public and internal fields private and created
+	  public properties for them.
+	
+	  Save torrent state changes to settings model.
+	
+	  Implemented auto-starting of torrents and restoring their priorities.
+	
+	  Updated author and copyright lines.
+	* PreferencesDialog.cs, LabelTreeView.cs, RssManager/RssManagerDialog.cs,
+	  RssManager/RssManagerController.cs: Use properties instead of public
+	  fields.
+	* Main.cs: Added license header.
+	
+	  Added global GConfSettingsStorage instance.
+	
+	* TorrentController.cs: Made all public and internal fields private and
+	  created public properties for them.
+	* TorrentSettingsController.cs, TorrentFileSettingsController.cs,
+	  TorrentSettingsModel.cs, TorrentFileSettingsModel.cs: Implemented
+	  persistent models using GConf for torrent settings and torrent file
+	  settings.
+	* FileTreeView.cs: Added gconf storage to ctor parameters.
+	
+	  Update changed priorities in settings model.
+	
+	* GconfSettingsStorage.cs: Fixed whitespace.
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* BEncodedSettingsStorage.cs, Monsoon.mdp, Makefile.am: GConf is available
+	  on all platforms, so dump this
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: Removed some junk methods
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* ListenPortController.cs: Bugfix from refactoring: When ending a map/unmap,
+	  don't iterate all the devices.
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* ListenPortController.cs: Added thread safety around the list of devices.
+	  Cleaned up some error messages
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Monsoon.mdp: By default enable debug output
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Makefile.am: Fixed makefile issues after removing dep on bundled dbus
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Monsoon.mdp, Makefile.am, libs/NDesk.DBus.dll, libs/NDesk.DBus.GLib.dll,
+	  libs/NDesk.DBus.GLib.dll.config: Use the GAC'ed version of NDesk.Dbus
+	  and GLib
+
+2008-03-30  Mirco Bauer <meebey@meebey.net> 
+
+	* FileTreeView.cs: Removes noise newlines.
+	
+	  Removed unused and unneeded PathLookup() method.
+	
+	  Removed unused RenderFilename() method.
+	
+	  Updated author and copyright lines.
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* libs/TrayLib.cs, Monsoon.mdp, Monsoon.exe.config: Created a dllmap for
+	  p/invoking libgtk
+
+2008-03-30  Mirco Bauer <meebey@meebey.net> 
+
+	* AssemblyInfo.cs.in, AssemblyInfo.cs: Generate AssemblyInfo using
+	  autogen.sh/configure.
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Monsoon.mdp, Makefile.am: use Makefiles as primary project files
+
+2008-03-30  Mirco Bauer <meebey@meebey.net> 
+
+	* Main.cs: Removed unwanted Console.WriteLine() call.
+
+2008-03-30  Mirco Bauer <meebey@meebey.net> 
+
+	* Main.cs: Added -d and --debug as parameter to enable logging.
+	
+	  Pass real version number to Gnome.Program.
+	* AssemblyInfo.cs: Fixed Version.
+
+2008-03-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, ChangeLog, FileTreeView.cs: Patch from meebey for #375214.
+
+2008-03-29  Mirco Bauer <meebey@meebey.net> 
+
+	* MainWindow.cs, FileTreeView.cs: Fixed handling of empty/cleared
+	  Gdk.PixBufs in the FileTreeView.
+	
+	  Enhanced rendering of priority and filename columns by replacing the
+	  expensive data funcs with plain model values.
+
+2008-03-29  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, gtk-gui/Monsoon.MainWindow.cs, gtk-gui/gui.stetic: Can now
+	  use drag'n'drop to remove a torrent from a label. Removed the old label
+	  management from the Options screen.
+
+2008-03-28  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, TorrentTreeView.cs: Hashcodes arent unique IDs. Use the
+	  InfoHash - that's guaranteed to be unique.
+
+2008-03-28  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, Defines.cs, TorrentController.cs: Implemented support for
+	  saving/loading FastResume data.
+
+2008-03-28  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* FileTreeView.cs: 'standard' priority should be iconless. The existing icon
+	  looked too much like 'do not download'.
+
+2008-03-28  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Defines.cs, PreferencesSettings.cs, Main.cs, TorrentController.cs,
+	  FileTreeView.cs: Applied further cleanups to path handlings
+
+2008-03-28  Jared Hendry <hendry.jared@gmail.com> 
+
+	* MainWindow.cs, Main.cs, RssManager/RssManagerController.cs: Use defines
+	  for paths
+	* Defines.cs: Added static properties for common paths and names
+	* MonoTorrent.Interface.mdp: Added Defines.cs
+	* TorrentContextMenu.cs: Added open feature to context menu
+
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	
+
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs: Ensure that the GUI waits for the engine to shutdown before
+	  exiting.
+
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, PreferencesSettings.cs, Main.cs, TorrentController.cs,
+	  CreateTorrentDialog.cs, ListenPortController.cs, AboutDialog.cs,
+	  RssManager/RssManagerController.cs, GconfSettingsStorage.cs,
+	  gtk-gui/Monsoon.MainWindow.cs, gtk-gui/Monsoon.CreateTorrentDialog.cs,
+	  gtk-gui/Monsoon.PreferencesDialog.cs,
+	  gtk-gui/Monsoon.UnhandledExceptionDialog.cs,
+	  gtk-gui/Monsoon.RssManagerDialog.cs, gtk-gui/gui.stetic,
+	  TorrentTreeView.cs: Loads of MonoTorrent -> Monsoon changes
+
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	
+
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Makefile.am: Updated the makefiles
+
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* gtk-gui/generated.cs: Remove junk code.
+
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MonoTorrent.Interface.mdp, gtk-gui/Monsoon.DruidConnectionPage.cs,
+	  gtk-gui/Monsoon.DruidStoragePage.cs, gtk-gui/gui.stetic: Missed out a
+	  few files
+
+2008-03-27  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, Main.cs, MonoTorrent.Interface.mdp,
+	  Widgets/DruidConnectionPage.cs, FirstRunDruid.cs, Widgets,
+	  Widgets/DruidStoragePage.cs: Removed the FirstRunDruid - everything can
+	  be intelligently auto-set. The user can change later if they want.
+
+2008-03-09  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Menus/SpeedLimitMenu.cs: Implemented smarter logic for choosing which
+	  speed limits to display
+
+2008-03-09  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	
+
+2008-03-08  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	
+
+2008-03-07  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	
+
+2008-03-07  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* TorrentTreeView.cs: Updated the MonoTorrent lib
+	
+	  Fixed issues with bytes/kB
+	
+	  Added two more items to the tray icon (nice icons needed)
+
+2008-03-07  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* TorrentController.cs: ArrayList -> List<TorrentManager>
+
+2008-03-07  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, Menus/SpeedLimitMenu.cs, gtk-gui/Monsoon.MainWindow.cs,
+	  gtk-gui/gui.stetic: Added event box around the upload/download labels to
+	  allow easy setting of global upload/download limits
+
+2008-03-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, MonoTorrent.Interface.mdp: Altered the way status is
+	  displayed for download/upload speed limits and added a context menu to
+	  specify the speed limits
+
+2008-03-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* ByteConverter.cs: Added ability to specify the formatting of the number
+
+2008-03-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* RssManager/RssManagerController.cs: bugfix: remember to close the
+	  filestream
+
+2008-03-06  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* LabelTreeView.cs: Renaming/adding/removing of labels implemented fully.
+
+2008-03-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	
+

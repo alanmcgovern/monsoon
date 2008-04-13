@@ -1,0 +1,21 @@
+[encoding: UTF-8]
+Monsoon/AboutDialog.cs
+Monsoon/CreateTorrentDialog.cs
+Monsoon/EditColumnsDialog.cs
+Monsoon/FileTreeView.cs
+Monsoon/Main.cs
+Monsoon/MainWindow.cs
+Monsoon/PeerTreeView.cs
+Monsoon/PiecesTreeView.cs
+Monsoon/RssManager/RssManagerDialog.cs
+Monsoon/TorrentTreeView.cs
+Monsoon/UnhandledExceptionDialog.cs
+Monsoon/gtk-gui/MainWindow.cs
+Monsoon/gtk-gui/Monsoon.MainWindow.cs
+Monsoon/gtk-gui/Monsoon.CreateTorrentProgressDialog.cs
+Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs
+Monsoon/gtk-gui/Monsoon.MainWindow.cs
+Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs
+Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs
+Monsoon/gtk-gui/Monsoon.UnhandledExceptionDialog.cs
+Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs
