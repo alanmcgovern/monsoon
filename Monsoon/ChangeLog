@@ -1,5 +1,9 @@
 2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs: Reenable the hacky way of updating the labels
+
+2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: Remove accidently commited Console.WriteLine
 
 2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
