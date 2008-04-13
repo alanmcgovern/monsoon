@@ -1071,11 +1071,13 @@ namespace Monsoon
 		
 		private void updateLabels ()
 		{
-			/*if (labelListStore.GetIterFirst (out iter)) {
+			TreeIter iter;
+			if (labelListStore.GetIterFirst (out iter)) {
 				do {
-					labelListStore.EmitRowChanged(labelListStore.GetPath(iter), iter);
+					if (((TorrentLabel)labelListStore.GetValue (iter, 0)).Immutable)
+						labelListStore.EmitRowChanged(labelListStore.GetPath(iter), iter);
 				} while (labelListStore.IterNext(ref iter));
-			}*/
+			}
 		}
 		
 		private void updateGeneralPage ()
