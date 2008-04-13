@@ -1,5 +1,10 @@
 2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, FileTreeView.cs, Model, Model/TorrentFileModel.cs,
+	  Monsoon.mdp, Makefile.am: Tidied up the way pixbufs are loaded.
+
+2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: When using the menu to open a torrent, always show the
 	  LoadTorrent dialog. Otherwise, obey the setting.
 	* Settings/GConfInterfaceSettingsController.cs: Persist the

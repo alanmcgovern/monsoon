@@ -128,6 +128,7 @@ FILES = \
 	Defines.cs \
 	TorrentFileSettingsModel.cs \
 	Menus/SpeedMenuItem.cs \
+	Model/TorrentFileModel.cs \
 	Settings/GconfEngineSettingsController.cs \
 	Settings/GConfInterfaceSettingsController.cs \
 	Settings/GconfPreferencesSettingsController.cs \

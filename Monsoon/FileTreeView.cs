@@ -38,6 +38,7 @@ namespace Monsoon
 {
 	public class FileTreeView : TreeView
 	{
+		private TorrentFileModel treeStore;
 		private TreeViewColumn priorityColumn;
 		private TreeViewColumn filenameColumn;
 		private TreeViewColumn progressColumn;
@@ -54,36 +55,16 @@ namespace Monsoon
 		private ImageMenuItem nodownItem;
 		
 		
-		public FileTreeView(TorrentController torrentController, TreeStore treeStore) : base()
+		public FileTreeView(TorrentController torrentController, TorrentFileModel treeStore) : base()
 		{
+			this.treeStore = treeStore;
+			this.Model = treeStore;
 			this.torrentController = torrentController;
 			this.Selection.Mode = SelectionMode.Multiple;
 			HeadersVisible = true;
 
 			BuildColumns ();
 			BuildContextMenu ();
-		}
-		
-		public static string GetPriorityIconName(Priority priority)
-		{
-			switch (priority) {
-				case Priority.Immediate:
-					return "immediate.png";
-				case Priority.Highest:
-					return "highest.png";
-				case Priority.High:
-					return "high.png";
-				case Priority.Normal:
-					return null;
-				case Priority.Low:
-					return "low.png";
-				case Priority.Lowest:
-					return "lowest.png";
-				case Priority.DoNotDownload:
-					return "donotdownload.png";
-			}
-			
-			return null;
 		}
 		
 		private void BuildColumns ()
@@ -125,12 +106,12 @@ namespace Monsoon
 			lowestItem = new ImageMenuItem ("Lowest");
 			normalItem = new ImageMenuItem ("Normal");
 			nodownItem = new ImageMenuItem ("Do Not Download");
-			highItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "high.png"));
-			highestItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "highest.png"));
-			immediateItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "immediate.png"));
-			lowItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "low.png"));
-			lowestItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "lowest.png"));
-			nodownItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "donotdownload.png"));
+			highItem.Image = new Gtk.Image (treeStore.GetPixbuf (Priority.High));
+			highestItem.Image = new Image (treeStore.GetPixbuf (Priority.Highest));
+			immediateItem.Image = new Image (treeStore.GetPixbuf (Priority.Immediate));
+			lowItem.Image = new Image (treeStore.GetPixbuf (Priority.Low));
+			lowestItem.Image = new Image (treeStore.GetPixbuf (Priority.Lowest));
+			nodownItem.Image = new Image (treeStore.GetPixbuf (Priority.DoNotDownload));
 			
 			
 			highItem.Activated += OnContextMenuItemClicked;
@@ -177,12 +158,8 @@ namespace Monsoon
 					priority = Priority.Normal;
 				
 				file = (TorrentFile) Model.GetValue (iter, 1);
-				
-				// update priority in MonoTorrent
-				torrentController.SetFilePriority(file, priority);
-				
-				// update priority icon in view model
-				Model.SetValue(iter, 2, MainWindow.GetIconPixbuf(GetPriorityIconName(priority)));
+				file.Priority = priority;
+				((TorrentFileModel)Model).UpdateRow (iter);
 			});
 		}
 		

@@ -78,7 +78,7 @@ namespace Monsoon
 		private TreeModelFilter peerFilter;
 		
 		private FileTreeView fileTreeView;
-		private TreeStore fileTreeStore;
+		private TorrentFileModel fileTreeStore;
 		
 		private PiecesTreeView piecesTreeView;
 		private ListStore piecesListStore;
@@ -444,9 +444,8 @@ namespace Monsoon
 		
 		private void BuildFileTreeView ()
 		{
-			fileTreeStore = new TreeStore (typeof(TorrentManager), typeof(TorrentFile), typeof(Gdk.Pixbuf), typeof(string));
+			fileTreeStore = new TorrentFileModel();
 			fileTreeView = new FileTreeView (torrentController, fileTreeStore);
-			fileTreeView.Model = fileTreeStore;
 			filesScrolledWindow.Add (fileTreeView);
 			fileTreeView.Show();
 		}
@@ -989,45 +988,12 @@ namespace Monsoon
 					
 			return true;
 		}
-		
-        
-		public static Gdk.Pixbuf GetIconPixbuf(string iconName)
-		{
-			if (iconName == null) {
-				return new Gdk.Pixbuf(IntPtr.Zero);
-			}
-			
-			return new Gdk.Pixbuf(System.IO.Path.Combine(Defines.IconPath, iconName));
-		}
         
 		private void updateFilesPage ()
 		{
-			TorrentManager manager;
-			
-			fileTreeStore.Clear ();
-			manager = GetSelectedTorrent ();
-			
-			if (manager == null)
-				return;
-			
-			Console.WriteLine("Updating files page of: " + manager.Torrent.Name);
-			
-//			TorrentFileSettingsController fileSettingsController =
-//				new TorrentFileSettingsController(GconfSettingsStorage.Instance);
-			foreach (TorrentFile torrentFile in manager.Torrent.Files) {
-//				TorrentFileSettingsModel fileSettings =
-//					fileSettingsController.GetFileSettings(
-//						manager.Torrent.InfoHash,
-//						torrentFile.Path
-//					);
-//				torrentFile.Priority = fileSettings.Priority;
-				
-				fileTreeStore.AppendValues(manager, torrentFile,
-					GetIconPixbuf(
-						FileTreeView.GetPriorityIconName(torrentFile.Priority)
-					),
-					torrentFile.Path);
-			}
+			this.fileTreeStore.Update (GetSelectedTorrent ());
+
+			Console.WriteLine("Updating files page");
 		}
 		
 		private void updatePiecesPage()
