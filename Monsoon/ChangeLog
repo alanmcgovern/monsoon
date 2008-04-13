@@ -1,5 +1,9 @@
 2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* TorrentTreeView.cs: Changing from 'Finished & Sharing' to 'Seeding'.
+
+2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* AboutDialog.cs: Updated the list of translators
 
 2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
