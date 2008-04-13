@@ -15,10 +15,14 @@ namespace Monsoon
 			};
 			
 			Version = Defines.Version;
-			this.TranslatorCredits = string.Format("{1}{0}{2}{0}{3}", Environment.NewLine,
+			this.TranslatorCredits = string.Format("{1}{0}{2}{0}{3}{0}{4}", Environment.NewLine,
+			                                       _("Bulgarian - Ventsislav Mladenov"),
+			                                       _("Dutch - Freek de Kruijf"),
 			                                       _("French - Olivier Dufour"),
 			                                       _("German - Mirco Bauer <meebey@meebey.net>"),
+			                                       _("Italian - Alberto Passalacqua"),
 			                                       _("Spanish - Mario Sopena"));
+			                                       
 			this.WrapLicense = true;
 			License = @"Copyright (C) 2006-2008 Alan McGovern, Jared Hendry
 

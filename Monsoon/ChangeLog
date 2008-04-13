@@ -1,5 +1,9 @@
 2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* AboutDialog.cs: Updated the list of translators
+
+2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: Reenable the hacky way of updating the labels
 
 2008-04-10  Alan McGovern <alan.mcgovern@gmail.com> 
