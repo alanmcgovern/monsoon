@@ -273,7 +273,7 @@ namespace Monsoon
 			case TorrentState.Stopped:
 				return manager.Complete ? "Finished" : "Stopped";
 			case TorrentState.Seeding:
-				return "Finished & Sharing";
+				return "Seeding";
 			case TorrentState.Downloading:
 				return "Downloading";
 			case TorrentState.Hashing:
