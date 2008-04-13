@@ -1,3 +1,10 @@
+2008-04-14  Mirco Bauer <meebey@meebey.net> 
+
+	* PreferencesDialog.cs, Menus/SpeedLimitMenu.cs, LabelTreeView.cs,
+	  CreateTorrentDialog.cs, TorrentContextMenu.cs, FileTreeView.cs,
+	  RssManager/RssFilter.cs, RssManager/RssManagerDialog.cs,
+	  gtk-gui/Monsoon.MainWindow.cs: Added missing _() calls around strings.
+
 2008-04-13  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* TorrentTreeView.cs: Changing from 'Finished & Sharing' to 'Seeding'.

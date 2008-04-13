@@ -30,7 +30,7 @@ namespace Monsoon
 			labels = new List<SpeedMenuItem>(13);
 			speeds = new List<int> (labels.Capacity);
 			
-			SpeedMenuItem l = new SpeedMenuItem ("Unlimited");
+			SpeedMenuItem l = new SpeedMenuItem (_("Unlimited"));
 			l.Activated += delegate (object sender, EventArgs e) {
 				if (ClickedItem != null)
 					ClickedItem (sender, e);
@@ -100,6 +100,11 @@ namespace Monsoon
 			
 			for (int i=0; i < speeds.Count; i++)
 				labels[i].Speed = Math.Max (0, speeds[i]) * 1024;
+		}
+		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
 		}
 	}
 }

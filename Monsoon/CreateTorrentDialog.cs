@@ -54,7 +54,7 @@ namespace Monsoon
 			this.Build();
 			this.torrentController = torrentController;
 			
-			newTorrentLocationButton = new FileChooserButton("Select file", FileChooserAction.Open);
+			newTorrentLocationButton = new FileChooserButton(_("Select file"), FileChooserAction.Open);
 			
 			selectFileHbox.Add(newTorrentLocationButton);
 			newTorrentLocationButton.Show();
@@ -172,7 +172,7 @@ namespace Monsoon
 
 		protected virtual void OnCreateButtonClicked (object sender, System.EventArgs e)
 		{
-			savePathChooser = new FileChooserDialog("Save Torrent As...", this, FileChooserAction.Save, Gtk.Stock.Cancel, ResponseType.Cancel, Gtk.Stock.Save, ResponseType.Accept);
+			savePathChooser = new FileChooserDialog(_("Save Torrent As..."), this, FileChooserAction.Save, Gtk.Stock.Cancel, ResponseType.Cancel, Gtk.Stock.Save, ResponseType.Accept);
 			
 			ResponseType result = (ResponseType) savePathChooser.Run();
 			if(result == ResponseType.Accept){

@@ -1,3 +1,9 @@
+2008-04-14  Mirco Bauer <meebey@meebey.net> 
+
+	* po/pt_BR.po, po/es.po, po/fr.po, po/de.po, po/bg.po, po/nl.po, po/it.po:
+	  Updated translation.
+	* po/POTFILES.in: Added missing files.
+
 2008-04-12  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* fr.po: Updated french translation

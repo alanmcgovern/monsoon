@@ -41,7 +41,7 @@ namespace Monsoon
 		private string label;
 		private string feed;
 		
-		public RssFilter() : this("New Filter")
+		public RssFilter() : this(_("New Filter"))
 		{
 		}
 		
@@ -53,7 +53,7 @@ namespace Monsoon
 			exclude = string.Empty;
 			savePath = string.Empty;
 			label = string.Empty;
-			feed = "All";
+			feed = _("All");
 		}
 		
 		
@@ -93,6 +93,11 @@ namespace Monsoon
 		public string SavePath {
 			get { return savePath; }
 			set { savePath = value; }
+		}
+		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
 		}
 	}
 }

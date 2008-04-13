@@ -49,14 +49,14 @@ namespace Monsoon
 		{
 			this.torrentController = torrentController;
 			
-			ImageMenuItem openItem = new ImageMenuItem("Open");
-			ImageMenuItem startItem = new ImageMenuItem("Start/Pause");
-			ImageMenuItem stopItem  = new ImageMenuItem("Stop");
-			ImageMenuItem removeItem  = new ImageMenuItem("Remove");
-			ImageMenuItem deleteItem  = new ImageMenuItem("Delete");
-			ImageMenuItem recheckItem  = new ImageMenuItem("Force Re-_check");
-			//ImageMenuItem hashItem  = new ImageMenuItem("Force Re-_hash");
-			ImageMenuItem announceItem  = new ImageMenuItem("Force _announce");
+			ImageMenuItem openItem = new ImageMenuItem(_("Open"));
+			ImageMenuItem startItem = new ImageMenuItem(_("Start/Pause"));
+			ImageMenuItem stopItem  = new ImageMenuItem(_("Stop"));
+			ImageMenuItem removeItem  = new ImageMenuItem(_("Remove"));
+			ImageMenuItem deleteItem  = new ImageMenuItem(_("Delete"));
+			ImageMenuItem recheckItem  = new ImageMenuItem(_("Force Re-_check"));
+			//ImageMenuItem hashItem  = new ImageMenuItem(_("Force Re-_hash"));
+			ImageMenuItem announceItem  = new ImageMenuItem(_("Force _announce"));
 			
 			openItem.Image = new Image(Stock.Open, IconSize.Menu);
 			startItem.Image = new Image(Stock.MediaPlay, IconSize.Menu);
@@ -190,6 +190,11 @@ namespace Monsoon
 				logger.Info("Opening folder: " + selectedTorrent.SavePath + System.IO.Path.DirectorySeparatorChar + selectedTorrent.FileManager.BaseDirectory);
 				Process.Start("\"file://" + selectedTorrent.SavePath + System.IO.Path.DirectorySeparatorChar + selectedTorrent.FileManager.BaseDirectory + "\"");
 			}
+		}
+		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
 		}
 	}
 }

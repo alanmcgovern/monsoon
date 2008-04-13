@@ -120,13 +120,13 @@ namespace Monsoon
 		{
 			contextMenu = new Menu ();
 			
-			highItem = new ImageMenuItem ("High");
-			highestItem = new ImageMenuItem ("Highest");
-			immediateItem = new ImageMenuItem ("Immediate");
-			lowItem = new ImageMenuItem ("Low");
-			lowestItem = new ImageMenuItem ("Lowest");
-			normalItem = new ImageMenuItem ("Normal");
-			nodownItem = new ImageMenuItem ("Do Not Download");
+			highItem = new ImageMenuItem (_("High"));
+			highestItem = new ImageMenuItem (_("Highest"));
+			immediateItem = new ImageMenuItem (_("Immediate"));
+			lowItem = new ImageMenuItem (_("Low"));
+			lowestItem = new ImageMenuItem (_("Lowest"));
+			normalItem = new ImageMenuItem (_("Normal"));
+			nodownItem = new ImageMenuItem (_("Do Not Download"));
 			highItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "high.png"));
 			highestItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "highest.png"));
 			immediateItem.Image = new Image(System.IO.Path.Combine(Defines.IconPath, "immediate.png"));

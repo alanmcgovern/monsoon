@@ -150,7 +150,7 @@ namespace Monsoon
 			selectIcon.ShowAll();
 			*/
 			
-			selectButton = new Button("Browse Icon");
+			selectButton = new Button(_("Browse Icon"));
 			selectButton.Clicked += OnIconButtonClicked;
 			selectButton.Show();
 			iconEntryBox.Add(selectButton);
@@ -175,14 +175,14 @@ namespace Monsoon
 		
 		private void buildFoldersPanel()
 		{
-			downloadLocationButton = new FileChooserButton("Download location", FileChooserAction.SelectFolder);
+			downloadLocationButton = new FileChooserButton(_("Download location"), FileChooserAction.SelectFolder);
 			downloadLocationButton.SetCurrentFolder(engineSettings.SavePath);
 			
 			downloadLocationButton.CurrentFolderChanged += OnDownloadLocationButtonFolderChanged;
 			foldersTable.Attach(downloadLocationButton, 1, 2, 0, 1);
 			downloadLocationButton.Show();
 			
-			torrentStorageLocationButton = new FileChooserButton("Torrage storage location", FileChooserAction.SelectFolder);
+			torrentStorageLocationButton = new FileChooserButton(_("Torrage storage location"), FileChooserAction.SelectFolder);
 			
 			torrentStorageLocationButton.SetCurrentFolder(prefSettings.TorrentStorageLocation);
 			
@@ -193,7 +193,7 @@ namespace Monsoon
 		
 		private void buildImportPanel()
 		{
-			importLocationButton = new FileChooserButton("Import folder to scan", FileChooserAction.SelectFolder);
+			importLocationButton = new FileChooserButton(_("Import folder to scan"), FileChooserAction.SelectFolder);
 			importLocationButton.SetCurrentFolder(prefSettings.ImportLocation);
 			
 			importLocationButton.CurrentFolderChanged += OnImportLocationFolderChanged;
@@ -283,7 +283,7 @@ namespace Monsoon
 			*/
 			
 			Gtk.FileChooserDialog chooser = new FileChooserDialog(
-				"Select an Icon",
+				_("Select an Icon"),
 				this, FileChooserAction.Open,
 				Gtk.Stock.Cancel, ResponseType.Cancel,
 				Gtk.Stock.Open, ResponseType.Ok
@@ -356,6 +356,11 @@ namespace Monsoon
 				addLabelButton.Sensitive = false;
 			else
 				addLabelButton.Sensitive = true;
+		}
+		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
 		}
 	}
 }
