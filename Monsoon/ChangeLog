@@ -1,5 +1,9 @@
 2008-04-14  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Defines.cs.in: Fixed missing semicolon
+
+2008-04-14  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Defines.cs.in, Monsoon.mdp: Bumping version to 0.11.1 for tagging.
 
 2008-04-14  Mirco Bauer <meebey@meebey.net> 
