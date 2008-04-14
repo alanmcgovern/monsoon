@@ -1,3 +1,7 @@
+2008-04-14  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* configure.in: Bumping version to 0.11.1 for tagging.
+
 2008-04-14  Mirco Bauer <meebey@meebey.net> 
 
 	* po/pt_BR.po, po/es.po, po/fr.po, po/de.po, po/bg.po, po/nl.po, po/it.po:

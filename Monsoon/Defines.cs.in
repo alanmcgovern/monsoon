@@ -100,7 +100,7 @@ namespace Monsoon
 			applicationDataDirectory = Path.Combine(Environment.GetFolderPath (Environment.SpecialFolder.ApplicationData), "monsoon");
 			
 			Version ver = System.Reflection.Assembly.GetEntryAssembly().GetName().Version;
-			version = String.Format("{0}.{1}", ver.Major, ver.Minor);
+			version = String.Format("{0}.{1}.{2}", ver.Major, ver.Minor, ver.Build)
 		}
 	}
 }
