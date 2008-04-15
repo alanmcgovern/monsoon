@@ -1,3 +1,8 @@
+2008-04-15  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Monsoon/Monsoon.exe.config: Added dllmap entry
+	for libX11 to link to libX11.so.6
+
 2008-04-14  Mirco Bauer <meebey@meebey.net> 
 
 	* po/pt_BR.po, po/es.po, po/fr.po, po/de.po, po/bg.po, po/nl.po, po/it.po:
