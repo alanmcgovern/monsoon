@@ -306,9 +306,14 @@ namespace Monsoon
 			
 			if(eventButton.Button == 1){
 				if (Visible) {
+					int x, y;
+					GetPosition (out x, out y);
+					interfaceSettings.Settings.WindowXPos = x;
+					interfaceSettings.Settings.WindowYPos = y;
 					Hide();
 				} else {
 					Show();
+					Move (interfaceSettings.Settings.WindowXPos, interfaceSettings.Settings.WindowYPos);
 				}	
 			}
 			
@@ -1119,10 +1124,10 @@ namespace Monsoon
 			
 			if(manager.State == TorrentState.Hashing) {
 			 	statusProgressBar.Fraction = (int)(torrentController.GetTorrentHashProgress(manager) / 100f);
-			 	statusProgressBar.Text = manager.State + (torrentController.GetTorrentHashProgress(manager) / 100f).ToString (" 0%");
+			 	statusProgressBar.Text = manager.State + ((int)(torrentController.GetTorrentHashProgress(manager) / 100f)).ToString (" 0%");
 			} else {
 				statusProgressBar.Fraction = (int)(manager.Progress / 100f);
-				statusProgressBar.Text = manager.State + (manager.Progress / 100f).ToString (" 0%");
+				statusProgressBar.Text = manager.State + ((int)(manager.Progress / 100f)).ToString (" 0%");
 			}
 			
 			if (manager.State != TorrentState.Stopped)
