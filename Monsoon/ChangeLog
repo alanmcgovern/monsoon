@@ -1,3 +1,8 @@
+2008-04-23  Jared Hendry <hendry.jared@gmail.com> 
+
+	* Settings/GConfInterfaceSettingsController.cs: Fix Peers column storing
+	  Seeds width
+
 2008-04-14  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Defines.cs.in: Fixed missing semicolon

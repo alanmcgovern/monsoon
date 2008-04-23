@@ -199,7 +199,7 @@ namespace Monsoon
 			gconf.Store(SETTINGS_PATH + "Columns/Done/Visible", Settings.DoneColumnVisible);
 			gconf.Store(SETTINGS_PATH + "Columns/Seeds/Width", Settings.SeedsColumnWidth);
 			gconf.Store(SETTINGS_PATH + "Columns/Seeds/Visible", Settings.SeedsColumnVisible);
-			gconf.Store(SETTINGS_PATH + "Columns/Peers/Width", Settings.SeedsColumnWidth);
+			gconf.Store(SETTINGS_PATH + "Columns/Peers/Width", Settings.PeersColumnWidth);
 			gconf.Store(SETTINGS_PATH + "Columns/Peers/Visible", Settings.PeersColumnVisible);
 			gconf.Store(SETTINGS_PATH + "Columns/DLSpeed/Width", Settings.DlSpeedColumnWidth);
 			gconf.Store(SETTINGS_PATH + "Columns/DLSpeed/Visible", Settings.DlSpeedColumnVisible);
