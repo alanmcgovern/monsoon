@@ -1,3 +1,9 @@
+2008-05-05  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Monsoon/Main.cs: Added hack to allow moderate
+	single instance detection so torrents can be loaded
+	automagically.
+
 2008-04-16  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Monsoon/MainWindow.cs: Now remembers position
