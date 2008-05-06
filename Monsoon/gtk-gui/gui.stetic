@@ -1504,7 +1504,7 @@
           <widget class="Gtk.Notebook" id="prefNotebook">
             <property name="MemberName" />
             <property name="CanFocus">True</property>
-            <property name="CurrentPage">3</property>
+            <property name="CurrentPage">0</property>
             <child>
               <widget class="Gtk.VBox" id="vbox3">
                 <property name="MemberName" />
@@ -1521,6 +1521,65 @@
                         <property name="LeftPadding">12</property>
                         <child>
                           <widget class="Gtk.Table" id="table1">
+                            <property name="MemberName" />
+                            <property name="NRows">1</property>
+                            <property name="NColumns">1</property>
+                            <property name="RowSpacing">6</property>
+                            <property name="ColumnSpacing">6</property>
+                            <child>
+                              <widget class="Gtk.CheckButton" id="loadDialogCheckButton">
+                                <property name="MemberName" />
+                                <property name="CanFocus">True</property>
+                                <property name="Label" translatable="yes">Enable Load Torrent confirmation dialog</property>
+                                <property name="DrawIndicator">True</property>
+                                <property name="HasLabel">True</property>
+                                <property name="UseUnderline">True</property>
+                              </widget>
+                              <packing>
+                                <property name="AutoSize">True</property>
+                                <property name="YOptions">Fill</property>
+                                <property name="XExpand">True</property>
+                                <property name="XFill">True</property>
+                                <property name="XShrink">False</property>
+                                <property name="YExpand">False</property>
+                                <property name="YFill">True</property>
+                                <property name="YShrink">False</property>
+                              </packing>
+                            </child>
+                          </widget>
+                        </child>
+                      </widget>
+                    </child>
+                    <child>
+                      <widget class="Gtk.Label" id="GtkLabel13">
+                        <property name="MemberName" />
+                        <property name="LabelProp" translatable="yes">&lt;b&gt;Display Options&lt;/b&gt;</property>
+                        <property name="UseMarkup">True</property>
+                      </widget>
+                      <packing>
+                        <property name="type">label_item</property>
+                      </packing>
+                    </child>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Frame" id="frame8">
+                    <property name="MemberName" />
+                    <property name="ShadowType">None</property>
+                    <child>
+                      <widget class="Gtk.Alignment" id="GtkAlignment11">
+                        <property name="MemberName" />
+                        <property name="Xalign">0</property>
+                        <property name="Yalign">0</property>
+                        <property name="LeftPadding">12</property>
+                        <child>
+                          <widget class="Gtk.Table" id="table2">
                             <property name="MemberName" />
                             <property name="NRows">3</property>
                             <property name="NColumns">1</property>
@@ -1595,7 +1654,7 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="Gtk.Label" id="GtkLabel13">
+                      <widget class="Gtk.Label" id="GtkLabel20">
                         <property name="MemberName" />
                         <property name="LabelProp" translatable="yes">&lt;b&gt;Notification Area Icon&lt;/b&gt;</property>
                         <property name="UseMarkup">True</property>
@@ -1606,14 +1665,11 @@
                     </child>
                   </widget>
                   <packing>
-                    <property name="Position">0</property>
+                    <property name="Position">1</property>
                     <property name="AutoSize">True</property>
                     <property name="Expand">False</property>
                     <property name="Fill">False</property>
                   </packing>
-                </child>
-                <child>
-                  <placeholder />
                 </child>
                 <child>
                   <placeholder />
@@ -2054,7 +2110,7 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="Gtk.Label" id="GtkLabel6">
+                      <widget class="Gtk.Label" id="GtkLabel8">
                         <property name="MemberName" />
                         <property name="LabelProp" translatable="yes">&lt;b&gt;Folders&lt;/b&gt;</property>
                         <property name="UseMarkup">True</property>
@@ -2390,7 +2446,7 @@
                       </widget>
                     </child>
                     <child>
-                      <widget class="Gtk.Label" id="GtkLabel15">
+                      <widget class="Gtk.Label" id="GtkLabel16">
                         <property name="MemberName" />
                         <property name="LabelProp" translatable="yes">&lt;b&gt;Manage labels&lt;/b&gt;</property>
                         <property name="UseMarkup">True</property>

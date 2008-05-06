@@ -122,6 +122,10 @@ namespace Monsoon
 				return GconfSettingsStorage.Instance;
 			}
 		}
+		
+		public InterfaceSettings InterfaceSettings {
+			get { return interfaceSettings.Settings; }
+		}
 
 		public EngineSettings EngineSettings {
 			get {

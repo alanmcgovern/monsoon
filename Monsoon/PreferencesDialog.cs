@@ -83,6 +83,7 @@ namespace Monsoon
 		
 		private void BuildGeneralPage()
 		{
+			loadDialogCheckButton.Active = mainWindow.InterfaceSettings.ShowLoadDialog;			
 			minimizeTrayCheckButton.Active = prefSettings.QuitOnClose;
 			enableTrayCheckButton.Active = prefSettings.EnableTray;
 			enableNotificationsCheckButton.Active = prefSettings.EnableNotifications;
@@ -90,9 +91,15 @@ namespace Monsoon
 			enableNotificationsCheckButton.Toggled += OnEnableNotificationsToggled;
 			minimizeTrayCheckButton.Toggled += OnMinimizeTrayToggled;
 			enableTrayCheckButton.Toggled += OnEnableTrayToggled;
+			loadDialogCheckButton.Toggled +=  OnLoadDialogToggled;
 			
 			enableNotificationsCheckButton.Sensitive = prefSettings.EnableTray;
 			minimizeTrayCheckButton.Sensitive = prefSettings.EnableTray;
+		}
+		
+		private void OnLoadDialogToggled (object sender, EventArgs args)
+		{
+			mainWindow.InterfaceSettings.ShowLoadDialog = loadDialogCheckButton.Active;
 		}
 		
 		private void OnEnableNotificationsToggled (object sender, EventArgs args)
