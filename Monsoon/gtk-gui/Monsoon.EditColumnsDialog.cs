@@ -41,7 +41,9 @@ namespace Monsoon {
         
         private Gtk.CheckButton ratioVisibleCheckButton;
         
-        private Gtk.Label GtkLabel9;
+        private Gtk.CheckButton etaVisibleCheckButton;
+        
+        private Gtk.Label GtkLabel10;
         
         private Gtk.Button button21;
         
@@ -186,27 +188,40 @@ namespace Monsoon {
             w11.Position = 3;
             w11.Expand = false;
             w11.Fill = false;
+            // Container child vbox3.Gtk.Box+BoxChild
+            this.etaVisibleCheckButton = new Gtk.CheckButton();
+            this.etaVisibleCheckButton.CanFocus = true;
+            this.etaVisibleCheckButton.Name = "etaVisibleCheckButton";
+            this.etaVisibleCheckButton.Label = Mono.Unix.Catalog.GetString("ETA");
+            this.etaVisibleCheckButton.DrawIndicator = true;
+            this.etaVisibleCheckButton.UseUnderline = true;
+            this.vbox3.Add(this.etaVisibleCheckButton);
+            Gtk.Box.BoxChild w12 = ((Gtk.Box.BoxChild)(this.vbox3[this.etaVisibleCheckButton]));
+            w12.PackType = ((Gtk.PackType)(1));
+            w12.Position = 4;
+            w12.Expand = false;
+            w12.Fill = false;
             this.hbox1.Add(this.vbox3);
-            Gtk.Box.BoxChild w12 = ((Gtk.Box.BoxChild)(this.hbox1[this.vbox3]));
-            w12.Position = 1;
+            Gtk.Box.BoxChild w13 = ((Gtk.Box.BoxChild)(this.hbox1[this.vbox3]));
+            w13.Position = 1;
             this.GtkAlignment.Add(this.hbox1);
             this.frame1.Add(this.GtkAlignment);
-            this.GtkLabel9 = new Gtk.Label();
-            this.GtkLabel9.Name = "GtkLabel9";
-            this.GtkLabel9.LabelProp = Mono.Unix.Catalog.GetString("<b>Visible columns</b>");
-            this.GtkLabel9.UseMarkup = true;
-            this.frame1.LabelWidget = this.GtkLabel9;
+            this.GtkLabel10 = new Gtk.Label();
+            this.GtkLabel10.Name = "GtkLabel10";
+            this.GtkLabel10.LabelProp = Mono.Unix.Catalog.GetString("<b>Visible columns</b>");
+            this.GtkLabel10.UseMarkup = true;
+            this.frame1.LabelWidget = this.GtkLabel10;
             w1.Add(this.frame1);
-            Gtk.Box.BoxChild w15 = ((Gtk.Box.BoxChild)(w1[this.frame1]));
-            w15.Position = 0;
-            w15.Expand = false;
-            w15.Fill = false;
+            Gtk.Box.BoxChild w16 = ((Gtk.Box.BoxChild)(w1[this.frame1]));
+            w16.Position = 0;
+            w16.Expand = false;
+            w16.Fill = false;
             // Internal child Monsoon.EditColumnsDialog.ActionArea
-            Gtk.HButtonBox w16 = this.ActionArea;
-            w16.Name = "dialog1_ActionArea";
-            w16.Spacing = 6;
-            w16.BorderWidth = ((uint)(5));
-            w16.LayoutStyle = ((Gtk.ButtonBoxStyle)(4));
+            Gtk.HButtonBox w17 = this.ActionArea;
+            w17.Name = "dialog1_ActionArea";
+            w17.Spacing = 6;
+            w17.BorderWidth = ((uint)(5));
+            w17.LayoutStyle = ((Gtk.ButtonBoxStyle)(4));
             // Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
             this.button21 = new Gtk.Button();
             this.button21.CanDefault = true;
@@ -214,30 +229,30 @@ namespace Monsoon {
             this.button21.Name = "button21";
             this.button21.UseUnderline = true;
             // Container child button21.Gtk.Container+ContainerChild
-            Gtk.Alignment w17 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
+            Gtk.Alignment w18 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
             // Container child GtkAlignment1.Gtk.Container+ContainerChild
-            Gtk.HBox w18 = new Gtk.HBox();
-            w18.Spacing = 2;
+            Gtk.HBox w19 = new Gtk.HBox();
+            w19.Spacing = 2;
             // Container child GtkHBox.Gtk.Container+ContainerChild
-            Gtk.Image w19 = new Gtk.Image();
-            w19.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-close", Gtk.IconSize.Menu, 16);
+            Gtk.Image w20 = new Gtk.Image();
+            w20.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-close", Gtk.IconSize.Menu, 16);
+            w19.Add(w20);
+            // Container child GtkHBox.Gtk.Container+ContainerChild
+            Gtk.Label w22 = new Gtk.Label();
+            w22.LabelProp = Mono.Unix.Catalog.GetString("Close");
+            w22.UseUnderline = true;
+            w19.Add(w22);
             w18.Add(w19);
-            // Container child GtkHBox.Gtk.Container+ContainerChild
-            Gtk.Label w21 = new Gtk.Label();
-            w21.LabelProp = Mono.Unix.Catalog.GetString("Close");
-            w21.UseUnderline = true;
-            w18.Add(w21);
-            w17.Add(w18);
-            this.button21.Add(w17);
+            this.button21.Add(w18);
             this.AddActionWidget(this.button21, 0);
-            Gtk.ButtonBox.ButtonBoxChild w25 = ((Gtk.ButtonBox.ButtonBoxChild)(w16[this.button21]));
-            w25.Expand = false;
-            w25.Fill = false;
+            Gtk.ButtonBox.ButtonBoxChild w26 = ((Gtk.ButtonBox.ButtonBoxChild)(w17[this.button21]));
+            w26.Expand = false;
+            w26.Fill = false;
             if ((this.Child != null)) {
                 this.Child.ShowAll();
             }
-            this.DefaultWidth = 231;
-            this.DefaultHeight = 259;
+            this.DefaultWidth = 207;
+            this.DefaultHeight = 242;
             this.Show();
         }
     }

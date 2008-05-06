@@ -52,7 +52,8 @@ namespace Monsoon
 			downSpeedVisibleCheckButton.Active = torrentTreeView.downSpeedColumn.Visible;
 			upSpeedVisibleCheckButton.Active = torrentTreeView.upSpeedColumn.Visible;
 			ratioVisibleCheckButton.Active = torrentTreeView.ratioColumn.Visible;
-			sizeVisibleCheckButton.Active = torrentTreeView.ratioColumn.Visible;
+			sizeVisibleCheckButton.Active = torrentTreeView.sizeColumn.Visible;
+			etaVisibleCheckButton.Active = torrentTreeView.etaColumn.Visible;
 			
 			nameVisibleCheckButton.Toggled += OnNameVisibleToggled;
 			statusVisibleCheckButton.Toggled += OnStatusVisibleToggled;
@@ -63,6 +64,7 @@ namespace Monsoon
 			upSpeedVisibleCheckButton.Toggled += OnUpSpeedVisibleToggled;
 			ratioVisibleCheckButton.Toggled += OnRatioVisibleToggled;
 			sizeVisibleCheckButton.Toggled += OnSizeVisibleToggled;
+			etaVisibleCheckButton.Toggled += OnEtaVisibleToggled;
 		}
 		
 		private void OnNameVisibleToggled(object sender, EventArgs args)
@@ -108,6 +110,11 @@ namespace Monsoon
 		private void OnSizeVisibleToggled(object sender, EventArgs args)
 		{
 			torrentTreeView.sizeColumn.Visible = sizeVisibleCheckButton.Active;
+		}
+		
+		private void OnEtaVisibleToggled(object sender, EventArgs args)
+		{
+			torrentTreeView.etaColumn.Visible = etaVisibleCheckButton.Active;
 		}
 		
 		private static string _(string s)

@@ -202,6 +202,18 @@ namespace Monsoon
 			} catch (SettingNotFoundException) {
 				Settings.ShowLoadDialog = true;
 			}
+			
+			try{
+				Settings.EtaColumnWidth = (int) gconf.Retrieve(SETTINGS_PATH + "Columns/Eta/Width");
+			} catch(SettingNotFoundException){
+				Settings.EtaColumnWidth = 50;
+			}
+
+			try{
+				Settings.EtaColumnVisible = (bool) gconf.Retrieve(SETTINGS_PATH + "Columns/Eta/Visible");
+			} catch(SettingNotFoundException){
+				Settings.EtaColumnVisible = true;
+			}
 		}
 
 		public override void Save ()
@@ -227,7 +239,7 @@ namespace Monsoon
 			gconf.Store(SETTINGS_PATH + "Columns/Done/Visible", Settings.DoneColumnVisible);
 			gconf.Store(SETTINGS_PATH + "Columns/Seeds/Width", Settings.SeedsColumnWidth);
 			gconf.Store(SETTINGS_PATH + "Columns/Seeds/Visible", Settings.SeedsColumnVisible);
-			gconf.Store(SETTINGS_PATH + "Columns/Peers/Width", Settings.SeedsColumnWidth);
+			gconf.Store(SETTINGS_PATH + "Columns/Peers/Width", Settings.PeersColumnWidth);
 			gconf.Store(SETTINGS_PATH + "Columns/Peers/Visible", Settings.PeersColumnVisible);
 			gconf.Store(SETTINGS_PATH + "Columns/DLSpeed/Width", Settings.DlSpeedColumnWidth);
 			gconf.Store(SETTINGS_PATH + "Columns/DLSpeed/Visible", Settings.DlSpeedColumnVisible);
@@ -237,6 +249,8 @@ namespace Monsoon
 			gconf.Store(SETTINGS_PATH + "Columns/Ratio/Visible", Settings.RatioColumnVisible);
 			gconf.Store(SETTINGS_PATH + "Columns/Size/Width", Settings.SizeColumnWidth);
 			gconf.Store(SETTINGS_PATH + "Columns/Size/Visible", Settings.SizeColumnVisible);
+			gconf.Store(SETTINGS_PATH + "Columns/Eta/Width", Settings.EtaColumnWidth);
+			gconf.Store(SETTINGS_PATH + "Columns/Eta/Visible", Settings.EtaColumnVisible);
 			
 			gconf.Store(SETTINGS_PATH + "ShowLoadDialog", Settings.ShowLoadDialog);
 		}

@@ -135,6 +135,7 @@ namespace Monsoon {
             this.fileRadioButton = new Gtk.RadioButton(Mono.Unix.Catalog.GetString("Single File"));
             this.fileRadioButton.CanFocus = true;
             this.fileRadioButton.Name = "fileRadioButton";
+            this.fileRadioButton.Active = true;
             this.fileRadioButton.DrawIndicator = true;
             this.fileRadioButton.UseUnderline = true;
             this.fileRadioButton.Group = new GLib.SList(System.IntPtr.Zero);

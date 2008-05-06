@@ -1,3 +1,10 @@
+2008-05-06  Jared Hendry <hendry.jared@gmail.com> 
+
+	* MainWindow.cs, Settings/InterfaceSettings.cs,
+	  Settings/GConfInterfaceSettingsController.cs,
+	  gtk-gui/Monsoon.EditColumnsDialog.cs, gtk-gui/gui.stetic,
+	  EditColumnsDialog.cs, TorrentTreeView.cs: Add ETA column
+
 2008-04-14  Mirco Bauer <meebey@meebey.net> 
 
 	* PreferencesDialog.cs, Menus/SpeedLimitMenu.cs, LabelTreeView.cs,

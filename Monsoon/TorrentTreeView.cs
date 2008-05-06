@@ -48,6 +48,7 @@ namespace Monsoon
 		public TreeViewColumn upSpeedColumn;
 		public TreeViewColumn ratioColumn;
 		public TreeViewColumn sizeColumn;
+		public TreeViewColumn etaColumn;
 		
 		private TorrentController torrentController;
 		private TorrentContextMenu menu;
@@ -146,6 +147,7 @@ namespace Monsoon
 			upSpeedColumn = new TreeViewColumn();
 			ratioColumn = new TreeViewColumn();
 			sizeColumn = new TreeViewColumn();
+			etaColumn = new TreeViewColumn();
 			
 			nameColumn.Title = _("Name");
 			statusColumn.Title = _("Status");
@@ -156,6 +158,7 @@ namespace Monsoon
 			upSpeedColumn.Title = _("UP Speed");
 			ratioColumn.Title = _("Ratio");
 			sizeColumn.Title = _("Size");
+			etaColumn.Title = _("ETA");
 			
 			nameColumn.Resizable = true;
 			statusColumn.Resizable = true;
@@ -166,6 +169,7 @@ namespace Monsoon
 			upSpeedColumn.Resizable = true;
 			ratioColumn.Resizable = true;
 			sizeColumn.Resizable = true;
+			etaColumn.Resizable = true;
 			
 			nameColumn.Reorderable = true;
 			statusColumn.Reorderable = true;
@@ -176,6 +180,7 @@ namespace Monsoon
 			upSpeedColumn.Reorderable = true;
 			ratioColumn.Reorderable = true;
 			sizeColumn.Reorderable = true;
+			etaColumn.Reorderable = true;
 			
 			Gtk.CellRendererText torrentNameCell = new Gtk.CellRendererText ();
 			Gtk.CellRendererText torrentStatusCell = new Gtk.CellRendererText();
@@ -186,6 +191,7 @@ namespace Monsoon
 			Gtk.CellRendererText torrentUpSpeedCell = new Gtk.CellRendererText();
 			Gtk.CellRendererText torrentRatioCell = new Gtk.CellRendererText();
 			Gtk.CellRendererText torrentSizeCell = new Gtk.CellRendererText();
+			Gtk.CellRendererText torrentEtaCell = new Gtk.CellRendererText();
 					
 			nameColumn.PackStart(torrentNameCell, true);
 			statusColumn.PackStart(torrentStatusCell, true);
@@ -195,7 +201,8 @@ namespace Monsoon
 			downSpeedColumn.PackStart(torrentDownSpeedCell, true);
 			upSpeedColumn.PackStart(torrentUpSpeedCell, true);
 			ratioColumn.PackStart(torrentRatioCell, true);
-			sizeColumn.PackStart(torrentSizeCell, true);			
+			sizeColumn.PackStart(torrentSizeCell, true);
+			etaColumn.PackStart(torrentEtaCell, true);
 							
 			nameColumn.SetCellDataFunc (torrentNameCell, new Gtk.TreeCellDataFunc (RenderTorrentName));
 			statusColumn.SetCellDataFunc (torrentStatusCell, new Gtk.TreeCellDataFunc (RenderTorrentStatus));
@@ -206,6 +213,7 @@ namespace Monsoon
 			upSpeedColumn.SetCellDataFunc (torrentUpSpeedCell, new Gtk.TreeCellDataFunc (RenderTorrentUpSpeed));
 			ratioColumn.SetCellDataFunc (torrentRatioCell, new Gtk.TreeCellDataFunc (RenderTorrentRatio));
 			sizeColumn.SetCellDataFunc (torrentSizeCell, new Gtk.TreeCellDataFunc (RenderTorrentSize));
+			etaColumn.SetCellDataFunc(torrentEtaCell, new Gtk.TreeCellDataFunc(RenderTorrentEta));
 			
 			nameColumn.Sizing = TreeViewColumnSizing.Fixed;
 			statusColumn.Sizing = TreeViewColumnSizing.Fixed;
@@ -216,10 +224,12 @@ namespace Monsoon
 			upSpeedColumn.Sizing = TreeViewColumnSizing.Fixed;
 			ratioColumn.Sizing = TreeViewColumnSizing.Fixed;
 			sizeColumn.Sizing = TreeViewColumnSizing.Fixed;
+			etaColumn.Sizing = TreeViewColumnSizing.Fixed;
 			
 			AppendColumn(nameColumn);
 			AppendColumn(statusColumn);
 			AppendColumn(doneColumn);
+			AppendColumn(etaColumn);
 			AppendColumn(seedsColumn);
 			AppendColumn(peersColumn);
 			AppendColumn(downSpeedColumn);
@@ -365,6 +375,36 @@ namespace Monsoon
 				return;
 			
 			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSize (torrent.Torrent.Size);
+		}
+		
+		private void RenderTorrentEta (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+		{
+			TorrentManager torrent = (TorrentManager)model.GetValue(iter, 0);			
+			if (torrent == null)
+				return;
+			(cell as Gtk.CellRendererText).Text = GetEtaString(torrent);
+		}
+		
+		private string GetEtaString (TorrentManager manager)
+		{
+			TimeSpan eta;
+			if (manager.State == TorrentState.Downloading && (manager.Torrent.Size - (manager.Monitor.DataBytesDownloaded + torrentController.GetPreviousDownload(manager))) > 0)
+				eta = TimeSpan.FromSeconds(manager.Monitor.DownloadSpeed > 0 ? ((manager.Torrent.Size - (manager.Monitor.DataBytesDownloaded + torrentController.GetPreviousDownload(manager))) / manager.Monitor.DownloadSpeed) : -1);
+			else if (manager.State == TorrentState.Seeding && (manager.Torrent.Size - (manager.Monitor.DataBytesUploaded + torrentController.GetPreviousUpload(manager))) > 0)
+				eta = TimeSpan.FromSeconds(manager.Monitor.UploadSpeed > 0 ? ((manager.Torrent.Size - (manager.Monitor.DataBytesUploaded + torrentController.GetPreviousUpload(manager))) / manager.Monitor.UploadSpeed) : -1);
+			else
+				return string.Empty;
+			
+			if (eta.Seconds < 0)
+				return _("∞");
+			if (eta.Days > 0)
+				return string.Format("{0}d {1}h", eta.Days, eta.Hours);
+			if (eta.Hours > 0)
+				return string.Format("{0}h {1}m", eta.Hours, eta.Minutes);					
+			if (eta.Minutes > 0)
+				return string.Format("{0}m {1}s", eta.Minutes, eta.Seconds);
+			
+			return string.Format("{0}s", eta.Seconds);
 		}
 		
 		private static string _(string s)

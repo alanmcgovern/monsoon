@@ -51,6 +51,7 @@ namespace Monsoon
 		private int upSpeedColumnWidth;
 		private int ratioColumnWidth;
 		private int sizeColumnWidth;
+		private int etaColumnWidth;
 		
 		private bool nameColumnVisible;
 		private bool statusColumnVisible;
@@ -61,6 +62,7 @@ namespace Monsoon
 		private bool upSpeedColumnVisible;
 		private bool ratioColumnVisible;
 		private bool sizeColumnVisible;
+		private bool etaColumnVisible;
 		
 		private bool showLoadDialog;
 
@@ -197,6 +199,16 @@ namespace Monsoon
 		public bool SizeColumnVisible{
 			get { return sizeColumnVisible; }
 			set { sizeColumnVisible = value; }
+		}
+		
+		public int EtaColumnWidth{
+			get { return etaColumnWidth; }
+			set { etaColumnWidth = value; }
+		}
+		
+		public bool EtaColumnVisible{
+			get { return etaColumnVisible; }
+			set { etaColumnVisible = value; }
 		}
 	}
 }
