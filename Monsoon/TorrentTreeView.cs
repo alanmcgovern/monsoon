@@ -131,7 +131,10 @@ namespace Monsoon
 				Uri uri = new Uri(s.TrimEnd());
 				if(uri.IsFile){
 					logger.Info("URI dropped " + uri);
-					torrentController.MainWindow.LoadTorrent (uri.LocalPath);
+					string newPath = System.IO.Path.Combine(torrentController.MainWindow.Preferences.TorrentStorageLocation, System.IO.Path.GetFileName(uri.LocalPath));
+					Console.Error.WriteLine("Copying: {0} to {1}", uri.LocalPath, newPath);
+					System.IO.File.Copy(uri.LocalPath, newPath ,true); 
+					//torrentController.MainWindow.LoadTorrent (newPath);
 				}
 			}
 		}

@@ -1,5 +1,10 @@
 2008-05-06  Jared Hendry <hendry.jared@gmail.com> 
 
+	* MainWindow.cs, Main.cs, TorrentController.cs, TorrentTreeView.cs: Fixes to
+	  the instance detection
+
+2008-05-06  Jared Hendry <hendry.jared@gmail.com> 
+
 	* MainWindow.cs, Settings/InterfaceSettings.cs,
 	  Settings/GConfInterfaceSettingsController.cs,
 	  gtk-gui/Monsoon.EditColumnsDialog.cs, gtk-gui/gui.stetic,

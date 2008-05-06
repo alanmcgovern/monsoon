@@ -82,28 +82,37 @@ namespace Monsoon
 			CheckDataFolders();
 			
 			DebugEnabled = false;
+
+			Monsoon.GconfPreferencesSettingsController sets = new GconfPreferencesSettingsController();
+			sets.Load ();
+			
 			foreach (string arg in args) {
-				Console.WriteLine(arg);
 				if (arg == "-d" || arg == "--debug") {
 					DebugEnabled = true;
+					continue;
 				}
-				else if (File.Exists(arg)) {
-					GLib.Timeout.Add (1000, delegate {
-						try
-						{
-							MonoTorrent.Common.Torrent t;
-							if (!MonoTorrent.Common.Torrent.TryLoad (arg, out t))
-								return false;
-							
-							mainWindow.TorrentController.addTorrent(t);
-						}
-						catch (Exception ex)
-						{
-							logger.Error("Couldn't load torrent: {0}", arg);
-						}
-						return false;
-					});
-				}
+				
+				if(!File.Exists(arg))
+					continue;
+				
+				GLib.Timeout.Add (1000, delegate {
+					try
+					{
+						MonoTorrent.Common.Torrent t;
+						if (!MonoTorrent.Common.Torrent.TryLoad (arg, out t))
+							return false;
+						string oldPath = t.TorrentPath;
+						string newPath = Path.Combine(sets.Settings.TorrentStorageLocation, Path.GetFileName(t.TorrentPath));
+						logger.Info ("Copying: {0} to {1}", oldPath, newPath);
+						File.Copy(oldPath, newPath ,true);   
+					}
+					catch (Exception ex)
+					{
+						logger.Error("Couldn't load torrent: {0}", arg);
+					}
+					return false;
+				});
+			
 			}
 			
 			logger = DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
@@ -133,9 +142,7 @@ namespace Monsoon
 			logger.Debug("Using locale data from: {0}", localeDir);
 
 			Application.Init("monsoon", ref args);
-			Monsoon.GconfPreferencesSettingsController sets = new GconfPreferencesSettingsController();
-			sets.Load ();
-
+			
 			try
 			{
 				mainWindow = new MainWindow (settingsStorage, engineSettings.Settings,
@@ -144,21 +151,23 @@ namespace Monsoon
 			catch(Exception ex)
 			{
 				logger.Info("Existing instance detected");
-				if (args.Length > 0 && File.Exists(args[0]))
-				{
+
+				foreach(string arg in args) {
+					if (!File.Exists(arg)) 
+						continue;
 					logger.Info ("Informing existing instance of new torrent");
-					string oldPath = args[0];
-					string newPath = Path.Combine(sets.Settings.TorrentStorageLocation, Path.GetFileName(args[0]));
+					string oldPath = arg;
+					string newPath = Path.Combine(sets.Settings.TorrentStorageLocation, Path.GetFileName(arg));
 					logger.Info ("Copying: {0} to {1}", oldPath, newPath);
-					File.Copy(oldPath, newPath ,true);
+					File.Copy(oldPath, newPath ,true);   
 				}
-				else
-				{
+				
+				if (args.Length < 1) {
 					logger.Info ("No new torrents detected");
 				}
+
 				Environment.Exit (0);
 			}
-			
 			StartLocalFileWatcher (mainWindow, sets.Settings.TorrentStorageLocation);
 			GLib.ExceptionManager.UnhandledException += new GLib.UnhandledExceptionHandler(OnUnhandledException);
 			Application.Run();
@@ -183,15 +192,7 @@ namespace Monsoon
 					window.LoadTorrent (e.FullPath);
 					return false;
 				});
-			};
-			
-			watcher.Created += delegate (object o, System.IO.FileSystemEventArgs  e) {
-				logger.Info ("Loading: {0}", e.FullPath);
-				GLib.Timeout.Add (250, delegate {
-					window.LoadTorrent (e.FullPath);
-					return false;
-				});
-			};
+			};			
 			watcher.EnableRaisingEvents = true;
 		}
 

@@ -111,7 +111,7 @@ namespace Monsoon {
         
         private Gtk.Label label4;
         
-        private Gtk.Button buttonOk;
+        private Gtk.Button button313;
         
         protected virtual void Build() {
             Stetic.Gui.Initialize(this);
@@ -565,20 +565,16 @@ namespace Monsoon {
             w45.Position = 0;
             // Internal child Monsoon.RssManagerDialog.ActionArea
             Gtk.HButtonBox w46 = this.ActionArea;
-            w46.Name = "dialog1_ActionArea";
-            w46.Spacing = 6;
-            w46.BorderWidth = ((uint)(5));
+            w46.Name = "GtkDialog_ActionArea";
             w46.LayoutStyle = ((Gtk.ButtonBoxStyle)(4));
-            // Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
-            this.buttonOk = new Gtk.Button();
-            this.buttonOk.CanDefault = true;
-            this.buttonOk.CanFocus = true;
-            this.buttonOk.Name = "buttonOk";
-            this.buttonOk.UseStock = true;
-            this.buttonOk.UseUnderline = true;
-            this.buttonOk.Label = "gtk-close";
-            this.AddActionWidget(this.buttonOk, -7);
-            Gtk.ButtonBox.ButtonBoxChild w47 = ((Gtk.ButtonBox.ButtonBoxChild)(w46[this.buttonOk]));
+            // Container child GtkDialog_ActionArea.Gtk.ButtonBox+ButtonBoxChild
+            this.button313 = new Gtk.Button();
+            this.button313.CanFocus = true;
+            this.button313.Name = "button313";
+            this.button313.UseUnderline = true;
+            this.button313.Label = Mono.Unix.Catalog.GetString("button313");
+            this.AddActionWidget(this.button313, 0);
+            Gtk.ButtonBox.ButtonBoxChild w47 = ((Gtk.ButtonBox.ButtonBoxChild)(w46[this.button313]));
             w47.Expand = false;
             w47.Fill = false;
             if ((this.Child != null)) {

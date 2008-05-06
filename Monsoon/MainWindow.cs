@@ -953,7 +953,10 @@ namespace Monsoon
 				logger.Debug ("Open torrent dialog response recieved");
 				foreach (String fileName in fileChooser.Filenames) {
 					try {
-						torrentController.MainWindow.LoadTorrent (fileName, true);
+						string newPath = System.IO.Path.Combine(Preferences.TorrentStorageLocation, System.IO.Path.GetFileName(fileName));
+						File.Copy(fileName, newPath ,true); 
+						// Let FileWatcher handle in Main.cs call LoadTorrent
+						//torrentController.MainWindow.LoadTorrent (fileName);
 					} catch (Exception ex) {
 						MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, ex.Message);
 						errorDialog.Run();
@@ -1000,8 +1003,6 @@ namespace Monsoon
 		private void updateFilesPage ()
 		{
 			this.fileTreeStore.Update (GetSelectedTorrent ());
-
-			Console.WriteLine("Updating files page");
 		}
 		
 		private void updatePiecesPage()
@@ -1290,6 +1291,7 @@ namespace Monsoon
 			
 			foreach (TorrentManager toDelete in torrentsToRemove) {
 				torrentController.removeTorrent (toDelete);
+				File.Delete(toDelete.Torrent.TorrentPath);
 			}
 		}
 		
@@ -1471,39 +1473,49 @@ namespace Monsoon
 		public void LoadTorrent (string path, bool ask)
 		{
 			Torrent torrent;
-			if (Torrent.TryLoad (path, out torrent))
-			{
-				string savePath = engineSettings.SavePath;
-				if (ask)
-				{
-					LoadTorrentDialog dialog = new LoadTorrentDialog(torrent, savePath);
-					dialog.AlwaysAsk = interfaceSettings.Settings.ShowLoadDialog;
-					
-					try
-					{
-						int response = dialog.Run ();
-						interfaceSettings.Settings.ShowLoadDialog = dialog.AlwaysAsk;
-						if (response != (int)ResponseType.Ok)
-							return;
-						
-						savePath = dialog.SelectedPath;
-					}
-					finally
-					{
-						dialog.Destroy ();
-					}
-				}
-				
-				torrentController.addTorrent (torrent, savePath);
-			}
-			else
-			{
+			
+			if (!Torrent.TryLoad (path, out torrent)) {
 				MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent,
 				                                              MessageType.Error, ButtonsType.Close,
-				                                              "Invalid torrent selected");
+				                                              _("Invalid torrent selected"));
 				errorDialog.Run();
 				errorDialog.Destroy();
+				return;
 			}
+			
+			if(torrentController.Engine.Contains(torrent)) {
+				MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent,
+				                                              MessageType.Error, ButtonsType.Close,
+				                                              _("Torrent has already been added"));
+				errorDialog.Run();
+				errorDialog.Destroy();
+				return;
+			}
+			
+			string savePath = engineSettings.SavePath;
+			if (ask)
+			{
+				LoadTorrentDialog dialog = new LoadTorrentDialog(torrent, savePath);
+				dialog.AlwaysAsk = interfaceSettings.Settings.ShowLoadDialog;
+				
+				try
+				{
+					int response = dialog.Run ();
+					interfaceSettings.Settings.ShowLoadDialog = dialog.AlwaysAsk;
+					if (response != (int)ResponseType.Ok) {
+						return;
+					}
+					
+					savePath = dialog.SelectedPath;
+				}
+				finally
+				{
+					dialog.Destroy ();
+				}
+			}
+				
+			torrentController.addTorrent (torrent, savePath);
+		
 		}
 		
 		public void LoadTorrent(string path, bool autoStart, bool moveToStorage, bool removeOriginal, TorrentSettings settings, string savePath, bool isUrl)

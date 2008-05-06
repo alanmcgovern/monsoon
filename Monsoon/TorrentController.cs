@@ -190,7 +190,8 @@ namespace Monsoon
 			if (torrentPath != null && (prefSettings.TorrentStorageLocation != Directory.GetParent(torrentPath).ToString()) ) {
 				newPath = Path.Combine(prefSettings.TorrentStorageLocation, Path.GetFileName(torrentPath));
 				logger.Debug("Copying torrent to " + newPath);	
-				File.Copy(torrentPath, newPath, true);
+				// Until proper instance detection is done, assume torrents are already in the storage folder
+				//File.Copy(torrentPath, newPath, true);
 				
 				if (removeOriginal) {
 					logger.Info("Deleting original torrent " + torrentPath);
@@ -460,10 +461,13 @@ namespace Monsoon
 				return;
 				
 			logger.Info("New torrent detected, adding " + args.TorrentPath);
-			GLib.Timeout.Add (1000, delegate {
-				mainWindow.LoadTorrent (args.TorrentPath);
-				return false;
-			});
+			string newPath = Path.Combine(MainWindow.Preferences.TorrentStorageLocation, Path.GetFileName(args.TorrentPath));
+			logger.Info ("Copying: {0} to {1}", args.TorrentPath, newPath);
+			File.Copy(args.TorrentPath, newPath ,true);
+			//GLib.Timeout.Add (1000, delegate {
+			//	mainWindow.LoadTorrent (newPath, false);
+			//	return false;
+			//});
 		}
 		
 		public void LoadStoredTorrents()
