@@ -354,6 +354,11 @@ namespace Monsoon
 			}
 		}
 		
+		public void LoadTorrent (string path)
+		{
+			torrentController.addTorrent (path, true, true); 
+		}
+		
 		private void RestoreInterfaceSettings ()
 		{
 			InterfaceSettings settings = interfaceSettings.Settings;

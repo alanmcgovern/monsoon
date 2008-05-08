@@ -81,7 +81,7 @@ namespace Monsoon
 					GLib.Timeout.Add (1000, delegate {
 						try
 						{
-							mainWindow.TorrentController.addTorrent(arg);
+							mainWindow.TorrentController.addTorrent (arg, true, true);
 						}
 						catch (Exception ex)
 						{
@@ -120,12 +120,38 @@ namespace Monsoon
 			Console.WriteLine(_("Starting Monsoon"));
 			
 			Application.Init("monsoon", ref args);
+			Monsoon.GconfPreferencesSettingsController sets = new GconfPreferencesSettingsController();
+			sets.Load ();
+
+			try
+			{
+				mainWindow = new MainWindow (settingsStorage, engineSettings.Settings,
+				                             portController, isFirstRun);
+			}
+			catch(Exception ex)
+			{
+				logger.Info("Existing instance detected");
+				if (args.Length > 0 && File.Exists(args[0]))
+				{
+					logger.Info ("Informing existing instance of new torrent");
+					string oldPath = args[0];
+					string newPath = Path.Combine(sets.Settings.TorrentStorageLocation, Path.GetFileName(args[0]));
+					logger.Info ("Copying: {0} to {1}", oldPath, newPath);
+					
+					if (File.Exists (newPath))
+						File.Delete (newPath);
+					
+					File.Copy(oldPath, newPath ,true);
+				}
+				else
+				{
+					logger.Info ("No new torrents detected");
+				}
+				Environment.Exit (0);
+			}
 			
-			mainWindow = new MainWindow (settingsStorage, engineSettings.Settings,
-									portController, isFirstRun);
-			
+			StartLocalFileWatcher (mainWindow, sets.Settings.TorrentStorageLocation);
 			GLib.ExceptionManager.UnhandledException += new GLib.UnhandledExceptionHandler(OnUnhandledException);
-			
 			Application.Run();
 
 			try {
@@ -137,6 +163,20 @@ namespace Monsoon
 			portController.Stop();
 			mainWindow.Stop ();
 			mainWindow.Destroy ();
+		}
+		
+		private static void StartLocalFileWatcher (MainWindow window, string path)
+		{
+			FileSystemWatcher watcher = new FileSystemWatcher(path, "*.torrent");
+			
+			watcher.Created += delegate (object o, System.IO.FileSystemEventArgs  e) {
+				logger.Info ("Loading: {0}", e.FullPath);
+				GLib.Timeout.Add (250, delegate {
+					window.LoadTorrent (e.FullPath);
+					return false;
+				});
+			};
+			watcher.EnableRaisingEvents = true;
 		}
 
 		public static void SetProcessName(string name)

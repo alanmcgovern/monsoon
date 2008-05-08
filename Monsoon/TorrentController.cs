@@ -53,6 +53,10 @@ namespace Monsoon
 		private Dictionary<TorrentManager, long> torrentPreviousUpload;
 		private Dictionary<TorrentManager, long> torrentPreviousDownload;
 		private MainWindow mainWindow;
+		public MainWindow MainWindow
+		{
+			get { return mainWindow; }
+		}
 		
 		private List<TorrentManager> torrentsDownloading;
 		private List<TorrentManager> torrentsSeeding;
@@ -197,7 +201,8 @@ namespace Monsoon
 			if (!isUrl && moveToStorage && (prefSettings.TorrentStorageLocation != Directory.GetParent(torrentPath).ToString()) ) {
 				newPath = Path.Combine(prefSettings.TorrentStorageLocation, Path.GetFileName(torrentPath));
 				logger.Debug("Copying torrent to " + newPath);	
-				File.Copy(torrentPath, newPath, true);
+				// The files should already be in the TorrentStorageLocation
+				//File.Copy(torrentPath, newPath, true);
 				
 				if (removeOriginal) {
 					logger.Info("Deleting original torrent " + torrentPath);
@@ -462,9 +467,24 @@ namespace Monsoon
 		{
 			if(!prefSettings.ImportEnabled)
 				return;
-				
-			logger.Info("New torrent detected, adding " + args.TorrentPath);
-			addTorrent(args.TorrentPath, prefSettings.StartNewTorrents, true, prefSettings.RemoveOnImport, null);
+			
+			GLib.Timeout.Add (250, delegate {
+				string newPath = Path.Combine(MainWindow.Preferences.TorrentStorageLocation, Path.GetFileName(args.TorrentPath));
+				logger.Info ("Copying: {0} to {1}", args.TorrentPath, newPath);
+				try
+				{
+					if (File.Exists (newPath))
+						File.Delete (newPath);
+					
+					File.Copy(args.TorrentPath, newPath ,true);
+				}
+				catch (Exception ex)
+				{
+					
+				}
+				return false;
+			});
+			//addTorrent(args.TorrentPath, prefSettings.StartNewTorrents, true, prefSettings.RemoveOnImport, null);
 		}
 		
 		public void LoadStoredTorrents()
