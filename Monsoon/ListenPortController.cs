@@ -55,7 +55,16 @@ namespace Monsoon
 			map = new Mapping (Protocol.Tcp, engineSettings.ListenPort, engineSettings.ListenPort);
 			map.Description = Defines.ApplicationName;
 			
-			IPAddress[] addresses = NatUtility.GetLocalAddresses (false);
+			IPAddress[] addresses = null;
+			try 
+			{
+				NatUtility.GetLocalAddresses (false);
+			}
+			catch (Exception ex)
+			{
+				logger.Warn ("Could not resolve hostname, port forwarding may not work");
+				addresses = new IPAddress[] { IPAddress.Loopback };
+			}
 			
 			NatUtility.AddController (new UpnpNatController (addresses));
 			NatUtility.AddController (new PmpNatController (addresses));
