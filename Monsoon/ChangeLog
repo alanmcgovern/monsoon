@@ -1,3 +1,8 @@
+2008-05-08  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* ListenPortController.cs: Workaround for 388348. If hostname is
+	  missing, monsoon will ignore and continue.
+
 2008-04-23  Jared Hendry <hendry.jared@gmail.com> 
 
 	* Settings/GConfInterfaceSettingsController.cs: Fix Peers column storing
