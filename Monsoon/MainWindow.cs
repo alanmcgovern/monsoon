@@ -356,7 +356,14 @@ namespace Monsoon
 		
 		public void LoadTorrent (string path)
 		{
-			torrentController.addTorrent (path, true, true); 
+			try
+			{
+				torrentController.addTorrent (path, true, true); 
+			}
+			catch (Exception ex)
+			{
+				logger.Error ("Torrent was not loaded: {0}", ex);
+			}
 		}
 		
 		private void RestoreInterfaceSettings ()
