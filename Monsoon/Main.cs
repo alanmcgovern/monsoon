@@ -168,7 +168,10 @@ namespace Monsoon
 
 				Environment.Exit (0);
 			}
-			StartLocalFileWatcher (mainWindow, sets.Settings.TorrentStorageLocation);
+			if (File.Exists(sets.Settings.TorrentStorageLocation))
+				StartLocalFileWatcher (mainWindow, sets.Settings.TorrentStorageLocation);
+			else
+				StartLocalFileWatcher (mainWindow, Defines.TorrentFolder);
 			GLib.ExceptionManager.UnhandledException += new GLib.UnhandledExceptionHandler(OnUnhandledException);
 			Application.Run();
 
