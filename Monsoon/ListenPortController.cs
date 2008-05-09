@@ -58,7 +58,7 @@ namespace Monsoon
 			IPAddress[] addresses = null;
 			try 
 			{
-				NatUtility.GetLocalAddresses (false);
+				addresses = NatUtility.GetLocalAddresses (false);
 			}
 			catch (Exception ex)
 			{

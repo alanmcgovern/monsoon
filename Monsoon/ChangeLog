@@ -1,3 +1,8 @@
+2008-05-09  Jared Hendry <hendry.jared@gmail.com> 
+
+	* Main.cs: Fix for TorrentStorageLocation not being set on first run
+	* ListenPortController.cs: Fix addresses not being assigned
+
 2008-05-08  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* ListenPortController.cs: Workaround for 388348. If hostname is
