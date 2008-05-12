@@ -1,3 +1,8 @@
+2008-05-12  Mirco Bauer <meebey@meebey.net>
+
+        * Makefile.am: Added intltool-extract.in and intltool-merge.in to
+          EXTRA_DIST, fixing the release tarball.
+
 2008-04-16  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Monsoon/MainWindow.cs: Now remembers position
