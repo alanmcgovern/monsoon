@@ -1,3 +1,8 @@
+2008-05-12  Mirco Bauer <meebey@meebey.net> 
+
+	* Main.cs: Check for exception when setting ProcessName, on FreeBSD and
+	  other non-Linux OSs this will not work.
+
 2008-05-09  Jared Hendry <hendry.jared@gmail.com> 
 
 	* Main.cs: Fix for TorrentStorageLocation not being set on first run

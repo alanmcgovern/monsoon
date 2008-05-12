@@ -201,8 +201,12 @@ namespace Monsoon
 
 		public static void SetProcessName(string name)
 		{
-			if (prctl(15 /* PR_SET_NAME */, Encoding.ASCII.GetBytes(name + "\0"), 0, 0, 0) != 0) {
-				throw new ApplicationException(_("Error setting process name: " +	Mono.Unix.Native.Stdlib.GetLastError()));
+			try {
+				if (prctl(15 /* PR_SET_NAME */, Encoding.ASCII.GetBytes(name + "\0"), 0, 0, 0) != 0) {
+					throw new ApplicationException(_("Error setting process name: " +	Mono.Unix.Native.Stdlib.GetLastError()));
+				}
+			} catch (Exception ex) {
+				logger.ErrorException("Couldn't set process name, ignoring.", ex);
 			}
 		}
 		
