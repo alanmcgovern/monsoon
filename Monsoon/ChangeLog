@@ -1,5 +1,10 @@
 2008-05-20  Jared Hendry <hendry.jared@gmail.com> 
 
+	* MainWindow.cs: Fixed progress bar accuracy in General page
+	* AboutDialog.cs: Added icon and website
+
+2008-05-20  Jared Hendry <hendry.jared@gmail.com> 
+
 	* MainWindow.cs, TorrentController.cs: Fix deleting files and torrent when a
 	  user chooses to do so
 	* TorrentTreeView.cs: Don't translate infinitey symbol

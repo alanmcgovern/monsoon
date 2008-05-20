@@ -1100,11 +1100,11 @@ namespace Monsoon
 			}
 			
 			if(manager.State == TorrentState.Hashing) {
-			 	statusProgressBar.Fraction = (int)(torrentController.GetTorrentHashProgress(manager) / 100f);
-			 	statusProgressBar.Text = manager.State + ((int)(torrentController.GetTorrentHashProgress(manager) / 100f)).ToString (" 0%");
+			 	statusProgressBar.Fraction = (torrentController.GetTorrentHashProgress(manager) / 100f);
+			 	statusProgressBar.Text = string.Format("{0} {1:D}%", manager.State, torrentController.GetTorrentHashProgress(manager));
 			} else {
-				statusProgressBar.Fraction = (int)(manager.Progress / 100f);
-				statusProgressBar.Text = manager.State + ((int)(manager.Progress / 100f)).ToString (" 0%");
+				statusProgressBar.Fraction = manager.Progress / 100f;
+				statusProgressBar.Text = string.Format("{0} {1:F}%", manager.State, manager.Progress);
 			}
 			
 			if (manager.State != TorrentState.Stopped)

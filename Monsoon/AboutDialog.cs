@@ -30,6 +30,7 @@
 
 using Gtk;
 using System;
+using System.Diagnostics;
 
 namespace Monsoon
 {
@@ -38,6 +39,17 @@ namespace Monsoon
 		public AboutDialog() : base()
 		{
 			Name = Defines.ApplicationName;
+			
+			try {
+				Logo = Gtk.IconTheme.Default.LoadIcon("weather-showers", 64, 0);
+			} catch {}
+
+			SetUrlHook(delegate(Gtk.AboutDialog dialog, string link) {
+			                Process.Start(link);
+			            });			
+			Website = "http://monsoon-project.org";
+			WebsiteLabel = "Monsoon Project";
+			
 			Authors = new String[] {
 						"Alan McGovern (Library)",
 						"Jared Hendry (Interface)",
