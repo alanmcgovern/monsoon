@@ -1345,7 +1345,7 @@ namespace Monsoon
 				torrentTreeView.Selection.UnselectAll();
 				
 				foreach(TorrentManager torrent in torrentsToRemove){
-					torrentController.removeTorrent (torrent, false, true);
+					torrentController.removeTorrent (torrent, true, true);
 				}
 				
 			} else {

@@ -1,3 +1,9 @@
+2008-05-20  Jared Hendry <hendry.jared@gmail.com> 
+
+	* MainWindow.cs, TorrentController.cs: Fix deleting files and torrent when a
+	  user chooses to do so
+	* TorrentTreeView.cs: Don't translate infinitey symbol
+
 2008-05-12  Mirco Bauer <meebey@meebey.net> 
 
 	* Main.cs: Check for exception when setting ProcessName, on FreeBSD and

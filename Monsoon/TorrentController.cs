@@ -412,30 +412,32 @@ namespace Monsoon
 			allTorrents.Remove(torrent);
 			
 			if(deleteData){
-				logger.Info("Deleting torrent data " + torrent.Torrent.Name);
-				foreach(TorrentFile torrentFile in torrent.Torrent.Files){
-					try{
-						File.Delete(Path.Combine(torrent.SavePath, torrentFile.Path));
-					} catch {
-						logger.Error("Unable to delete " + Path.Combine(torrent.SavePath, torrentFile.Path));
-					}
+				logger.Info("Deleting {0} data", torrent.Torrent.Name);
+				try{
+					if (Directory.Exists(Path.Combine(torrent.SavePath, torrent.Torrent.Name)))
+						Directory.Delete(Path.Combine(torrent.SavePath, torrent.Torrent.Name), true);
+					else
+						File.Delete(Path.Combine(torrent.SavePath, torrent.Torrent.Name));
+				} catch (Exception e) {
+					logger.Error("Failed to delete {0}: {1}", Path.Combine(torrent.SavePath, torrent.Torrent.Name), e.Message);
 				}
 			}
 			
 			if(deleteTorrent){
-				logger.Info(" Deleting torrent file " + torrent.Torrent.TorrentPath);
+				try{
+					logger.Info("Deleting torrent file {0} ", torrent.Torrent.TorrentPath);
+					File.Delete(torrent.Torrent.TorrentPath);
+				} catch {
+					logger.Error("Unable to delete " + torrent.Torrent.TorrentPath);
+				}
+				
 				if(torrent.Settings.FastResumeEnabled){
 					try{
+						logger.Info("Deleting torrent fast resume file " + torrent.Torrent.TorrentPath);
 						File.Delete(torrent.Torrent.TorrentPath + ".fresume");
 					} catch {
 						logger.Error("Unable to delete " + torrent.Torrent.TorrentPath + ".fresume");
 					}
-				}
-				
-				try{
-					File.Delete(torrent.Torrent.TorrentPath);
-				} catch {
-					logger.Error("Unable to delete " + torrent.Torrent.TorrentPath);
 				}
 			}
 			

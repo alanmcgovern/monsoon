@@ -399,7 +399,7 @@ namespace Monsoon
 				return string.Empty;
 			
 			if (eta.Seconds < 0)
-				return _("∞");
+				return "∞";
 			if (eta.Days > 0)
 				return string.Format("{0}d {1}h", eta.Days, eta.Hours);
 			if (eta.Hours > 0)
