@@ -1,5 +1,10 @@
 2008-05-20  Jared Hendry <hendry.jared@gmail.com> 
 
+	* TorrentController.cs: Fixed deleting a torrent on import if enabled,
+	  removed unneeded debug messages
+
+2008-05-20  Jared Hendry <hendry.jared@gmail.com> 
+
 	* MainWindow.cs: Fixed progress bar accuracy in General page
 	* AboutDialog.cs: Added icon and website
 

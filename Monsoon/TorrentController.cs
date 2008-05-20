@@ -262,11 +262,8 @@ namespace Monsoon
 		
 		private void OnPeerConnected (object sender, PeerConnectionEventArgs a)
 		{
-			logger.Debug("OnPeerConnected(): PeerID.Location: " + a.PeerID.Location);
-			
 			if(!a.PeerID.IsValid)
 				return;
-			
 			
 			Gtk.Application.Invoke (delegate {
 				mainWindow.Peers.Add (a.PeerID, mainWindow.PeerListStore.AppendValues (a.PeerID));
@@ -279,8 +276,6 @@ namespace Monsoon
 			
 			if(a.PeerID == null)
 				return;
-			
-			logger.Debug("OnPeerDisconnected(): PeerID.Location: " + a.PeerID.Location);
 			
 			Gtk.Application.Invoke (delegate {
 				lock(mainWindow.Peers){
@@ -466,6 +461,10 @@ namespace Monsoon
 			string newPath = Path.Combine(MainWindow.Preferences.TorrentStorageLocation, Path.GetFileName(args.TorrentPath));
 			logger.Info ("Copying: {0} to {1}", args.TorrentPath, newPath);
 			File.Copy(args.TorrentPath, newPath ,true);
+			
+			if(prefSettings.RemoveOnImport)
+				File.Delete(args.TorrentPath);
+			
 			//GLib.Timeout.Add (1000, delegate {
 			//	mainWindow.LoadTorrent (newPath, false);
 			//	return false;
