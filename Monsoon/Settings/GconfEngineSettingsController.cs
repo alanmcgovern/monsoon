@@ -27,6 +27,7 @@
 //
 
 using System;
+using System.IO;
 using MonoTorrent.Client;
 using MonoTorrent.Common;
 
@@ -103,10 +104,10 @@ namespace Monsoon
 			} catch(SettingNotFoundException){
 				
 			} finally{
-				// If savePath has not been set, fallback to user's home directory
-				if (String.IsNullOrEmpty(Settings.SavePath)) {
-					Settings.SavePath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
-				}
+				// Try to get XDG_DOWNLOAD_DIR path, if unavailible fallback to
+				// users home directory
+				if (String.IsNullOrEmpty(Settings.SavePath) || !Directory.Exists(Settings.SavePath))
+					Settings.SavePath = GetDownloadDirectory();
 			}
 		}
 		
@@ -124,5 +125,26 @@ namespace Monsoon
 			gconf.Store(MaxReadRateKey, Settings.MaxReadRate);
 			gconf.Store(MaxWriteRateKey, Settings.MaxWriteRate);
 		}
+		
+		private string GetDownloadDirectory() {
+			string dirspath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "user-dirs.dirs");
+
+			if (!File.Exists(dirspath))
+				return Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			
+			string xdgline = string.Empty;
+			using (StreamReader sr = new StreamReader(dirspath))
+				while((xdgline = sr.ReadLine()) != null && !xdgline.StartsWith("XDG_DOWNLOAD_DIR="));
+			
+			if(string.IsNullOrEmpty(xdgline))
+				return Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+			
+			string dlpath = xdgline.Substring(xdgline.IndexOf("\""));
+			dlpath = dlpath.Replace("\"", string.Empty);
+			if (dlpath.StartsWith("$HOME"))
+				return dlpath.Replace("$HOME", Environment.GetFolderPath(Environment.SpecialFolder.Personal));
+			
+			return Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+		}	
 	}
 }

@@ -1,5 +1,10 @@
 2008-05-20  Jared Hendry <hendry.jared@gmail.com> 
 
+	* Settings/GconfEngineSettingsController.cs: Support for XDG_DOWNLOAD_DIR as
+	  default save path, based on patch from Jérémie Laval
+
+2008-05-20  Jared Hendry <hendry.jared@gmail.com> 
+
 	* TorrentController.cs: Fixed deleting a torrent on import if enabled,
 	  removed unneeded debug messages
 
