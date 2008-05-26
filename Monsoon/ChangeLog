@@ -1,3 +1,8 @@
+2008-05-26  Jared Hendry <hendry.jared@gmail.com> 
+
+	* NLog.dll: Push build of NLog 1.0 without Winforms and System.Messaging
+	  dependencies
+
 2008-05-20  Jared Hendry <hendry.jared@gmail.com> 
 
 	* Settings/GconfEngineSettingsController.cs: Support for XDG_DOWNLOAD_DIR as
