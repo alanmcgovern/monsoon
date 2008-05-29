@@ -38,6 +38,7 @@ using System.Collections;
 using System.Threading;
 using System.Xml.Serialization;
 using MonoTorrent.TorrentWatcher;
+using MonoTorrent.Common;
 
 namespace Monsoon
 {
@@ -48,7 +49,7 @@ namespace Monsoon
 		private ListStore torrentListStore;
 		private PreferencesSettings prefSettings;
 		private Dictionary<TorrentManager, TreeIter> torrents;
-		private Dictionary<TorrentManager, int> torrentSwarm;
+		private Dictionary<TorrentManager, SpeedMonitor> torrentSwarm;
 		private Dictionary<TorrentManager, int> hashProgress;
 		private Dictionary<TorrentManager, long> torrentPreviousUpload;
 		private Dictionary<TorrentManager, long> torrentPreviousDownload;
@@ -87,10 +88,15 @@ namespace Monsoon
 			engine.ConnectionManager.PeerMessageTransferred += OnPeerMessageTransferred;
 			
 			hashProgress = new Dictionary<MonoTorrent.Client.TorrentManager,int>();
-			torrentSwarm = new Dictionary<MonoTorrent.Client.TorrentManager,int>();
+			torrentSwarm = new Dictionary<MonoTorrent.Client.TorrentManager, SpeedMonitor>();
 			torrentsDownloading = new List<TorrentManager>();
 			torrentsSeeding = new List<TorrentManager>(); 
 			allTorrents = new List<TorrentManager>();
+			Gtk.Timeout.Add (1000, delegate {
+				foreach (SpeedMonitor m in torrentSwarm.Values)
+					m.Tick ();
+				return true;
+			});
 		}
 		
 		public void StoreFastResume ()
@@ -130,25 +136,23 @@ namespace Monsoon
 		
 		private void OnPeerMessageTransferred(object sender, PeerMessageEventArgs args)
 		{
-			// FIXME: Swarm speed infinitely grows :S
 			if(args.Direction != Direction.Incoming)
 				return;
-			
-			if(!torrentSwarm.ContainsKey(args.TorrentManager))
-				torrentSwarm.Add(args.TorrentManager, 0);
-			
-			torrentSwarm[args.TorrentManager]++;
+			Console.WriteLine ("I got a {0}", args.Message.GetType().Name);
+			Gtk.Application.Invoke(delegate {
+				if(!torrentSwarm.ContainsKey(args.TorrentManager))
+					torrentSwarm.Add(args.TorrentManager, new SpeedMonitor());
+				
+				torrentSwarm[args.TorrentManager].AddDelta(args.Message.ByteLength);
+			});
 		}
 		
 		public int GetTorrentSwarm(TorrentManager manager)
 		{
-			if(!torrentSwarm.ContainsKey(manager))
+			SpeedMonitor monitor;
+			if(!torrentSwarm.TryGetValue(manager, out monitor))
 				return 0;
-			
-			int i = torrentSwarm[manager];
-			torrentSwarm[manager] = 0;
-			
-			return i;
+			return monitor.Rate;
 		}
 
 		// TODO: Refactor all of these functions!!!
