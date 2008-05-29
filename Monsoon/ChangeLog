@@ -1,3 +1,8 @@
+2008-05-29  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* libs/MonoTorrent.dll: Pushing updated MonoTorrent lib
+	* Monsoon.mdp: Disable overflow checks - not sure why this was enabled
+
 2008-05-26  Jared Hendry <hendry.jared@gmail.com> 
 
 	* NLog.dll: Push build of NLog 1.0 without Winforms and System.Messaging

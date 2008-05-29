@@ -10,7 +10,7 @@
       <Output directory="bin/Release" assemblyKeyFile="." assembly="Monsoon" />
       <Build debugmode="False" target="Exe" />
       <Execution runwithwarnings="True" commandlineparameters="-d" consolepause="True" runtime="MsNet" clr-version="Net_2_0" />
-      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" generatexmldocumentation="False" win32Icon="." ctype="CSharpCompilerParameters" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="False" mainclass="" generatexmldocumentation="False" win32Icon="." ctype="CSharpCompilerParameters" />
     </Configuration>
   </Configurations>
   <Contents>
