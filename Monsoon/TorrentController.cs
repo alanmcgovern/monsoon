@@ -138,12 +138,16 @@ namespace Monsoon
 		{
 			if(args.Direction != Direction.Incoming)
 				return;
+			
+			if(!(args.Message is MonoTorrent.Client.Messages.Standard.HaveMessage))
+				return;
+			
 			Console.WriteLine ("I got a {0}", args.Message.GetType().Name);
 			Gtk.Application.Invoke(delegate {
 				if(!torrentSwarm.ContainsKey(args.TorrentManager))
 					torrentSwarm.Add(args.TorrentManager, new SpeedMonitor());
 				
-				torrentSwarm[args.TorrentManager].AddDelta(args.Message.ByteLength);
+				torrentSwarm[args.TorrentManager].AddDelta(args.TorrentManager.Torrent.PieceLength);
 			});
 		}
 		

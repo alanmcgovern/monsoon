@@ -1,5 +1,10 @@
 2008-05-30  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* TorrentController.cs: I should be adding one piecelength per
+	  HaveMessage recieved, not the length of the message in bytes.
+
+2008-05-30  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* TorrentController.cs, libs/MonoTorrent.dll: Make TorrentSwarmSpeed
 	  use a SpeedMonitor for more accurate speed estimation
 
