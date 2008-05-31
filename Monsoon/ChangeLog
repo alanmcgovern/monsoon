@@ -1,5 +1,10 @@
 2008-05-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* CreateTorrentDialog.cs: Ensure filename ends with .torrent - fixes
+	  395643.
+
+2008-05-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* libs/MonoTorrent.dll: Updated MonoTorrent
 
 2008-05-30  Alan McGovern <alan.mcgovern@gmail.com> 

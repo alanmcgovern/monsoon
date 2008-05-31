@@ -173,7 +173,6 @@ namespace Monsoon
 		protected virtual void OnCreateButtonClicked (object sender, System.EventArgs e)
 		{
 			savePathChooser = new FileChooserDialog(_("Save Torrent As..."), this, FileChooserAction.Save, Gtk.Stock.Cancel, ResponseType.Cancel, Gtk.Stock.Save, ResponseType.Accept);
-			
 			ResponseType result = (ResponseType) savePathChooser.Run();
 			if(result == ResponseType.Accept){
 				savePathChooser.HideAll();
@@ -233,7 +232,12 @@ namespace Monsoon
 			progressDialog.Destroy();
 			try{
 				BEncodedDictionary dict = creator.EndCreate(result);
-				System.IO.File.WriteAllBytes(savePathChooser.Filename, dict.Encode());
+				
+				string p = savePathChooser.Filename;
+				if (!p.EndsWith(".torrent", StringComparison.OrdinalIgnoreCase))
+					p = p + ".torrent";
+				
+				System.IO.File.WriteAllBytes(p, dict.Encode());
 				if(startSeedingCheckBox.Active)
 				{
 					Torrent t = Torrent.Load(savePathChooser.Filename);
