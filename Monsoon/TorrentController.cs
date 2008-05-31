@@ -348,6 +348,9 @@ namespace Monsoon
 				} else if (args.OldState == TorrentState.Seeding) {
 					logger.Debug("Removing " + manager.Torrent.Name + " from upload label");
 					mainWindow.SeedingLabel.RemoveTorrent(manager);
+				} else if (args.OldState == TorrentState.Hashing) {
+					if (hashProgress.ContainsKey(manager))
+						hashProgress[manager] = 0;
 				}
 				
 				if (args.NewState == TorrentState.Downloading) {

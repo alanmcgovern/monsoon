@@ -1,5 +1,10 @@
 2008-05-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* TorrentController.cs: When hashing ends, reset hashProgress to zero.
+	  Fixes 395641.
+
+2008-05-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* CreateTorrentDialog.cs: Ensure filename ends with .torrent - fixes
 	  395643.
 
