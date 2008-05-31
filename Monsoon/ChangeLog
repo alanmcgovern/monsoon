@@ -1,5 +1,10 @@
 2008-05-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* ListenPortController.cs: Forward the corresponding UDP port too.
+	  Fixes r376531
+
+2008-05-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* TorrentController.cs: When hashing ends, reset hashProgress to zero.
 	  Fixes 395641.
 

@@ -43,7 +43,8 @@ namespace Monsoon
 		private EngineSettings settings;
 		
 		private List<INatDevice> devices;
-		private Mapping map;
+		private Mapping tcpMapping;
+		private Mapping udpMapping;
 		
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
@@ -52,8 +53,11 @@ namespace Monsoon
 			settings = engineSettings;
 			
 			devices = new List<INatDevice> ();
-			map = new Mapping (Protocol.Tcp, engineSettings.ListenPort, engineSettings.ListenPort);
-			map.Description = Defines.ApplicationName;
+			tcpMapping = new Mapping (Protocol.Tcp, engineSettings.ListenPort, engineSettings.ListenPort);
+			tcpMapping.Description = Defines.ApplicationName;
+			
+			udpMapping = new Mapping (Protocol.Udp, engineSettings.ListenPort, engineSettings.ListenPort);
+			udpMapping.Description = Defines.ApplicationName;
 			
 			IPAddress[] addresses = null;
 			try 
@@ -83,13 +87,20 @@ namespace Monsoon
 		{
 			logger.Info("UPnP changing port map");
 			RemoveMap();
-			map = new Mapping (map.Protocol, settings.ListenPort, settings.ListenPort);
-			map.Description = Defines.ApplicationName;
+			
+			tcpMapping = new Mapping (Protocol.Tcp, settings.ListenPort, settings.ListenPort);
+			udpMapping = new Mapping (Protocol.Udp, settings.ListenPort, settings.ListenPort);
+			tcpMapping.Description = Defines.ApplicationName;
+			udpMapping.Description = Defines.ApplicationName;
+
 			MapPort();
 		}
 		
 		public void Stop()
 		{
+			if (!running)
+				return;
+			
 			running = false;
 			logger.Info("UPnP shutting down");
 			NatUtility.StopDiscovery ();
@@ -99,12 +110,14 @@ namespace Monsoon
 			{
 				try
 				{
-					device.DeletePortMap(map);
-					logger.Info("UPnP port map removal successful {0}", map);
+					device.DeletePortMap(tcpMapping);
+					logger.Info("UPnP port map removal successful {0}", tcpMapping);
+					device.DeletePortMap(udpMapping);
+					logger.Info("UPnP port map removal successful {0}", udpMapping);
 				} 
 				catch(MappingException e)
 				{
-					logger.Error ("UPnP failed to remove map {0}. Error: {1}", map, e);
+					logger.Error ("UPnP failed to remove map. Error: {0}",e);
 				}
 			}
 		}
@@ -117,55 +130,88 @@ namespace Monsoon
 			{
 				try
 				{
-					device.BeginCreatePortMap (map, EndMapPort, device);
+					device.BeginCreatePortMap (tcpMapping, EndMapTcpPort, device);
 				}
 				catch (Exception)
 				{
-					logger.Info("Failed to map port {0} on {1}", map, device);
+					logger.Info("Failed to map port {0} on {1}", tcpMapping, device);
 				}
 			}
 		}
 		
-		private void EndMapPort(IAsyncResult result)
+		private void EndMapTcpPort(IAsyncResult result)
 		{
 			try
 			{
-				((INatDevice)result.AsyncState).EndCreatePortMap(result);
-				logger.Info("UPnP port mapping successful {0}", map);
+				INatDevice device = (INatDevice)result.AsyncState;
+				device.EndCreatePortMap(result);
+				logger.Info("UPnP port mapping successful {0}", tcpMapping);
+				device.BeginCreatePortMap (udpMapping, EndMapUdpPort, device);
 			} 
 			catch(MappingException e)
 			{
-				logger.Error("UPnP failed to map port {0}. Error {1}", map, e);
+				logger.Error("UPnP failed to map port {0}. Error {1}", tcpMapping, e);
 			}
+		}
+		
+		private void EndMapUdpPort(IAsyncResult result)
+		{		
+			try
+			{
+				INatDevice device = (INatDevice)result.AsyncState;
+				device.EndCreatePortMap(result);
+				logger.Info("UPnP port mapping successful {0}", udpMapping);
+			} 
+			catch(MappingException e)
+			{
+				logger.Error("UPnP failed to map port {0}. Error {1}", udpMapping, e);
+			}
+			
 		}
 		
 		public void RemoveMap()
 		{
-			logger.Info("UPnP attempting to remove port map {0}", map);
+			logger.Info("UPnP attempting to remove port map {0}", tcpMapping);
 			lock (devices)
 			foreach (INatDevice device in devices)
 			{
 				try
 				{
-					device.BeginDeletePortMap(map, EndRemoveMap, device);
+					device.BeginDeletePortMap(tcpMapping, EndRemoveTcpMap, device);
 				}
 				catch (MappingException e)
 				{
-					logger.Error("UPnP failed to map port {0}. Error: {1}", map, e);
+					logger.Error("UPnP failed to map port {0}. Error: {1}", tcpMapping, e);
 				}
 			}
 		}
 		
-		private void EndRemoveMap(IAsyncResult result)
+		private void EndRemoveTcpMap(IAsyncResult result)
 		{
 			try
 			{
-				((INatDevice)result.AsyncState).EndDeletePortMap(result);
-				logger.Info("UPnP successfully removed port map {0}", map);
+				INatDevice device = (INatDevice)result.AsyncState;
+				device.EndDeletePortMap(result);
+				logger.Info("UPnP successfully removed port map {0}", tcpMapping);
+				device.BeginDeletePortMap(udpMapping, EndRemoveUdpMap, device);
 			}
 			catch(MappingException e)
 			{
-				logger.Error("UPnP failed to remove map port {0}. Error: {1}", map, e);
+				logger.Error("UPnP failed to remove map port {0}. Error: {1}", tcpMapping, e);
+			}
+		}
+		
+		private void EndRemoveUdpMap(IAsyncResult result)
+		{
+			try
+			{
+				INatDevice device = (INatDevice)result.AsyncState;
+				device.EndDeletePortMap(result);
+				logger.Info("UPnP successfully removed port map {0}", udpMapping);
+			}
+			catch(MappingException e)
+			{
+				logger.Error("UPnP failed to remove map port {0}. Error: {1}", udpMapping, e);
 			}
 		}
 		
@@ -186,7 +232,7 @@ namespace Monsoon
 		
 		public int MappedPort
 		{
-			get { return map.PublicPort; }
+			get { return tcpMapping.PublicPort; }
 		}
 	}
 }
