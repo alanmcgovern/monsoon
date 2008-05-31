@@ -1,5 +1,13 @@
 2008-05-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* TorrentTreeView.cs: Fix for #391792.
+	
+	  1) If torrent already exists, delete it
+	
+	  2) Catch the exception (if any) and log it
+
+2008-05-31  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* ListenPortController.cs: Forward the corresponding UDP port too.
 	  Fixes r376531
 
