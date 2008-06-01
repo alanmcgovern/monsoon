@@ -211,7 +211,9 @@ namespace Monsoon
 			
 			GLib.Timeout.Add (1000, new GLib.TimeoutHandler (updateView));
 			
+			Ticker.Tick ();
 			RestoreInterfaceSettings ();
+			Ticker.Tock ("Restored Interface");
 			
 			if (Preferences.UpnpEnabled)
 				portController.Start();
