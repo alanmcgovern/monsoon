@@ -64,7 +64,6 @@ namespace Monsoon
 		private GconfSettingsStorage settingsStorage;
 		private SettingsController<EngineSettings> engineSettings;
 		private MainWindow mainWindow;
-		private bool isFirstRun;
 		
 		public static void Main (string[] args)
 		{
@@ -79,7 +78,7 @@ namespace Monsoon
 			if (!GLib.Thread.Supported)
 				GLib.Thread.Init();
 			
-			// Attempt to connect to dbus
+			// Connect to dbus
 			DBusInstance.Connect ();
 
 			if (DBusInstance.AlreadyRunning)
@@ -90,7 +89,6 @@ namespace Monsoon
 			
 			DBusInstance.CommandParser.RunCommand += HandleCommand;
 			
-			isFirstRun = false;
 			Ticker.Tick();
 			CheckDataFolders();
 			Ticker.Tock ("Checking folders");
@@ -101,34 +99,9 @@ namespace Monsoon
 			sets.Load ();
 			Ticker.Tock ("Loading preferences");
 			
-			foreach (string arg in args) {
-				if (arg == "-d" || arg == "--debug") {
-					DebugEnabled = true;
-					continue;
-				}
-				
-				if(!File.Exists(arg))
-					continue;
-				
-				GLib.Timeout.Add (1000, delegate {
-					try
-					{
-						MonoTorrent.Common.Torrent t;
-						if (!MonoTorrent.Common.Torrent.TryLoad (arg, out t))
-							return false;
-						string oldPath = t.TorrentPath;
-						string newPath = Path.Combine(sets.Settings.TorrentStorageLocation, Path.GetFileName(t.TorrentPath));
-						logger.Info ("Copying: {0} to {1}", oldPath, newPath);
-						File.Copy(oldPath, newPath ,true);   
-					}
-					catch (Exception ex)
-					{
-						logger.Error("Couldn't load torrent: {0}", arg);
-					}
-					return false;
-				});
+			foreach (string arg in args)
+				HandleCommand (arg);
 			
-			}
 			Ticker.Tick ();
 			logger = DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 			if (DebugEnabled) {
@@ -171,7 +144,7 @@ namespace Monsoon
 			{
 				Ticker.Tick();
 				mainWindow = new MainWindow (settingsStorage, engineSettings.Settings,
-				                             portController, isFirstRun);
+				                             portController);
 				Ticker.Tock ("Instantiating window");
 			}
 			catch(Exception ex)
@@ -194,11 +167,7 @@ namespace Monsoon
 
 				Environment.Exit (0);
 			}
-			
-			if (File.Exists(sets.Settings.TorrentStorageLocation))
-				StartLocalFileWatcher (mainWindow, sets.Settings.TorrentStorageLocation);
-			else
-				StartLocalFileWatcher (mainWindow, Defines.TorrentFolder);
+
 			GLib.ExceptionManager.UnhandledException += new GLib.UnhandledExceptionHandler(OnUnhandledException);
 			
 			Ticker.Tock ("Total time:");
@@ -216,20 +185,17 @@ namespace Monsoon
 		
 		private void HandleCommand (string command)
 		{
-			Console.WriteLine ("Got command: {0}", command);
-		}
-		
-		private static void StartLocalFileWatcher (MainWindow window, string path)
-		{
-			FileSystemWatcher watcher = new FileSystemWatcher(path, "*.torrent");
-			watcher.Changed += delegate (object o, System.IO.FileSystemEventArgs e) {
-				logger.Info ("Loading: {0}", e.FullPath);
+			if (command == "-d" || command == "--debug")
+			{
+				DebugEnabled = true;
+			}
+			else if (File.Exists(command))
+			{
 				GLib.Timeout.Add (250, delegate {
-					window.LoadTorrent (e.FullPath);
+					mainWindow.LoadTorrent (command);
 					return false;
 				});
-			};			
-			watcher.EnableRaisingEvents = true;
+			}
 		}
 
 		public static void SetProcessName(string name)
@@ -284,7 +250,6 @@ namespace Monsoon
 		{
 			//logger.Info("Check for directory... " + System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"monotorrent"));
 			if (!Directory.Exists(Defines.ConfigDirectory)){
-				isFirstRun = true;
 				//logger.Info("Config folder does not exist, creating now");
 				Directory.CreateDirectory(Defines.ConfigDirectory);
 			}

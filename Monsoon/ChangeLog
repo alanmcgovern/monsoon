@@ -1,5 +1,9 @@
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Main.cs: Wrong folder used by default here.
+
+2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Main.cs: No need for seperate method to pass the commands
 	* Dbus/DBusInstance.cs: Add try/catch in case  warning if dbus could
 	  not be started.

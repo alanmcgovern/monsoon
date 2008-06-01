@@ -59,13 +59,12 @@ namespace Monsoon
 			try {
 				Settings.TorrentStorageLocation = (string) gconf.Retrieve(SETTINGS_PATH + "torrentStorageLocation");
 			} catch(SettingNotFoundException) {
-				Settings.TorrentStorageLocation = Defines.SerializedTorrentSettings;
+				Settings.TorrentStorageLocation = Defines.TorrentFolder;
 			}
 			
 			try {
 				Settings.ImportLocation = (string) gconf.Retrieve(SETTINGS_PATH + "importLocation");
 			} catch (SettingNotFoundException) {
-			
 				Settings.ImportLocation = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
 			}
 			
