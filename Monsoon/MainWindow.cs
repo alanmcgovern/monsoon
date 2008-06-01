@@ -198,15 +198,33 @@ namespace Monsoon
 			torrents = new Dictionary<MonoTorrent.Client.TorrentManager,Gtk.TreeIter> ();
 			
 			Ticker.Tick ();
+			Ticker.Tick ();
 			Build ();
+			Ticker.Tock ("Build");
+			Ticker.Tick ();
 			BuildTray();
+			Ticker.Tock ("Tray");
+			Ticker.Tick ();
 			BuildPiecesTreeView();
+			Ticker.Tock ("PiecesTreeview");
+			Ticker.Tick ();
 			BuildTorrentTreeView();
+			Ticker.Tock ("TorrentTreeview");
+			Ticker.Tick ();
 			BuildPeerTreeView();
+			Ticker.Tock ("PeerTreeview");
+			Ticker.Tick ();
 			BuildFileTreeView();
+			Ticker.Tock ("FileTreeview");
+			Ticker.Tick ();
 			BuildLabelTreeView();
+			Ticker.Tock ("Label treeview");
+			Ticker.Tick ();
 			BuildOptionsPage();
+			Ticker.Tock ("Options page");
+			Ticker.Tick ();
 			BuildSpeedsPopup();
+			Ticker.Tock ("Speeds popup");
 			Ticker.Tock ("Built all stuff");
 			
 			GLib.Timeout.Add (1000, new GLib.TimeoutHandler (updateView));
@@ -236,6 +254,8 @@ namespace Monsoon
 			
 			rssManagerController = new RssManagerController(torrentController);
 			rssManagerController.StartWatchers();
+			
+			ShowAll();
 		}	
 		
 		public Egg.TrayIcon TrayIcon {
@@ -277,9 +297,6 @@ namespace Monsoon
 			trayIcon = new Egg.TrayIcon (Defines.ApplicationName);
 			trayIcon.Icon = new Image (Stock.Network, IconSize.Menu).Pixbuf;
 			trayIcon.Add (eventBox);
-			
-			if(Preferences.EnableTray)
-				trayIcon.ShowAll ();
 		}
 		
 		private void OnTrayClicked(object sender, ButtonPressEventArgs args)
@@ -342,9 +359,6 @@ namespace Monsoon
 			
 			logger.Info ("Restoring interface settings");
 			SetDefaultSize (settings.WindowWidth, settings.WindowHeight);
-			
-			// moved here
-			ShowAll();
 			
 			if (settings.WindowYPos == 0 && settings.WindowXPos == 0)
 				SetPosition (WindowPosition.Center);
@@ -438,7 +452,7 @@ namespace Monsoon
 			fileTreeStore = new TorrentFileModel();
 			fileTreeView = new FileTreeView (fileTreeStore);
 			filesScrolledWindow.Add (fileTreeView);
-			fileTreeView.Show();
+			//fileTreeView.Show();
 		}
 		
 		private void BuildTorrentTreeView ()
@@ -452,7 +466,7 @@ namespace Monsoon
 			torrentTreeView.Selection.Changed += OnTorrentSelectionChanged;
 			
 			torrentViewScrolledWindow.Add (torrentTreeView);
-			torrentTreeView.Show ();
+			//torrentTreeView.Show ();
 		}
 
 		private void BuildLabelTreeView()
@@ -464,7 +478,7 @@ namespace Monsoon
 			labelTreeView.Model = labelListStore;
 			labelTreeView.Selection.Changed += OnLabelSelectionChanged;
 			labelViewScrolledWindow.Add (labelTreeView);
-			labelTreeView.Show ();
+			//labelTreeView.Show ();
 
 			torrentTreeView.Model = torrentListStore;
 
@@ -555,7 +569,7 @@ namespace Monsoon
 			piecesTreeView = new PiecesTreeView ();
 			piecesTreeView.Model = piecesListStore;
 			piecesScrolledWindow.Add(piecesTreeView);
-			piecesScrolledWindow.ShowAll();
+			//piecesScrolledWindow.ShowAll();
 		}
 		
 		/*
@@ -594,7 +608,7 @@ namespace Monsoon
 			
 			peerTreeView.Model = peerFilter;
 			peersScrolledWindow.Add (peerTreeView);
-			peerTreeView.Show ();
+			//peerTreeView.Show ();
 		}
 
 		private bool FilterPeerTree (Gtk.TreeModel model, Gtk.TreeIter iter)

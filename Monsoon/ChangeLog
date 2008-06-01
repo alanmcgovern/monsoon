@@ -1,5 +1,9 @@
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs: Shave a few ms off the load time
+
+2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: More profiling
 
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
