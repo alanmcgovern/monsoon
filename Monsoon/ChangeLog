@@ -1,5 +1,10 @@
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs: Wrap in try/catch in case an unexpected exception
+	  occurs.
+
+2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* gtk-gui/Monsoon.MainWindow.cs, MainWindow.cs: Ditch old code from the
 	  druid
 

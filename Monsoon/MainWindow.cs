@@ -1487,9 +1487,18 @@ namespace Monsoon
 					dialog.Destroy ();
 				}
 			}
-				
-			torrentController.addTorrent (torrent, savePath);
-		
+			
+			try
+			{
+				torrentController.addTorrent (torrent, savePath);
+			}
+			catch (Exception ex)
+			{
+				string error = _("An unexpected error occured while loading the torrent. {0}");
+				MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent,
+				                                              MessageType.Error, ButtonsType.Close,
+				                                              string.Format (error, ex.Message));
+			}
 		}
 		
 		public void LoadTorrent(string path, bool autoStart, bool moveToStorage, bool removeOriginal, TorrentSettings settings, string savePath, bool isUrl)
