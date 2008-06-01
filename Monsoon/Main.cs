@@ -76,23 +76,15 @@ namespace Monsoon
 			Ticker.Tick();
 			
 			// required for the MS .NET runtime that doesn't initialize glib automatically
-			if (!GLib.Thread.Supported) {
+			if (!GLib.Thread.Supported)
 				GLib.Thread.Init();
-			}
 			
 			// Attempt to connect to dbus
-			try
-			{
-				Ticker.Tick ();
-				DBusInstance.Connect ();
-				Ticker.Tock ("DBus");
-			}
-			catch
-			{
-			}
+			DBusInstance.Connect ();
+
 			if (DBusInstance.AlreadyRunning)
 			{
-				PassArguments (args);
+				DBusInstance.CommandParser.ParseCommands (args);
 				return;
 			}
 			
@@ -225,17 +217,6 @@ namespace Monsoon
 		private void HandleCommand (string command)
 		{
 			Console.WriteLine ("Got command: {0}", command);
-		}
-		
-		private void PassArguments (string[] args)
-		{
-			Console.WriteLine ("Existing instance detected");
-			
-			if(args.Length == 0)
-				return;
-			Console.WriteLine ("Passing arguments...");
-			DBusInstance.CommandParser.ParseCommands (args);
-			Console.WriteLine ("Commands Passed");
 		}
 		
 		private static void StartLocalFileWatcher (MainWindow window, string path)

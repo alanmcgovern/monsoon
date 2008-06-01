@@ -1,5 +1,11 @@
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Main.cs: No need for seperate method to pass the commands
+	* Dbus/DBusInstance.cs: Add try/catch in case  warning if dbus could
+	  not be started.
+
+2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Ticker.cs, Monsoon.mdp, Makefile.am: Adding class to allow easy
 	  profiling of where time is spent in the code
 	* Main.cs, Dbus, Dbus/DBusInstance.cs, Dbus/ICommandParser.cs,

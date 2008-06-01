@@ -55,14 +55,27 @@ namespace Monsoon
 		
 		public static void Connect ()
 		{
-			BusG.Init ();
-			alreadyRunning = Bus.Session.RequestName (BusName) != RequestNameReply.PrimaryOwner;
-			
-			if (alreadyRunning)
-				commandParser = Bus.Session.GetObject<ICommandParser>(BusName, new ObjectPath (CommandParserPath));
-			else
-				Bus.Session.Register(new ObjectPath(CommandParserPath), commandParser);
-			Console.WriteLine ("Do i have a command parser? {0}", commandParser != null);
+			try
+			{
+				BusG.Init ();
+				alreadyRunning = Bus.Session.RequestName (BusName) != RequestNameReply.PrimaryOwner;
+				
+				if (alreadyRunning)
+					commandParser = Bus.Session.GetObject<ICommandParser>(BusName, new ObjectPath (CommandParserPath));
+				else
+					Bus.Session.Register(new ObjectPath(CommandParserPath), commandParser);
+			}
+			catch (Exception)
+			{
+				Console.WriteLine ("**************************************");
+				Console.WriteLine ("* DBus support could not be started. *");
+				Console.WriteLine ("* Some functionality will be missing *");
+				Console.WriteLine ("**************************************");
+			}
+			finally
+			{
+				Ticker.Tock ("DBus");
+			}
 		}
 	}
 }
