@@ -2,10 +2,8 @@
   <Configurations active="Release">
     <Configuration name="Debug" ctype="CombineConfiguration">
       <Entry build="True" name="Monsoon" configuration="Debug" />
-      <Entry build="True" name="Monsoon" configuration="Debug" />
     </Configuration>
     <Configuration name="Release" ctype="CombineConfiguration">
-      <Entry build="True" name="Monsoon" configuration="Release" />
       <Entry build="True" name="Monsoon" configuration="Release" />
     </Configuration>
   </Configurations>

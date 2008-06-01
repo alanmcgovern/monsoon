@@ -1046,7 +1046,6 @@ namespace Monsoon {
             this.OpenTorrent.Activated += new System.EventHandler(this.OnOpenActivated);
             this.startTorrentButton.Activated += new System.EventHandler(this.OnStartTorrentActivated);
             this.NewTorrent.Activated += new System.EventHandler(this.OnNewActivated);
-            this.druidDebug.Activated += new System.EventHandler(this.OnDruidDebugActivated);
             this.Plugins.Activated += new System.EventHandler(this.OnPluginsActivated);
         }
     }

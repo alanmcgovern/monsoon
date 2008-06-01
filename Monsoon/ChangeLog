@@ -1,5 +1,10 @@
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* gtk-gui/Monsoon.MainWindow.cs, MainWindow.cs: Ditch old code from the
+	  druid
+
+2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Dbus/DBusInstance.cs: Added missing tick
 
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 

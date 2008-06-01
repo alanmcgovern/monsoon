@@ -181,7 +181,7 @@ namespace Monsoon
 			}
 		}
 		
-		public MainWindow (GconfSettingsStorage settingsStorage, EngineSettings engineSettings, ListenPortController portController, bool isFirstRun): base (Gtk.WindowType.Toplevel)
+		public MainWindow (GconfSettingsStorage settingsStorage, EngineSettings engineSettings, ListenPortController portController): base (Gtk.WindowType.Toplevel)
 		{
 			this.engineSettings = engineSettings;
 			this.portController = portController;
@@ -255,9 +255,6 @@ namespace Monsoon
 			
 			rssManagerController = new RssManagerController(torrentController);
 			rssManagerController.StartWatchers();
-			
-			if(isFirstRun)
-				OpenDruid();
 		}	
 		
 		public Egg.TrayIcon TrayIcon {
@@ -1428,33 +1425,6 @@ namespace Monsoon
 				labelViewScrolledWindow.ShowAll();
 			else
 				labelViewScrolledWindow.HideAll();
-		}
-
-		protected virtual void OnDruidDebugActivated (object sender, System.EventArgs e)
-		{
-			OpenDruid();
-		}
-		
-		private void OpenDruid()
-		{
-			OnDruidFinishedClicked (null, EventArgs.Empty);
-		}
-
-		private void OnDruidFinishedClicked(object o, EventArgs args)
-		{
-			engineSettings.ListenPort = new System.Random().Next(30000, 36000);
-			engineSettings.SavePath = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
-			Preferences.TorrentStorageLocation = Defines.TorrentFolder;
-			Preferences.UpnpEnabled = true;
-			engineSettings.GlobalMaxDownloadSpeed = 0;
-			engineSettings.GlobalMaxUploadSpeed = 0;
-			
-			prefSettings.Save ();
-			
-			if (Preferences.UpnpEnabled)
-				portController.Start();
-			
-			logger.Info("First run wizard complete!");
 		}
 
 		protected virtual void OnPluginsActivated (object sender, System.EventArgs e)
