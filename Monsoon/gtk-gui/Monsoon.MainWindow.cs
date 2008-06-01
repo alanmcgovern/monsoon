@@ -264,10 +264,6 @@ namespace Monsoon {
             this.NewTorrent = new Gtk.Action("NewTorrent", Mono.Unix.Catalog.GetString("_New Torrent"), Mono.Unix.Catalog.GetString("Create a new torrent"), "gtk-new");
             this.NewTorrent.ShortLabel = Mono.Unix.Catalog.GetString("_New Torrent");
             w2.Add(this.NewTorrent, null);
-            this.druidDebug = new Gtk.Action("druidDebug", null, Mono.Unix.Catalog.GetString("Druid Debug"), "gtk-help");
-            this.druidDebug.ShortLabel = Mono.Unix.Catalog.GetString("Druid Debug");
-            this.druidDebug.Visible = false;
-            w2.Add(this.druidDebug, null);
             this.Plugins = new Gtk.Action("Plugins", Mono.Unix.Catalog.GetString("Plugins"), Mono.Unix.Catalog.GetString("Open the RSS manager"), "rss");
             this.Plugins.ShortLabel = Mono.Unix.Catalog.GetString("Plugins");
             w2.Add(this.Plugins, null);

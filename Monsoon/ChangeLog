@@ -1,5 +1,10 @@
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* gtk-gui/Monsoon.MainWindow.cs, TorrentTreeView.cs: Only load .torrent
+	  files which are dragged and dropped.
+
+2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: Wrap in try/catch in case an unexpected exception
 	  occurs.
 
