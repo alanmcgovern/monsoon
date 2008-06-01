@@ -181,7 +181,7 @@ namespace Monsoon
 			}
 		}
 		
-		public MainWindow (GconfSettingsStorage settingsStorage, EngineSettings engineSettings, ListenPortController portController): base (Gtk.WindowType.Toplevel)
+		public MainWindow (EngineSettings engineSettings, ListenPortController portController): base (Gtk.WindowType.Toplevel)
 		{
 			this.engineSettings = engineSettings;
 			this.portController = portController;
@@ -190,11 +190,14 @@ namespace Monsoon
 			defaultTorrentSettings = new GconfTorrentSettingsController ();
 			prefSettings = new GconfPreferencesSettingsController ();
 			
+			Ticker.Tick ();
 			LoadAllSettings ();
+			Ticker.Tock ("Loaded all settings: {0}");
 			
 			labels = new  List<TorrentLabel> ();
 			torrents = new Dictionary<MonoTorrent.Client.TorrentManager,Gtk.TreeIter> ();
 			
+			Ticker.Tick ();
 			Build ();
 			BuildTray();
 			BuildPiecesTreeView();
@@ -204,46 +207,22 @@ namespace Monsoon
 			BuildLabelTreeView();
 			BuildOptionsPage();
 			BuildSpeedsPopup();
+			Ticker.Tock ("Built all stuff");
 			
 			GLib.Timeout.Add (1000, new GLib.TimeoutHandler (updateView));
 			
 			RestoreInterfaceSettings ();
 			
-			//portController = new ListenPortController(userEngineSettings);
 			if (Preferences.UpnpEnabled)
 				portController.Start();
 			
+			Ticker.Tick ();
 			torrentController.LoadStoredTorrents ();
+			Ticker.Tock ("Loaded torrents");
 			
-			// auto-start torrents
-//			TorrentSettingsController torrentSettingsController =
-//				new TorrentSettingsController(settingsStorage);
-//			TorrentFileSettingsController fileSettingsController =
-//				new TorrentFileSettingsController(settingsStorage);
-//			foreach (TorrentManager manager in torrentController.Torrents) {
-//				TorrentSettingsModel torrentSettings =
-//					torrentSettingsController.GetTorrentSettings(manager.Torrent.InfoHash);
-//				
-//				if (torrentSettings.LastState == TorrentState.Downloading) {
-//					// restore priority
-//					foreach (TorrentFile torrentFile in manager.Torrent.Files) {
-//						TorrentFileSettingsModel fileSettings =
-//							fileSettingsController.GetFileSettings(
-//								manager.Torrent.InfoHash,
-//								torrentFile.Path
-//							);
-//						torrentFile.Priority = fileSettings.Priority;
-//					}
-//				}
-//				    
-//				if (torrentSettings.LastState == TorrentState.Downloading ||
-//					torrentSettings.LastState == TorrentState.Seeding) {
-//					Console.WriteLine("auto-starting: " + manager.Torrent.Name);
-//					manager.Start();
-//				}
-//			}
-			
+			Ticker.Tick ();
 			RestoreLabels ();
+			Ticker.Tock ("Restored labels");
 			
 			folderWatcher = new TorrentFolderWatcher (new DirectoryInfo (Preferences.ImportLocation));
 			folderWatcher.TorrentFound += torrentController.OnTorrentFound;

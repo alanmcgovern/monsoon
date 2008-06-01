@@ -82,8 +82,14 @@ namespace Monsoon
 			this.torrentPreviousUpload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
 			this.torrentPreviousDownload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
 			
+			Ticker.Tick ();
 			fastResume = LoadFastResume();
+			Ticker.Tock ("Fast Resume");
+			
+			Ticker.Tick ();
 			engine = new ClientEngine(mainWindow.EngineSettings);
+			Ticker.Tock ("Client engine");
+			
 			engine.ConnectionManager.PeerMessageTransferred += OnPeerMessageTransferred;
 			
 			hashProgress = new Dictionary<MonoTorrent.Client.TorrentManager,int>();

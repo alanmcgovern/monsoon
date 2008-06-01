@@ -1,5 +1,10 @@
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, Main.cs, TorrentController.cs: Removed more junk and
+	  added some more profiling calls to see where time is being spent
+
+2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, Main.cs, TorrentController.cs,
 	  ListenPortController.cs, LoadTorrentDialog.cs, AboutDialog.cs,
 	  FileTreeView.cs, RssManager/TorrentRssWatcher.cs,

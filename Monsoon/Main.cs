@@ -61,7 +61,6 @@ namespace Monsoon
 
 		private static NLog.Logger logger = null;
 		private ListenPortController portController;
-		private GconfSettingsStorage settingsStorage;
 		private SettingsController<EngineSettings> engineSettings;
 		private MainWindow mainWindow;
 		
@@ -92,7 +91,6 @@ namespace Monsoon
 			Ticker.Tick();
 			CheckDataFolders();
 			Ticker.Tock ("Checking folders");
-			DebugEnabled = false;
 
 			Ticker.Tick ();
 			Monsoon.GconfPreferencesSettingsController sets = new GconfPreferencesSettingsController();
@@ -103,10 +101,10 @@ namespace Monsoon
 				HandleCommand (arg);
 			
 			Ticker.Tick ();
-			logger = DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 			if (DebugEnabled) {
 				BuildNlogConfig();
 			}
+			logger = DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 			Ticker.Tock("NLog");
 			
 			logger.Info("Starting Monsoon");
@@ -125,7 +123,6 @@ namespace Monsoon
 			}
 			Ticker.Tock("Engine settings");
 			
-			settingsStorage = GconfSettingsStorage.Instance;
 			portController = new ListenPortController(engineSettings.Settings);
 			string localeDir = Path.Combine(Defines.ApplicationDirectory, "locale");
 			if (!Directory.Exists(localeDir)) {
@@ -143,7 +140,7 @@ namespace Monsoon
 			try
 			{
 				Ticker.Tick();
-				mainWindow = new MainWindow (settingsStorage, engineSettings.Settings,
+				mainWindow = new MainWindow (engineSettings.Settings,
 				                             portController);
 				Ticker.Tock ("Instantiating window");
 			}
