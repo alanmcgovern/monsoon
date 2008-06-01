@@ -1,3 +1,11 @@
+2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* Ticker.cs, Monsoon.mdp, Makefile.am: Adding class to allow easy
+	  profiling of where time is spent in the code
+	* Main.cs, Dbus, Dbus/DBusInstance.cs, Dbus/ICommandParser.cs,
+	  Dbus/CommandsReceivedEventArgs.cs: Switching to DBus based instance
+	  detection
+
 2008-05-31  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* TorrentTreeView.cs: Fix for #391792.

@@ -83,6 +83,10 @@ BINARIES = \
 all: $(ASSEMBLY) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) $(BINARIES) 
 
 FILES = \
+	Ticker.cs \
+	Dbus/CommandsReceivedEventArgs.cs \
+	Dbus/DBusInstance.cs \
+	Dbus/ICommandParser.cs \
         AssemblyInfo.cs \
 	gtk-gui/generated.cs \
 	MainWindow.cs \

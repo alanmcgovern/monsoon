@@ -87,6 +87,11 @@
     <File name="gtk-gui/Monsoon.LoadTorrentDialog.cs" subtype="Code" buildaction="Compile" />
     <File name="Model" subtype="Directory" buildaction="Compile" />
     <File name="Model/TorrentFileModel.cs" subtype="Code" buildaction="Compile" />
+    <File name="Dbus" subtype="Directory" buildaction="Compile" />
+    <File name="Dbus/DBusInstance.cs" subtype="Code" buildaction="Compile" />
+    <File name="Dbus/ICommandParser.cs" subtype="Code" buildaction="Compile" />
+    <File name="Dbus/CommandsReceivedEventArgs.cs" subtype="Code" buildaction="Compile" />
+    <File name="Ticker.cs" subtype="Code" buildaction="Compile" />
   </Contents>
   <References>
     <ProjectReference type="Gac" localcopy="True" refto="System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
@@ -103,6 +108,7 @@
     <ProjectReference type="Gac" localcopy="True" refto="gtk-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="glib-sharp, Version=2.8.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <ProjectReference type="Gac" localcopy="True" refto="gconf-sharp-peditors, Version=2.16.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <ProjectReference type="Gac" localcopy="True" refto="NDesk.DBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
   </References>
   <GtkDesignInfo isWidgetLibrary="True" gtkVersion="2.8.3">
     <ExportedWidgets>

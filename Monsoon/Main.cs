@@ -73,18 +73,41 @@ namespace Monsoon
 
 		public MainClass(string [] args)
 		{
+			Ticker.Tick();
+			
 			// required for the MS .NET runtime that doesn't initialize glib automatically
 			if (!GLib.Thread.Supported) {
 				GLib.Thread.Init();
 			}
 			
-			isFirstRun = false;
-			CheckDataFolders();
+			// Attempt to connect to dbus
+			try
+			{
+				Ticker.Tick ();
+				DBusInstance.Connect ();
+				Ticker.Tock ("DBus");
+			}
+			catch
+			{
+			}
+			if (DBusInstance.AlreadyRunning)
+			{
+				PassArguments (args);
+				return;
+			}
 			
+			DBusInstance.CommandParser.RunCommand += HandleCommand;
+			
+			isFirstRun = false;
+			Ticker.Tick();
+			CheckDataFolders();
+			Ticker.Tock ("Checking folders");
 			DebugEnabled = false;
 
+			Ticker.Tick ();
 			Monsoon.GconfPreferencesSettingsController sets = new GconfPreferencesSettingsController();
 			sets.Load ();
+			Ticker.Tock ("Loading preferences");
 			
 			foreach (string arg in args) {
 				if (arg == "-d" || arg == "--debug") {
@@ -114,16 +137,20 @@ namespace Monsoon
 				});
 			
 			}
-			
+			Ticker.Tick ();
 			logger = DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 			if (DebugEnabled) {
 				BuildNlogConfig();
 			}
+			Ticker.Tock("NLog");
 			
 			logger.Info("Starting Monsoon");
-					
+			
+			Ticker.Tick ();
 			SetProcessName("monsoon");
-
+			Ticker.Tock("Setting process name");
+			
+			Ticker.Tick ();
 			engineSettings = new GconfEngineSettingsController ();
 			try {
 				engineSettings.Load();
@@ -131,6 +158,8 @@ namespace Monsoon
 			catch (Exception ex) {
 				logger.Error("Could not load engine settings: {0}", ex.Message);
 			}
+			Ticker.Tock("Engine settings");
+			
 			settingsStorage = GconfSettingsStorage.Instance;
 			portController = new ListenPortController(engineSettings.Settings);
 			string localeDir = Path.Combine(Defines.ApplicationDirectory, "locale");
@@ -138,15 +167,20 @@ namespace Monsoon
 				localeDir = Path.Combine(Defines.InstallPrefix, "share");
 				localeDir = Path.Combine(localeDir, "locale");
 			}
+			
+			Ticker.Tick ();
 			Mono.Unix.Catalog.Init("monsoon", localeDir);
 			logger.Debug("Using locale data from: {0}", localeDir);
 
 			Application.Init("monsoon", ref args);
+			Ticker.Tock("Locale");
 			
 			try
 			{
+				Ticker.Tick();
 				mainWindow = new MainWindow (settingsStorage, engineSettings.Settings,
 				                             portController, isFirstRun);
+				Ticker.Tock ("Instantiating window");
 			}
 			catch(Exception ex)
 			{
@@ -168,11 +202,14 @@ namespace Monsoon
 
 				Environment.Exit (0);
 			}
+			
 			if (File.Exists(sets.Settings.TorrentStorageLocation))
 				StartLocalFileWatcher (mainWindow, sets.Settings.TorrentStorageLocation);
 			else
 				StartLocalFileWatcher (mainWindow, Defines.TorrentFolder);
 			GLib.ExceptionManager.UnhandledException += new GLib.UnhandledExceptionHandler(OnUnhandledException);
+			
+			Ticker.Tock ("Total time:");
 			Application.Run();
 
 			try {
@@ -182,8 +219,23 @@ namespace Monsoon
 				logger.Error("Could save engine settings: {0}", ex.Message);
 			}
 			portController.Stop();
-			//mainWindow.Stop ();
 			mainWindow.Destroy ();
+		}
+		
+		private void HandleCommand (string command)
+		{
+			Console.WriteLine ("Got command: {0}", command);
+		}
+		
+		private void PassArguments (string[] args)
+		{
+			Console.WriteLine ("Existing instance detected");
+			
+			if(args.Length == 0)
+				return;
+			Console.WriteLine ("Passing arguments...");
+			DBusInstance.CommandParser.ParseCommands (args);
+			Console.WriteLine ("Commands Passed");
 		}
 		
 		private static void StartLocalFileWatcher (MainWindow window, string path)
