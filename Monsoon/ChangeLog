@@ -1,5 +1,10 @@
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Settings/GconfEngineSettingsController.cs: Use a random port by
+	  default
+
+2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Main.cs: Wrong folder used by default here.
 
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 

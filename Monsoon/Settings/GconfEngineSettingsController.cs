@@ -84,7 +84,7 @@ namespace Monsoon
 			try{
 				Settings.ListenPort = (int)gconf.Retrieve(ListenPortKey);
 			} catch(SettingNotFoundException){
-				
+				Settings.ListenPort = new System.Random().Next(30000, 36000);
 			}
 			
 			try{
