@@ -954,10 +954,7 @@ namespace Monsoon
 				logger.Debug ("Open torrent dialog response recieved");
 				foreach (String fileName in fileChooser.Filenames) {
 					try {
-						string newPath = System.IO.Path.Combine(Preferences.TorrentStorageLocation, System.IO.Path.GetFileName(fileName));
-						File.Copy(fileName, newPath ,true); 
-						// Let FileWatcher handle in Main.cs call LoadTorrent
-						//torrentController.MainWindow.LoadTorrent (fileName);
+						torrentController.MainWindow.LoadTorrent (fileName);
 					} catch (Exception ex) {
 						MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, ex.Message);
 						errorDialog.Run();
@@ -1268,6 +1265,7 @@ namespace Monsoon
 			messageDialog.Title = _("Remove torrent"); 
 			ResponseType result = (ResponseType)messageDialog.Run();
 			messageDialog.Hide();
+			messageDialog.Destroy ();
 			
 			if (result != ResponseType.Yes)
 				return;
@@ -1325,6 +1323,7 @@ namespace Monsoon
 			messageDialog.Title = _("Delete torrent"); 
 			ResponseType result = (ResponseType)messageDialog.Run();
 			messageDialog.Hide();
+			messageDialog.Destroy ();
 			
 			if (result == ResponseType.Yes) {
 				TreePath [] treePaths;
@@ -1349,7 +1348,7 @@ namespace Monsoon
 	  		   	logger.Info ("Selected NO to delete torrent");
 			}
 			
-			messageDialog.Destroy ();
+
 		}
 		
 		private void BuildOptionsPage ()
@@ -1498,6 +1497,8 @@ namespace Monsoon
 				MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent,
 				                                              MessageType.Error, ButtonsType.Close,
 				                                              string.Format (error, ex.Message));
+				errorDialog.Run ();
+				errorDialog.Destroy ();
 			}
 		}
 		
