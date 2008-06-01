@@ -166,15 +166,6 @@
         <property name="Tooltip" translatable="yes">Create a new torrent</property>
         <signal name="Activated" handler="OnNewActivated" />
       </action>
-      <action id="druidDebug">
-        <property name="Type">Action</property>
-        <property name="Label" translatable="yes" />
-        <property name="ShortLabel" translatable="yes">Druid Debug</property>
-        <property name="StockId">gtk-help</property>
-        <property name="Tooltip" translatable="yes">Druid Debug</property>
-        <property name="Visible">False</property>
-        <signal name="Activated" handler="OnDruidDebugActivated" />
-      </action>
       <action id="Plugins">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes">Plugins</property>
@@ -239,7 +230,6 @@
               <node type="Separator" />
               <node type="Toolitem" action="Plugins" />
               <node type="Toolitem" action="preferences" />
-              <node type="Toolitem" action="druidDebug" />
             </node>
           </widget>
           <packing>

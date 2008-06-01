@@ -1,5 +1,10 @@
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* gtk-gui/Monsoon.MainWindow.cs, gtk-gui/gui.stetic: Nuked last
+	  remenents of the Druid
+
+2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: Destroy message dialogs properly and load torrents
 	  from the file menu like we used to.
 

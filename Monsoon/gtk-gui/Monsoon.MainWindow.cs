@@ -45,8 +45,6 @@ namespace Monsoon {
         
         private Gtk.Action NewTorrent;
         
-        private Gtk.Action druidDebug;
-        
         private Gtk.Action Plugins;
         
         private Gtk.VBox vbox1;
@@ -285,7 +283,7 @@ namespace Monsoon {
             w3.Expand = false;
             w3.Fill = false;
             // Container child vbox1.Gtk.Box+BoxChild
-            w1.AddUiFromString("<ui><toolbar name='toolbar1'><toolitem action='NewTorrent'/><toolitem action='OpenTorrent'/><separator/><toolitem action='startTorrentButton'/><toolitem action='stopTorrentButton'/><toolitem action='removeTorrentButton'/><toolitem action='deleteTorrentButton'/><separator/><toolitem action='Plugins'/><toolitem action='preferences'/><toolitem action='druidDebug'/></toolbar></ui>");
+            w1.AddUiFromString("<ui><toolbar name='toolbar1'><toolitem action='NewTorrent'/><toolitem action='OpenTorrent'/><separator/><toolitem action='startTorrentButton'/><toolitem action='stopTorrentButton'/><toolitem action='removeTorrentButton'/><toolitem action='deleteTorrentButton'/><separator/><toolitem action='Plugins'/><toolitem action='preferences'/></toolbar></ui>");
             this.toolbar1 = ((Gtk.Toolbar)(w1.GetWidget("/toolbar1")));
             this.toolbar1.Name = "toolbar1";
             this.toolbar1.ShowArrow = false;
