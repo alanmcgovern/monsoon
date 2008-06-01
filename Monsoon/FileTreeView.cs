@@ -43,7 +43,6 @@ namespace Monsoon
 		private TreeViewColumn filenameColumn;
 		private TreeViewColumn progressColumn;
 		//private TreeStore treeStore;
-		private TorrentController torrentController;
 		
 		private Gtk.Menu contextMenu;
 		private ImageMenuItem highItem;
@@ -55,11 +54,10 @@ namespace Monsoon
 		private ImageMenuItem nodownItem;
 		
 		
-		public FileTreeView(TorrentController torrentController, TorrentFileModel treeStore) : base()
+		public FileTreeView(TorrentFileModel treeStore) : base()
 		{
 			this.treeStore = treeStore;
 			this.Model = treeStore;
-			this.torrentController = torrentController;
 			this.Selection.Mode = SelectionMode.Multiple;
 			HeadersVisible = true;
 

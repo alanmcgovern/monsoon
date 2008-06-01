@@ -14,7 +14,6 @@ namespace Monsoon
 	public partial class LoadTorrentDialog : Gtk.Dialog
 	{
 		private Gtk.TreeStore store;
-		private Torrent torrent;
 		
 		public bool AlwaysAsk
 		{

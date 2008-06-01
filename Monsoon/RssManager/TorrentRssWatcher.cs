@@ -139,11 +139,11 @@ namespace Monsoon
 				TorrentFound(this, new TorrentRssWatcherEventArgs(filter, item));
 		}
 		
-		private void RaiseTorrentLost(RssFilter filter, RssItem item)
-		{
-			if(TorrentLost != null)
-				TorrentLost(this, new TorrentRssWatcherEventArgs(filter, item));
-		}
+//		private void RaiseTorrentLost(RssFilter filter, RssItem item)
+//		{
+//			if(TorrentLost != null)
+//				TorrentLost(this, new TorrentRssWatcherEventArgs(filter, item));
+//		}
 		
 	}
 }

@@ -147,7 +147,7 @@ namespace Monsoon
 				                             portController);
 				Ticker.Tock ("Instantiating window");
 			}
-			catch(Exception ex)
+			catch(Exception)
 			{
 				logger.Info("Existing instance detected");
 

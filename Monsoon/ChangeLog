@@ -1,5 +1,12 @@
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* MainWindow.cs, Main.cs, TorrentController.cs,
+	  ListenPortController.cs, LoadTorrentDialog.cs, AboutDialog.cs,
+	  FileTreeView.cs, RssManager/TorrentRssWatcher.cs,
+	  TorrentTreeView.cs: Fixed a bunch of compiler warnings
+
+2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* gtk-gui/Monsoon.MainWindow.cs, gtk-gui/gui.stetic: Nuked last
 	  remenents of the Druid
 

@@ -64,7 +64,7 @@ namespace Monsoon
 			{
 				addresses = NatUtility.GetLocalAddresses (false);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				logger.Warn ("Could not resolve hostname, port forwarding may not work");
 				addresses = new IPAddress[] { IPAddress.Loopback };

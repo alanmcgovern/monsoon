@@ -455,7 +455,7 @@ namespace Monsoon
 		private void BuildFileTreeView ()
 		{
 			fileTreeStore = new TorrentFileModel();
-			fileTreeView = new FileTreeView (torrentController, fileTreeStore);
+			fileTreeView = new FileTreeView (fileTreeStore);
 			filesScrolledWindow.Add (fileTreeView);
 			fileTreeView.Show();
 		}

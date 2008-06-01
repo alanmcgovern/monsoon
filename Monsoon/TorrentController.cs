@@ -38,7 +38,6 @@ using System.Collections;
 using System.Threading;
 using System.Xml.Serialization;
 using MonoTorrent.TorrentWatcher;
-using MonoTorrent.Common;
 
 namespace Monsoon
 {
@@ -92,7 +91,7 @@ namespace Monsoon
 			torrentsDownloading = new List<TorrentManager>();
 			torrentsSeeding = new List<TorrentManager>(); 
 			allTorrents = new List<TorrentManager>();
-			Gtk.Timeout.Add (1000, delegate {
+			GLib.Timeout.Add (1000, delegate {
 				foreach (SpeedMonitor m in torrentSwarm.Values)
 					m.Tick ();
 				return true;
