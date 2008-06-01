@@ -57,6 +57,7 @@ namespace Monsoon
 		{
 			try
 			{
+				Ticker.Tick ();
 				BusG.Init ();
 				alreadyRunning = Bus.Session.RequestName (BusName) != RequestNameReply.PrimaryOwner;
 				

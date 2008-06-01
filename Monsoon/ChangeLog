@@ -1,5 +1,9 @@
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Dbus/DBusInstance.cs: Added missing tick
+
+2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* Settings/GconfEngineSettingsController.cs: Use a random port by
 	  default
 
