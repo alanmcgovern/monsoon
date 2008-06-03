@@ -1,5 +1,10 @@
 2008-06-04  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* ListenPortController.cs, libs/Mono.Nat.dll: Committing updated
+	  Mono.Nat to fix memory leak.
+
+2008-06-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* libs/NotifySharp/Notification.cs: Add null check to method
 
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 

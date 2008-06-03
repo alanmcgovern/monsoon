@@ -70,9 +70,6 @@ namespace Monsoon
 				addresses = new IPAddress[] { IPAddress.Loopback };
 			}
 			
-			NatUtility.AddController (new UpnpNatController (addresses));
-			NatUtility.AddController (new PmpNatController (addresses));
-			
 			NatUtility.DeviceFound += OnDeviceFound;
 		}
 		
