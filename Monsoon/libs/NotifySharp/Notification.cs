@@ -207,8 +207,10 @@ namespace Notifications {
 		}
 
 		public void AttachToWidget (Gtk.Widget widget) {
+			if (widget == null)
+				throw new ArgumentNullException ("widget");
+			
 			int x, y;
-
 			widget.GdkWindow.GetOrigin (out x, out y);
 
 			if (widget.GetType() != typeof (Gtk.Window) || ! widget.GetType().IsSubclassOf(typeof (Gtk.Window))) {
