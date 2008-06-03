@@ -297,6 +297,9 @@ namespace Monsoon
 			trayIcon = new Egg.TrayIcon (Defines.ApplicationName);
 			trayIcon.Icon = new Image (Stock.Network, IconSize.Menu).Pixbuf;
 			trayIcon.Add (eventBox);
+			
+			if (this.prefSettings.Settings.EnableTray)
+				trayIcon.ShowAll ();
 		}
 		
 		private void OnTrayClicked(object sender, ButtonPressEventArgs args)

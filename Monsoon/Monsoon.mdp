@@ -121,7 +121,7 @@
       <Widget>MonoTorrent.Interface.AddinManager</Widget>
     </ExportedWidgets>
   </GtkDesignInfo>
-  <MonoDevelop.Autotools.MakefileInfo IntegrationEnabled="True" RelativeMakefileName="Makefile.am" IsAutotoolsProject="True" RelativeConfigureInPath="..">
+  <MonoDevelop.Autotools.MakefileInfo RelativeMakefileName="Makefile.am" IsAutotoolsProject="True" RelativeConfigureInPath="..">
     <BuildFilesVar Name="FILES" />
     <DeployFilesVar />
     <ResourcesVar Name="RESOURCES" />
