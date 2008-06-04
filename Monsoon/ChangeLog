@@ -1,5 +1,10 @@
 2008-06-04  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* TorrentTreeView.cs, TorrentController.cs: Fix the issues with loading
+	  torrents now that we have dbus based detection
+
+2008-06-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* libs/MonoTorrent.dll: Fixes issue with freshly created torrents not
 	  showing the right % complete
 

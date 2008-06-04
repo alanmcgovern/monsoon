@@ -129,7 +129,7 @@ namespace Monsoon
 			foreach(string s in uriList){
 				Uri uri = new Uri(s.TrimEnd());
 				if(uri.IsFile && s.EndsWith(".torrent", StringComparison.OrdinalIgnoreCase))
-					torrentController.MainWindow.LoadTorrent (s);
+					torrentController.MainWindow.LoadTorrent (uri.LocalPath);
 			}
 		}
 			

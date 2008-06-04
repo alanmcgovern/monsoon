@@ -203,8 +203,7 @@ namespace Monsoon
 			if (torrentPath != null && (prefSettings.TorrentStorageLocation != Directory.GetParent(torrentPath).ToString()) ) {
 				newPath = Path.Combine(prefSettings.TorrentStorageLocation, Path.GetFileName(torrentPath));
 				logger.Debug("Copying torrent to " + newPath);	
-				// Until proper instance detection is done, assume torrents are already in the storage folder
-				//File.Copy(torrentPath, newPath, true);
+				File.Copy(torrentPath, newPath, true);
 				
 				if (removeOriginal) {
 					logger.Info("Deleting original torrent " + torrentPath);
