@@ -147,7 +147,6 @@ namespace Monsoon
 			if(!(args.Message is MonoTorrent.Client.Messages.Standard.HaveMessage))
 				return;
 			
-			Console.WriteLine ("I got a {0}", args.Message.GetType().Name);
 			Gtk.Application.Invoke(delegate {
 				if(!torrentSwarm.ContainsKey(args.TorrentManager))
 					torrentSwarm.Add(args.TorrentManager, new SpeedMonitor());
@@ -172,12 +171,12 @@ namespace Monsoon
 		
 		public TorrentManager addTorrent (Torrent torrent, string savePath)
 		{
-			return addTorrent(torrent, prefSettings.StartNewTorrents, false, null, savePath, false);
+			return addTorrent(torrent, prefSettings.StartNewTorrents, prefSettings.RemoveOnImport, null, savePath, false);
 		}
 		
 		public TorrentManager addTorrent(Torrent torrent, bool startTorrent)
 		{
-			return addTorrent(torrent, startTorrent, false, null);
+			return addTorrent(torrent, startTorrent, prefSettings.RemoveOnImport, null);
 		}
 		public TorrentManager addTorrent(Torrent torrent, bool startTorrent, bool removeOriginal, TorrentSettings savedSettings)
 		{
@@ -185,54 +184,21 @@ namespace Monsoon
 		}
 		public TorrentManager addTorrent(Torrent torrent, bool startTorrent, bool removeOriginal, TorrentSettings savedSettings, string savePath, bool isUrl)
 		{
-			string torrentPath = torrent.TorrentPath;
-			Torrent torrentCheck = torrent;
+			string originalPath = torrent.TorrentPath;
 			TorrentManager manager;
-			string newPath;
 			
 			if(!Directory.Exists(savePath))
 				throw new TorrentException("Torrent save path does not exist, " + savePath);
 			
 			// Check to see if torrent already exists
-			if (engine.Contains (torrentCheck)) {
-				logger.Error ("Failed to add torrent, " + torrentCheck.Name + " already exists.");
-				throw new TorrentException ("Failed to add torrent, " + torrentCheck.Name + " already exists.");
+			if (engine.Contains (torrent)) {
+				logger.Error ("Failed to add torrent, " + torrent.Name + " already exists.");
+				throw new TorrentException ("Failed to add torrent, " + torrent.Name + " already exists.");
 			}
 			
-			// Move torrent to storage folder
-			if (torrentPath != null && (prefSettings.TorrentStorageLocation != Directory.GetParent(torrentPath).ToString()) ) {
-				newPath = Path.Combine(prefSettings.TorrentStorageLocation, Path.GetFileName(torrentPath));
-				logger.Debug("Copying torrent to " + newPath);	
-				File.Copy(torrentPath, newPath, true);
-				
-				if (removeOriginal) {
-					logger.Info("Deleting original torrent " + torrentPath);
-					try{
-						File.Delete(torrentPath);
-					} catch{
-						logger.Error("Unable to delete " + Path.GetFileName(torrentPath) + ".");
-						throw new Exception("Unable to delete " + Path.GetFileName(torrentPath) + ".");
-					}
-				}
+			// Move the .torrent to the local storage folder if it's not there already
+			MoveToStorage (ref torrent);
 
-			} else {
-				newPath = torrentPath;
-			}
-			
-			
-			
-			// Load and register torrent
-			if(!isUrl && !Torrent.TryLoad(newPath, out torrent)){
-				logger.Error("Failed to register " + Path.GetFileName(newPath));
-				throw new TorrentException("Failed to register " + Path.GetFileName(newPath));
-			} else if (isUrl && !Torrent.TryLoad(new System.Uri(newPath), Path.Combine(prefSettings.TorrentStorageLocation, Path.GetFileName(newPath)), out torrent)){
-				logger.Error("Failed to register " + newPath);
-				throw new TorrentException("Failed to register " + newPath);
-			}
-			
-			for (int i = 0; i < torrentCheck.Files.Length; i++)
-				torrent.Files[i].Priority = torrentCheck.Files[i].Priority;
-			
 			TorrentSettings settings = savedSettings ?? mainWindow.DefaultTorrentSettings.Clone ();
 			FastResume resume = this.fastResume.Find(delegate (FastResume f) { return Toolbox.ByteMatch(f.InfoHash, torrent.InfoHash); });
 			
@@ -242,6 +208,11 @@ namespace Monsoon
 				manager = new TorrentManager(torrent, savePath, settings);
 					
 			engine.Register(manager);
+			
+			if (removeOriginal) {
+				logger.Info ("Removing {0}", originalPath);
+				File.Delete (originalPath);
+			}
 			
 			torrents.Add (manager, torrentListStore.AppendValues(manager));
 			allTorrents.Add (manager);
@@ -270,6 +241,34 @@ namespace Monsoon
 			mainWindow.StoreTorrentSettings();
 			
 			return manager;
+		}
+		
+		private void MoveToStorage (ref Torrent torrent)
+		{
+			string torrentPath = torrent.TorrentPath;
+			
+			if (torrentPath == null) {
+				logger.Info ("Couldn't move torrent, path was null");
+				return;
+			}
+			// Torrent already in storage
+			if (prefSettings.TorrentStorageLocation == Directory.GetParent(torrentPath).ToString()) {
+				logger.Info ("Torrent was already in the storage folder");
+				return;
+			}
+			
+			string newPath = Path.Combine(prefSettings.TorrentStorageLocation, Path.GetFileName(torrentPath));
+			logger.Debug("Copying torrent to " + newPath);
+			if (File.Exists (newPath))
+				File.Delete (newPath);
+			
+			File.Copy (torrentPath, newPath, true);
+			
+			Torrent t = Torrent.Load (newPath);
+			for (int i=0; i < torrent.Files.Length; i++)
+				t.Files[i].Priority = torrent.Files[i].Priority;
+			
+			torrent = t;
 		}
 		
 		private void OnPeerConnected (object sender, PeerConnectionEventArgs a)
@@ -458,10 +457,14 @@ namespace Monsoon
 			logger.Info("Removed torrent " + torrent.Torrent.Name);
 			mainWindow.AllLabel.RemoveTorrent(torrent);
 			
-			if(torrentSwarm.ContainsKey(torrent))
+			if (torrentSwarm.ContainsKey(torrent))
 				torrentSwarm.Remove(torrent);
-			if(hashProgress.ContainsKey(torrent))
+			if (hashProgress.ContainsKey(torrent))
 				hashProgress.Remove(torrent);
+			
+			fastResume.RemoveAll (delegate (FastResume f) {
+				return Toolbox.ByteMatch (f.InfoHash, torrent.Torrent.InfoHash); 
+			});
 			
 			engine.Unregister(torrent);
 			mainWindow.StoreTorrentSettings();

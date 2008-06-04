@@ -1,5 +1,15 @@
 2008-06-04  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* TorrentController.cs: Use the preferences as the default value for
+	  'removeOriginal' when loading a torrent.
+	
+	  Remove fastResume data when removing a torrent.
+	
+	  Simplify the loading of a new torrent. Also ensure that the
+	  original is only deleted if the torrent is fully loaded.
+
+2008-06-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* TorrentTreeView.cs, TorrentController.cs: Fix the issues with loading
 	  torrents now that we have dbus based detection
 
