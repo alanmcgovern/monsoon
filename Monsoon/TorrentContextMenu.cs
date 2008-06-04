@@ -183,13 +183,14 @@ namespace Monsoon
 			if (selectedTorrent == null)
 				return;
 			
-			if (selectedTorrent.FileManager.Files.Length == 1) {
-				logger.Debug("Launching file: " + selectedTorrent.SavePath + System.IO.Path.DirectorySeparatorChar + selectedTorrent.FileManager.Files[0].Path); 
-				Process.Start("\"" + selectedTorrent.SavePath + System.IO.Path.DirectorySeparatorChar + selectedTorrent.FileManager.Files[0].Path + "\"");
-			} else {
-				logger.Debug("Opening folder: " + selectedTorrent.SavePath + System.IO.Path.DirectorySeparatorChar + selectedTorrent.FileManager.BaseDirectory);
-				Process.Start("\"file://" + selectedTorrent.SavePath + System.IO.Path.DirectorySeparatorChar + selectedTorrent.FileManager.BaseDirectory + "\"");
-			}
+			string path = selectedTorrent.SavePath;
+			if (selectedTorrent.FileManager.Files.Length == 1)
+				path = System.IO.Path.Combine (path, selectedTorrent.FileManager.Files[0]);
+			else
+				path = "file://" + System.IO.Path.Combine (path, selectedTorrent.FileManager.BaseDirectory);
+			
+			logger.Debug("Launching: {0}", path); 
+			Process.Start(string.Format (@"""{0}"""), path);
 		}
 		
 		private static string _(string s)
