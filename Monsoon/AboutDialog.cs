@@ -38,7 +38,7 @@ namespace Monsoon
 	{
 		public AboutDialog() : base()
 		{
-			ProgramName = Defines.ApplicationName;
+			Name = Defines.ApplicationName;
 			
 			try {
 				Logo = Gtk.IconTheme.Default.LoadIcon("weather-showers", 64, 0);
