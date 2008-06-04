@@ -1,5 +1,9 @@
 2008-06-04  Jared Hendry <hendry.jared@gmail.com> 
 
+	* MainWindow.cs: Improve tray icon context menu UI
+
+2008-06-04  Jared Hendry <hendry.jared@gmail.com> 
+
 	* TorrentContextMenu.cs: Fix launching a file with spaces in path
 	* AboutDialog.cs: Revert to deprecated method
 

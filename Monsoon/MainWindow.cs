@@ -275,7 +275,7 @@ namespace Monsoon
 			};
 			
 			ImageMenuItem stop = new ImageMenuItem (_("Stop All"));
-			stop.Image = new Image (Stock.Stop, IconSize.Menu);
+			stop.Image = new Image (Stock.MediaStop, IconSize.Menu);
 			stop.Activated += delegate {
 				foreach (TorrentManager m in torrentController.Torrents)
 					m.Stop ();
@@ -287,9 +287,18 @@ namespace Monsoon
 				foreach (TorrentManager m in torrentController.Torrents)
 					m.Start ();
 			};
+
+			CheckMenuItem notifications = new CheckMenuItem (_("Show Notifications"));
+			notifications.Active = Preferences.EnableNotifications;
+			notifications.Activated += delegate {
+				Preferences.EnableNotifications = !Preferences.EnableNotifications; 
+			};
 			
 			trayMenu.Append (start);
 			trayMenu.Append (stop);
+			trayMenu.Append (new SeparatorMenuItem());
+			trayMenu.Append (notifications);
+			trayMenu.Append (new SeparatorMenuItem());
 			trayMenu.Append (quitItem);
 			
 			eventBox.Add (new Image (Stock.GoDown, IconSize.Menu));
