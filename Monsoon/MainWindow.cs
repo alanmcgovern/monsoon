@@ -307,6 +307,13 @@ namespace Monsoon
 			trayIcon.Icon = new Image (Stock.Network, IconSize.Menu).Pixbuf;
 			trayIcon.Add (eventBox);
 			
+			Tooltips trayTip = new Tooltips();
+			
+			trayIcon.EnterNotifyEvent += delegate { 
+				trayTip.SetTip(trayIcon, "Monsoon - D: " + ByteConverter.ConvertSpeed(torrentController.Engine.TotalDownloadSpeed) +
+				               " U: " + ByteConverter.ConvertSpeed(torrentController.Engine.TotalUploadSpeed), null);
+			};
+			
 			if (this.prefSettings.Settings.EnableTray)
 				trayIcon.ShowAll ();
 		}
