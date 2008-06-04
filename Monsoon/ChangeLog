@@ -1,5 +1,10 @@
 2008-06-04  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* libs/MonoTorrent.dll: Fixes issue with freshly created torrents not
+	  showing the right % complete
+
+2008-06-04  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs: Ensure the tray icon becomes visible if it's supposed
 	  to be enabled
 
