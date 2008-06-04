@@ -1,5 +1,10 @@
 2008-06-04  Jared Hendry <hendry.jared@gmail.com> 
 
+	* PreferencesDialog.cs, TorrentController.cs: Allow notifications to be
+	  enabled with no tray icon
+
+2008-06-04  Jared Hendry <hendry.jared@gmail.com> 
+
 	* MainWindow.cs: Improve tray icon context menu UI
 
 2008-06-04  Jared Hendry <hendry.jared@gmail.com> 

@@ -53,6 +53,7 @@ namespace Monsoon
 		private Dictionary<TorrentManager, long> torrentPreviousUpload;
 		private Dictionary<TorrentManager, long> torrentPreviousDownload;
 		private MainWindow mainWindow;
+		private TorrentManager completedManager;
 		
 		private List<TorrentManager> torrentsDownloading;
 		private List<TorrentManager> torrentsSeeding;
@@ -344,6 +345,7 @@ namespace Monsoon
 		private void OnTorrentStateChanged(object sender, TorrentStateChangedEventArgs args)
 		{
 			TorrentManager manager = (TorrentManager)sender;
+			completedManager = manager;
 			Gtk.Application.Invoke (delegate {
 				if (args.OldState == TorrentState.Downloading) {
 					logger.Debug("Removing " + manager.Torrent.Name + " from download label");
@@ -370,15 +372,24 @@ namespace Monsoon
 					return;
 				if (args.OldState != TorrentState.Downloading)
 					return;
-			
-				Notifications.Notification notify = new Notifications.Notification ("Download Complete", manager.Torrent + " has finished downloading.");
-				notify.AttachToWidget (mainWindow.TrayIcon);
+
+				Notifications.Notification notify = new Notifications.Notification (_("Download Complete"), manager.Torrent.Name, Stock.GoDown);
+				if (prefSettings.EnableTray)
+					notify.AttachToWidget (mainWindow.TrayIcon);
+				notify.Urgency = Notifications.Urgency.Low;
 				notify.Timeout = 5000;
 				notify.Show ();
+				notify.AddAction("reveal-item", "Show", OnRevealActivated);
 			});
-			
 		}
-		
+
+		private void OnRevealActivated (object o, Notifications.ActionArgs args)
+		{
+			if (completedManager == null)
+				return;
+			System.Diagnostics.Process.Start("\"file://" + completedManager.SavePath + "\"");
+		}
+
 		public List<TorrentManager> TorrentsDownloading
 		{
 			get{ return torrentsDownloading; }
@@ -550,6 +561,11 @@ namespace Monsoon
 		public TorrentManager GetSelectedTorrent()
 		{
 			return mainWindow.GetSelectedTorrent();
+		}
+		
+		private static string _(string s)
+		{
+			return Mono.Unix.Catalog.GetString(s);
 		}
 	}
 }

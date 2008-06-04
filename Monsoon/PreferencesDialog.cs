@@ -93,7 +93,6 @@ namespace Monsoon
 			enableTrayCheckButton.Toggled += OnEnableTrayToggled;
 			loadDialogCheckButton.Toggled +=  OnLoadDialogToggled;
 			
-			enableNotificationsCheckButton.Sensitive = prefSettings.EnableTray;
 			minimizeTrayCheckButton.Sensitive = prefSettings.EnableTray;
 		}
 		
@@ -119,13 +118,10 @@ namespace Monsoon
 				trayIcon.HideAll();
 				prefSettings.QuitOnClose = prefSettings.EnableTray;
 				minimizeTrayCheckButton.Active = prefSettings.EnableTray;
-				enableNotificationsCheckButton.Active = prefSettings.EnableTray;
-				prefSettings.EnableNotifications = prefSettings.EnableTray;
 			} else {
 				trayIcon.ShowAll();
 			}
-			
-			enableNotificationsCheckButton.Sensitive = prefSettings.EnableTray;
+
 			minimizeTrayCheckButton.Sensitive = prefSettings.EnableTray;
 		}
 		
