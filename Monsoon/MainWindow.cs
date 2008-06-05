@@ -1521,5 +1521,10 @@ namespace Monsoon
 #warning URL based torrents arent being loaded
 			//return torrentController.addTorrent(path, autoStart, moveToStorage, removeOriginal, settings, savePath, isUrl);
 		}
+
+		protected virtual void OnReportBugActivated (object sender, System.EventArgs e)
+		{
+			System.Diagnostics.Process.Start (@"""https://bugzilla.novell.com/enter_bug.cgi?classification=6841&product=Mono%3A+Tools&component=Monsoon""");
+		}
 	}
 }

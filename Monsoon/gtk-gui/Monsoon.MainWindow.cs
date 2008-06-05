@@ -47,6 +47,8 @@ namespace Monsoon {
         
         private Gtk.Action Plugins;
         
+        private Gtk.Action ReportBugAction;
+        
         private Gtk.VBox vbox1;
         
         private Gtk.MenuBar menubar1;
@@ -265,6 +267,9 @@ namespace Monsoon {
             this.Plugins = new Gtk.Action("Plugins", Mono.Unix.Catalog.GetString("Plugins"), Mono.Unix.Catalog.GetString("Open the RSS manager"), "rss");
             this.Plugins.ShortLabel = Mono.Unix.Catalog.GetString("Plugins");
             w2.Add(this.Plugins, null);
+            this.ReportBugAction = new Gtk.Action("ReportBugAction", Mono.Unix.Catalog.GetString("Report Bug"), null, null);
+            this.ReportBugAction.ShortLabel = Mono.Unix.Catalog.GetString("Report Bug");
+            w2.Add(this.ReportBugAction, null);
             w1.InsertActionGroup(w2, 0);
             this.AddAccelGroup(w1.AccelGroup);
             this.Name = "Monsoon.MainWindow";
@@ -274,7 +279,7 @@ namespace Monsoon {
             this.vbox1 = new Gtk.VBox();
             this.vbox1.Name = "vbox1";
             // Container child vbox1.Gtk.Box+BoxChild
-            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='FileAction'><menuitem action='NewTorrent'/><menuitem action='OpenTorrent'/><separator/><menuitem action='Quit'/></menu><menu action='EditAction'><menuitem action='preferences'/></menu><menu action='ViewAction'><menuitem action='EditColumns'/><separator/><menuitem action='ShowLabels'/><menuitem action='ShowDetailedInfo'/></menu><menu action='HelpAction'><menuitem action='About'/></menu></menubar></ui>");
+            w1.AddUiFromString("<ui><menubar name='menubar1'><menu action='FileAction'><menuitem action='NewTorrent'/><menuitem action='OpenTorrent'/><separator/><menuitem action='Quit'/></menu><menu action='EditAction'><menuitem action='preferences'/></menu><menu action='ViewAction'><menuitem action='EditColumns'/><separator/><menuitem action='ShowLabels'/><menuitem action='ShowDetailedInfo'/></menu><menu action='HelpAction'><menuitem action='About'/><menuitem action='ReportBugAction'/></menu></menubar></ui>");
             this.menubar1 = ((Gtk.MenuBar)(w1.GetWidget("/menubar1")));
             this.menubar1.Name = "menubar1";
             this.vbox1.Add(this.menubar1);
@@ -1041,6 +1046,7 @@ namespace Monsoon {
             this.startTorrentButton.Activated += new System.EventHandler(this.OnStartTorrentActivated);
             this.NewTorrent.Activated += new System.EventHandler(this.OnNewActivated);
             this.Plugins.Activated += new System.EventHandler(this.OnPluginsActivated);
+            this.ReportBugAction.Activated += new System.EventHandler(this.OnReportBugActivated);
         }
     }
 }
