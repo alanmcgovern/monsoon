@@ -1,3 +1,8 @@
+2008-06-06  Jared Hendry <hendry.jared@gmail.com> 
+
+	* Main.cs: Remove old instance detection code
+	* TorrentLabel.cs: Change log messages from info to debug
+
 2008-06-05  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* gtk-gui/gui.stetic, gtk-gui/Monsoon.MainWindow.cs, MainWindow.cs:

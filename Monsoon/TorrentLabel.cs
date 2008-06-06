@@ -76,11 +76,11 @@ namespace Monsoon
 			Gdk.Pixbuf icon;
 			this.immutable = immutable;
 			if(!System.IO.File.Exists(iconPath)){
-				logger.Info("File " + iconPath + " does not exist, trying stock icon");
+				logger.Debug("File " + iconPath + " does not exist, trying stock icon");
 				//icon = Gtk.IconTheme.Default.LoadIcon("gtk-about", 16, 0);
 				icon = Gtk.IconTheme.Default.LoadIcon(iconPath, 16, 0);
 			} else {
-				logger.Info("Loading icon from path: " + iconPath);
+				logger.Debug("Loading icon from path: " + iconPath);
 				icon = new Gdk.Pixbuf(iconPath, 16, 16);
 			}
 

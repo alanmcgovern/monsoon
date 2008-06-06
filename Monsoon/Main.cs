@@ -143,25 +143,11 @@ namespace Monsoon
 				mainWindow = new MainWindow (engineSettings.Settings,
 				                             portController);
 				Ticker.Tock ("Instantiating window");
-			}
-			catch(Exception)
-			{
-				logger.Info("Existing instance detected");
-
-				foreach(string arg in args) {
-					if (!File.Exists(arg)) 
-						continue;
-					logger.Info ("Informing existing instance of new torrent");
-					string oldPath = arg;
-					string newPath = Path.Combine(sets.Settings.TorrentStorageLocation, Path.GetFileName(arg));
-					logger.Info ("Copying: {0} to {1}", oldPath, newPath);
-					File.Copy(oldPath, newPath ,true);   
-				}
 				
-				if (args.Length < 1) {
-					logger.Info ("No new torrents detected");
-				}
-
+			}
+			catch(Exception e)
+			{
+				logger.ErrorException(e.Message, e);
 				Environment.Exit (0);
 			}
 
