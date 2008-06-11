@@ -1,3 +1,10 @@
+2008-06-11  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* LoadTorrentDialog.cs: When there's only a single file, don't create
+	  the whole tree. When there are multiple files, append torrent.Name
+	  as opposed to "" as the root node.
+	* TorrentContextMenu.cs: Should be appending the path
+
 2008-06-04  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* TorrentContextMenu.cs: Cleaned up the path creation

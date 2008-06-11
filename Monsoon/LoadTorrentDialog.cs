@@ -79,14 +79,20 @@ namespace Monsoon
 		{
 			store = new Gtk.TreeStore (typeof (string), typeof (bool), typeof (TorrentFile));
 			
-			TreeIter iter = store.AppendValues ("", true);
-			
-			foreach (TorrentFile file in torrent.Files)
+			if (torrent.Files.Length == 1)
 			{
-				string[] parts = file.Path.Split (System.IO.Path.DirectorySeparatorChar);
-				RecursiveAdd (iter, new List<string>(parts), file);
+				store.AppendValues(torrent.Files[0].Path, true, torrent.Files[0]);
 			}
-
+			else
+			{
+				TreeIter iter = store.AppendValues (torrent.Name, true);
+				foreach (TorrentFile file in torrent.Files)
+				{
+					string[] parts = file.Path.Split (System.IO.Path.DirectorySeparatorChar);
+					RecursiveAdd (iter, new List<string>(parts), file);
+				}
+			}
+			
 			torrentTreeView.Model = store;
 			torrentTreeView.ExpandAll ();
 		}
