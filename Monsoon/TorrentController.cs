@@ -364,6 +364,24 @@ namespace Monsoon
 				} else if (args.NewState == TorrentState.Seeding) {
 					logger.Debug("Adding " + manager.Torrent.Name + " to upload label");
 					mainWindow.SeedingLabel.AddTorrent(manager);
+				} else if (args.NewState == TorrentState.Stopped) {
+					lock(mainWindow.Peers)
+					{
+						List<PeerId> peers = new List<PeerId>(mainWindow.Peers.Keys);
+						foreach (PeerId peer in peers)
+						{
+							if (peer.TorrentManager == args.TorrentManager)
+							{
+								TreeIter iter = mainWindow.Peers[peer];
+								mainWindow.PeerListStore.Remove (ref iter);
+								mainWindow.Peers.Remove(peer);
+							}
+						}
+					}
+					lock (mainWindow.Pieces)
+					{
+						mainWindow.Pieces.Clear ();
+					}
 				}
 			
 				if (!prefSettings.EnableNotifications)

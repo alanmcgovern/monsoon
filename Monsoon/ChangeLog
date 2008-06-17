@@ -1,5 +1,10 @@
 2008-06-17  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* TorrentController.cs: Ensure both peers and pieces are cleared when
+	  active torrents are stopped
+
+2008-06-17  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* TorrentContextMenu.cs: The parameter should be passed to
 	  string.Format(), not Process.Start()
 
