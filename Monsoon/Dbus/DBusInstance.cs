@@ -64,7 +64,7 @@ namespace Monsoon
 				if (alreadyRunning)
 					commandParser = Bus.Session.GetObject<ICommandParser>(BusName, new ObjectPath (CommandParserPath));
 				else
-					Bus.Session.Register(new ObjectPath(CommandParserPath), commandParser);
+					Bus.Session.Register(BusName, new ObjectPath(CommandParserPath), commandParser);
 			}
 			catch (Exception)
 			{

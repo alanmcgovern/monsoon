@@ -1,5 +1,10 @@
 2008-06-17  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Dbus/DBusInstance.cs: Keep compatibility with the ndesk.dbus in suse
+	  10.3
+
+2008-06-17  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* AssemblyInfo.cs: Bump the version
 
 2008-06-17  Alan McGovern <alan.mcgovern@gmail.com> 
