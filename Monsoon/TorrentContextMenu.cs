@@ -190,7 +190,7 @@ namespace Monsoon
 				path = "file://" + System.IO.Path.Combine (path, selectedTorrent.FileManager.BaseDirectory);
 			
 			logger.Debug("Launching: {0}", path); 
-			Process.Start(string.Format (@"""{0}"""), path);
+			Process.Start(string.Format (@"""{0}""", path));
 		}
 		
 		private static string _(string s)

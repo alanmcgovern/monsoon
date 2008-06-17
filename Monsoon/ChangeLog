@@ -1,3 +1,8 @@
+2008-06-17  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* TorrentContextMenu.cs: The parameter should be passed to
+	  string.Format(), not Process.Start()
+
 2008-06-11  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* LoadTorrentDialog.cs: When there's only a single file, don't create
