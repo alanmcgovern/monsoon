@@ -203,15 +203,7 @@ namespace Monsoon {
         
         private Gtk.Label label13;
         
-        private Gtk.Statusbar statusbar2;
-        
-        private Gtk.EventBox eventDownload;
-        
-        private Gtk.Label statusDownloadLabel;
-        
-        private Gtk.EventBox eventUpload;
-        
-        private Gtk.Label statusUploadLabel;
+        private Gtk.Toolbar statusToolbar;
         
         protected virtual void Build() {
             Stetic.Gui.Initialize(this);
@@ -327,7 +319,7 @@ namespace Monsoon {
             this.detailNotebook = new Gtk.Notebook();
             this.detailNotebook.CanFocus = true;
             this.detailNotebook.Name = "detailNotebook";
-            this.detailNotebook.CurrentPage = 1;
+            this.detailNotebook.CurrentPage = 0;
             // Container child detailNotebook.Gtk.Notebook+NotebookChild
             this.scrolledwindow1 = new Gtk.ScrolledWindow();
             this.scrolledwindow1.CanFocus = true;
@@ -988,43 +980,17 @@ namespace Monsoon {
             Gtk.Box.BoxChild w73 = ((Gtk.Box.BoxChild)(this.vbox1[this.hPaned]));
             w73.Position = 2;
             // Container child vbox1.Gtk.Box+BoxChild
-            this.statusbar2 = new Gtk.Statusbar();
-            this.statusbar2.Name = "statusbar2";
-            this.statusbar2.Spacing = 6;
-            this.statusbar2.HasResizeGrip = false;
-            // Container child statusbar2.Gtk.Box+BoxChild
-            this.eventDownload = new Gtk.EventBox();
-            this.eventDownload.Name = "eventDownload";
-            // Container child eventDownload.Gtk.Container+ContainerChild
-            this.statusDownloadLabel = new Gtk.Label();
-            this.statusDownloadLabel.Name = "statusDownloadLabel";
-            this.statusDownloadLabel.LabelProp = Mono.Unix.Catalog.GetString("<small>D: 0.00 kB</small>");
-            this.statusDownloadLabel.UseMarkup = true;
-            this.eventDownload.Add(this.statusDownloadLabel);
-            this.statusbar2.Add(this.eventDownload);
-            Gtk.Box.BoxChild w75 = ((Gtk.Box.BoxChild)(this.statusbar2[this.eventDownload]));
-            w75.Position = 2;
-            w75.Expand = false;
-            w75.Fill = false;
-            // Container child statusbar2.Gtk.Box+BoxChild
-            this.eventUpload = new Gtk.EventBox();
-            this.eventUpload.Name = "eventUpload";
-            // Container child eventUpload.Gtk.Container+ContainerChild
-            this.statusUploadLabel = new Gtk.Label();
-            this.statusUploadLabel.Name = "statusUploadLabel";
-            this.statusUploadLabel.LabelProp = Mono.Unix.Catalog.GetString("<small>U: 0.00 kB</small>");
-            this.statusUploadLabel.UseMarkup = true;
-            this.eventUpload.Add(this.statusUploadLabel);
-            this.statusbar2.Add(this.eventUpload);
-            Gtk.Box.BoxChild w77 = ((Gtk.Box.BoxChild)(this.statusbar2[this.eventUpload]));
-            w77.Position = 3;
-            w77.Expand = false;
-            w77.Fill = false;
-            this.vbox1.Add(this.statusbar2);
-            Gtk.Box.BoxChild w78 = ((Gtk.Box.BoxChild)(this.vbox1[this.statusbar2]));
-            w78.Position = 3;
-            w78.Expand = false;
-            w78.Fill = false;
+            w1.AddUiFromString("<ui><toolbar name='statusToolbar'/></ui>");
+            this.statusToolbar = ((Gtk.Toolbar)(w1.GetWidget("/statusToolbar")));
+            this.statusToolbar.Name = "statusToolbar";
+            this.statusToolbar.ShowArrow = false;
+            this.statusToolbar.ToolbarStyle = ((Gtk.ToolbarStyle)(0));
+            this.statusToolbar.IconSize = ((Gtk.IconSize)(1));
+            this.vbox1.Add(this.statusToolbar);
+            Gtk.Box.BoxChild w74 = ((Gtk.Box.BoxChild)(this.vbox1[this.statusToolbar]));
+            w74.Position = 3;
+            w74.Expand = false;
+            w74.Fill = false;
             this.Add(this.vbox1);
             if ((this.Child != null)) {
                 this.Child.ShowAll();

@@ -1,3 +1,9 @@
+2008-06-20  Jared Hendry <hendry.jared@gmail.com> 
+
+	* MainWindow.cs, gtk-gui/Monsoon.MainWindow.cs, gtk-gui/gui.stetic: Drop
+	  Gtk.Statusbar for Gtk.Toolbar
+	* AssemblyInfo.cs: Update version number
+
 2008-06-17  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Dbus/DBusInstance.cs: Keep compatibility with the ndesk.dbus in suse

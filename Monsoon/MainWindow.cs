@@ -59,6 +59,8 @@ namespace Monsoon
 		private TorrentLabel deleteLabel;
 		private TorrentLabel downloadingLabel;
 		private TorrentLabel uploadLabel;
+		private Button statusDownButton;
+		private Button statusUpButton;
 		
 		private	TorrentTreeView torrentTreeView;
 		private TreeSelection torrentsSelected;
@@ -201,6 +203,9 @@ namespace Monsoon
 			Ticker.Tick ();
 			Build ();
 			Ticker.Tock ("Build");
+			Ticker.Tick();
+			BuildStatusBar();
+			Ticker.Tock ("Status bar");			
 			Ticker.Tick ();
 			BuildTray();
 			Ticker.Tock ("Tray");
@@ -225,7 +230,7 @@ namespace Monsoon
 			Ticker.Tick ();
 			BuildSpeedsPopup();
 			Ticker.Tock ("Speeds popup");
-			Ticker.Tock ("Built all stuff");
+			Ticker.Tock ("Built all stuff");		
 			
 			GLib.Timeout.Add (1000, new GLib.TimeoutHandler (updateView));
 			
@@ -254,7 +259,7 @@ namespace Monsoon
 			
 			rssManagerController = new RssManagerController(torrentController);
 			rssManagerController.StartWatchers();
-			
+            
 			ShowAll();
 		}	
 		
@@ -465,6 +470,36 @@ namespace Monsoon
 			this.interfaceSettings.Save ();
 		}
 		
+		private void BuildStatusBar()
+		{
+			statusToolbar.ShowArrow = false;	
+			statusToolbar.ToolbarStyle = ToolbarStyle.BothHoriz;
+			
+			// Empty expanded ToolItem to fake right aligning items
+			Label fillerLabel = new Label();
+            ToolItem fillerItem = new ToolItem();
+			fillerItem.Add(fillerLabel);
+			fillerItem.Expand = true;
+			
+            statusDownButton = new Button ();
+			statusDownButton.Relief = ReliefStyle.None;
+			statusDownButton.Image = Gtk.Image.NewFromIconName(Gtk.Stock.GoDown, IconSize.Menu);
+			
+            statusUpButton = new Button ();
+			statusUpButton.Relief = ReliefStyle.None;
+			statusUpButton.Image = Gtk.Image.NewFromIconName(Gtk.Stock.GoUp, IconSize.Menu);
+			
+			ToolItem uploadItem = new ToolItem();
+			uploadItem.Add(statusUpButton);
+			ToolItem downItem = new ToolItem();
+			downItem.Add(statusDownButton);
+			
+			statusToolbar.Insert(fillerItem, 0);
+			statusToolbar.Insert(downItem, 1);			
+			statusToolbar.Insert(uploadItem, 2);			
+
+            statusToolbar.ShowAll ();
+		}
 		
 		private void BuildFileTreeView ()
 		{
@@ -752,20 +787,16 @@ namespace Monsoon
 			else
 				limited = "[" + ByteConverter.ConvertSpeed (engineSettings.GlobalMaxDownloadSpeed) + "]";
 			
-			statusDownloadLabel.Markup = string.Format("{0}{1}{2}{3}", "<small>D: ", 
-			                                           limited,
-			                                           ByteConverter.ConvertSpeed(torrentController.Engine.TotalDownloadSpeed),
-			                                           "</small>");
+			statusDownButton.Label = string.Format("{0}{1}", limited,
+			                                           ByteConverter.ConvertSpeed(torrentController.Engine.TotalDownloadSpeed));
 			
 			if (engineSettings.GlobalMaxUploadSpeed == 0)
 				limited = "";
 			else
 				limited = string.Format("[{0}]", ByteConverter.ConvertSpeed (engineSettings.GlobalMaxUploadSpeed));
 			
-			statusUploadLabel.Markup = string.Format("{0}{1}{2}{3}",  "<small>U: ",
-			                                         limited, 
-			                                         ByteConverter.ConvertSpeed (torrentController.Engine.TotalUploadSpeed),
-			                                         "</small>");
+			statusUpButton.Label = string.Format("{0}{1}", limited, 
+			                                         ByteConverter.ConvertSpeed (torrentController.Engine.TotalUploadSpeed));
 		}
 		
 		
@@ -1377,13 +1408,13 @@ namespace Monsoon
 		private void BuildSpeedsPopup()
 		{
 			SpeedLimitMenu menu = new SpeedLimitMenu();
-			eventUpload.ButtonPressEvent += delegate {
+			statusUpButton.Clicked += delegate {
 				menu.ShowAll ();
 				menu.IsUpload = true;
 				menu.CalculateSpeeds (engineSettings.GlobalMaxUploadSpeed);
 				menu.Popup ();
 			};
-			eventDownload.ButtonPressEvent += delegate {
+			statusDownButton.Clicked += delegate {
 				menu.ShowAll ();
 				menu.IsUpload = false;
 				menu.CalculateSpeeds (engineSettings.GlobalMaxDownloadSpeed);
