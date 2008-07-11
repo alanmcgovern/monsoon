@@ -1,5 +1,9 @@
 2008-07-11  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* PreferencesDialog.cs: Missing brackets
+
+2008-07-11  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* PreferencesDialog.cs, gtk-gui/Monsoon.PreferencesDialog.cs,
 	  gtk-gui/gui.stetic: Committing the code to allow encryption levels
 	  to be set in the preferences

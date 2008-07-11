@@ -169,7 +169,7 @@ namespace Monsoon
                     encryptionCombo.Active = 1;
             }
                 // Force encryption
-            else if (engineSettings.AllowedEncryption == MonoTorrent.Client.Encryption.EncryptionTypes.RC4Full | MonoTorrent.Client.Encryption.EncryptionTypes.RC4Header)
+            else if (engineSettings.AllowedEncryption == (MonoTorrent.Client.Encryption.EncryptionTypes.RC4Full | MonoTorrent.Client.Encryption.EncryptionTypes.RC4Header))
             {
                 if (!engineSettings.AllowLegacyConnections)
                     encryptionCombo.Active = 2;
