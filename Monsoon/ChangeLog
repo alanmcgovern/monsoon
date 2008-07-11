@@ -1,5 +1,11 @@
 2008-07-11  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* PreferencesDialog.cs, gtk-gui/Monsoon.PreferencesDialog.cs,
+	  gtk-gui/gui.stetic: Committing the code to allow encryption levels
+	  to be set in the preferences
+
+2008-07-11  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, ListenPortController.cs,
 	  gtk-gui/Monsoon.MainWindow.cs, gtk-gui/objects.xml,
 	  gtk-gui/gui.stetic, Monsoon.mdp, View, View/NatWidget.cs:

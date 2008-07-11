@@ -124,6 +124,31 @@ namespace Monsoon
 
 			minimizeTrayCheckButton.Sensitive = prefSettings.EnableTray;
 		}
+        
+        private void OnEncryptionChanged (object sender, EventArgs args)
+        {
+            // FIXME: Don't use the indices like this
+            // It's prone to failure if things change later.
+            
+            // Encryption off
+            if (encryptionCombo.Active == 0)
+            {
+                engineSettings.AllowLegacyConnections = true;
+                this.engineSettings.AllowedEncryption = MonoTorrent.Client.Encryption.EncryptionTypes.None;
+            }
+            // Allow encryption
+            else if (encryptionCombo.Active == 1)
+            {
+                engineSettings.AllowLegacyConnections = true;
+                engineSettings.AllowedEncryption = MonoTorrent.Client.Encryption.EncryptionTypes.All;
+            }
+            // Force only encrypted connections
+            else if (encryptionCombo.Active == 2)
+            {
+                engineSettings.AllowLegacyConnections = false;
+                engineSettings.AllowedEncryption = MonoTorrent.Client.Encryption.EncryptionTypes.RC4Full | MonoTorrent.Client.Encryption.EncryptionTypes.RC4Header;
+            }
+        }
 		
 		private void buildConnectionPage()
 		{
@@ -131,6 +156,24 @@ namespace Monsoon
 			maxConnectionsSpinButton.SetRange(0, int.MaxValue);
 			maxDownloadSpeedSpinButton.SetRange(0, int.MaxValue);
 			maxUploadSpeedSpinButton.SetRange(0, int.MaxValue);
+            encryptionCombo.Changed += OnEncryptionChanged;
+            
+            // If encryption is disabled in settings
+            if (engineSettings.AllowedEncryption == MonoTorrent.Client.Encryption.EncryptionTypes.None)
+            {
+                encryptionCombo.Active = 0;
+            }
+            else if (engineSettings.AllowedEncryption == MonoTorrent.Client.Encryption.EncryptionTypes.All)
+            {
+                if (engineSettings.AllowLegacyConnections)
+                    encryptionCombo.Active = 1;
+            }
+                // Force encryption
+            else if (engineSettings.AllowedEncryption == MonoTorrent.Client.Encryption.EncryptionTypes.RC4Full | MonoTorrent.Client.Encryption.EncryptionTypes.RC4Header)
+            {
+                if (!engineSettings.AllowLegacyConnections)
+                    encryptionCombo.Active = 2;
+            }
 		}
 		
 		private void buildLabelPage()
