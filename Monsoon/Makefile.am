@@ -146,7 +146,8 @@ FILES = \
 	Settings/XmlRssFeedsController.cs \
 	Settings/XmlRssHistoryController.cs \
 	Settings/XmlRssFiltersController.cs \
-	Settings/XmlTorrentStorageController.cs
+	Settings/XmlTorrentStorageController.cs \
+	View/NatWidget.cs
 
 DATA_FILES = \
 	icons/rss.png \

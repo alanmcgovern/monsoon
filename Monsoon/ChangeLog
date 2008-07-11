@@ -1,5 +1,9 @@
 2008-07-11  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Makefile.am: Updated makefiles
+
+2008-07-11  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* PreferencesDialog.cs: Missing brackets
 
 2008-07-11  Alan McGovern <alan.mcgovern@gmail.com> 
