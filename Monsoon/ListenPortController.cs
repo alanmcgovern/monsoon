@@ -40,6 +40,9 @@ namespace Monsoon
 {
 	public class ListenPortController
 	{
+		public event EventHandler RouterFound;
+		public event EventHandler PortMapped;
+        
 		private EngineSettings settings;
 		
 		private List<INatDevice> devices;
@@ -158,6 +161,11 @@ namespace Monsoon
 				INatDevice device = (INatDevice)result.AsyncState;
 				device.EndCreatePortMap(result);
 				logger.Info("UPnP port mapping successful {0}", udpMapping);
+				GLib.Idle.Add (delegate {
+				if (PortMapped != null)
+					PortMapped (this, EventArgs.Empty);
+					return false;
+				});
 			} 
 			catch(MappingException e)
 			{
@@ -217,8 +225,15 @@ namespace Monsoon
 			logger.Info("UPnP Device found");
 			lock (devices)
 			if (!devices.Contains(args.Device))
+            {
 				devices.Add(args.Device);
-			MapPort();
+				GLib.Idle.Add (delegate {
+					if (RouterFound != null)
+						RouterFound (this, EventArgs.Empty);
+					return false;
+				});
+			}
+            MapPort();
 		}
 		
 		private bool running;

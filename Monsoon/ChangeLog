@@ -1,3 +1,10 @@
+2008-07-11  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, ListenPortController.cs,
+	  gtk-gui/Monsoon.MainWindow.cs, gtk-gui/objects.xml,
+	  gtk-gui/gui.stetic, Monsoon.mdp, View, View/NatWidget.cs:
+	  Implemented the first version of the nat status indicator.
+
 2008-06-20  Jared Hendry <hendry.jared@gmail.com> 
 
 	* MainWindow.cs, gtk-gui/Monsoon.MainWindow.cs, gtk-gui/gui.stetic: Drop

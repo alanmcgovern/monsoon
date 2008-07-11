@@ -203,6 +203,12 @@ namespace Monsoon {
         
         private Gtk.Label label13;
         
+        private Gtk.Alignment alignment4;
+        
+        private Gtk.HBox hbox4;
+        
+        private Monsoon.NatWidget natStatus;
+        
         private Gtk.Toolbar statusToolbar;
         
         protected virtual void Build() {
@@ -319,7 +325,7 @@ namespace Monsoon {
             this.detailNotebook = new Gtk.Notebook();
             this.detailNotebook.CanFocus = true;
             this.detailNotebook.Name = "detailNotebook";
-            this.detailNotebook.CurrentPage = 0;
+            this.detailNotebook.CurrentPage = 4;
             // Container child detailNotebook.Gtk.Notebook+NotebookChild
             this.scrolledwindow1 = new Gtk.ScrolledWindow();
             this.scrolledwindow1.CanFocus = true;
@@ -980,17 +986,40 @@ namespace Monsoon {
             Gtk.Box.BoxChild w73 = ((Gtk.Box.BoxChild)(this.vbox1[this.hPaned]));
             w73.Position = 2;
             // Container child vbox1.Gtk.Box+BoxChild
+            this.alignment4 = new Gtk.Alignment(1F, 0.5F, 0F, 1F);
+            this.alignment4.Name = "alignment4";
+            // Container child alignment4.Gtk.Container+ContainerChild
+            this.hbox4 = new Gtk.HBox();
+            this.hbox4.Name = "hbox4";
+            this.hbox4.Spacing = 6;
+            // Container child hbox4.Gtk.Box+BoxChild
+            this.natStatus = new Monsoon.NatWidget();
+            this.natStatus.WidthRequest = 28;
+            this.natStatus.Name = "natStatus";
+            this.natStatus.HasIncoming = false;
+            this.natStatus.RouterFound = false;
+            this.natStatus.PortForwarded = false;
+            this.hbox4.Add(this.natStatus);
+            Gtk.Box.BoxChild w74 = ((Gtk.Box.BoxChild)(this.hbox4[this.natStatus]));
+            w74.Position = 0;
+            w74.Expand = false;
+            w74.Fill = false;
+            // Container child hbox4.Gtk.Box+BoxChild
             w1.AddUiFromString("<ui><toolbar name='statusToolbar'/></ui>");
             this.statusToolbar = ((Gtk.Toolbar)(w1.GetWidget("/statusToolbar")));
             this.statusToolbar.Name = "statusToolbar";
             this.statusToolbar.ShowArrow = false;
             this.statusToolbar.ToolbarStyle = ((Gtk.ToolbarStyle)(0));
             this.statusToolbar.IconSize = ((Gtk.IconSize)(1));
-            this.vbox1.Add(this.statusToolbar);
-            Gtk.Box.BoxChild w74 = ((Gtk.Box.BoxChild)(this.vbox1[this.statusToolbar]));
-            w74.Position = 3;
-            w74.Expand = false;
-            w74.Fill = false;
+            this.hbox4.Add(this.statusToolbar);
+            Gtk.Box.BoxChild w75 = ((Gtk.Box.BoxChild)(this.hbox4[this.statusToolbar]));
+            w75.Position = 1;
+            this.alignment4.Add(this.hbox4);
+            this.vbox1.Add(this.alignment4);
+            Gtk.Box.BoxChild w77 = ((Gtk.Box.BoxChild)(this.vbox1[this.alignment4]));
+            w77.Position = 3;
+            w77.Expand = false;
+            w77.Fill = false;
             this.Add(this.vbox1);
             if ((this.Child != null)) {
                 this.Child.ShowAll();

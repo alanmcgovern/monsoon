@@ -2,10 +2,10 @@
 <stetic-interface>
   <configuration>
     <images-root-path>..</images-root-path>
-    <target-gtk-version>2.8.3</target-gtk-version>
+    <target-gtk-version>2.12.2</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="../bin/Release/Monsoon.exe" internal="true" />
+    <widget-library name="../bin/Debug/Monsoon.exe" internal="true" />
   </import>
   <icon-factory>
     <icon-set id="rss">
@@ -297,7 +297,7 @@
                   <widget class="Gtk.Notebook" id="detailNotebook">
                     <property name="MemberName" />
                     <property name="CanFocus">True</property>
-                    <property name="CurrentPage">0</property>
+                    <property name="CurrentPage">4</property>
                     <child>
                       <widget class="Gtk.ScrolledWindow" id="scrolledwindow1">
                         <property name="MemberName" />
@@ -1429,12 +1429,44 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.Toolbar" id="statusToolbar">
+          <widget class="Gtk.Alignment" id="alignment4">
             <property name="MemberName" />
-            <property name="ShowArrow">False</property>
-            <property name="ButtonStyle">Icons</property>
-            <property name="IconSize">Menu</property>
-            <node name="statusToolbar" type="Menubar" />
+            <property name="Xscale">0</property>
+            <property name="Xalign">1</property>
+            <child>
+              <widget class="Gtk.HBox" id="hbox4">
+                <property name="MemberName" />
+                <property name="Spacing">6</property>
+                <child>
+                  <widget class="Monsoon.NatWidget" id="natStatus">
+                    <property name="MemberName" />
+                    <property name="WidthRequest">28</property>
+                    <property name="HasIncoming">False</property>
+                    <property name="RouterFound">False</property>
+                    <property name="PortForwarded">False</property>
+                  </widget>
+                  <packing>
+                    <property name="Position">0</property>
+                    <property name="AutoSize">True</property>
+                    <property name="Expand">False</property>
+                    <property name="Fill">False</property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="Gtk.Toolbar" id="statusToolbar">
+                    <property name="MemberName" />
+                    <property name="ShowArrow">False</property>
+                    <property name="ButtonStyle">Icons</property>
+                    <property name="IconSize">Menu</property>
+                    <node name="statusToolbar" type="Toolbar" />
+                  </widget>
+                  <packing>
+                    <property name="Position">1</property>
+                    <property name="AutoSize">True</property>
+                  </packing>
+                </child>
+              </widget>
+            </child>
           </widget>
           <packing>
             <property name="Position">3</property>
@@ -2877,9 +2909,6 @@
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
               </packing>
-            </child>
-            <child>
-              <placeholder />
             </child>
           </widget>
           <packing>

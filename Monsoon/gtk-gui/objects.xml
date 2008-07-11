@@ -1,2 +1,12 @@
 <objects>
+  <object type="Monsoon.NatWidget" palette-category="Monsoon" allow-children="false" base-type="Gtk.DrawingArea">
+    <itemgroups>
+      <itemgroup label="NatWidget Properties">
+        <property name="HasIncoming" />
+        <property name="RouterFound" />
+        <property name="PortForwarded" />
+      </itemgroup>
+    </itemgroups>
+    <signals />
+  </object>
 </objects>

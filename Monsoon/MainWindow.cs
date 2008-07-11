@@ -187,7 +187,9 @@ namespace Monsoon
 		{
 			this.engineSettings = engineSettings;
 			this.portController = portController;
-			
+			portController.PortMapped += delegate { natStatus.PortForwarded = true; };
+			portController.RouterFound += delegate { natStatus.RouterFound = true; };
+            
 			interfaceSettings = new GConfInterfaceSettingsController ();
 			defaultTorrentSettings = new GconfTorrentSettingsController ();
 			prefSettings = new GconfPreferencesSettingsController ();
@@ -233,7 +235,7 @@ namespace Monsoon
 			Ticker.Tock ("Built all stuff");		
 			
 			GLib.Timeout.Add (1000, new GLib.TimeoutHandler (updateView));
-			
+            
 			Ticker.Tick ();
 			RestoreInterfaceSettings ();
 			Ticker.Tock ("Restored Interface");
@@ -261,7 +263,7 @@ namespace Monsoon
 			rssManagerController.StartWatchers();
             
 			ShowAll();
-		}	
+		}
 		
 		public Egg.TrayIcon TrayIcon {
 			get { return trayIcon; }
@@ -1301,6 +1303,12 @@ namespace Monsoon
 			RemoveTorrent ();
 		}
 		
+		private void PeerConnected (object o, PeerConnectionEventArgs e)
+		{
+			if (e.ConnectionDirection == MonoTorrent.Common.Direction.Incoming)
+				natStatus.HasIncoming = true;
+		}
+        
 		private void RemoveTorrent ()
 		{
 			MessageDialog messageDialog = new MessageDialog (this,
@@ -1334,6 +1342,7 @@ namespace Monsoon
 			torrentTreeView.Selection.UnselectAll ();
 			
 			foreach (TorrentManager toDelete in torrentsToRemove) {
+				toDelete.PeerConnected -= PeerConnected;
 				torrentController.removeTorrent (toDelete);
 				File.Delete(toDelete.Torrent.TorrentPath);
 			}
@@ -1534,7 +1543,8 @@ namespace Monsoon
 			
 			try
 			{
-				torrentController.addTorrent (torrent, savePath);
+				TorrentManager manager = torrentController.addTorrent (torrent, savePath);
+				manager.PeerConnected += PeerConnected;
 			}
 			catch (Exception ex)
 			{
