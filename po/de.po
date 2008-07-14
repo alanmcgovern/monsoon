@@ -613,7 +613,7 @@ msgstr "Schwarm Geschwindigkeit:"
 
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:533
 msgid "Update In:"
-msgstr "Aktualisuerung in: "
+msgstr "Aktualisierung in: "
 
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:555
 msgid "Message:"
@@ -833,7 +833,7 @@ msgstr "Beschriftung:"
 
 #: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:430
 msgid "<b>Filter Settings</b>"
-msgstr "<b>Filter Einstellugen</b>"
+msgstr "<b>Filter Einstellungen</b>"
 
 #: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:442
 msgid "Filters"
