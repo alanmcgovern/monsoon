@@ -1,0 +1,966 @@
+# Swedish translation for monsoon.
+# Copyright (C) 2008 Free Software Foundation, Inc.
+# This file is distributed under the same license as the monsoon package.
+# Daniel Nylander <po@danielnylander.se>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: monsoon\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-07-29 09:47+0200\n"
+"PO-Revision-Date: 2008-07-29 10:29+0100\n"
+"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
+"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../Monsoon/AboutDialog.cs:61
+msgid "Bulgarian - Ventsislav Mladenov"
+msgstr "Bulgariska - Ventsislav Mladenov"
+
+#: ../Monsoon/AboutDialog.cs:62
+msgid "Dutch - Freek de Kruijf"
+msgstr "Nederländska - Freek de Kruijf"
+
+#: ../Monsoon/AboutDialog.cs:63
+msgid "French - Olivier Dufour"
+msgstr "Franska - Olivier Dufour"
+
+#: ../Monsoon/AboutDialog.cs:64
+msgid "German - Mirco Bauer <meebey@meebey.net>"
+msgstr "Tyska - Mirco Bauer <meebey@meebey.net>"
+
+#: ../Monsoon/AboutDialog.cs:65
+msgid "Italian - Alberto Passalacqua"
+msgstr "Italienska - Alberto Passalacqua"
+
+#: ../Monsoon/AboutDialog.cs:66
+msgid "Spanish - Mario Sopena"
+msgstr "Spanska - Mario Sopena"
+
+#: ../Monsoon/CreateTorrentDialog.cs:57
+msgid "Select file"
+msgstr "Välj fil"
+
+#: ../Monsoon/CreateTorrentDialog.cs:93
+msgid "Trackers"
+msgstr "Bevakare"
+
+#: ../Monsoon/CreateTorrentDialog.cs:175
+msgid "Save Torrent As..."
+msgstr "Spara torrent som..."
+
+#: ../Monsoon/EditColumnsDialog.cs:44
+msgid "Edit columns"
+msgstr "Redigera kolumner"
+
+#: ../Monsoon/FileTreeView.cs:77
+msgid "Filename"
+msgstr "Filnamn"
+
+#: ../Monsoon/FileTreeView.cs:78
+msgid "Progress"
+msgstr "Förlopp"
+
+#: ../Monsoon/FileTreeView.cs:100
+msgid "High"
+msgstr "Hög"
+
+#: ../Monsoon/FileTreeView.cs:101
+msgid "Highest"
+msgstr "Högsta"
+
+#: ../Monsoon/FileTreeView.cs:102
+msgid "Immediate"
+msgstr "Omedelbart"
+
+#: ../Monsoon/FileTreeView.cs:103
+msgid "Low"
+msgstr "Låg"
+
+#: ../Monsoon/FileTreeView.cs:104
+msgid "Lowest"
+msgstr "Lägsta"
+
+#: ../Monsoon/FileTreeView.cs:105
+msgid "Normal"
+msgstr "Normal"
+
+#: ../Monsoon/FileTreeView.cs:106
+msgid "Do Not Download"
+msgstr "Hämta inte"
+
+#: ../Monsoon/LabelTreeView.cs:100
+msgid "Create"
+msgstr "Skapa"
+
+#: ../Monsoon/LabelTreeView.cs:103
+msgid "New Label"
+msgstr "Ny etikett"
+
+#: ../Monsoon/LabelTreeView.cs:109
+#: ../Monsoon/MainWindow.cs:542
+#: ../Monsoon/TorrentContextMenu.cs:55
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:266
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:821
+msgid "Remove"
+msgstr "Ta bort"
+
+#. PR_SET_NAME
+#: ../Monsoon/Main.cs:188
+msgid "Error setting process name: "
+msgstr "Fel vid inställning av processnamn: "
+
+#: ../Monsoon/MainWindow.cs:277
+#: ../Monsoon/gtk-gui/MainWindow.cs:245
+#: ../Monsoon/gtk-gui/MainWindow.cs:246
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:234
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:235
+msgid "Quit"
+msgstr "Avsluta"
+
+#: ../Monsoon/MainWindow.cs:284
+msgid "Stop All"
+msgstr "Stoppa alla"
+
+#: ../Monsoon/MainWindow.cs:291
+msgid "Start All"
+msgstr "Starta alla"
+
+#: ../Monsoon/MainWindow.cs:298
+msgid "Show Notifications"
+msgstr "Visa notifieringar"
+
+#: ../Monsoon/MainWindow.cs:541
+#: ../Monsoon/MainWindow.cs:881
+#: ../Monsoon/RssManager/RssFilter.cs:56
+#: ../Monsoon/RssManager/RssManagerDialog.cs:136
+msgid "All"
+msgstr "Alla"
+
+#: ../Monsoon/MainWindow.cs:543
+#: ../Monsoon/MainWindow.cs:881
+msgid "Downloading"
+msgstr "Hämtar"
+
+#: ../Monsoon/MainWindow.cs:544
+#: ../Monsoon/MainWindow.cs:881
+#: ../Monsoon/PeerTreeView.cs:68
+msgid "Seeding"
+msgstr "Distribuerar"
+
+#: ../Monsoon/MainWindow.cs:985
+msgid "Open torrent(s)"
+msgstr "Öppna torrentfil(er)"
+
+#: ../Monsoon/MainWindow.cs:987
+msgid "Torrent files"
+msgstr "Torrentfiler"
+
+#: ../Monsoon/MainWindow.cs:990
+msgid "All files"
+msgstr "Alla filer"
+
+#: ../Monsoon/MainWindow.cs:1238
+msgid "Pause"
+msgstr "Paus"
+
+#: ../Monsoon/MainWindow.cs:1243
+#: ../Monsoon/MainWindow.cs:1249
+msgid "Start"
+msgstr "Starta"
+
+#: ../Monsoon/MainWindow.cs:1317
+msgid "Are you sure you want to remove the torrent?"
+msgstr "Är du säker på att du vill ta bort torrentfilen?"
+
+#: ../Monsoon/MainWindow.cs:1318
+msgid "Remove torrent"
+msgstr "Ta bort torrent"
+
+#: ../Monsoon/MainWindow.cs:1376
+msgid "Remove torrent and delete all data?"
+msgstr "Ta bort torrentfil och radera allt data?"
+
+#: ../Monsoon/MainWindow.cs:1377
+msgid "Delete torrent"
+msgstr "Radera torrent"
+
+#: ../Monsoon/MainWindow.cs:1507
+msgid "Invalid torrent selected"
+msgstr "Ogiltig torrentfil vald"
+
+#: ../Monsoon/MainWindow.cs:1516
+msgid "Torrent has already been added"
+msgstr "Torrentfilen har redan lagts till"
+
+#: ../Monsoon/MainWindow.cs:1551
+#, csharp-format
+msgid "An unexpected error occured while loading the torrent. {0}"
+msgstr "Ett ohanterat fel inträffade vid inläsning av torrentfilen. {0}"
+
+#: ../Monsoon/Menus/SpeedLimitMenu.cs:55
+msgid "Unlimited"
+msgstr "Obegränsat"
+
+#: ../Monsoon/PeerTreeView.cs:64
+msgid "IP Address"
+msgstr "IP-adress"
+
+#: ../Monsoon/PeerTreeView.cs:65
+msgid "Client"
+msgstr "Klient"
+
+#: ../Monsoon/PeerTreeView.cs:66
+#: ../Monsoon/TorrentTreeView.cs:154
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:171
+msgid "DL Speed"
+msgstr "Hast. ned"
+
+#: ../Monsoon/PeerTreeView.cs:67
+#: ../Monsoon/TorrentTreeView.cs:155
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:116
+msgid "UP Speed"
+msgstr "Hast. upp"
+
+#: ../Monsoon/PeerTreeView.cs:69
+msgid "Interested"
+msgstr "Intressanta"
+
+#. iconButton.Image = new Gtk.Image(Gtk.IconTheme.Default.LoadIcon("gtk-about", 32, 0));
+#. iconButton.Sensitive = true;
+#.
+#. selectIcon = new IconEntry("", "Select an Icon");
+#. iconEntryBox.Add(selectIcon);
+#. selectIcon.ShowAll();
+#.
+#: ../Monsoon/PreferencesDialog.cs:199
+msgid "Browse Icon"
+msgstr "Bläddra efter ikon"
+
+#: ../Monsoon/PreferencesDialog.cs:224
+msgid "Download location"
+msgstr "Hämtningsplats"
+
+#: ../Monsoon/PreferencesDialog.cs:231
+msgid "Torrage storage location"
+msgstr ""
+
+#: ../Monsoon/PreferencesDialog.cs:242
+msgid "Import folder to scan"
+msgstr "Importeringsmapp att söka av"
+
+#: ../Monsoon/PreferencesDialog.cs:332
+msgid "Select an Icon"
+msgstr "Välj en ikon"
+
+#. completedColumn = new TreeViewColumn();
+#. I18N: number of / amount
+#: ../Monsoon/PiecesTreeView.cs:55
+msgid "#"
+msgstr "Antal"
+
+#: ../Monsoon/PiecesTreeView.cs:56
+#: ../Monsoon/TorrentTreeView.cs:157
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:128
+msgid "Size"
+msgstr "Storlek"
+
+#: ../Monsoon/PiecesTreeView.cs:57
+msgid "# of Blocks"
+msgstr "Antal block"
+
+#: ../Monsoon/PiecesTreeView.cs:58
+msgid "Blocks"
+msgstr "Block"
+
+#: ../Monsoon/RssManager/RssFilter.cs:44
+msgid "New Filter"
+msgstr "Nytt filter"
+
+#: ../Monsoon/RssManager/RssManagerDialog.cs:141
+msgid "Filter"
+msgstr "Filter"
+
+#: ../Monsoon/RssManager/RssManagerDialog.cs:150
+msgid "Select a Save Path"
+msgstr "Välj en plats att spara på"
+
+#: ../Monsoon/RssManager/RssManagerDialog.cs:188
+#: ../Monsoon/RssManager/RssManagerDialog.cs:293
+msgid "Item"
+msgstr "Objekt"
+
+#: ../Monsoon/RssManager/RssManagerDialog.cs:231
+msgid "Download"
+msgstr "Hämta"
+
+#: ../Monsoon/TorrentContextMenu.cs:52
+msgid "Open"
+msgstr "Öppna"
+
+#: ../Monsoon/TorrentContextMenu.cs:53
+msgid "Start/Pause"
+msgstr "Starta/Paus"
+
+#: ../Monsoon/TorrentContextMenu.cs:54
+msgid "Stop"
+msgstr "Stoppa"
+
+#: ../Monsoon/TorrentContextMenu.cs:56
+msgid "Delete"
+msgstr "Radera"
+
+#: ../Monsoon/TorrentContextMenu.cs:57
+msgid "Force Re-_check"
+msgstr "Tvinga åte_rkontroll"
+
+#. ImageMenuItem hashItem  = new ImageMenuItem(_("Force Re-_hash"));
+#: ../Monsoon/TorrentContextMenu.cs:59
+msgid "Force _announce"
+msgstr "Tvinga _annonsering"
+
+#: ../Monsoon/TorrentTreeView.cs:149
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:80
+msgid "Name"
+msgstr "Namn"
+
+#: ../Monsoon/TorrentTreeView.cs:150
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:147
+msgid "Status"
+msgstr "Status"
+
+#: ../Monsoon/TorrentTreeView.cs:151
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:92
+msgid "Done"
+msgstr "Färdig"
+
+#: ../Monsoon/TorrentTreeView.cs:152
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:159
+msgid "Seeds"
+msgstr "Distributörer"
+
+#: ../Monsoon/TorrentTreeView.cs:153
+#: ../Monsoon/gtk-gui/MainWindow.cs:766
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:825
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:104
+msgid "Peers"
+msgstr "Klienter"
+
+#: ../Monsoon/TorrentTreeView.cs:156
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:183
+msgid "Ratio"
+msgstr "Förhållande"
+
+#: ../Monsoon/TorrentTreeView.cs:158
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:195
+msgid "ETA"
+msgstr "Klar om"
+
+#: ../Monsoon/UnhandledExceptionDialog.cs:47
+#, csharp-format
+msgid ""
+"An unhandled exception has been encountered:\n"
+"{0}"
+msgstr ""
+"Ett ohanterat undantag har påträffats:\n"
+"{0}"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:230
+#: ../Monsoon/gtk-gui/MainWindow.cs:231
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:220
+msgid "File"
+msgstr "Arkiv"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:233
+#: ../Monsoon/gtk-gui/MainWindow.cs:234
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:223
+msgid "Edit"
+msgstr "Redigera"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:236
+#: ../Monsoon/gtk-gui/MainWindow.cs:237
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:226
+msgid "View"
+msgstr "Visa"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:239
+#: ../Monsoon/gtk-gui/MainWindow.cs:240
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:229
+msgid "Help"
+msgstr "Hjälp"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:242
+#: ../Monsoon/gtk-gui/MainWindow.cs:243
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:231
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:232
+msgid "_About"
+msgstr "_Om"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:248
+#: ../Monsoon/gtk-gui/MainWindow.cs:249
+msgid "_Preferences"
+msgstr "_Inställningar"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:269
+#: ../Monsoon/gtk-gui/MainWindow.cs:270
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:249
+msgid "Columns"
+msgstr "Kolumner"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:275
+msgid "MonoTorrent"
+msgstr "MonoTorrent"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:355
+msgid "Downloaded: "
+msgstr "Hämtat: "
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:396
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:402
+msgid "Elapsed Time:"
+msgstr "Åtgången tid:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:423
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:435
+msgid "Downloaded:"
+msgstr "Hämtat:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:450
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:446
+msgid "Uploaded:"
+msgstr "Skickat:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:474
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:505
+msgid "<b>Transfer</b>"
+msgstr "<b>Överför</b>"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:502
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:574
+msgid "URL:"
+msgstr "URL:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:529
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:541
+msgid "Status:"
+msgstr "Status:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:556
+msgid "Last updated:"
+msgstr "Senast uppdaterad:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:580
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:647
+msgid "<b>Tracker</b>"
+msgstr "<b>Bevakare</b>"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:613
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:736
+msgid "Save path:"
+msgstr "Sparas till:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:640
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:703
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:115
+msgid "Size:"
+msgstr "Storlek:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:667
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:714
+msgid "Created on:"
+msgstr "Skapad den:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:694
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:725
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:310
+msgid "Comment:"
+msgstr "Kommentar:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:718
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:769
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:547
+msgid "<b>General</b>"
+msgstr "<b>Allmänt</b>"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:734
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:783
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:298
+msgid "General"
+msgstr "Allmänt"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:750
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:797
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:181
+msgid "Files"
+msgstr "Filer"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:804
+msgid "<b>Set labels</b>"
+msgstr "<b>Ställ in etiketter</b>"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:836
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:861
+msgid "Maximum upload rate:"
+msgstr "Maximal sändningsfrekvens:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:866
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:870
+msgid "Maximum download rate:"
+msgstr "Maximal hämtningsfrekvens:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:896
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:881
+msgid "Maximum connections:"
+msgstr "Maximalt antal anslutningar:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:926
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:892
+msgid "Upload slots:"
+msgstr "Sändningsplatser:"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:953
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:961
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:453
+msgid "<b>Bandwidth</b>"
+msgstr "<b>Bandbredd</b>"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:970
+msgid "Save"
+msgstr "Spara"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:995
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:980
+msgid "Options"
+msgstr "Alternativ"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:1009
+msgid "<small>D: 0.00 kB</small>"
+msgstr "<small>N: 0.00 kB</small>"
+
+#: ../Monsoon/gtk-gui/MainWindow.cs:1019
+msgid "<small>U: 0.00 kB</small>"
+msgstr "<small>U: 0.00 kB</small>"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:219
+msgid "_File"
+msgstr "_Arkiv"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:222
+msgid "_Edit"
+msgstr "_Redigera"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:225
+msgid "_View"
+msgstr "_Visa"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:228
+msgid "_Help"
+msgstr "_Hjälp"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:237
+msgid "Stop the torrent"
+msgstr "Stoppa torrentfilen"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:240
+msgid "Remove the torrent"
+msgstr "Ta bort torrentfilen"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:243
+msgid "Open the preferences dialog"
+msgstr "Öppna inställningsdialogen"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:245
+msgid "Remove the torrent and delete it's data"
+msgstr "Ta bort torrentfilen och radera dess data"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:248
+msgid "Edit Columns"
+msgstr "Redigera kolumner"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:251
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:252
+msgid "Show Labels"
+msgstr "Visa etiketter"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:254
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:255
+msgid "Show Detailed Info"
+msgstr "Visa detaljerad information"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:257
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:258
+msgid "_Open Torrent"
+msgstr "_Öppna torrent"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:257
+msgid "Open existing torrent file"
+msgstr "Öppna befintlig torrentfil"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:260
+msgid "Start the torrent"
+msgstr "Starta torrentfilen"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:262
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:263
+msgid "_New Torrent"
+msgstr "_Ny torrent"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:262
+msgid "Create a new torrent"
+msgstr "Skapa en ny torrent"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:265
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:266
+msgid "Plugins"
+msgstr "Insticksmoduler"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:265
+msgid "Open the RSS manager"
+msgstr "Öppna RSS-hanteraren"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:268
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:269
+msgid "Report Bug"
+msgstr "Rapportera fel"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:274
+msgid "Monsoon"
+msgstr "Monsoon"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:349
+msgid "Status: "
+msgstr "Status: "
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:358
+msgid " "
+msgstr " "
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:457
+msgid "Hash Fails:"
+msgstr "Misslyckade hashar:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:468
+msgid "Swarm Speed:"
+msgstr "Svärmhastighet:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:530
+msgid "Update In:"
+msgstr "Uppdatera om:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:552
+msgid "Message:"
+msgstr "Meddelande:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:563
+msgid "Last Updated:"
+msgstr "Senast uppdaterad:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:811
+msgid "Pieces"
+msgstr "Delar"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentProgressDialog.cs:34
+msgid "Creating Torrent"
+msgstr "Skapar torrent"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentProgressDialog.cs:50
+msgid "<big><b>Creating new torrent</b></big>"
+msgstr "<big><b>Skapar ny torrent</b></big>"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentProgressDialog.cs:64
+msgid "<b>Hashing file:</b>"
+msgstr "<b>Hashfil:</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:211
+msgid "<b>Visible columns</b>"
+msgstr "<b>Synliga kolumner</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:242
+msgid "Close"
+msgstr "Stäng"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:88
+msgid "Create a torrent"
+msgstr "Skapa en torrent"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:118
+msgid "Path:"
+msgstr "Sökväg:"
+
+#. Container child table1.Gtk.Table+TableChild
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:135
+msgid "Single File"
+msgstr "Enstaka fil"
+
+#. Container child table1.Gtk.Table+TableChild
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:146
+msgid "Folder"
+msgstr "Mapp"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:166
+msgid "<b>Select source</b>"
+msgstr "<b>Välj källa</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:239
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:794
+msgid "Add"
+msgstr "Lägg till"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:285
+msgid "<b>Set a tracker</b>"
+msgstr "<b>Ange en bevakare</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:338
+msgid "Start seeding"
+msgstr "Börja distribuera"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:358
+msgid "Ignore hidden files"
+msgstr "Ignorera dolda filer"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:374
+msgid "<b>Miscellaneous</b>"
+msgstr "<b>Diverse</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:185
+msgid "Monsoon Preferences"
+msgstr "Inställningar för Monsoon"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:217
+msgid "Enable Load Torrent confirmation dialog"
+msgstr "Aktivera bekräftelsedialog för inläsning av torrentfiler"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:227
+msgid "<b>Display Options</b>"
+msgstr "<b>Visningsalternativ</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:252
+msgid "Enable notifications on torrent completion"
+msgstr "Aktivera notifieringar vid färdiga torrentfiler"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:264
+msgid "Enable icon"
+msgstr "Aktivera ikon"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:274
+msgid "Minimize to notification area on close"
+msgstr "Minimera till notifieringsytan vid stängning"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:286
+msgid "<b>Notification Area Icon</b>"
+msgstr "<b>Ikon för notifieringsyta</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:321
+msgid "Maximum connections: "
+msgstr "Maximalt antal anslutningar: "
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:347
+msgid "Listen port: "
+msgstr "Lyssningsport:"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:369
+msgid "Enable UPnP"
+msgstr "Aktivera UPnP"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:381
+msgid "<b>Ports</b>"
+msgstr "<b>Portar</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:405
+msgid "Maximum download speed: "
+msgstr "Maximal hämtningshastighet: "
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:442
+msgid "Maximum upload speed: "
+msgstr "Maximal sändningshastighet: "
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:474
+msgid "Encryption"
+msgstr "Kryptering"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:482
+msgid "No Encryption"
+msgstr "Ingen kryptering"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:483
+msgid "Allow Encryption"
+msgstr "Tillåt kryptering"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:484
+msgid "Force Encryption"
+msgstr "Tvinga kryptering"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:497
+msgid "<b>Encryption</b>"
+msgstr "<b>Kryptering</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:511
+msgid "Connection"
+msgstr "Anslutning"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:534
+msgid "Start added torrents automatically"
+msgstr "Starta tillagda torrentfiler automatiskt"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:572
+msgid "Default download location: "
+msgstr "Standardplats för hämtningar: "
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:581
+msgid "Torrent storage location:"
+msgstr "Lagringsplats för torrentfiler:"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:592
+msgid "<b>Folders</b>"
+msgstr "<b>Mappar</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:616
+msgid "Import new torrents automatically"
+msgstr "Importera nya torrentfiler automatiskt"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:628
+msgid "Remove torrent file after imported"
+msgstr "Ta bort torrentfil efter import"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:643
+msgid "Import directory:"
+msgstr "Importkatalog:"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:658
+msgid "<b>Importing Torrents</b>"
+msgstr "<b>Importering av torrentfiler</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:672
+msgid "Downloads"
+msgstr "Hämtningar"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:719
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:343
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:106
+msgid "Name:"
+msgstr "Namn:"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:745
+msgid "<b>Create a label</b>"
+msgstr "<b>Skapa en etikett</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:840
+msgid "<b>Manage labels</b>"
+msgstr "<b>Hantera etiketter</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:852
+msgid "Labels"
+msgstr "Etiketter"
+
+#: ../Monsoon/gtk-gui/Monsoon.UnhandledExceptionDialog.cs:38
+msgid "Monsoon - Unhandled Exception"
+msgstr "Monsoon - Ohanterat undantag"
+
+#: ../Monsoon/gtk-gui/Monsoon.UnhandledExceptionDialog.cs:94
+#: ../Monsoon/gtk-gui/MonoTorrent.Interface.UnhanExDlg.cs:96
+msgid "Details"
+msgstr "Detaljer"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:120
+msgid "Monsoon RSS Manager"
+msgstr "Monsoon RSS-hanterare"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:144
+msgid "RSS Feed:"
+msgstr "RSS-kanal:"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:223
+msgid "Feeds"
+msgstr "Kanaler"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:352
+msgid "Feed:"
+msgstr "Kanal:"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:363
+msgid "Filter:"
+msgstr "Filter:"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:374
+msgid "Exclude:"
+msgstr "Exkludera:"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:385
+msgid "Save Path:"
+msgstr "Spara till:"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:396
+msgid "Label:"
+msgstr "Etikett:"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:430
+msgid "<b>Filter Settings</b>"
+msgstr "<b>Filterinställningar</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:442
+msgid "Filters"
+msgstr "Filter"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:498
+msgid "Torrents"
+msgstr "Torrentfiler"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:560
+msgid "History"
+msgstr "Historik"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:575
+msgid "button313"
+msgstr "button313"
+
+#: ../Monsoon/TorrentController.cs:394
+msgid "Download Complete"
+msgstr "Hämtning färdig"
+
+#: ../Monsoon/View/NatWidget.cs:109
+msgid "OK"
+msgstr "OK"
+
+#: ../Monsoon/View/NatWidget.cs:112
+msgid "No incoming connections received"
+msgstr "Inga inkommande anslutningar mottagna"
+
+#: ../Monsoon/View/NatWidget.cs:115
+msgid "Problem forwarding port"
+msgstr "Problem med vidarebefordring av port"
+
+#: ../Monsoon/View/NatWidget.cs:118
+msgid "No upnp/nat-pmp enabled router detected"
+msgstr "Ingen router med upnp/nat-pmp aktiverat hittades"
+
+#: ../Monsoon/gtk-gui/MonoTorrent.Interface.UnhanExDlg.cs:38
+msgid "MonoTorrent - Unhandled Exception"
+msgstr "MonoTorrent - Ohanterat undantag"
+
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:58
+msgid "Load torrent"
+msgstr "Läs in torrent"
+
+#. Container child hbox5.Gtk.Box+BoxChild
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:86
+msgid "Select A Folder"
+msgstr "Välj en mapp"
+
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:126
+msgid "Suse-11.0-i386.iso"
+msgstr "Suse-11.0-i386.iso"
+
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:137
+msgid "700MB"
+msgstr "700MB"
+
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:155
+msgid "<b>Save</b>"
+msgstr "<b>Spara</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:191
+msgid "Always show this dialog"
+msgstr "Visa alltid den här dialogrutan"
+
