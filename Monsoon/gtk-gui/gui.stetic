@@ -1992,6 +1992,7 @@
                                 <property name="IsTextCombo">True</property>
                                 <property name="Items">No Encryption
 Allow Encryption
+Prefer Encryption
 Force Encryption</property>
                                 <property name="Active">1</property>
                               </widget>

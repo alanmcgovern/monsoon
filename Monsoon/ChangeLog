@@ -1,3 +1,25 @@
+2008-09-22  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, TorrentController.cs, PeerTreeView.cs,
+	  Settings/GconfTorrentSettingsController.cs,
+	  Settings/GconfEngineSettingsController.cs: Updated to be compatible
+	  with latest API.
+	* PreferencesDialog.cs: Added UI to control the encryption level.
+	* libs/MonoTorrent.dll: Adding MonoTorrent 0.50
+	* TorrentContextMenu.cs: BaseDirectory no longer exists. It is part of
+	  TorrentManager.SavePath now.
+
+2008-09-22  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, PeerTreeView.cs,
+	  Settings/GconfTorrentSettingsController.cs,
+	  Settings/GconfEngineSettingsController.cs, TorrentController.cs:
+	  Updated to be compatible with latest API.
+	* PreferencesDialog.cs: Added UI to control the encryption level.
+	* libs/MonoTorrent.dll: Adding MonoTorrent 0.50
+	* TorrentContextMenu.cs: BaseDirectory no longer exists. It is part of
+	  TorrentManager.SavePath now.
+
 2008-07-11  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Makefile.am: Updated makefiles

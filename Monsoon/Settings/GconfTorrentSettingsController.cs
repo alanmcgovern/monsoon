@@ -67,12 +67,6 @@ namespace Monsoon
 			} catch(SettingNotFoundException){
 				
 			}
-			
-			try{
-				Settings.FastResumeEnabled = (bool) gconf.Retrieve(FastResumeEnabledKey);
-			} catch(SettingNotFoundException){
-				
-			}
 		}
 		
 		public override void Save ()
@@ -83,7 +77,6 @@ namespace Monsoon
 			gconf.Store(MaxConnectionsKey, Settings.MaxConnections);
 			gconf.Store(MaxDownloadSpeedKey, Settings.MaxDownloadSpeed);
 			gconf.Store(MaxUploadSpeedKey, Settings.MaxUploadSpeed);
-			gconf.Store(FastResumeEnabledKey, Settings.FastResumeEnabled);
 		}
 	}
 }

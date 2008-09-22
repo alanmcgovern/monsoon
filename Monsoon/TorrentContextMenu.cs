@@ -186,8 +186,6 @@ namespace Monsoon
 			string path = selectedTorrent.SavePath;
 			if (selectedTorrent.FileManager.Files.Length == 1)
 				path = System.IO.Path.Combine (path, selectedTorrent.FileManager.Files[0].Path);
-			else
-				path = "file://" + System.IO.Path.Combine (path, selectedTorrent.FileManager.BaseDirectory);
 			
 			logger.Debug("Launching: {0}", path); 
 			Process.Start(string.Format (@"""{0}""", path));

@@ -274,7 +274,7 @@ namespace Monsoon
 		
 		private void OnPeerConnected (object sender, PeerConnectionEventArgs a)
 		{
-			if(!a.PeerID.IsValid)
+			if(!a.PeerID.IsConnected)
 				return;
 			
 			Gtk.Application.Invoke (delegate {
@@ -469,14 +469,12 @@ namespace Monsoon
 					logger.Error("Unable to delete " + torrent.Torrent.TorrentPath);
 				}
 				
-				if(torrent.Settings.FastResumeEnabled){
-					try{
-						logger.Info("Deleting torrent fast resume file " + torrent.Torrent.TorrentPath);
-						File.Delete(torrent.Torrent.TorrentPath + ".fresume");
-					} catch {
-						logger.Error("Unable to delete " + torrent.Torrent.TorrentPath + ".fresume");
-					}
-				}
+				try{
+                    logger.Info("Deleting torrent fast resume file " + torrent.Torrent.TorrentPath);
+                    File.Delete(torrent.Torrent.TorrentPath + ".fresume");
+                } catch {
+                    logger.Error("Unable to delete " + torrent.Torrent.TorrentPath + ".fresume");
+                }
 			}
 			
 			foreach(TorrentLabel label in labels){

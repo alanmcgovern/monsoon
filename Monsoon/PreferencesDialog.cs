@@ -29,6 +29,7 @@
 using System;
 using System.Collections.Generic;
 using MonoTorrent.Client;
+using MonoTorrent.Client.Encryption;
 using Gtk;
 
 namespace Monsoon
@@ -133,20 +134,26 @@ namespace Monsoon
             // Encryption off
             if (encryptionCombo.Active == 0)
             {
-                engineSettings.AllowLegacyConnections = true;
-                this.engineSettings.AllowedEncryption = MonoTorrent.Client.Encryption.EncryptionTypes.None;
+                engineSettings.AllowedEncryption = EncryptionTypes.PlainText;
+                engineSettings.PreferEncryption = false;
             }
             // Allow encryption
             else if (encryptionCombo.Active == 1)
             {
-                engineSettings.AllowLegacyConnections = true;
-                engineSettings.AllowedEncryption = MonoTorrent.Client.Encryption.EncryptionTypes.All;
+                engineSettings.AllowedEncryption = EncryptionTypes.All;
+                engineSettings.PreferEncryption = false;
             }
-            // Force only encrypted connections
+            // Prefer encrypytion, but allow unencrypted
             else if (encryptionCombo.Active == 2)
             {
-                engineSettings.AllowLegacyConnections = false;
-                engineSettings.AllowedEncryption = MonoTorrent.Client.Encryption.EncryptionTypes.RC4Full | MonoTorrent.Client.Encryption.EncryptionTypes.RC4Header;
+                engineSettings.AllowedEncryption = EncryptionTypes.All;
+                engineSettings.PreferEncryption = true;
+            }
+            // Force only encrypted connections
+            else if (encryptionCombo.Active == 3)
+            {
+                engineSettings.AllowedEncryption = EncryptionTypes.RC4Full | EncryptionTypes.RC4Header;
+                engineSettings.PreferEncryption = true;
             }
         }
 		
@@ -158,21 +165,25 @@ namespace Monsoon
 			maxUploadSpeedSpinButton.SetRange(0, int.MaxValue);
             encryptionCombo.Changed += OnEncryptionChanged;
             
-            // If encryption is disabled in settings
-            if (engineSettings.AllowedEncryption == MonoTorrent.Client.Encryption.EncryptionTypes.None)
+                        // FIXME: Don't use the indices like this
+            // It's prone to failure if things change later.
+            
+            if (engineSettings.AllowedEncryption == EncryptionTypes.PlainText)
             {
                 encryptionCombo.Active = 0;
             }
-            else if (engineSettings.AllowedEncryption == MonoTorrent.Client.Encryption.EncryptionTypes.All)
+            
+            // Allow encryption
+            else if (engineSettings.AllowedEncryption == EncryptionTypes.All)
             {
-                if (engineSettings.AllowLegacyConnections)
+                if (!engineSettings.PreferEncryption)
                     encryptionCombo.Active = 1;
-            }
-                // Force encryption
-            else if (engineSettings.AllowedEncryption == (MonoTorrent.Client.Encryption.EncryptionTypes.RC4Full | MonoTorrent.Client.Encryption.EncryptionTypes.RC4Header))
-            {
-                if (!engineSettings.AllowLegacyConnections)
+                else
                     encryptionCombo.Active = 2;
+            }
+            else if (engineSettings.AllowedEncryption == (EncryptionTypes.RC4Full | EncryptionTypes.RC4Header))
+            {
+                encryptionCombo.Active = 3;
             }
 		}
 		

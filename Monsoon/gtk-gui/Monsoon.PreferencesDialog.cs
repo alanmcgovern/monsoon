@@ -481,6 +481,7 @@ namespace Monsoon {
             this.encryptionCombo = Gtk.ComboBox.NewText();
             this.encryptionCombo.AppendText(Mono.Unix.Catalog.GetString("No Encryption"));
             this.encryptionCombo.AppendText(Mono.Unix.Catalog.GetString("Allow Encryption"));
+            this.encryptionCombo.AppendText(Mono.Unix.Catalog.GetString("Prefer Encryption"));
             this.encryptionCombo.AppendText(Mono.Unix.Catalog.GetString("Force Encryption"));
             this.encryptionCombo.Name = "encryptionCombo";
             this.encryptionCombo.Active = 1;

@@ -51,11 +51,6 @@ namespace Monsoon
 		public override void Load ()
 		{
 			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
-			try{
-				Settings.AllowLegacyConnections = (bool)gconf.Retrieve(AllowLegacyConnectionsKey);
-			} catch(SettingNotFoundException){
-				
-			}
 			
 			try{
 				Settings.GlobalMaxConnections = (int)gconf.Retrieve(GlobalMaxConnectionsKey);
@@ -115,7 +110,6 @@ namespace Monsoon
 		{
 			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
-			gconf.Store(AllowLegacyConnectionsKey, Settings.AllowLegacyConnections);
 			gconf.Store(GlobalMaxConnectionsKey, Settings.GlobalMaxConnections);
 			gconf.Store(GlobalMaxDownloadSpeedKey, Settings.GlobalMaxDownloadSpeed);
 			gconf.Store(GlobalMaxHalfOpenConnectionsKey, Settings.GlobalMaxHalfOpenConnections);

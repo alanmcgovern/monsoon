@@ -677,8 +677,8 @@ namespace Monsoon
 				
 			if(peer == null)
 				return false;
-				
-			if(!peer.IsValid)
+			
+			if(!peer.IsConnected)
 				return false;
 				
 			if (peer.TorrentManager == manager)

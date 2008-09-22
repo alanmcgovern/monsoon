@@ -109,43 +109,44 @@ namespace Monsoon
 		{
 			PeerId peer = (PeerId) model.GetValue (iter, 0);
 			
-			if(peer.IsValid)
-				(cell as Gtk.CellRendererText).Text = peer.Location.ToString();
+			if(peer.IsConnected)
+				(cell as Gtk.CellRendererText).Text = peer.Uri.Host;
 		}
 		
 		
 		private void RenderClient (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			PeerId peer = (PeerId) model.GetValue (iter, 0);
-			if(peer.IsValid)
-			(cell as Gtk.CellRendererText).Text = peer.ClientSoftware.Client.ToString();
+            //
+			//if(peer.IsValid)
+			(cell as Gtk.CellRendererText).Text = peer.ClientApp.Client.ToString();
 		}
 		
 		private void RenderDown (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			PeerId peer = (PeerId) model.GetValue (iter, 0);
-			if(peer.IsValid)
+			if(peer.IsConnected)
 			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSpeed (peer.Monitor.DownloadSpeed);
 		}
 		
 		private void RenderUp (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			PeerId peer = (PeerId) model.GetValue (iter, 0);
-			if(peer.IsValid)
+			if(peer.IsConnected)
 			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSpeed (peer.Monitor.UploadSpeed);
 		}
 		
 		private void RenderSeeding (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			PeerId peer = (PeerId) model.GetValue (iter, 0);
-			if(peer.IsValid)
+			if(peer.IsConnected)
 			(cell as Gtk.CellRendererToggle).Active = peer.IsSeeder;
 		}
 		
 		private void RenderInterested (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			PeerId peer = (PeerId) model.GetValue (iter, 0);
-			if(peer.IsValid)
+			if(peer.IsConnected)
 			(cell as Gtk.CellRendererToggle).Active = peer.AmInterested;
 		}
 		
