@@ -1,5 +1,11 @@
 2008-09-22  Alan McGovern <alan.mcgovern@gmail.com> 
 
+	* Settings/GconfTorrentSettingsController.cs,
+	  Settings/GconfEngineSettingsController.cs: Save/Load the new
+	  properties with GConf
+
+2008-09-22  Alan McGovern <alan.mcgovern@gmail.com> 
+
 	* MainWindow.cs, TorrentController.cs, PeerTreeView.cs,
 	  Settings/GconfTorrentSettingsController.cs,
 	  Settings/GconfEngineSettingsController.cs: Updated to be compatible

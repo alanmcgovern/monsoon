@@ -30,6 +30,7 @@ using System;
 using System.IO;
 using MonoTorrent.Client;
 using MonoTorrent.Common;
+using MonoTorrent.Client.Encryption;
 
 namespace Monsoon
 {
@@ -38,20 +39,29 @@ namespace Monsoon
 	{
 		static string SETTINGS_PATH = "EngineSettings/";
 		
-		static readonly string AllowLegacyConnectionsKey = SETTINGS_PATH + "AllowLegacyConnections";
+		static readonly string AllowedEncryptionKey = SETTINGS_PATH + "AllowedEncryption";
 		static readonly string GlobalMaxConnectionsKey = SETTINGS_PATH + "GlobalMaxConnections";
 		static readonly string GlobalMaxDownloadSpeedKey = SETTINGS_PATH + "GlobalMaxDownloadSpeed";
 		static readonly string GlobalMaxHalfOpenConnectionsKey = SETTINGS_PATH + "GlobalMaxHalfOpenConnections";
 		static readonly string GlobalMaxUploadSpeedKey = SETTINGS_PATH + "GlobalMaxUploadSpeed";
+		static readonly string HaveSuppressionKey = SETTINGS_PATH + "HaveSuppression";
 		static readonly string ListenPortKey = SETTINGS_PATH + "ListenPort";
+		static readonly string MaxOpenFilesKey = SETTINGS_PATH + "MaxOpenFiles";
 		static readonly string SavePathKey = SETTINGS_PATH + "SavePath";
 		static readonly string MaxReadRateKey = SETTINGS_PATH + "MaxReadRate";
 		static readonly string MaxWriteRateKey = SETTINGS_PATH + "MaxWriteRate";
+		static readonly string PreferEncryptionKey = SETTINGS_PATH + "PreferEncryption";
 
 		public override void Load ()
 		{
 			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
+			try{
+				Settings.AllowedEncryption = (EncryptionTypes)(int)gconf.Retrieve(AllowedEncryptionKey);
+			} catch(SettingNotFoundException){
+				
+			}
+            
 			try{
 				Settings.GlobalMaxConnections = (int)gconf.Retrieve(GlobalMaxConnectionsKey);
 			} catch(SettingNotFoundException){
@@ -69,6 +79,12 @@ namespace Monsoon
 			} catch(SettingNotFoundException){
 				
 			}
+            
+			try{
+				Settings.MaxOpenFiles = (int)gconf.Retrieve(MaxOpenFilesKey);
+			} catch(SettingNotFoundException) {
+				
+			}
 			
 			try{
 				Settings.GlobalMaxUploadSpeed = (int)gconf.Retrieve(GlobalMaxUploadSpeedKey);
@@ -76,6 +92,12 @@ namespace Monsoon
 				
 			}
 			
+			try{
+				Settings.HaveSupressionEnabled = (bool)gconf.Retrieve(HaveSuppressionKey);
+			} catch (SettingNotFoundException) {
+				
+			}
+            
 			try{
 				Settings.ListenPort = (int)gconf.Retrieve(ListenPortKey);
 			} catch(SettingNotFoundException){
@@ -93,7 +115,13 @@ namespace Monsoon
 			} catch(SettingNotFoundException){
 				
 			}
-			
+            
+			try {
+				Settings.PreferEncryption = (bool) gconf.Retrieve(PreferEncryptionKey);
+			} catch (SettingNotFoundException) {
+				
+			}
+            
 			try{ 
 				Settings.SavePath = (string)gconf.Retrieve(SavePathKey);
 			} catch(SettingNotFoundException){
@@ -110,14 +138,18 @@ namespace Monsoon
 		{
 			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
+			gconf.Store(AllowedEncryptionKey, (int)Settings.AllowedEncryption);
 			gconf.Store(GlobalMaxConnectionsKey, Settings.GlobalMaxConnections);
 			gconf.Store(GlobalMaxDownloadSpeedKey, Settings.GlobalMaxDownloadSpeed);
 			gconf.Store(GlobalMaxHalfOpenConnectionsKey, Settings.GlobalMaxHalfOpenConnections);
 			gconf.Store(GlobalMaxUploadSpeedKey, Settings.GlobalMaxUploadSpeed);
+			gconf.Store(HaveSuppressionKey, Settings.HaveSupressionEnabled);
 			gconf.Store(ListenPortKey, Settings.ListenPort);
 			gconf.Store(SavePathKey, Settings.SavePath);
+			gconf.Store(MaxOpenFilesKey, Settings.MaxOpenFiles);
 			gconf.Store(MaxReadRateKey, Settings.MaxReadRate);
 			gconf.Store(MaxWriteRateKey, Settings.MaxWriteRate);
+			gconf.Store(PreferEncryptionKey, Settings.PreferEncryption);
 		}
 		
 		private string GetDownloadDirectory() {

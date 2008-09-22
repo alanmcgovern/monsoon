@@ -35,6 +35,7 @@ namespace Monsoon
 	{
 		static readonly string SETTINGS_PATH = "TorrentSettings/";
 	 	
+		static readonly string InitialSeedingKey = SETTINGS_PATH + "InitialSeeding";
 		static readonly string UploadSlotsKey = SETTINGS_PATH + "UploadSlots";
 		static readonly string MaxConnectionsKey = SETTINGS_PATH + "MaxConnections";
 		static readonly string MaxDownloadSpeedKey = SETTINGS_PATH + "MaxDownloadSpeed";
@@ -44,6 +45,12 @@ namespace Monsoon
 		public override void Load ()
 		{
 			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
+			try {
+				Settings.InitialSeedingEnabled = (bool) gconf.Retrieve (InitialSeedingKey);
+			} catch (SettingNotFoundException) {
+				
+			}
+            
 			try {
 				Settings.UploadSlots = (int) gconf.Retrieve(UploadSlotsKey);
 			} catch(SettingNotFoundException) {
@@ -73,6 +80,7 @@ namespace Monsoon
 		{
 			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
+			gconf.Store(InitialSeedingKey, Settings.InitialSeedingEnabled);
 			gconf.Store(UploadSlotsKey, Settings.UploadSlots);
 			gconf.Store(MaxConnectionsKey, Settings.MaxConnections);
 			gconf.Store(MaxDownloadSpeedKey, Settings.MaxDownloadSpeed);
