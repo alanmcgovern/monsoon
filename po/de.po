@@ -110,7 +110,7 @@ msgstr "Entfernen"
 #. PR_SET_NAME
 #: ../Monsoon/Main.cs:188
 msgid "Error setting process name: "
-msgstr "Fehler beim setzen des Prozessnamens: "
+msgstr "Fehler beim Setzen des Prozessnamens: "
 
 #: ../Monsoon/MainWindow.cs:271 ../Monsoon/gtk-gui/MainWindow.cs:245
 #: ../Monsoon/gtk-gui/MainWindow.cs:246
@@ -820,7 +820,7 @@ msgstr "<b>Importiere Torrents</b>"
 
 #: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:673
 msgid "Downloads"
-msgstr "Herunterladenes"
+msgstr "Heruntergeladenes"
 
 #: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:720
 #: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:343
