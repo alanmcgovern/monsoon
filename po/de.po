@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.11\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-07-14 22:09+0200\n"
+"POT-Creation-Date: 2008-09-25 23:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Mirco Bauer <meebey@meebey.net>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,7 +82,7 @@ msgstr "Niedrig"
 
 #: ../Monsoon/FileTreeView.cs:104
 msgid "Lowest"
-msgstr "Am niedrigsten"
+msgstr "Am Niedrigsten"
 
 #: ../Monsoon/FileTreeView.cs:105
 msgid "Normal"
@@ -90,20 +90,20 @@ msgstr "Normal"
 
 #: ../Monsoon/FileTreeView.cs:106
 msgid "Do Not Download"
-msgstr "Nicht herrunterladen"
+msgstr "Nicht herunterladen"
 
-#: ../Monsoon/LabelTreeView.cs:100
+#: ../Monsoon/LabelTreeView.cs:101
 msgid "Create"
 msgstr "Erstellen"
 
-#: ../Monsoon/LabelTreeView.cs:103
+#: ../Monsoon/LabelTreeView.cs:104
 msgid "New Label"
-msgstr "Neu Beschriftung"
+msgstr "Neue Beschriftung"
 
-#: ../Monsoon/LabelTreeView.cs:109 ../Monsoon/MainWindow.cs:542
+#: ../Monsoon/LabelTreeView.cs:110 ../Monsoon/MainWindow.cs:537
 #: ../Monsoon/TorrentContextMenu.cs:55
 #: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:266
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:821
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:822
 msgid "Remove"
 msgstr "Entfernen"
 
@@ -112,85 +112,85 @@ msgstr "Entfernen"
 msgid "Error setting process name: "
 msgstr "Fehler beim setzen des Prozessnamens: "
 
-#: ../Monsoon/MainWindow.cs:277 ../Monsoon/gtk-gui/MainWindow.cs:245
+#: ../Monsoon/MainWindow.cs:271 ../Monsoon/gtk-gui/MainWindow.cs:245
 #: ../Monsoon/gtk-gui/MainWindow.cs:246
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:234
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:235
 msgid "Quit"
 msgstr "Beenden"
 
-#: ../Monsoon/MainWindow.cs:284
+#: ../Monsoon/MainWindow.cs:278
 msgid "Stop All"
-msgstr "Alle Anhalten"
+msgstr "Alle anhalten"
 
-#: ../Monsoon/MainWindow.cs:291
+#: ../Monsoon/MainWindow.cs:285
 msgid "Start All"
-msgstr "Alle Starten"
+msgstr "Alle starten"
 
-#: ../Monsoon/MainWindow.cs:298
+#: ../Monsoon/MainWindow.cs:292
 msgid "Show Notifications"
-msgstr "Benachrichtigungen Anzeigen"
+msgstr "Benachrichtigungen anzeigen"
 
-#: ../Monsoon/MainWindow.cs:541 ../Monsoon/MainWindow.cs:881
+#: ../Monsoon/MainWindow.cs:536 ../Monsoon/MainWindow.cs:877
 #: ../Monsoon/RssManager/RssFilter.cs:56
 #: ../Monsoon/RssManager/RssManagerDialog.cs:136
 msgid "All"
 msgstr "Alle"
 
-#: ../Monsoon/MainWindow.cs:543 ../Monsoon/MainWindow.cs:881
+#: ../Monsoon/MainWindow.cs:538 ../Monsoon/MainWindow.cs:877
 msgid "Downloading"
 msgstr "Lade herunter"
 
-#: ../Monsoon/MainWindow.cs:544 ../Monsoon/MainWindow.cs:881
+#: ../Monsoon/MainWindow.cs:539 ../Monsoon/MainWindow.cs:877
 #: ../Monsoon/PeerTreeView.cs:68
 msgid "Seeding"
 msgstr "Biete an"
 
-#: ../Monsoon/MainWindow.cs:985
+#: ../Monsoon/MainWindow.cs:981
 msgid "Open torrent(s)"
 msgstr "Öffne Torrent"
 
-#: ../Monsoon/MainWindow.cs:987
+#: ../Monsoon/MainWindow.cs:983
 msgid "Torrent files"
 msgstr "Torrent-Dateien"
 
-#: ../Monsoon/MainWindow.cs:990
+#: ../Monsoon/MainWindow.cs:986
 msgid "All files"
 msgstr "Alle Dateien"
 
-#: ../Monsoon/MainWindow.cs:1238
+#: ../Monsoon/MainWindow.cs:1234
 msgid "Pause"
 msgstr "Pause"
 
-#: ../Monsoon/MainWindow.cs:1243 ../Monsoon/MainWindow.cs:1249
+#: ../Monsoon/MainWindow.cs:1239 ../Monsoon/MainWindow.cs:1245
 msgid "Start"
 msgstr "Start"
 
-#: ../Monsoon/MainWindow.cs:1317
+#: ../Monsoon/MainWindow.cs:1313
 msgid "Are you sure you want to remove the torrent?"
-msgstr "Möchten sie wirklich den Torrent entfernen?"
+msgstr "Möchten Sie wirklich den Torrent entfernen?"
 
-#: ../Monsoon/MainWindow.cs:1318
+#: ../Monsoon/MainWindow.cs:1314
 msgid "Remove torrent"
 msgstr "Torrent entfernen"
 
-#: ../Monsoon/MainWindow.cs:1376
+#: ../Monsoon/MainWindow.cs:1372
 msgid "Remove torrent and delete all data?"
 msgstr "Torrent entfernen und alle Daten löschen?"
 
-#: ../Monsoon/MainWindow.cs:1377
+#: ../Monsoon/MainWindow.cs:1373
 msgid "Delete torrent"
 msgstr "Torrent löschen"
 
-#: ../Monsoon/MainWindow.cs:1507
+#: ../Monsoon/MainWindow.cs:1503
 msgid "Invalid torrent selected"
 msgstr "Ungültiger Torrent ausgewählt"
 
-#: ../Monsoon/MainWindow.cs:1516
+#: ../Monsoon/MainWindow.cs:1512
 msgid "Torrent has already been added"
 msgstr "Torrent wurde schon hinzugefügt"
 
-#: ../Monsoon/MainWindow.cs:1551
+#: ../Monsoon/MainWindow.cs:1547
 #, csharp-format
 msgid "An unexpected error occured while loading the torrent. {0}"
 msgstr "Beim laden des Torrents ist ein unerwarteter Fehler aufgetreten. {0}"
@@ -207,12 +207,12 @@ msgstr "IP-Adresse"
 msgid "Client"
 msgstr "Client"
 
-#: ../Monsoon/PeerTreeView.cs:66 ../Monsoon/TorrentTreeView.cs:154
+#: ../Monsoon/PeerTreeView.cs:66 ../Monsoon/TorrentTreeView.cs:194
 #: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:171
 msgid "DL Speed"
 msgstr "RL Geschwindigkeit:"
 
-#: ../Monsoon/PeerTreeView.cs:67 ../Monsoon/TorrentTreeView.cs:155
+#: ../Monsoon/PeerTreeView.cs:67 ../Monsoon/TorrentTreeView.cs:203
 #: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:116
 msgid "UP Speed"
 msgstr "HL Geschwindigkeit:"
@@ -228,23 +228,23 @@ msgstr "Interessiert"
 #. iconEntryBox.Add(selectIcon);
 #. selectIcon.ShowAll();
 #.
-#: ../Monsoon/PreferencesDialog.cs:199
+#: ../Monsoon/PreferencesDialog.cs:210
 msgid "Browse Icon"
 msgstr "Icon auswählen"
 
-#: ../Monsoon/PreferencesDialog.cs:224
+#: ../Monsoon/PreferencesDialog.cs:235
 msgid "Download location"
 msgstr "Runterlade-Ort: "
 
-#: ../Monsoon/PreferencesDialog.cs:231
+#: ../Monsoon/PreferencesDialog.cs:242
 msgid "Torrage storage location"
 msgstr "Torrent Speicher-Ort"
 
-#: ../Monsoon/PreferencesDialog.cs:242
+#: ../Monsoon/PreferencesDialog.cs:253
 msgid "Import folder to scan"
 msgstr "Import-Verzeichnis auswählen"
 
-#: ../Monsoon/PreferencesDialog.cs:332
+#: ../Monsoon/PreferencesDialog.cs:343
 msgid "Select an Icon"
 msgstr "Icon auswählen"
 
@@ -254,7 +254,7 @@ msgstr "Icon auswählen"
 msgid "#"
 msgstr "Anzahl"
 
-#: ../Monsoon/PiecesTreeView.cs:56 ../Monsoon/TorrentTreeView.cs:157
+#: ../Monsoon/PiecesTreeView.cs:56 ../Monsoon/TorrentTreeView.cs:221
 #: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:128
 msgid "Size"
 msgstr "Größe"
@@ -318,33 +318,33 @@ msgstr "Ankündigung erzwingen"
 msgid "Name"
 msgstr "Name"
 
-#: ../Monsoon/TorrentTreeView.cs:150
+#: ../Monsoon/TorrentTreeView.cs:158
 #: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:147
 msgid "Status"
 msgstr "Status"
 
-#: ../Monsoon/TorrentTreeView.cs:151
+#: ../Monsoon/TorrentTreeView.cs:167
 #: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:92
 msgid "Done"
 msgstr "Fertig"
 
-#: ../Monsoon/TorrentTreeView.cs:152
+#: ../Monsoon/TorrentTreeView.cs:176
 #: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:159
 msgid "Seeds"
 msgstr "Anbieter"
 
-#: ../Monsoon/TorrentTreeView.cs:153 ../Monsoon/gtk-gui/MainWindow.cs:766
+#: ../Monsoon/TorrentTreeView.cs:185 ../Monsoon/gtk-gui/MainWindow.cs:766
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:825
 #: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:104
 msgid "Peers"
 msgstr ""
 
-#: ../Monsoon/TorrentTreeView.cs:156
+#: ../Monsoon/TorrentTreeView.cs:212
 #: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:183
 msgid "Ratio"
 msgstr "Verhältnis"
 
-#: ../Monsoon/TorrentTreeView.cs:158
+#: ../Monsoon/TorrentTreeView.cs:230
 #: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:195
 msgid "ETA"
 msgstr ""
@@ -463,7 +463,7 @@ msgstr "Kommentar:"
 
 #: ../Monsoon/gtk-gui/MainWindow.cs:718
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:769
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:547
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:548
 msgid "<b>General</b>"
 msgstr "<b>Allgemein</b>"
 
@@ -559,7 +559,7 @@ msgstr "Entferne Torrent und lösche dessen Daten"
 
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:248
 msgid "Edit Columns"
-msgstr "Spalten Bearbeiten"
+msgstr "Spalten bearbeiten"
 
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:251
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:252
@@ -605,7 +605,7 @@ msgstr "RSS Verwaltung öffnen"
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:268
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:269
 msgid "Report Bug"
-msgstr ""
+msgstr "Fehler melden"
 
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:274
 msgid "Monsoon"
@@ -637,7 +637,7 @@ msgstr "Nachricht:"
 
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:563
 msgid "Last Updated:"
-msgstr "Letztes Update:"
+msgstr "Letzte Aktualisierung:"
 
 #: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:811
 msgid "Pieces"
@@ -674,7 +674,7 @@ msgstr "Pfad:"
 #. Container child table1.Gtk.Table+TableChild
 #: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:135
 msgid "Single File"
-msgstr "Einzelne-Datei"
+msgstr "Einzelne Datei"
 
 #. Container child table1.Gtk.Table+TableChild
 #: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:146
@@ -686,7 +686,7 @@ msgid "<b>Select source</b>"
 msgstr "<b>Quelle auswählen</b>"
 
 #: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:239
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:794
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:795
 msgid "Add"
 msgstr "Hinzufügen"
 
@@ -696,7 +696,7 @@ msgstr "<b>Tracker setzen</b>"
 
 #: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:338
 msgid "Start seeding"
-msgstr "Starte anbieten"
+msgstr "Anbieten"
 
 #: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:358
 msgid "Ignore hidden files"
@@ -740,7 +740,7 @@ msgstr "Maximale Verbindungen: "
 
 #: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:347
 msgid "Listen port: "
-msgstr "Lausch-Port: "
+msgstr "Eingangs-Port: "
 
 #: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:369
 msgid "Enable UPnP"
@@ -752,7 +752,7 @@ msgstr "<b>Ports</b>"
 
 #: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:405
 msgid "Maximum download speed: "
-msgstr "Maximale Geschwindigkeit beim Herrunterladen: "
+msgstr "Maximale Geschwindigkeit beim Herunterladen: "
 
 #: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:442
 msgid "Maximum upload speed: "
@@ -771,67 +771,71 @@ msgid "Allow Encryption"
 msgstr "Verschlüsselung zulassen"
 
 #: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:484
+msgid "Prefer Encryption"
+msgstr "Verschlüsselung bevorzugen"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:485
 msgid "Force Encryption"
 msgstr "Verschlüsselung erzwingen"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:497
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:498
 msgid "<b>Encryption</b>"
 msgstr "<b>Verschlüsselung</b>"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:511
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:512
 msgid "Connection"
 msgstr "Verbindungen"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:534
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:535
 msgid "Start added torrents automatically"
 msgstr "Starte hinzugefügte Torrents automatisch"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:572
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:573
 msgid "Default download location: "
-msgstr "Standard Herrunterlade-Ort: "
+msgstr "Standard Herunterlade-Ort: "
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:581
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:582
 msgid "Torrent storage location:"
 msgstr "Torrent Speicher-Ort:"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:592
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:593
 msgid "<b>Folders</b>"
 msgstr "<b>Ordner</b>"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:616
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:617
 msgid "Import new torrents automatically"
 msgstr "Importiere neue Torrents automatisch"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:628
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:629
 msgid "Remove torrent file after imported"
-msgstr "Torrent entfernen nachdem er impotiert wurde?"
+msgstr "Torrent entfernen nachdem er importiert wurde?"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:643
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:644
 msgid "Import directory:"
 msgstr "Import-Verzeichnis:"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:658
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:659
 msgid "<b>Importing Torrents</b>"
 msgstr "<b>Importiere Torrents</b>"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:672
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:673
 msgid "Downloads"
-msgstr "Herrunterladenes"
+msgstr "Herunterladenes"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:719
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:720
 #: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:343
 msgid "Name:"
 msgstr "Name:"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:745
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:746
 msgid "<b>Create a label</b>"
 msgstr "<b>Erstelle eine Beschriftung</b>"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:840
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:841
 msgid "<b>Manage labels</b>"
 msgstr "<b>Verwalte Beschriftungen</b>"
 
-#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:852
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:853
 msgid "Labels"
 msgstr "Beschriftungen"
 
@@ -894,9 +898,3 @@ msgstr "Historie"
 #: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:575
 msgid "button313"
 msgstr ""
-
-#~ msgid "Starting Monsoon"
-#~ msgstr "Starte Monsoon"
-
-#~ msgid "Druid Debug"
-#~ msgstr "Assistent Debug"
