@@ -1,3 +1,12 @@
+2008-09-28  Alan McGovern <alan.mcgovern@gmail.com> 
+
+	* MainWindow.cs, Main.cs, CreateTorrentDialog.cs, TorrentController.cs,
+	  PeerTreeView.cs, RssManager/RssManagerDialog.cs,
+	  RssManager/TorrentRssWatcher.cs,
+	  RssManager/RssManagerController.cs, TorrentTreeView.cs: Ensure all
+	  events are synced on the main loop
+	* libs/MonoTorrent.dll: Update to head of the 0.50 branch
+
 2008-09-22  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Settings/GconfTorrentSettingsController.cs,

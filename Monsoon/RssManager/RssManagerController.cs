@@ -84,7 +84,12 @@ namespace Monsoon
 			
 			TorrentRssWatcher watcher = new TorrentRssWatcher(url);
 			feeds.Add(url);
-			watcher.TorrentFound += OnTorrentMatched;
+			watcher.TorrentFound += delegate(object o, TorrentRssWatcherEventArgs e) {
+				GLib.Idle.Add(delegate {
+					OnTorrentMatched(o, e);
+					return false;
+				});
+			};
 			watchers.Add(url, watcher);
 			watcher.StartWatching();
 			return true;
@@ -105,12 +110,17 @@ namespace Monsoon
 		
 		public void RestoreWatchers()
 		{
-			foreach(string feed in feeds){
+			foreach (string feed in feeds)
+			{
 				TorrentRssWatcher watcher = new TorrentRssWatcher(feed);
-            			watcher.TorrentFound += OnTorrentMatched;
-            			watchers.Add(feed, watcher);
-            		}
-			
+				watcher.TorrentFound += delegate(object o, TorrentRssWatcherEventArgs e) {
+					GLib.Idle.Add(delegate {
+						OnTorrentMatched(o, e);
+						return false;
+					});
+				};
+				watchers.Add(feed, watcher);
+			}
 		}
 	
 		public void StartWatchers()

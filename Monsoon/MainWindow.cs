@@ -76,7 +76,7 @@ namespace Monsoon
 		
 		private PeerTreeView peerTreeView;
 		private ListStore peerListStore;
-		private Dictionary<PeerId, TreeIter> peers;
+		private Dictionary<PeerId, TreePath> peers;
 		private TreeModelFilter peerFilter;
 		
 		private FileTreeView fileTreeView;
@@ -97,7 +97,7 @@ namespace Monsoon
 		
 		private RssManagerController rssManagerController;
 		
-		internal Dictionary<PeerId, TreeIter> Peers
+		internal Dictionary<PeerId, TreePath> Peers
 		{
 			get { return peers; }
 		}
@@ -187,8 +187,19 @@ namespace Monsoon
 		{
 			this.engineSettings = engineSettings;
 			this.portController = portController;
-			portController.PortMapped += delegate { natStatus.PortForwarded = true; };
-			portController.RouterFound += delegate { natStatus.RouterFound = true; };
+			portController.PortMapped += delegate {
+				GLib.Idle.Add(delegate {
+					natStatus.PortForwarded = true;
+					return false;
+				});
+			};
+
+			portController.RouterFound += delegate {
+				GLib.Idle.Add(delegate {
+					natStatus.RouterFound = true;
+					return false;
+				});
+			};
             
 			interfaceSettings = new GConfInterfaceSettingsController ();
 			defaultTorrentSettings = new GconfTorrentSettingsController ();
@@ -203,7 +214,9 @@ namespace Monsoon
 			
 			Ticker.Tick ();
 			Ticker.Tick ();
+			
 			Build ();
+			
 			Ticker.Tock ("Build");
 			Ticker.Tick();
 			BuildStatusBar();
@@ -252,7 +265,12 @@ namespace Monsoon
 			Ticker.Tock ("Restored labels");
 			
 			folderWatcher = new TorrentFolderWatcher (new DirectoryInfo (Preferences.ImportLocation));
-			folderWatcher.TorrentFound += torrentController.OnTorrentFound;
+			folderWatcher.TorrentFound += delegate(object o, TorrentWatcherEventArgs e) {
+				GLib.Idle.Add(delegate {
+					torrentController.OnTorrentFound(o, e);
+					return false;
+				});
+			};
 			
 			if (Preferences.ImportEnabled) {
 				logger.Info ("Starting import folder watcher");
@@ -655,7 +673,7 @@ namespace Monsoon
 		
 		private void BuildPeerTreeView ()
 		{
-			peers = new Dictionary<MonoTorrent.Client.PeerId,Gtk.TreeIter> ();
+            peers = new Dictionary<MonoTorrent.Client.PeerId, Gtk.TreePath>();
 			peerTreeView = new PeerTreeView ();
 			peerListStore = new ListStore (typeof(PeerId));
 			
@@ -772,14 +790,17 @@ namespace Monsoon
 			//torrentTreeView.Selection.UnselectAll();
 			//torrentFilter.Refilter();
 		}
-		
-		private void updatePeersPage()
-		{		
-			lock(peers)
-				foreach(TreeIter iter in peers.Values){
-					peerListStore.EmitRowChanged(peerListStore.GetPath(iter), iter);
-				}
-		}
+
+        private void updatePeersPage()
+        {
+            lock (peers)
+            {
+                peerListStore.Foreach(delegate(TreeModel model, TreePath path, TreeIter iter) {
+                    peerListStore.EmitRowChanged(path, iter);
+                    return true;
+                });
+            }
+        }
 
 		private void updateStatusBar()
 		{
@@ -1182,7 +1203,7 @@ namespace Monsoon
 				}
 			}
 			
-			swarmSpeedLabel.Text = ByteConverter.ConvertSpeed (torrentController.GetTorrentSwarm(manager) * manager.Torrent.PieceLength);
+			swarmSpeedLabel.Text = ByteConverter.ConvertSpeed (torrentController.GetTorrentSwarm(manager));
 			savePathValueLabel.Text = manager.SavePath;
 			sizeValueLabel.Text = ByteConverter.ConvertSize (manager.Torrent.Size);
 			createdOnValueLabel.Text = manager.Torrent.CreationDate.ToLongDateString ();
@@ -1544,7 +1565,12 @@ namespace Monsoon
 			try
 			{
 				TorrentManager manager = torrentController.addTorrent (torrent, savePath);
-				manager.PeerConnected += PeerConnected;
+				manager.PeerConnected += delegate(object o, PeerConnectionEventArgs e) {
+					GLib.Idle.Add(delegate {
+						PeerConnected(o, e);
+						return false;
+					});
+				};
 			}
 			catch (Exception ex)
 			{

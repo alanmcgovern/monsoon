@@ -127,9 +127,15 @@ namespace Monsoon
 			string [] uriList = (Encoding.UTF8.GetString(args.SelectionData.Data).TrimEnd()).Split('\n');
 			
 			foreach(string s in uriList){
-				Uri uri = new Uri(s.TrimEnd());
-				if(uri.IsFile && s.EndsWith(".torrent", StringComparison.OrdinalIgnoreCase))
-					torrentController.MainWindow.LoadTorrent (uri.LocalPath);
+				try
+				{
+					Uri uri = new Uri(s.TrimEnd());
+					if (uri.IsFile && uri.LocalPath.EndsWith(".torrent", StringComparison.OrdinalIgnoreCase))
+						torrentController.MainWindow.LoadTorrent(uri.LocalPath);
+				}
+				catch
+				{
+				}
 			}
 		}
 			

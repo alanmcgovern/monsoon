@@ -90,9 +90,13 @@ namespace Monsoon
 			Ticker.Tick ();
 			engine = new ClientEngine(mainWindow.EngineSettings);
 			Ticker.Tock ("Client engine");
-			
-			engine.ConnectionManager.PeerMessageTransferred += OnPeerMessageTransferred;
-			
+
+			engine.ConnectionManager.PeerMessageTransferred += delegate (object o, PeerMessageEventArgs e) {
+				GLib.Idle.Add(delegate {
+					OnPeerMessageTransferred(o, e);
+					return false;
+				});
+			};
 			hashProgress = new Dictionary<MonoTorrent.Client.TorrentManager,int>();
 			torrentSwarm = new Dictionary<MonoTorrent.Client.TorrentManager, SpeedMonitor>();
 			torrentsDownloading = new List<TorrentManager>();
@@ -139,24 +143,22 @@ namespace Monsoon
 			
 			return list;
 		}
-		
+
 		private void OnPeerMessageTransferred(object sender, PeerMessageEventArgs args)
 		{
-			if(args.Direction != Direction.Incoming)
+			if (args.Direction != Direction.Incoming)
 				return;
 			
-			if(!(args.Message is MonoTorrent.Client.Messages.Standard.HaveMessage))
+			if (!(args.Message is MonoTorrent.Client.Messages.Standard.HaveMessage))
 				return;
 			
-			Gtk.Application.Invoke(delegate {
-				if(!torrentSwarm.ContainsKey(args.TorrentManager))
-					torrentSwarm.Add(args.TorrentManager, new SpeedMonitor());
-				
-				torrentSwarm[args.TorrentManager].AddDelta(args.TorrentManager.Torrent.PieceLength);
-			});
+			if (!torrentSwarm.ContainsKey(args.TorrentManager))
+				torrentSwarm.Add(args.TorrentManager, new SpeedMonitor());
+			
+			torrentSwarm[args.TorrentManager].AddDelta(args.TorrentManager.Torrent.PieceLength);
 		}
 		
-		public int GetTorrentSwarm(TorrentManager manager)
+		public long GetTorrentSwarm(TorrentManager manager)
 		{
 			SpeedMonitor monitor;
 			if(!torrentSwarm.TryGetValue(manager, out monitor))
@@ -229,16 +231,42 @@ namespace Monsoon
 			}
 					
 			logger.Info ("Added torrent " + manager.Torrent.Name);
-
-			manager.TorrentStateChanged += OnTorrentStateChanged;
-			manager.PieceManager.BlockRequested += OnBlockRequested;
-			manager.PieceHashed += OnPieceHashed;
-			manager.PeerConnected += OnPeerConnected;
-			manager.PeerDisconnected += OnPeerDisconnected;
-
+			
+			manager.TorrentStateChanged += delegate(object o, TorrentStateChangedEventArgs e) {
+				GLib.Idle.Add(delegate {
+					OnTorrentStateChanged(o, e);
+					return false;
+				});
+			};
+			manager.PieceManager.BlockRequested += delegate(object o, BlockEventArgs e) {
+				GLib.Idle.Add(delegate {
+					OnBlockRequested(o, e);
+					return false;
+				});
+			};
+			manager.PieceHashed += delegate(object o, PieceHashedEventArgs e) {
+				GLib.Idle.Add(delegate {
+					OnPieceHashed(o, e);
+					return false;
+				});
+			};
+			manager.PeerConnected += delegate(object o, PeerConnectionEventArgs e) {
+				GLib.Idle.Add(delegate {
+					OnPeerConnected(o, e);
+					return false;
+				});
+			};
+			
+			manager.PeerDisconnected += delegate(object o, PeerConnectionEventArgs e) {
+				GLib.Idle.Add(delegate {
+					OnPeerDisconnected(o, e);
+					return false;
+				});
+			};
+			
 			// add to "All" label
 			mainWindow.AllLabel.AddTorrent(manager);
-					
+			
 			mainWindow.StoreTorrentSettings();
 			
 			return manager;
@@ -271,33 +299,34 @@ namespace Monsoon
 			
 			torrent = t;
 		}
-		
-		private void OnPeerConnected (object sender, PeerConnectionEventArgs a)
+
+		private void OnPeerConnected(object sender, PeerConnectionEventArgs a)
 		{
-			if(!a.PeerID.IsConnected)
+			if (!a.PeerID.IsConnected)
 				return;
 			
-			Gtk.Application.Invoke (delegate {
-				mainWindow.Peers.Add (a.PeerID, mainWindow.PeerListStore.AppendValues (a.PeerID));
-			});
+			if (!mainWindow.Peers.ContainsKey(a.PeerID)) {
+			    TreeIter iter = mainWindow.PeerListStore.AppendValues(a.PeerID);
+				mainWindow.Peers.Add(a.PeerID, mainWindow.PeerListStore.GetPath(iter));
+			}
 		}
-		
-		private void OnPeerDisconnected (object sender, PeerConnectionEventArgs a)
+
+		private void OnPeerDisconnected(object sender, PeerConnectionEventArgs a)
 		{
-			TreeIter iter;
-			
-			if(a.PeerID == null)
-				return;
-			
-			Gtk.Application.Invoke (delegate {
-				lock(mainWindow.Peers){
-					if(!mainWindow.Peers.ContainsKey(a.PeerID))
-						return;
-					iter = mainWindow.Peers [a.PeerID];
-					mainWindow.PeerListStore.Remove (ref iter);
-					mainWindow.Peers.Remove (a.PeerID);
+			lock (mainWindow.Peers)
+			{
+				foreach (PeerId p in new List<PeerId>(mainWindow.Peers.Keys))
+				{
+					if (p.IsConnected)
+						continue;
+					
+					TreeIter iter;
+					if (mainWindow.PeerListStore.GetIter(out iter, mainWindow.Peers[p]))
+						mainWindow.PeerListStore.Remove(ref iter);
+					
+					mainWindow.Peers.Remove(p);
 				}
-			});
+			}
 		}
 		
 		private void OnBlockRequested (object sender, BlockEventArgs args)
@@ -346,59 +375,62 @@ namespace Monsoon
 		{
 			TorrentManager manager = (TorrentManager)sender;
 			completedManager = manager;
-			Gtk.Application.Invoke (delegate {
-				if (args.OldState == TorrentState.Downloading) {
-					logger.Debug("Removing " + manager.Torrent.Name + " from download label");
-					mainWindow.DownloadingLabel.RemoveTorrent(manager);
-				} else if (args.OldState == TorrentState.Seeding) {
-					logger.Debug("Removing " + manager.Torrent.Name + " from upload label");
-					mainWindow.SeedingLabel.RemoveTorrent(manager);
-				} else if (args.OldState == TorrentState.Hashing) {
-					if (hashProgress.ContainsKey(manager))
-						hashProgress[manager] = 0;
-				}
-				
-				if (args.NewState == TorrentState.Downloading) {
-					logger.Debug("Adding " + manager.Torrent.Name + " to download label");
-					mainWindow.DownloadingLabel.AddTorrent(manager);
-				} else if (args.NewState == TorrentState.Seeding) {
-					logger.Debug("Adding " + manager.Torrent.Name + " to upload label");
-					mainWindow.SeedingLabel.AddTorrent(manager);
-				} else if (args.NewState == TorrentState.Stopped) {
-					lock(mainWindow.Peers)
+			if (args.OldState == TorrentState.Downloading) {
+				logger.Debug("Removing " + manager.Torrent.Name + " from download label");
+				mainWindow.DownloadingLabel.RemoveTorrent(manager);
+			} else if (args.OldState == TorrentState.Seeding) {
+				logger.Debug("Removing " + manager.Torrent.Name + " from upload label");
+				mainWindow.SeedingLabel.RemoveTorrent(manager);
+			} else if (args.OldState == TorrentState.Hashing) {
+				if (hashProgress.ContainsKey(manager))
+					hashProgress[manager] = 0;
+			}
+			
+			if (args.NewState == TorrentState.Downloading) {
+				logger.Debug("Adding " + manager.Torrent.Name + " to download label");
+				mainWindow.DownloadingLabel.AddTorrent(manager);
+			} else if (args.NewState == TorrentState.Seeding) {
+				logger.Debug("Adding " + manager.Torrent.Name + " to upload label");
+				mainWindow.SeedingLabel.AddTorrent(manager);
+			} else if (args.NewState == TorrentState.Stopped) {
+				lock(mainWindow.Peers)
+				{
+					List<PeerId> peers = new List<PeerId>(mainWindow.Peers.Keys);
+					foreach (PeerId peer in peers)
 					{
-						List<PeerId> peers = new List<PeerId>(mainWindow.Peers.Keys);
-						foreach (PeerId peer in peers)
+						if (peer.TorrentManager == args.TorrentManager)
 						{
-							if (peer.TorrentManager == args.TorrentManager)
-							{
-								TreeIter iter = mainWindow.Peers[peer];
-								mainWindow.PeerListStore.Remove (ref iter);
-								mainWindow.Peers.Remove(peer);
-							}
+                            TreeIter iter;
+                            if (!mainWindow.Peers.ContainsKey(peer))
+                                continue;
+
+							TreePath path = mainWindow.Peers[peer];
+                            if (mainWindow.PeerListStore.GetIter(out iter, path))
+                                mainWindow.PeerListStore.Remove(ref iter);
+							mainWindow.Peers.Remove(peer);
 						}
 					}
-					lock (mainWindow.Pieces)
-					{
-						mainWindow.Pieces.Clear ();
-					}
 				}
-			
-				if (!prefSettings.EnableNotifications)
-					return;
-				if (args.NewState != TorrentState.Seeding)
-					return;
-				if (args.OldState != TorrentState.Downloading)
-					return;
+				lock (mainWindow.Pieces)
+				{
+					mainWindow.Pieces.Clear ();
+				}
+			}
+		
+			if (!prefSettings.EnableNotifications)
+				return;
+			if (args.NewState != TorrentState.Seeding)
+				return;
+			if (args.OldState != TorrentState.Downloading)
+				return;
 
-				Notifications.Notification notify = new Notifications.Notification (_("Download Complete"), manager.Torrent.Name, Stock.GoDown);
-				if (prefSettings.EnableTray)
-					notify.AttachToWidget (mainWindow.TrayIcon);
-				notify.Urgency = Notifications.Urgency.Low;
-				notify.Timeout = 5000;
-				notify.Show ();
-				notify.AddAction("reveal-item", "Show", OnRevealActivated);
-			});
+			Notifications.Notification notify = new Notifications.Notification (_("Download Complete"), manager.Torrent.Name, Stock.GoDown);
+			if (prefSettings.EnableTray)
+				notify.AttachToWidget (mainWindow.TrayIcon);
+			notify.Urgency = Notifications.Urgency.Low;
+			notify.Timeout = 5000;
+			notify.Show ();
+			notify.AddAction("reveal-item", "Show", OnRevealActivated);
 		}
 
 		private void OnRevealActivated (object o, Notifications.ActionArgs args)

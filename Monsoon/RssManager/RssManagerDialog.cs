@@ -98,12 +98,10 @@ namespace Monsoon
 		
 		private void FetchFeedsCompleted(object sender, RunWorkerCompletedEventArgs args)
 		{
-			Gtk.Application.Invoke (delegate {
-				itemListStore.Clear();
-				foreach(RssItem item in controller.Items){
-					itemListStore.AppendValues(item);
-				}
-			});
+			itemListStore.Clear();
+			foreach(RssItem item in controller.Items){
+				itemListStore.AppendValues(item);
+			}
 		}
 		
 		

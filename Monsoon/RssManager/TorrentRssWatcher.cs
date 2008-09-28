@@ -83,7 +83,12 @@ namespace Monsoon
 			
 			
 			timer = new Timer();
-			timer.Elapsed += OnTimedEvent;
+			timer.Elapsed += delegate {
+				GLib.Idle.Add(delegate {
+					OnTimedEvent(null, null);
+					return false;
+				});
+			};
 			
 			// Set the Interval to 30 seconds.
 			timer.Interval=30000;

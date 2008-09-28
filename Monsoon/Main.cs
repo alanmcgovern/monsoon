@@ -82,6 +82,7 @@ namespace Monsoon
 
 			if (DBusInstance.AlreadyRunning)
 			{
+				Console.WriteLine("Already running");
 				DBusInstance.CommandParser.ParseCommands (args);
 				return;
 			}

@@ -203,8 +203,12 @@ namespace Monsoon
 			
 			creator.Path = SavePath;
 
-			creator.Hashed += OnHashed;
-			
+			creator.Hashed += delegate(object o, TorrentCreatorEventArgs e) {
+				GLib.Idle.Add(delegate {
+					OnHashed(o, e);
+					return false;
+				});
+			};
 			TorrentCreatorAsyncResult creatorResult = creator.BeginCreate(null, BeginCreateCb);
 			
 			ResponseType cancelResult = (ResponseType) progressDialog.Run();
@@ -221,9 +225,7 @@ namespace Monsoon
 		
 		private void OnHashed(object sender, TorrentCreatorEventArgs args)
 		{
-			Gtk.Application.Invoke (delegate {
-				progressDialog.Progress = args.OverallCompletion;
-			});
+			progressDialog.Progress = args.OverallCompletion;
 		}
 
 		private void BeginCreateCb(IAsyncResult result)

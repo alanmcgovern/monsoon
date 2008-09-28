@@ -110,7 +110,7 @@ namespace Monsoon
 			PeerId peer = (PeerId) model.GetValue (iter, 0);
 			
 			if(peer.IsConnected)
-				(cell as Gtk.CellRendererText).Text = peer.Uri.Host;
+				(cell as Gtk.CellRendererText).Text = peer.Uri.Host + ":" + peer.Uri.Port;
 		}
 		
 		
