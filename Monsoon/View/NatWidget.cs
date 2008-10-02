@@ -10,6 +10,8 @@ using Gtk;
 
 namespace Monsoon
 {
+    [System.ComponentModel.Category("Monsoon")]
+    [System.ComponentModel.ToolboxItem(true)]
     public class NatWidget : Gtk.DrawingArea
     {
         private DateTime lastIncoming;
