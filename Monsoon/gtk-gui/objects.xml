@@ -1,4 +1,4 @@
-<objects attr-sync="on">
+<objects>
   <object type="Monsoon.NatWidget" palette-category="Monsoon" allow-children="false" base-type="Gtk.DrawingArea">
     <itemgroups>
       <itemgroup label="NatWidget Properties">
