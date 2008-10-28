@@ -374,3 +374,191 @@
     </ProjectReference>
   </ItemGroup>
 </Project>
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <ProjectGuid>{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>Monsoon</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <StartupObject />
+    <ApplicationIcon>.</ApplicationIcon>
+    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+    <AssemblyKeyFile>.</AssemblyKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <StartupObject />
+    <ApplicationIcon>.</ApplicationIcon>
+    <AssemblyKeyFile>.</AssemblyKeyFile>
+    <Commandlineparameters>-d</Commandlineparameters>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="NLog, Version=1.0.0.505, Culture=neutral, PublicKeyToken=5120e14c03d0593c">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="NDesk.DBus.GLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
+    <Reference Include="Mono.Posix" />
+    <Reference Include="gconf-sharp-peditors, Version=2.20.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="NDesk.DBus, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f6716e4f9b2ed099" />
+    <Reference Include="pango-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="atk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gconf-sharp, Version=2.20.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gtk-gui\objects.xml">
+      <LogicalName>objects.xml</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="MainWindow.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="LabelTreeView.cs" />
+    <Compile Include="TorrentTreeView.cs" />
+    <Compile Include="AboutDialog.cs" />
+    <Compile Include="PreferencesDialog.cs" />
+    <Compile Include="TorrentController.cs" />
+    <Compile Include="PeerTreeView.cs" />
+    <Compile Include="ByteConverter.cs" />
+    <Compile Include="CreateTorrentDialog.cs" />
+    <Compile Include="FileTreeView.cs" />
+    <Compile Include="TorrentLabel.cs" />
+    <Compile Include="TorrentFilterModel.cs" />
+    <Compile Include="ListenPortController.cs" />
+    <Compile Include="EditColumnsDialog.cs" />
+    <Compile Include="PiecesTreeView.cs" />
+    <Compile Include="TorrentContextMenu.cs" />
+    <Compile Include="UnhandledExceptionDialog.cs" />
+    <Compile Include="TorrentStorage.cs" />
+    <Compile Include="CreateTorrentProgressDialog.cs" />
+    <Compile Include="CellRendererPiece.cs" />
+    <Compile Include="libs\NotifySharp\Global.cs" />
+    <Compile Include="libs\NotifySharp\Notification.cs" />
+    <Compile Include="libs\TrayLib.cs" />
+    <Compile Include="RssManager\RssManagerDialog.cs" />
+    <Compile Include="RssManager\RssFilter.cs" />
+    <Compile Include="RssManager\RssReader.cs" />
+    <Compile Include="RssManager\TorrentRssWatcher.cs" />
+    <Compile Include="RssManager\RssManagerController.cs" />
+    <Compile Include="RssManager\TorrentRssWatcherEventArgs.cs" />
+    <Compile Include="Menus\SpeedLimitMenu.cs" />
+    <Compile Include="TorrentFileSettingsModel.cs" />
+    <Compile Include="Menus\SpeedMenuItem.cs" />
+    <Compile Include="Settings\GconfSettingsStorage.cs" />
+    <Compile Include="Settings\InterfaceSettings.cs" />
+    <Compile Include="Settings\SettingNotFoundException.cs" />
+    <Compile Include="Settings\SettingsController.cs" />
+    <Compile Include="Settings\GConfInterfaceSettingsController.cs" />
+    <Compile Include="Settings\GconfTorrentSettingsController.cs" />
+    <Compile Include="Settings\GconfEngineSettingsController.cs" />
+    <Compile Include="Settings\PreferencesSettings.cs" />
+    <Compile Include="Settings\GconfPreferencesSettingsController.cs" />
+    <Compile Include="Settings\XmlTorrentLabelController.cs" />
+    <Compile Include="Settings\XmlTorrentStorageController.cs" />
+    <Compile Include="Settings\XmlRssFeedsController.cs" />
+    <Compile Include="Settings\XmlRssFiltersController.cs" />
+    <Compile Include="Settings\XmlRssHistoryController.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Defines.cs" />
+    <Compile Include="LoadTorrentDialog.cs" />
+    <Compile Include="Model\TorrentFileModel.cs" />
+    <Compile Include="Dbus\DBusInstance.cs" />
+    <Compile Include="Dbus\ICommandParser.cs" />
+    <Compile Include="Dbus\CommandsReceivedEventArgs.cs" />
+    <Compile Include="Ticker.cs" />
+    <Compile Include="View\NatWidget.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="icons\rss.png">
+      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\donotdownload.png">
+      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\high.png">
+      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\highest.png">
+      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\immediate.png">
+      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\low.png">
+      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\lowest.png">
+      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\normal.png">
+      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="monsoon.desktop">
+      <DeployService.TargetDirectoryId>Linux.DesktopApplications</DeployService.TargetDirectoryId>
+    </Content>
+    <Content Include="Monsoon.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <GtkDesignInfo />
+        <MonoDevelop.Autotools.MakefileInfo RelativeMakefileName="Makefile.am" IsAutotoolsProject="true" RelativeConfigureInPath="..">
+          <BuildFilesVar Name="FILES" />
+          <DeployFilesVar />
+          <ResourcesVar Name="RESOURCES" />
+          <OthersVar />
+          <GacRefVar Name="REFERENCES" />
+          <AsmRefVar Name="REFERENCES" />
+          <ProjectRefVar Name="REFERENCES" />
+        </MonoDevelop.Autotools.MakefileInfo>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <ProjectReference Include="..\mono.nat\Mono.Nat.csproj">
+      <Project>{F5D74163-145F-47BF-83DC-D0E07249C6CA}</Project>
+      <Name>Mono.Nat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\bitsharp\MonoTorrent.csproj">
+      <Project>{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}</Project>
+      <Name>MonoTorrent</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
