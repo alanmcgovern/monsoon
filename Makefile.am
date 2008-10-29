@@ -12,7 +12,7 @@ SUBDIRS = 	bitsharp \
 		Monsoon \
 		po
 run: all
-	mono Monsoon/bin/Release/Monsoon.exe
+	mono --debug Monsoon/bin/Release/Monsoon.exe
 run-clean: all
 	rm -rf ~/.config/monsoon
 	make run
