@@ -1,5 +1,9 @@
 2008-10-29  Alan McGovern  <alan.mcgovern@gmail.com>
 
+	* Monsoon.csproj: Update the monodevelop build again
+
+2008-10-29  Alan McGovern  <alan.mcgovern@gmail.com>
+
 	* TorrentTreeView.cs: Fix for #431504.
 
 2008-09-28  Alan McGovern <alan.mcgovern@gmail.com> 

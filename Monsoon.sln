@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monsoon", "Monsoon\Monsoon.csproj", "{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoTorrent", "bitsharp\MonoTorrent\MonoTorrent.csproj", "{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mono.Nat", "mono.nat\Mono.Nat\Mono.Nat.csproj", "{F5D74163-145F-47BF-83DC-D0E07249C6CA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoTorrent", "bitsharp\MonoTorrent.csproj", "{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mono.Nat", "mono.nat\Mono.Nat.csproj", "{F5D74163-145F-47BF-83DC-D0E07249C6CA}"
@@ -18,36 +14,12 @@ Global
 		Stats|Any CPU = Stats|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}.Stats|Any CPU.ActiveCfg = Stats|Any CPU
-		{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}.Stats|Any CPU.Build.0 = Stats|Any CPU
 		{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}.Stats|Any CPU.ActiveCfg = Stats|Any CPU
 		{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}.Stats|Any CPU.Build.0 = Stats|Any CPU
-		{F5D74163-145F-47BF-83DC-D0E07249C6CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5D74163-145F-47BF-83DC-D0E07249C6CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5D74163-145F-47BF-83DC-D0E07249C6CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5D74163-145F-47BF-83DC-D0E07249C6CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5D74163-145F-47BF-83DC-D0E07249C6CA}.Stats|Any CPU.ActiveCfg = Stats|Any CPU
-		{F5D74163-145F-47BF-83DC-D0E07249C6CA}.Stats|Any CPU.Build.0 = Stats|Any CPU
-		{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}.Stats|Any CPU.ActiveCfg = Stats|Any CPU
-		{411A9E0E-FDC6-4E25-828A-0C2CD1CD96F8}.Stats|Any CPU.Build.0 = Stats|Any CPU
-		{F5D74163-145F-47BF-83DC-D0E07249C6CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5D74163-145F-47BF-83DC-D0E07249C6CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5D74163-145F-47BF-83DC-D0E07249C6CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5D74163-145F-47BF-83DC-D0E07249C6CA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5D74163-145F-47BF-83DC-D0E07249C6CA}.Stats|Any CPU.ActiveCfg = Stats|Any CPU
-		{F5D74163-145F-47BF-83DC-D0E07249C6CA}.Stats|Any CPU.Build.0 = Stats|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		name = Monsoon

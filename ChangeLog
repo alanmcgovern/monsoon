@@ -1,3 +1,7 @@
+2008-10-29  Alan McGovern  <alan.mcgovern@gmail.com>
+
+	* Monsoon.sln: Update the monodevelop build again
+
 2008-06-01  Alan McGovern <alan.mcgovern@gmail.com> 
 
 	* Monsoon.mds: Ditch old code from the druid
