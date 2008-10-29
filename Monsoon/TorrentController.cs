@@ -545,16 +545,24 @@ namespace Monsoon
 				
 			logger.Info("New torrent detected, adding " + args.TorrentPath);
 			string newPath = Path.Combine(MainWindow.Preferences.TorrentStorageLocation, Path.GetFileName(args.TorrentPath));
-			logger.Info ("Copying: {0} to {1}", args.TorrentPath, newPath);
-			File.Copy(args.TorrentPath, newPath ,true);
+			if (Path.GetDirectoryName (args.TorrentPath) != MainWindow.Preferences.TorrentStorageLocation)
+			{
+				logger.Info ("Copying: {0} to {1}", args.TorrentPath, newPath);
+				File.Copy(args.TorrentPath, newPath ,true);
+				if(prefSettings.RemoveOnImport)
+					File.Delete(args.TorrentPath);
+			}
 			
-			if(prefSettings.RemoveOnImport)
-				File.Delete(args.TorrentPath);
-			
-			//GLib.Timeout.Add (1000, delegate {
-			//	mainWindow.LoadTorrent (newPath, false);
-			//	return false;
-			//});
+			GLib.Timeout.Add (1000, delegate {
+				try {
+					mainWindow.LoadTorrent (newPath, false);
+					return false;
+				}
+				catch (Exception ex) {
+					Console.WriteLine (ex);
+					return false;
+				}
+			});
 		}
 		
 		public void LoadStoredTorrents()
