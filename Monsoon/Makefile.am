@@ -17,9 +17,9 @@ HIGH_PNG_SOURCE=icons/high.png
 HIGHEST_PNG_SOURCE=icons/highest.png
 IMMEDIATE_PNG_SOURCE=icons/immediate.png
 RSS_PNG_SOURCE=icons/rss.png
-MONOTORRENT_DLL_SOURCE=libs/MonoTorrent.dll
+MONOTORRENT_DLL_SOURCE=../../bitsharp/src/MonoTorrent/bin/Release/MonoTorrent.dll
 LOWEST_PNG_SOURCE=icons/lowest.png
-MONO_NAT_DLL_SOURCE=libs/Mono.Nat.dll
+MONO_NAT_DLL_SOURCE=../mono.nat/Mono.Nat/bin/Release/Mono.Nat.dll
 MONSOON_DESKTOP_SOURCE=monsoon.desktop
 DONOTDOWNLOAD_PNG_SOURCE=icons/donotdownload.png
 NORMAL_PNG_SOURCE=icons/normal.png
@@ -42,9 +42,9 @@ HIGH_PNG_SOURCE=icons/high.png
 HIGHEST_PNG_SOURCE=icons/highest.png
 IMMEDIATE_PNG_SOURCE=icons/immediate.png
 RSS_PNG_SOURCE=icons/rss.png
-MONOTORRENT_DLL_SOURCE=libs/MonoTorrent.dll
+MONOTORRENT_DLL_SOURCE=../../bitsharp/src/MonoTorrent/bin/Release/MonoTorrent.dll
 LOWEST_PNG_SOURCE=icons/lowest.png
-MONO_NAT_DLL_SOURCE=libs/Mono.Nat.dll
+MONO_NAT_DLL_SOURCE=../mono.nat/Mono.Nat/bin/Release/Mono.Nat.dll
 MONSOON_DESKTOP_SOURCE=monsoon.desktop
 DONOTDOWNLOAD_PNG_SOURCE=icons/donotdownload.png
 NORMAL_PNG_SOURCE=icons/normal.png
@@ -179,8 +179,8 @@ REFERENCES =  \
 
 DLL_REFERENCES =  \
 	NLog.dll \
-	libs/Mono.Nat.dll \
-	libs/MonoTorrent.dll
+	 ../mono.nat/Mono.Nat/bin/Release/Mono.Nat.dll \
+	../bitsharp/MonoTorrent/bin/Release/MonoTorrent.dll
 
 CLEANFILES = $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) $(BINARIES) 
 

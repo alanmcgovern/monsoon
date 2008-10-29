@@ -1,6 +1,6 @@
 AC_PREREQ([2.54])
 AC_INIT([Monsoon], [0.15])
-AM_INIT_AUTOMAKE([foreign])
+AM_INIT_AUTOMAKE([foreign tar-pax])
 
 dnl pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
@@ -64,6 +64,13 @@ AC_CONFIG_FILES([
 Makefile
 Monsoon/Makefile
 Monsoon/monsoon
+bitsharp/Makefile
+bitsharp/MonoTorrent/Makefile
+bitsharp/MonoTorrent/monotorrent.pc
+
+mono.nat/Makefile
+mono.nat/Mono.Nat/Makefile
+mono.nat/Mono.Nat/mono.nat.pc
 ])
 
 AC_OUTPUT([

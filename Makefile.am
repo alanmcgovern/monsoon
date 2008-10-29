@@ -1,11 +1,13 @@
 
 EXTRA_DIST = 	expansions.m4 \
 		Monsoon/NLog.dll \
-		Monsoon/libs/MonoTorrent.dll \
-		Monsoon/libs/Mono.Nat.dll \
+		bitsharp/MonoTorrent/bin/Release/MonoTorrent.dll \
+		mono.nat/Mono.Nat/bin/Release/Mono.Nat.dll \
 		intltool-update.in \
 		intltool-extract.in \
 		intltool-merge.in
 
-SUBDIRS = 	Monsoon \
+SUBDIRS = 	bitsharp \
+		mono.nat \		
+		Monsoon \
 		po
