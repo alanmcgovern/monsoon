@@ -11,3 +11,5 @@ SUBDIRS = 	bitsharp \
 		mono.nat \		
 		Monsoon \
 		po
+run: all
+	mono Monsoon/bin/Release/Monsoon.exe
