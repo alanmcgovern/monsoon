@@ -140,6 +140,15 @@ namespace Monsoon
 			{
 				logger.Warn (string.Format("Couldn't load fast resume: {0}", ex));
 			}
+			finally
+			{
+				try {
+					File.Delete (Defines.SerializedFastResume);
+				}
+				catch {
+					// I don't care if this happens
+				}
+			}
 			
 			return list;
 		}

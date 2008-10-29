@@ -1,5 +1,11 @@
 2008-10-29  Alan McGovern  <alan.mcgovern@gmail.com>
 
+	* TorrentController.cs: Fix #421703: FastResume data should be deleted
+	after it's loaded so if Monsoon crashes, active torrents will be
+	reprocessed.
+
+2008-10-29  Alan McGovern  <alan.mcgovern@gmail.com>
+
 	* Monsoon.csproj: Update the monodevelop build again
 
 2008-10-29  Alan McGovern  <alan.mcgovern@gmail.com>
