@@ -392,13 +392,19 @@ namespace Monsoon
 		{
 			TimeSpan eta;
 			if (manager.State == TorrentState.Downloading && (manager.Torrent.Size - (manager.Monitor.DataBytesDownloaded + torrentController.GetPreviousDownload(manager))) > 0)
-				eta = TimeSpan.FromSeconds(manager.Monitor.DownloadSpeed > 0 ? ((manager.Torrent.Size - (manager.Monitor.DataBytesDownloaded + torrentController.GetPreviousDownload(manager))) / manager.Monitor.DownloadSpeed) : -1);
+			{
+				int dSpeed = manager.Monitor.DownloadSpeed;
+				eta = TimeSpan.FromSeconds(dSpeed > 0 ? ((manager.Torrent.Size - (manager.Monitor.DataBytesDownloaded + torrentController.GetPreviousDownload(manager))) / dSpeed) : -1);
+			}
 			else if (manager.State == TorrentState.Seeding && (manager.Torrent.Size - (manager.Monitor.DataBytesUploaded + torrentController.GetPreviousUpload(manager))) > 0)
-				eta = TimeSpan.FromSeconds(manager.Monitor.UploadSpeed > 0 ? ((manager.Torrent.Size - (manager.Monitor.DataBytesUploaded + torrentController.GetPreviousUpload(manager))) / manager.Monitor.UploadSpeed) : -1);
+			{
+				int uSpeed = manager.Monitor.UploadSpeed;
+				eta = TimeSpan.FromSeconds(uSpeed > 0 ? ((manager.Torrent.Size - (manager.Monitor.DataBytesUploaded + torrentController.GetPreviousUpload(manager))) / uSpeed) : -1);
+			}
 			else
 				return string.Empty;
 			
-			if (eta.Seconds < 0)
+			if (eta.Seconds <= 0)
 				return "∞";
 			if (eta.Days > 0)
 				return string.Format("{0}d {1}h", eta.Days, eta.Hours);
