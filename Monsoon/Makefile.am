@@ -82,71 +82,71 @@ BINARIES = \
 	
 all: $(ASSEMBLY) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) $(BINARIES) 
 
-FILES = \
-	Ticker.cs \
+FILES =  \
+	AboutDialog.cs \
+	AssemblyInfo.cs \
+	ByteConverter.cs \
+	CellRendererPiece.cs \
+	CreateTorrentDialog.cs \
+	CreateTorrentProgressDialog.cs \
 	Dbus/CommandsReceivedEventArgs.cs \
 	Dbus/DBusInstance.cs \
 	Dbus/ICommandParser.cs \
-        AssemblyInfo.cs \
-	gtk-gui/generated.cs \
-	MainWindow.cs \
-	Main.cs \
-	LabelTreeView.cs \
-	TorrentTreeView.cs \
-	AboutDialog.cs \
-	PreferencesDialog.cs \
-	TorrentController.cs \
-	PeerTreeView.cs \
-	ByteConverter.cs \
-	CreateTorrentDialog.cs \
-	FileTreeView.cs \
-	LoadTorrentDialog.cs \
-	TorrentLabel.cs \
-	TorrentFilterModel.cs \
-	ListenPortController.cs \
+	Defines.cs \
 	EditColumnsDialog.cs \
-	PiecesTreeView.cs \
-	TorrentContextMenu.cs \
-	UnhandledExceptionDialog.cs \
-	TorrentStorage.cs \
-	CreateTorrentProgressDialog.cs \
-	CellRendererPiece.cs \
+	FileTreeView.cs \
+	gtk-gui/generated.cs \
+	gtk-gui/Monsoon.CreateTorrentDialog.cs \
+	gtk-gui/Monsoon.CreateTorrentProgressDialog.cs \
+	gtk-gui/Monsoon.EditColumnsDialog.cs \
+	gtk-gui/Monsoon.LoadTorrentDialog.cs \
+	gtk-gui/Monsoon.MainWindow.cs \
+	gtk-gui/Monsoon.PreferencesDialog.cs \
+	gtk-gui/Monsoon.RssManagerDialog.cs \
+	gtk-gui/Monsoon.UnhandledExceptionDialog.cs \
+	LabelTreeView.cs \
 	libs/NotifySharp/Global.cs \
 	libs/NotifySharp/Notification.cs \
 	libs/TrayLib.cs \
-	RssManager/RssManagerDialog.cs \
-	RssManager/RssFilter.cs \
-	RssManager/RssReader.cs \
-	RssManager/TorrentRssWatcher.cs \
-	RssManager/RssManagerController.cs \
-	RssManager/TorrentRssWatcherEventArgs.cs \
-	gtk-gui/Monsoon.RssManagerDialog.cs \
-	gtk-gui/Monsoon.UnhandledExceptionDialog.cs \
-	gtk-gui/Monsoon.PreferencesDialog.cs \
-	gtk-gui/Monsoon.CreateTorrentDialog.cs \
-	gtk-gui/Monsoon.LoadTorrentDialog.cs \
-	gtk-gui/Monsoon.MainWindow.cs \
-	gtk-gui/Monsoon.EditColumnsDialog.cs \
-	gtk-gui/Monsoon.CreateTorrentProgressDialog.cs \
+	ListenPortController.cs \
+	LoadTorrentDialog.cs \
+	Main.cs \
+	MainWindow.cs \
 	Menus/SpeedLimitMenu.cs \
-	Defines.cs \
-	TorrentFileSettingsModel.cs \
 	Menus/SpeedMenuItem.cs \
 	Model/TorrentFileModel.cs \
+	PeerTreeView.cs \
+	PiecesTreeView.cs \
+	PreferencesDialog.cs \
+	RssManager/RssFilter.cs \
+	RssManager/RssManagerController.cs \
+	RssManager/RssManagerDialog.cs \
+	RssManager/RssReader.cs \
+	RssManager/TorrentRssWatcher.cs \
+	RssManager/TorrentRssWatcherEventArgs.cs \
 	Settings/GconfEngineSettingsController.cs \
 	Settings/GConfInterfaceSettingsController.cs \
 	Settings/GconfPreferencesSettingsController.cs \
 	Settings/GconfSettingsStorage.cs \
 	Settings/GconfTorrentSettingsController.cs \
 	Settings/InterfaceSettings.cs \
-	Settings/SettingsController.cs \
-	Settings/SettingNotFoundException.cs \
 	Settings/PreferencesSettings.cs \
-	Settings/XmlTorrentLabelController.cs \
+	Settings/SettingNotFoundException.cs \
+	Settings/SettingsController.cs \
 	Settings/XmlRssFeedsController.cs \
-	Settings/XmlRssHistoryController.cs \
 	Settings/XmlRssFiltersController.cs \
+	Settings/XmlRssHistoryController.cs \
+	Settings/XmlTorrentLabelController.cs \
 	Settings/XmlTorrentStorageController.cs \
+	Ticker.cs \
+	TorrentContextMenu.cs \
+	TorrentController.cs \
+	TorrentFileSettingsModel.cs \
+	TorrentFilterModel.cs \
+	TorrentLabel.cs \
+	TorrentStorage.cs \
+	TorrentTreeView.cs \
+	UnhandledExceptionDialog.cs \
 	View/NatWidget.cs
 
 DATA_FILES = \
