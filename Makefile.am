@@ -17,3 +17,6 @@ run: all
 run-clean: all
 	rm -rf ~/.config/monsoon
 	make run
+
+make run-profile:
+	mono --profile=logging:s=8 Monsoon/bin/Release/Monsoon.exe -d
