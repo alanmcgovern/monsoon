@@ -836,7 +836,7 @@ namespace Monsoon
 			StoreTorrentSettings ();
 			
 			foreach (WaitHandle h in this.torrentController.Engine.StopAll())
-				h.WaitOne (TimeSpan.FromSeconds(10), false);	
+				h.WaitOne (TimeSpan.FromSeconds(2), false);	
 
 //			List<WaitHandle> handles = new List<WaitHandle> ();
 //			foreach (TorrentManager manager in torrents.Keys){
