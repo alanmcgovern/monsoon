@@ -120,6 +120,8 @@ namespace Monsoon
 					logger.Error ("UPnP failed to remove map. Error: {0}",e);
 				}
 			}
+
+			logger.Info("UPnP shut down");
 		}
 		
 		public void MapPort()
