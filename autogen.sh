@@ -2,7 +2,7 @@
 
 PROJECT=Monsoon
 FILE=
-CONFIGURE=configure.in
+CONFIGURE=configure.ac
 
 : ${AUTOCONF=autoconf}
 : ${AUTOHEADER=autoheader}

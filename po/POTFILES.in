@@ -13,14 +13,16 @@ Monsoon/PiecesTreeView.cs
 Monsoon/RssManager/RssFilter.cs
 Monsoon/RssManager/RssManagerDialog.cs
 Monsoon/TorrentContextMenu.cs
+Monsoon/TorrentController.cs
 Monsoon/TorrentTreeView.cs
 Monsoon/UnhandledExceptionDialog.cs
-Monsoon/gtk-gui/MainWindow.cs
+Monsoon/View/NatWidget.cs
 Monsoon/gtk-gui/Monsoon.MainWindow.cs
 Monsoon/gtk-gui/Monsoon.CreateTorrentProgressDialog.cs
 Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs
 Monsoon/gtk-gui/Monsoon.MainWindow.cs
 Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs
+Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs
 Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs
 Monsoon/gtk-gui/Monsoon.UnhandledExceptionDialog.cs
 Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs

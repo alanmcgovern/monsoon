@@ -1,5 +1,5 @@
 AC_PREREQ([2.54])
-AC_INIT([Monsoon], [0.15])
+AC_INIT([Monsoon], [0.16])
 AM_INIT_AUTOMAKE([foreign tar-pax])
 
 dnl pkg-config
@@ -47,6 +47,8 @@ PKG_CHECK_MODULES([GCONF_SHARP_20], [gconf-sharp-2.0])
 PKG_CHECK_MODULES([GLIB_SHARP_20], [glib-sharp-2.0 >= 2.10])
 PKG_CHECK_MODULES([GTK_SHARP_20], [gtk-sharp-2.0])
 PKG_CHECK_MODULES([NDESK_DBUS_GLIB_10], [ndesk-dbus-glib-1.0])
+PKG_CHECK_MODULES([MONOTORRENT], [monotorrent = 0.6])
+PKG_CHECK_MODULES([MONONAT], [mono.nat >= 1.0])
 
 # I18N
 AC_PROG_INTLTOOL([0.25])
@@ -61,20 +63,12 @@ AM_GLIB_GNU_GETTEXT
 dnl package checks, per config
 
 AC_CONFIG_FILES([
-Makefile
-Monsoon/Makefile
-Monsoon/monsoon
-bitsharp/Makefile
-bitsharp/MonoTorrent/Makefile
-bitsharp/MonoTorrent/monotorrent.pc
-
-mono.nat/Makefile
-mono.nat/Mono.Nat/Makefile
-mono.nat/Mono.Nat/mono.nat.pc
+	Makefile
+	Monsoon/AssemblyInfo.cs
+	Monsoon/Defines.cs
+	Monsoon/Makefile
+	Monsoon/monsoon
+	po/Makefile.in
 ])
 
-AC_OUTPUT([
-Monsoon/AssemblyInfo.cs
-Monsoon/Defines.cs
-po/Makefile.in
-])
+AC_OUTPUT

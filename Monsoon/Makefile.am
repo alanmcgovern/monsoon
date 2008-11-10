@@ -1,5 +1,5 @@
 
-EXTRA_DIST =  
+EXTRA_DIST = $(NLOG_DLL_SOURCE)
 
 # Warning: This is an automatically generated file, do not edit!
 
@@ -17,9 +17,7 @@ HIGH_PNG_SOURCE=icons/high.png
 HIGHEST_PNG_SOURCE=icons/highest.png
 IMMEDIATE_PNG_SOURCE=icons/immediate.png
 RSS_PNG_SOURCE=icons/rss.png
-MONOTORRENT_DLL_SOURCE=../../bitsharp/src/MonoTorrent/bin/Release/MonoTorrent.dll
 LOWEST_PNG_SOURCE=icons/lowest.png
-MONO_NAT_DLL_SOURCE=../mono.nat/Mono.Nat/bin/Release/Mono.Nat.dll
 MONSOON_DESKTOP_SOURCE=monsoon.desktop
 DONOTDOWNLOAD_PNG_SOURCE=icons/donotdownload.png
 NORMAL_PNG_SOURCE=icons/normal.png
@@ -42,9 +40,7 @@ HIGH_PNG_SOURCE=icons/high.png
 HIGHEST_PNG_SOURCE=icons/highest.png
 IMMEDIATE_PNG_SOURCE=icons/immediate.png
 RSS_PNG_SOURCE=icons/rss.png
-MONOTORRENT_DLL_SOURCE=../../bitsharp/src/MonoTorrent/bin/Release/MonoTorrent.dll
 LOWEST_PNG_SOURCE=icons/lowest.png
-MONO_NAT_DLL_SOURCE=../mono.nat/Mono.Nat/bin/Release/Mono.Nat.dll
 MONSOON_DESKTOP_SOURCE=monsoon.desktop
 DONOTDOWNLOAD_PNG_SOURCE=icons/donotdownload.png
 NORMAL_PNG_SOURCE=icons/normal.png
@@ -56,11 +52,13 @@ endif
 AL=al2
 SATELLITE_ASSEMBLY_NAME=.resources.dll
 
+UNSTABLE_LIBS = ./libs/MonoTorrent.dll \
+		./libs/Mono.Nat.dll
+
 PROGRAMFILES = \
 	$(MONSOON_EXE_CONFIG) \
-	$(MONOTORRENT_DLL) \
-	$(MONO_NAT_DLL) \
-	$(NLOG_DLL)  
+	$(NLOG_DLL) \
+	$(UNSTABLE_LIBS)
 
 LINUX_DESKTOPAPPLICATIONS = \
 	$(MONSOON_DESKTOP)  
@@ -80,7 +78,16 @@ BINARIES = \
 
 
 	
-all: $(ASSEMBLY) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) $(BINARIES) 
+all: update-libs $(ASSEMBLY) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) $(BINARIES) 
+
+./libs/Mono.Nat.dll: update-libs
+./libs/MonoTorrent.dll: update-libs
+
+update-libs:
+	mkdir -p ./libs
+	cp `pkg-config --variable=Libraries monotorrent` ./libs/MonoTorrent.dll
+	cp `pkg-config --variable=Libraries mono.nat` ./libs/Mono.Nat.dll
+
 
 FILES =  \
 	AboutDialog.cs \
@@ -178,11 +185,11 @@ REFERENCES =  \
 	$(GLIB_SHARP_20_LIBS)
 
 DLL_REFERENCES =  \
-	NLog.dll \
-	 ../mono.nat/Mono.Nat/bin/Release/Mono.Nat.dll \
-	../bitsharp/MonoTorrent/bin/Release/MonoTorrent.dll
+		$(NLOG_DLL) \
+		./libs/Mono.Nat.dll \
+		./libs/MonoTorrent.dll
 
-CLEANFILES = $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) $(BINARIES) 
+CLEANFILES = $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) $(BINARIES) $(UNSTABLE_LIBS)
 
 include $(top_srcdir)/Makefile.include
 
@@ -191,9 +198,7 @@ HIGH_PNG = $(BUILD_DIR)/icons/high.png
 HIGHEST_PNG = $(BUILD_DIR)/icons/highest.png
 IMMEDIATE_PNG = $(BUILD_DIR)/icons/immediate.png
 RSS_PNG = $(BUILD_DIR)/icons/rss.png
-MONOTORRENT_DLL = $(BUILD_DIR)/MonoTorrent.dll
 LOWEST_PNG = $(BUILD_DIR)/icons/lowest.png
-MONO_NAT_DLL = $(BUILD_DIR)/Mono.Nat.dll
 MONSOON_DESKTOP = $(BUILD_DIR)/monsoon.desktop
 DONOTDOWNLOAD_PNG = $(BUILD_DIR)/icons/donotdownload.png
 MONSOON = $(BUILD_DIR)/monsoon
@@ -206,9 +211,7 @@ $(eval $(call emit-deploy-target,HIGH_PNG))
 $(eval $(call emit-deploy-target,HIGHEST_PNG))
 $(eval $(call emit-deploy-target,IMMEDIATE_PNG))
 $(eval $(call emit-deploy-target,RSS_PNG))
-$(eval $(call emit-deploy-target,MONOTORRENT_DLL))
 $(eval $(call emit-deploy-target,LOWEST_PNG))
-$(eval $(call emit-deploy-target,MONO_NAT_DLL))
 $(eval $(call emit-deploy-target,MONSOON_DESKTOP))
 $(eval $(call emit-deploy-target,DONOTDOWNLOAD_PNG))
 $(eval $(call emit-deploy-wrapper,MONSOON,monsoon,x))
