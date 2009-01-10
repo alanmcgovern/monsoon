@@ -1,6 +1,7 @@
 AC_PREREQ([2.54])
 AC_INIT([Monsoon], [0.16])
 AM_INIT_AUTOMAKE([foreign tar-pax])
+AM_MAINTAINER_MODE
 
 dnl pkg-config
 AC_PATH_PROG(PKG_CONFIG, pkg-config, no)
