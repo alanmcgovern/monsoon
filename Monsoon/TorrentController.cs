@@ -579,6 +579,12 @@ namespace Monsoon
 				} catch (TorrentException e) {
 					logger.Error(e.Message);
 					continue;
+				} catch (IOException) {
+					logger.Warn ("Torrent '{0}' could not be restored. File didn't exist", torrentStore.TorrentPath);
+					continue;
+				} catch (Exception ex) {
+					logger.Error ("Torrent '{0}' could not be restored: {0}", ex);
+					continue;
 				}
 				
 				torrentPreviousUpload.Add(manager, torrentStore.UploadedData);
