@@ -7,7 +7,6 @@
     <ProjectGuid>{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AssemblyName>Monsoon</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -49,13 +48,13 @@
     <Reference Include="gdk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="gtk-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <Reference Include="glib-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
-    <Reference Include="MonoTorrent, Version=0.60.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="Mono.Nat, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bitsharp\MonoTorrent\bin\Release\MonoTorrent.dll</HintPath>
+      <HintPath>libs\Mono.Nat.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.Nat, Version=0.9.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="MonoTorrent, Version=0.7.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\mono.nat\Mono.Nat\bin\Release\Mono.Nat.dll</HintPath>
+      <HintPath>libs\MonoTorrent.dll</HintPath>
     </Reference>
     <Reference Include="gconf-sharp, Version=2.24.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </ItemGroup>
@@ -136,40 +135,30 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\rss.png">
-      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\donotdownload.png">
-      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\high.png">
-      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\highest.png">
-      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\immediate.png">
-      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\low.png">
-      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\lowest.png">
-      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\normal.png">
-      <DeployService.UseProjectRelativePath>true</DeployService.UseProjectRelativePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="monsoon.desktop">
-      <DeployService.TargetDirectoryId>Linux.DesktopApplications</DeployService.TargetDirectoryId>
-    </Content>
+    <Content Include="monsoon.desktop" />
     <Content Include="Monsoon.exe.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

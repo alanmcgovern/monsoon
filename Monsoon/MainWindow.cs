@@ -257,7 +257,12 @@ namespace Monsoon
 				portController.Start();
 			
 			Ticker.Tick ();
+			try{
 			torrentController.LoadStoredTorrents ();
+			}catch (Exception ex) {
+				Console.WriteLine (ex);
+				Environment.Exit(414);
+			}
 			Ticker.Tock ("Loaded torrents");
 			
 			Ticker.Tick ();
@@ -1176,7 +1181,8 @@ namespace Monsoon
 			
 			downloadedValueLabel.Text = ByteConverter.ConvertSize (torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded);
 			uploadedValueLabel.Text = ByteConverter.ConvertSize (torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded);
-			if (manager.TrackerManager.CurrentTracker == null)
+			MonoTorrent.Client.Tracker.Tracker tracker = manager.TrackerManager.CurrentTracker;
+			if (tracker == null)
 			{
 				trackerUrlValueLabel.Text = "";
 				trackerStatusValueLabel.Text = "";
@@ -1186,17 +1192,17 @@ namespace Monsoon
 			
 			else
 			{
-				trackerUrlValueLabel.Text = manager.TrackerManager.CurrentTracker.ToString ();
-				trackerStatusValueLabel.Text = manager.TrackerManager.CurrentTracker.State.ToString ();
-				lastUpdatedLabel.Text = manager.TrackerManager.CurrentTracker.LastUpdated.ToString ("HH:mm:ss") ;
-				messageLabel.Text = manager.TrackerManager.CurrentTracker.WarningMessage + manager.TrackerManager.CurrentTracker.FailureMessage;
+				trackerUrlValueLabel.Text = tracker.Uri.ToString ();
+				trackerStatusValueLabel.Text = tracker.Status.ToString ();
+				lastUpdatedLabel.Text = manager.TrackerManager.LastUpdated.ToString ("HH:mm:ss") ;
+				messageLabel.Text = tracker.WarningMessage + ". " + tracker.FailureMessage;
 			}
 			hashFailsLabel.Text = manager.HashFails.ToString ();
 			
 			if (manager.State != TorrentState.Stopped){
-				if (manager.TrackerManager.CurrentTracker != null)
+				if (tracker != null)
 				{
-					DateTime nextUpdate = manager.TrackerManager.LastUpdated.AddSeconds(manager.TrackerManager.CurrentTracker.UpdateInterval);
+					DateTime nextUpdate = manager.TrackerManager.LastUpdated.Add (tracker.UpdateInterval);
 				
 					if(nextUpdate > DateTime.Now)
 						updateInLabel.Text =  DateTime.MinValue.Add (nextUpdate - DateTime.Now).ToString("HH:mm:ss");

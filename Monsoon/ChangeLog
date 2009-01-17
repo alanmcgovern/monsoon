@@ -1,5 +1,23 @@
 2009-01-17  Alan McGovern  <amcgovern@novell.com>
 
+	* Makefile.am:
+	* MainWindow.cs:
+	* Monsoon.csproj:
+	* gtk-gui/gui.stetic:
+	* gtk-gui/generated.cs:
+	* gtk-gui/Monsoon.MainWindow.cs:
+	* gtk-gui/Monsoon.RssManagerDialog.cs:
+	* gtk-gui/Monsoon.EditColumnsDialog.cs:
+	* gtk-gui/Monsoon.LoadTorrentDialog.cs:
+	* gtk-gui/Monsoon.PreferencesDialog.cs:
+	* gtk-gui/Monsoon.CreateTorrentDialog.cs:
+	* gtk-gui/Monsoon.UnhandledExceptionDialog.cs:
+	* gtk-gui/Monsoon.CreateTorrentProgressDialog.cs: Give the close button
+	in the RSS manager a proper name and commit MD's cosmetic gtk-gui
+	mangling
+
+2009-01-17  Alan McGovern  <amcgovern@novell.com>
+
 	* TorrentController.cs: Handle the case where someone nukes the cached
 	torrent files but doesn't nuke the settings file.
 

@@ -79,6 +79,8 @@ BINARIES = \
 
 	
 all: update-libs $(ASSEMBLY) $(PROGRAMFILES) $(LINUX_DESKTOPAPPLICATIONS) $(PROGRAMFILES_ICONS) $(BINARIES) 
+	cp ./libs/MonoTorrent.dll ./bin/Release/MonoTorrent.dll
+	cp ./libs/Mono.Nat.dll ./bin/Release/Mono.Nat.dll
 
 ./libs/Mono.Nat.dll: update-libs
 ./libs/MonoTorrent.dll: update-libs
