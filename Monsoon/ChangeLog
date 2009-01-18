@@ -1,3 +1,8 @@
+2009-01-18  Alan McGovern  <alan.mcgovern@gmail.com>
+
+	* AssemblyInfo.cs:
+	* AssemblyInfo.cs.in: Clean up the AssemblyInfo file a little.
+
 2009-01-17  Alan McGovern  <amcgovern@novell.com>
 
 	* Makefile.am:
