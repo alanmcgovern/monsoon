@@ -11,4 +11,4 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyCulture("")]
 
 // Major.Minor.Build.Revision
-[assembly: AssemblyVersion("0.2.0")]
+[assembly: AssemblyVersion("0.20")]

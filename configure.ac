@@ -1,5 +1,5 @@
 AC_PREREQ([2.54])
-AC_INIT([Monsoon], [0.2.0])
+AC_INIT([Monsoon], [0.20])
 AM_INIT_AUTOMAKE([foreign tar-pax])
 AM_MAINTAINER_MODE
 

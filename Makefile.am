@@ -8,7 +8,7 @@ SUBDIRS = \
 	Monsoon \
 	po
 
-run: all
+run:
 	mono --debug Monsoon/bin/Release/Monsoon.exe -d
 
 run-clean: all
