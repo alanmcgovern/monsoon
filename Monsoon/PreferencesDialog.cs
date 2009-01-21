@@ -348,7 +348,7 @@ namespace Monsoon
 			Image previewImage = new Image();
 			previewImage.IconSize = 32;
 			chooser.PreviewWidget = previewImage;
-			chooser.UpdatePreview += delegate {
+			chooser.UpdatePreview += MainWindow.WrappedHandler ((EventHandler) delegate {
 				try {
 					if (chooser.PreviewFilename == null) {
 						return;
@@ -360,7 +360,7 @@ namespace Monsoon
 				} catch {
 					chooser.PreviewWidgetActive = false;
 				}
-			};
+			});
 			
 			if (chooser.Run() == (int) ResponseType.Ok) {
 				logger.Debug("OnIconButtonClicked(): selected icon: " + chooser.Filename);

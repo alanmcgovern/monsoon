@@ -53,19 +53,19 @@ namespace Monsoon
 			speeds = new List<int> (labels.Capacity);
 			
 			SpeedMenuItem l = new SpeedMenuItem (_("Unlimited"));
-			l.Activated += delegate (object sender, EventArgs e) {
+			l.Activated += MainWindow.WrappedHandler ((EventHandler) delegate (object sender, EventArgs e) {
 				if (ClickedItem != null)
 					ClickedItem (sender, e);
-			};
+			});
 			Append (l);
 			
 			for (int i = 0; i < labels.Capacity; i++)
 			{
 				l = new SpeedMenuItem ("");
-				l.Activated += delegate (object sender, EventArgs e) {
+				l.Activated += MainWindow.WrappedHandler ((EventHandler) delegate (object sender, EventArgs e) {
 					if (ClickedItem != null)
 						ClickedItem (sender, e);
-				};
+				});
 				labels.Add(l);
 				Append(l);
 			}

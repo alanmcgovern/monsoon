@@ -1,3 +1,14 @@
+2009-01-21  Alan McGovern  <alan.mcgovern@gmail.com>
+
+	* MainWindow.cs:
+	* LabelTreeView.cs:
+	* gtk-gui/gui.stetic:
+	* TorrentTreeView.cs:
+	* PreferencesDialog.cs:
+	* TorrentContextMenu.cs:
+	* Menus/SpeedLimitMenu.cs: Wrap all anon delegates before hooking them
+	into a gtk widget. This works around #440054.
+
 2009-01-18  Alan McGovern  <alan.mcgovern@gmail.com>
 
 	* AssemblyInfo.cs:

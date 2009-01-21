@@ -70,13 +70,13 @@ namespace Monsoon
 			Gtk.CellRendererText sizeRendererCell = new Gtk.CellRendererText();
 			
 			nameRendererCell.Editable = true;
-			nameRendererCell.Edited += delegate (object o, Gtk.EditedArgs args) {
+			nameRendererCell.Edited += MainWindow.WrappedHandler ((EditedHandler) delegate (object o, Gtk.EditedArgs args) {
 				Gtk.TreeIter iter;
 				mainWindow.LabelListStore.GetIter (out iter, new Gtk.TreePath (args.Path));
 			 
 				TorrentLabel label = (TorrentLabel) mainWindow.LabelListStore.GetValue (iter, 0);
 				label.Name = args.NewText;
-			};
+			});
 
 			iconColumn.PackStart(iconRendererCell, true);
 			nameColumn.PackStart(nameRendererCell, true);
@@ -99,17 +99,17 @@ namespace Monsoon
 			
 			createItem = new ImageMenuItem (_("Create"));
 			createItem.Image = new Image (Stock.Add, IconSize.Menu);
-			createItem.Activated += delegate (object o, EventArgs e) {
+			createItem.Activated += MainWindow.WrappedHandler ((EventHandler) delegate (object o, EventArgs e) {
 				TorrentLabel l = new TorrentLabel(_("New Label"));
 				mainWindow.LabelListStore.AppendValues(l);
 				mainWindow.Labels.Add(l);
-			};
+			});
 			contextMenu.Append(createItem);
 			
 			removeItem = new ImageMenuItem (_("Remove"));
 			removeItem.Image = new Image (Stock.Remove, IconSize.Menu);
 			contextMenu.Add (removeItem);
-			removeItem.Activated += delegate (object o, EventArgs e) {
+			removeItem.Activated += MainWindow.WrappedHandler ((EventHandler) delegate (object o, EventArgs e) {
 				
 				TreeIter iter;
 				if (!Selection.GetSelected(out iter))
@@ -121,7 +121,7 @@ namespace Monsoon
 				
 				mainWindow.LabelListStore.Remove(ref iter);
 				mainWindow.Labels.Remove(label);
-			};
+			});
 		}
 		
 		protected override bool	OnButtonPressEvent (Gdk.EventButton e)

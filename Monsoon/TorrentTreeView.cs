@@ -85,14 +85,14 @@ namespace Monsoon
 
 			
 			menu = new TorrentContextMenu(torrentController);
-			menu.DeleteTorrent += delegate {
+			menu.DeleteTorrent += MainWindow.WrappedHandler ((EventHandler) delegate {
 				if (DeleteTorrent != null)
 					DeleteTorrent(this, EventArgs.Empty);
-			};
-			menu.RemoveTorrent += delegate {
+			});
+			menu.RemoveTorrent += MainWindow.WrappedHandler ((EventHandler) delegate {
 				if (RemoveTorrent != null)
 					RemoveTorrent (this, EventArgs.Empty);
-			};
+			});
 		}
 
 
