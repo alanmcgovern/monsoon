@@ -1,3 +1,9 @@
+2009-01-23  Alan McGovern  <alan.mcgovern@gmail.com>
+
+	* View/NatWidget.cs:
+	* gtk-gui/Monsoon.MainWindow.cs: Fix a null ref because the nat widget
+	wasn't being instantiated
+
 2009-01-21  Alan McGovern  <alan.mcgovern@gmail.com>
 
 	* MainWindow.cs:

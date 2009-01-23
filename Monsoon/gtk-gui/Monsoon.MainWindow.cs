@@ -981,7 +981,12 @@ namespace Monsoon {
             this.hbox4.Name = "hbox4";
             this.hbox4.Spacing = 6;
             // Container child hbox4.Gtk.Box+BoxChild
-            this.natStatus = null;
+            this.natStatus = new Monsoon.NatWidget();
+            this.natStatus.WidthRequest = 28;
+            this.natStatus.Name = "natStatus";
+            this.natStatus.HasIncoming = false;
+            this.natStatus.RouterFound = false;
+            this.natStatus.PortForwarded = false;
             this.hbox4.Add(this.natStatus);
             Gtk.Box.BoxChild w73 = ((Gtk.Box.BoxChild)(this.hbox4[this.natStatus]));
             w73.Position = 0;

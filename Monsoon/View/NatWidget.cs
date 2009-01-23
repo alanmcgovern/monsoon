@@ -11,7 +11,7 @@ using Gtk;
 namespace Monsoon
 {
     [System.ComponentModel.Category("Monsoon")]
-    [System.ComponentModel.ToolboxItem(true)]
+    [System.ComponentModel.ToolboxItemAttribute ("NatWidget")]
     public class NatWidget : Gtk.DrawingArea
     {
         private DateTime lastIncoming;
