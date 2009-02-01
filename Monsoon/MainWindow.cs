@@ -113,7 +113,6 @@ namespace Monsoon
 		
 		private PeerTreeView peerTreeView;
 		private ListStore peerListStore;
-		private Dictionary<PeerId, TreePath> peers;
 		private TreeModelFilter peerFilter;
 		
 		private FileTreeView fileTreeView;
@@ -121,7 +120,6 @@ namespace Monsoon
 		
 		private PiecesTreeView piecesTreeView;
 		private ListStore piecesListStore;
-		private List<BlockEventArgs> pieces;
 		
 		private List<TorrentLabel> labels;
 		private ListenPortController portController;
@@ -133,11 +131,6 @@ namespace Monsoon
 		private Egg.TrayIcon trayIcon;
 		
 		private RssManagerController rssManagerController;
-		
-		internal Dictionary<PeerId, TreePath> Peers
-		{
-			get { return peers; }
-		}
 		
 		internal ListStore PeerListStore
 		{
@@ -211,12 +204,6 @@ namespace Monsoon
 		public ListStore LabelListStore {
 			get {
 				return labelListStore;
-			}
-		}
-
-		public List<BlockEventArgs> Pieces {
-			get {
-				return pieces;
 			}
 		}
 		
@@ -680,8 +667,7 @@ namespace Monsoon
 		
 		private void BuildPiecesTreeView()
 		{
-			pieces = new List<BlockEventArgs>();
-			piecesListStore = new ListStore (typeof(BlockEventArgs));
+			piecesListStore = new ListStore (typeof(Piece));
 			piecesTreeView = new PiecesTreeView ();
 			piecesTreeView.Model = piecesListStore;
 			piecesScrolledWindow.Add(piecesTreeView);
@@ -715,7 +701,6 @@ namespace Monsoon
 		
 		private void BuildPeerTreeView ()
 		{
-            peers = new Dictionary<MonoTorrent.Client.PeerId, Gtk.TreePath>();
 			peerTreeView = new PeerTreeView ();
 			peerListStore = new ListStore (typeof(PeerId));
 			
@@ -835,13 +820,12 @@ namespace Monsoon
 
         private void updatePeersPage()
         {
-            lock (peers)
-            {
-                peerListStore.Foreach(delegate(TreeModel model, TreePath path, TreeIter iter) {
-                    peerListStore.EmitRowChanged(path, iter);
-                    return true;
-                });
-            }
+			peerListStore.Clear ();
+			foreach (TorrentManager manager in torrentController.Torrents) {
+				foreach (PeerId peer in manager.GetPeers ()) {
+					PeerListStore.AppendValues(peer);
+				}
+			}
         }
 
 		private void updateStatusBar()
@@ -1121,18 +1105,11 @@ namespace Monsoon
 			if(manager == null)
 				return;
 
-			lock(pieces)
-			{
-				pieces.RemoveAll(delegate (BlockEventArgs b) { return b.Piece.AllBlocksWritten; });
-				
-				pieces.Sort(delegate(BlockEventArgs a, BlockEventArgs b) {
-					return a.Piece.Index.CompareTo(b.Piece.Index);
-				});
-				
-				foreach (BlockEventArgs blockEvent in pieces)
-					if(blockEvent.ID.TorrentManager == manager)
-						piecesListStore.AppendValues(blockEvent);
-			}
+			List<Piece> pieces = manager.GetActiveRequests ();
+			pieces.Sort ();
+			
+			foreach (Piece piece in pieces)
+				piecesListStore.AppendValues(piece);
 		}
 		
 		public TorrentManager GetSelectedTorrent ()

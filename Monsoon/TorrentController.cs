@@ -59,7 +59,6 @@ namespace Monsoon
 		private List<TorrentManager> torrentsSeeding;
 		private List<TorrentManager> allTorrents;
 		private List<TorrentLabel> labels;
-		private List<BlockEventArgs> pieces;
 		private List<FastResume> fastResume;
 		public List<FastResume> FastResume
 		{
@@ -79,7 +78,6 @@ namespace Monsoon
 			this.torrentListStore = mainWindow.TorrentListStore;
 			this.torrents = mainWindow.Torrents;
 			this.mainWindow = mainWindow;
-			this.pieces = mainWindow.Pieces;
 			this.torrentPreviousUpload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
 			this.torrentPreviousDownload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
 			
@@ -247,32 +245,12 @@ namespace Monsoon
 					return false;
 				});
 			};
-			manager.PieceManager.BlockRequested += delegate(object o, BlockEventArgs e) {
-				GLib.Idle.Add(delegate {
-					OnBlockRequested(o, e);
-					return false;
-				});
-			};
 			manager.PieceHashed += delegate(object o, PieceHashedEventArgs e) {
 				GLib.Idle.Add(delegate {
 					OnPieceHashed(o, e);
 					return false;
 				});
 			};
-			manager.PeerConnected += delegate(object o, PeerConnectionEventArgs e) {
-				GLib.Idle.Add(delegate {
-					OnPeerConnected(o, e);
-					return false;
-				});
-			};
-			
-			manager.PeerDisconnected += delegate(object o, PeerConnectionEventArgs e) {
-				GLib.Idle.Add(delegate {
-					OnPeerDisconnected(o, e);
-					return false;
-				});
-			};
-			
 			// add to "All" label
 			mainWindow.AllLabel.AddTorrent(manager);
 			
@@ -308,50 +286,6 @@ namespace Monsoon
 			
 			torrent = t;
 		}
-
-		private void OnPeerConnected(object sender, PeerConnectionEventArgs a)
-		{
-			if (!a.PeerID.IsConnected)
-				return;
-			
-			if (!mainWindow.Peers.ContainsKey(a.PeerID)) {
-			    TreeIter iter = mainWindow.PeerListStore.AppendValues(a.PeerID);
-				mainWindow.Peers.Add(a.PeerID, mainWindow.PeerListStore.GetPath(iter));
-			}
-		}
-
-		private void OnPeerDisconnected(object sender, PeerConnectionEventArgs a)
-		{
-			lock (mainWindow.Peers)
-			{
-				foreach (PeerId p in new List<PeerId>(mainWindow.Peers.Keys))
-				{
-					if (p.IsConnected)
-						continue;
-					
-					TreeIter iter;
-					if (mainWindow.PeerListStore.GetIter(out iter, mainWindow.Peers[p]))
-						mainWindow.PeerListStore.Remove(ref iter);
-					
-					mainWindow.Peers.Remove(p);
-				}
-			}
-		}
-		
-		private void OnBlockRequested (object sender, BlockEventArgs args)
-		{
-			// add a requested piece
-			lock(pieces)
-			{
-				if(args.Piece.AllBlocksWritten)
-					return;
-				
-				if (pieces.Exists(delegate (BlockEventArgs e) { return e.Piece == args.Piece; }))
-					return;
-
-				pieces.Add(args);
-			}
-		}
 		
 		private void OnPieceHashed (object sender, PieceHashedEventArgs args)
 		{
@@ -360,16 +294,6 @@ namespace Monsoon
 				hashProgress.Add(args.TorrentManager, 0);
 			else
 				hashProgress[args.TorrentManager] = (int) ((args.PieceIndex / (float)args.TorrentManager.Torrent.Pieces.Count) * 100);
-			
-			// remove hashed piece from pieces
-			lock(pieces)
-			foreach (BlockEventArgs blockEvent in pieces) {
-				
-				if (blockEvent.Piece.Index != args.PieceIndex){
-					pieces.Remove(blockEvent);
-					return;
-				}
-			}
 		}
 		
 		public int GetTorrentHashProgress(TorrentManager manager)
@@ -402,28 +326,7 @@ namespace Monsoon
 				logger.Debug("Adding " + manager.Torrent.Name + " to upload label");
 				mainWindow.SeedingLabel.AddTorrent(manager);
 			} else if (args.NewState == TorrentState.Stopped) {
-				lock(mainWindow.Peers)
-				{
-					List<PeerId> peers = new List<PeerId>(mainWindow.Peers.Keys);
-					foreach (PeerId peer in peers)
-					{
-						if (peer.TorrentManager == args.TorrentManager)
-						{
-                            TreeIter iter;
-                            if (!mainWindow.Peers.ContainsKey(peer))
-                                continue;
-
-							TreePath path = mainWindow.Peers[peer];
-                            if (mainWindow.PeerListStore.GetIter(out iter, path))
-                                mainWindow.PeerListStore.Remove(ref iter);
-							mainWindow.Peers.Remove(peer);
-						}
-					}
-				}
-				lock (mainWindow.Pieces)
-				{
-					mainWindow.Pieces.Clear ();
-				}
+				MainWindow.PeerListStore.Clear ();
 			}
 		
 			if (!prefSettings.EnableNotifications)

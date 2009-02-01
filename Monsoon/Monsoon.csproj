@@ -52,7 +52,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>libs\Mono.Nat.dll</HintPath>
     </Reference>
-    <Reference Include="MonoTorrent, Version=0.7.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="MonoTorrent, Version=0.70.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>libs\MonoTorrent.dll</HintPath>
     </Reference>
@@ -167,7 +167,6 @@
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
-        <GtkDesignInfo />
         <MonoDevelop.Autotools.MakefileInfo IntegrationEnabled="true" RelativeMakefileName="Makefile.am" ExecuteTargetName="run" RelativeConfigureInPath="..">
           <BuildFilesVar Sync="true" Name="FILES" />
           <DeployFilesVar />

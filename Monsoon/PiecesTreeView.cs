@@ -87,32 +87,32 @@ namespace Monsoon
 		
 		private void RenderNumber (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			BlockEventArgs blockEvent = (BlockEventArgs) model.GetValue (iter, 0);
-			(cell as Gtk.CellRendererText).Text = blockEvent.Piece.Index.ToString();
+			Piece blockEvent = (Piece) model.GetValue (iter, 0);
+			(cell as Gtk.CellRendererText).Text = blockEvent.Index.ToString();
 		}
 		
 		private void RenderSize (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			BlockEventArgs blockEvent = (BlockEventArgs) model.GetValue (iter, 0);
-			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSize(blockEvent.Block.RequestLength * blockEvent.Piece.BlockCount);
+			Piece blockEvent = (Piece) model.GetValue (iter, 0);
+			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSize(blockEvent[0].RequestLength * blockEvent.BlockCount);
 		}		
 		
 		private void RenderNumBlocks (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			BlockEventArgs blockEvent = (BlockEventArgs) model.GetValue (iter, 0);
-			(cell as Gtk.CellRendererText).Text = blockEvent.Piece.BlockCount.ToString();
+			Piece blockEvent = (Piece) model.GetValue (iter, 0);
+			(cell as Gtk.CellRendererText).Text = blockEvent.BlockCount.ToString();
 		}
 		
 		private void RenderBlock (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			BlockEventArgs blockEvent = (BlockEventArgs) model.GetValue (iter, 0);
-			(cell as CellRendererPiece).BlockEvent = blockEvent;
+			Piece blockEvent = (Piece) model.GetValue (iter, 0);
+			(cell as CellRendererPiece).Piece = blockEvent;
 			
 		}
 		/*
 		private void RenderCompleted (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			BlockEventArgs blockEvent = (BlockEventArgs) model.GetValue (iter, 0);
+			Piece blockEvent = (Piece) model.GetValue (iter, 0);
 			(cell as Gtk.CellRendererText).Text = (blockEvent.Piece.TotalReceived / blockEvent.Block.RequestLength).ToString("0.00");
 		}
 		*/
