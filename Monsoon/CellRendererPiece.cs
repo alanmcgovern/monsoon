@@ -38,7 +38,7 @@ namespace Monsoon
 	public class CellRendererPiece : Gtk.CellRenderer
 	{
 		
-		private BlockEventArgs blockEvent;
+		private Piece blockEvent;
 		
 		public CellRendererPiece() : base()
 		{
@@ -50,16 +50,16 @@ namespace Monsoon
 		{
 			Gdk.GC gc = new Gdk.GC(window);
 			
-			int width = cell_area.Width / blockEvent.Piece.BlockCount;
+			int width = cell_area.Width / blockEvent.BlockCount;
 			
-			for (int i = 0; i < blockEvent.Piece.BlockCount; i++) {
-				if(blockEvent.Piece.AllBlocksReceived)
+			for (int i = 0; i < blockEvent.BlockCount; i++) {
+				if(blockEvent.AllBlocksReceived)
 					gc.RgbFgColor = new Gdk.Color(179, 139, 83); // Brown
-				else if (blockEvent.Piece[i].Written)
+				else if (blockEvent[i].Written)
 					gc.RgbFgColor = new Gdk.Color(145, 246, 145); // Green
-				else if (blockEvent.Piece[i].Received)
+				else if (blockEvent[i].Received)
 					gc.RgbFgColor = new Gdk.Color(232, 176, 6); // Gold
-				else if (blockEvent.Piece[i].Requested)
+				else if (blockEvent[i].Requested)
 					gc.RgbFgColor = new Gdk.Color(112, 180, 224); // Blue
 				else
 					gc.RgbFgColor = new Gdk.Color(248, 227, 212); // Pink
@@ -77,7 +77,7 @@ namespace Monsoon
 			x_offset = 0;
 		}
 		
-		public BlockEventArgs BlockEvent{
+		public Piece Piece {
 			set { blockEvent = value; }
 		}
 	}
