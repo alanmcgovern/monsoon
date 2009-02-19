@@ -278,7 +278,7 @@ namespace Monsoon
 			if (File.Exists (newPath))
 				File.Delete (newPath);
 			
-			File.Copy (torrentPath, newPath, true);
+			File.WriteAllBytes (newPath, File.ReadAllBytes (torrentPath));
 			
 			Torrent t = Torrent.Load (newPath);
 			for (int i=0; i < torrent.Files.Length; i++)
@@ -451,7 +451,7 @@ namespace Monsoon
 			if (Path.GetDirectoryName (args.TorrentPath) != MainWindow.Preferences.TorrentStorageLocation)
 			{
 				logger.Info ("Copying: {0} to {1}", args.TorrentPath, newPath);
-				File.Copy(args.TorrentPath, newPath ,true);
+				File.WriteAllBytes (newPath, File.ReadAllBytes (args.TorrentPath));
 				if(prefSettings.RemoveOnImport)
 					File.Delete(args.TorrentPath);
 			}
