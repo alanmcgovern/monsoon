@@ -76,7 +76,6 @@ namespace Monsoon
 			Selection.Mode = SelectionMode.Multiple;
 			
 			EnableModelDragDest(targetEntries, Gdk.DragAction.Copy);
-			DragDataReceived += OnTorrentDragDataReceived;
 			//this.DragDrop += OnTest;
 			
 			
@@ -115,28 +114,11 @@ namespace Monsoon
 			// TODO: Support dragging multiple torrents to a label
 			Download manager;
 			
-			manager = torrentController.GetSelectedTorrent();
+			manager = torrentController.SelectedDownload;
 			if(manager == null)
 				return;
 			
 			args.SelectionData.Set(Gdk.Atom.Intern("application/x-monotorrent-Download-objects", false), 8, manager.Torrent.InfoHash);
-		}
-		
-		private void OnTorrentDragDataReceived (object o, DragDataReceivedArgs args) 
-		{
-			string [] uriList = (Encoding.UTF8.GetString(args.SelectionData.Data).TrimEnd()).Split('\n');
-			
-			foreach(string s in uriList){
-				try
-				{
-					Uri uri = new Uri(s.TrimEnd());
-					if (uri.IsFile && uri.LocalPath.EndsWith(".torrent", StringComparison.OrdinalIgnoreCase))
-						torrentController.MainWindow.LoadTorrent(uri.LocalPath);
-				}
-				catch
-				{
-				}
-			}
 		}
 			
 		private void buildColumns()

@@ -134,6 +134,7 @@
     <Compile Include="gtk-gui\Monsoon.CreateTorrentProgressDialog.cs" />
     <Compile Include="Model\Download.cs" />
     <Compile Include="Model\Event.cs" />
+    <Compile Include="Model\DownloadAddedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\rss.png">

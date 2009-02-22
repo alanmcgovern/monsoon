@@ -94,7 +94,7 @@ namespace Monsoon
 			//Append(hashItem);
 			Append(announceItem);
 			
-			selectedTorrent = torrentController.GetSelectedTorrent();
+			selectedTorrent = torrentController.SelectedDownload;
 			if (selectedTorrent == null)
 				return;
 			
@@ -116,7 +116,7 @@ namespace Monsoon
 		
 		private void OnStartItemActivated(object sender, EventArgs args)
 		{
-			selectedTorrent = torrentController.GetSelectedTorrent();
+			selectedTorrent = torrentController.SelectedDownload;
 			if (selectedTorrent == null)
 				return;
 			
@@ -137,7 +137,7 @@ namespace Monsoon
 		
 		private void OnStopItemActivated(object sender, EventArgs args)
 		{
-			selectedTorrent = torrentController.GetSelectedTorrent();
+			selectedTorrent = torrentController.SelectedDownload;
 			if (selectedTorrent == null)
 				return;
 			
@@ -151,7 +151,7 @@ namespace Monsoon
 		
 		private void OnRecheckItemActivated(object sender, EventArgs args)
 		{
-			selectedTorrent = torrentController.GetSelectedTorrent();
+			selectedTorrent = torrentController.SelectedDownload;
 			if (selectedTorrent == null) {
 				Console.WriteLine ("Slect null");
 				return;
@@ -171,7 +171,7 @@ namespace Monsoon
 				
 		private void OnAnnounceItemActivated(object sender, EventArgs args)
 		{
-			selectedTorrent = torrentController.GetSelectedTorrent();
+			selectedTorrent = torrentController.SelectedDownload;
 			if (selectedTorrent == null)
 				return;
 			
@@ -184,7 +184,7 @@ namespace Monsoon
 		
 		private void OnOpenItemActivated(object sender, EventArgs args)
 		{
-			selectedTorrent = torrentController.GetSelectedTorrent();
+			selectedTorrent = torrentController.SelectedDownload;
 			if (selectedTorrent == null)
 				return;
 			

@@ -158,7 +158,9 @@ namespace Monsoon
 			if(filter == null){
 				Console.Out.WriteLine("About to add with default savepath, URL: " + item.Link);
 				try {
-					controller.MainWindow.LoadTorrent(item.Link, true, false, false, null, controller.Engine.Settings.SavePath, true);
+					// FIXME - This should raise an event
+					throw new Exception ("RSS Manager is disabled");
+					//controller.MainWindow.LoadTorrent(item.Link, true, false, false, null, controller.Engine.Settings.SavePath, true);
 				} catch {
 					logger.Error("RSS Manager: Unable to add - " + item.Title);
 				}
@@ -166,7 +168,9 @@ namespace Monsoon
 			else {
 				Console.Out.WriteLine("About to add with custom savepath, Path: " + filter.SavePath);
 				try{
-					controller.MainWindow.LoadTorrent(item.Link, true, false, false, null, filter.SavePath, true);
+					// FIXME - This should raise an event
+					throw new Exception ("RSS Manager is disabled");
+					//controller.MainWindow.LoadTorrent(item.Link, true, false, false, null, filter.SavePath, true);
 				} catch {
 					logger.Error("RSS Manager: Unabled to add - " + item.Title);
 				}

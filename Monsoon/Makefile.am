@@ -124,6 +124,7 @@ FILES =  \
 	Menus/SpeedLimitMenu.cs \
 	Menus/SpeedMenuItem.cs \
 	Model/Download.cs \
+	Model/DownloadAddedEventArgs.cs \
 	Model/Event.cs \
 	Model/TorrentFileModel.cs \
 	PeerTreeView.cs \
