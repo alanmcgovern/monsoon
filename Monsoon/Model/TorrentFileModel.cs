@@ -15,6 +15,7 @@ namespace Monsoon
 	public class TorrentFileModel : TreeStore
 	{
 		private Dictionary<string, Gdk.Pixbuf> pixbufs;
+		private Download download;
 		private TorrentManager manager;
 		
 		public TorrentManager Manager
@@ -23,7 +24,7 @@ namespace Monsoon
 		}
 		
 		public TorrentFileModel()
-			: base (typeof(TorrentManager), typeof(TorrentFile), typeof(Gdk.Pixbuf), typeof(string))
+			: base (typeof(Download), typeof(TorrentFile), typeof(Gdk.Pixbuf), typeof(string))
 		{
 			pixbufs = new Dictionary<string, Gdk.Pixbuf>();
 		}
@@ -35,15 +36,16 @@ namespace Monsoon
 			SetValue (iter, 2, GetPixbuf (file.Priority));
 		}
 		
-		public void Update (TorrentManager manager)
+		public void Update (Download download)
 		{
-			if (this.manager == manager)
+			if (this.download == download)
 				return;
-			
-			this.manager = manager;
+
+			this.download = download;
+			this.manager = download == null ? null : download.Manager;
 			
 			Clear ();
-			if (manager == null)
+			if (download == null)
 				return;
 
 			foreach (TorrentFile torrentFile in manager.Torrent.Files)

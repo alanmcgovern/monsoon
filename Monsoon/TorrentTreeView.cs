@@ -65,7 +65,7 @@ namespace Monsoon
 			};
 			
 			sourceEntries = new TargetEntry[]{
-				new TargetEntry("application/x-monotorrent-torrentmanager-objects", 0, 0)
+				new TargetEntry("application/x-monotorrent-Download-objects", 0, 0)
 			};
 			
 			buildColumns();
@@ -113,13 +113,13 @@ namespace Monsoon
 		private void OnTorrentDragDataGet (object o, DragDataGetArgs args)
 		{
 			// TODO: Support dragging multiple torrents to a label
-			TorrentManager manager;
+			Download manager;
 			
 			manager = torrentController.GetSelectedTorrent();
 			if(manager == null)
 				return;
 			
-			args.SelectionData.Set(Gdk.Atom.Intern("application/x-monotorrent-torrentmanager-objects", false), 8, manager.Torrent.InfoHash);
+			args.SelectionData.Set(Gdk.Atom.Intern("application/x-monotorrent-Download-objects", false), 8, manager.Torrent.InfoHash);
 		}
 		
 		private void OnTorrentDragDataReceived (object o, DragDataReceivedArgs args) 
@@ -244,7 +244,7 @@ namespace Monsoon
 		
 		private void RenderTorrentName (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			TorrentManager torrent = (TorrentManager) model.GetValue (iter, 0);
+			Download torrent = (Download) model.GetValue (iter, 0);
 			
 			if (torrent == null)
 				(cell as Gtk.CellRendererText).Text = string.Empty;
@@ -254,7 +254,7 @@ namespace Monsoon
 		
 		private void RenderTorrentStatus (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			TorrentManager torrent = (TorrentManager) model.GetValue (iter, 0);
+			Download torrent = (Download) model.GetValue (iter, 0);
 			
 			if(torrent == null)
 				return;
@@ -276,7 +276,7 @@ namespace Monsoon
 			(cell as Gtk.CellRendererText).Text = GetStatusString (torrent);
 		}
 		
-		private string GetStatusString (TorrentManager manager)
+		private string GetStatusString (Download manager)
 		{
 			if (manager == null)
 				return "";
@@ -300,69 +300,63 @@ namespace Monsoon
 		
 		private void RenderTorrentDone (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			TorrentManager torrent = (TorrentManager) model.GetValue (iter, 0);
+			Download torrent = (Download) model.GetValue (iter, 0);
 			
 			if(torrent == null)
 				return;
-			if(torrent.State == TorrentState.Hashing) {
-					(cell as Gtk.CellRendererProgress).Value = (int)torrentController.GetTorrentHashProgress(torrent);
-			} else {
-				(cell as Gtk.CellRendererProgress).Value = (int)torrent.Progress;
-			}
+			Gtk.CellRendererProgress a;
+			(cell as Gtk.CellRendererProgress).Value = (int)(torrent.Progress * 100);
 		}
 		
 		private void RenderTorrentSeeds (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			TorrentManager torrent = (TorrentManager) model.GetValue (iter, 0); 
+			Download torrent = (Download) model.GetValue (iter, 0); 
 			
 			if(torrent == null)
 				return;
 			
-			(cell as Gtk.CellRendererText).Text = torrent.Peers.Seeds.ToString();
+			(cell as Gtk.CellRendererText).Text = torrent.Seeds.ToString();
 		}
 		
 		private void RenderTorrentPeers (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			TorrentManager torrent = (TorrentManager) model.GetValue (iter, 0);
+			Download torrent = (Download) model.GetValue (iter, 0);
 			
 			if(torrent == null)
 				return;
 					
-			(cell as Gtk.CellRendererText).Text = torrent.Peers.Leechs.ToString()  + " (" + torrent.Peers.Available + ")";
+			(cell as Gtk.CellRendererText).Text = torrent.Leechs  + " (" + torrent.Available + ")";
 		}
 	
 		private void RenderTorrentDownSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			TorrentManager torrent = (TorrentManager) model.GetValue (iter, 0);
+			Download torrent = (Download) model.GetValue (iter, 0);
 			
 			if(torrent == null)
 				return;
-			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSpeed (torrent.Monitor.DownloadSpeed);
+			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSpeed (torrent.DownloadSpeed);
 		}
 		
 		private void RenderTorrentUpSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			TorrentManager torrent = (TorrentManager) model.GetValue (iter, 0);
+			Download torrent = (Download) model.GetValue (iter, 0);
 			
 			if(torrent == null)
 				return;
 			
-			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSpeed (torrent.Monitor.UploadSpeed);
+			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSpeed (torrent.UploadSpeed);
 		}
 		
 		private void RenderTorrentRatio (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			TorrentManager torrent = (TorrentManager) model.GetValue (iter, 0);
+			Download torrent = (Download) model.GetValue (iter, 0);
 			
 			if(torrent == null)
 				return;
 			
-			double totalDown;
-			double totalUp;
-			
-			totalDown = torrentController.GetPreviousDownload(torrent) + torrent.Monitor.DataBytesDownloaded;
-			totalUp = torrentController.GetPreviousUpload(torrent) + torrent.Monitor.DataBytesUploaded;
-			
+			long totalDown = torrent.TotalDownloaded;
+			long totalUp = torrent.TotalUploaded;
+
 			if (totalDown > 0 || ((totalDown / 1024f) > torrent.Torrent.Size))
 				(cell as Gtk.CellRendererText).Text = (totalUp / (double)totalDown).ToString("0.00");
 			else
@@ -372,7 +366,7 @@ namespace Monsoon
 		
 		private void RenderTorrentSize (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			TorrentManager torrent = (TorrentManager) model.GetValue (iter, 0);
+			Download torrent = (Download) model.GetValue (iter, 0);
 			
 			if(torrent == null)
 				return;
@@ -382,24 +376,24 @@ namespace Monsoon
 		
 		private void RenderTorrentEta (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
-			TorrentManager torrent = (TorrentManager)model.GetValue(iter, 0);			
+			Download torrent = (Download)model.GetValue(iter, 0);			
 			if (torrent == null)
 				return;
 			(cell as Gtk.CellRendererText).Text = GetEtaString(torrent);
 		}
 		
-		private string GetEtaString (TorrentManager manager)
+		private string GetEtaString (Download manager)
 		{
 			TimeSpan eta;
-			if (manager.State == TorrentState.Downloading && (manager.Torrent.Size - (manager.Monitor.DataBytesDownloaded + torrentController.GetPreviousDownload(manager))) > 0)
+			if (manager.State == TorrentState.Downloading && (manager.Torrent.Size - manager.TotalDownloaded) > 0)
 			{
-				int dSpeed = manager.Monitor.DownloadSpeed;
-				eta = TimeSpan.FromSeconds(dSpeed > 0 ? ((manager.Torrent.Size - (manager.Monitor.DataBytesDownloaded + torrentController.GetPreviousDownload(manager))) / dSpeed) : -1);
+				double dSpeed = manager.DownloadSpeed;
+				eta = TimeSpan.FromSeconds(dSpeed > 0 ? ((manager.Torrent.Size - manager.TotalDownloaded) / dSpeed) : -1);
 			}
-			else if (manager.State == TorrentState.Seeding && (manager.Torrent.Size - (manager.Monitor.DataBytesUploaded + torrentController.GetPreviousUpload(manager))) > 0)
+			else if (manager.State == TorrentState.Seeding && (manager.Torrent.Size - manager.TotalUploaded) > 0)
 			{
-				int uSpeed = manager.Monitor.UploadSpeed;
-				eta = TimeSpan.FromSeconds(uSpeed > 0 ? ((manager.Torrent.Size - (manager.Monitor.DataBytesUploaded + torrentController.GetPreviousUpload(manager))) / uSpeed) : -1);
+				double uSpeed = manager.UploadSpeed;
+				eta = TimeSpan.FromSeconds(uSpeed > 0 ? ((manager.Torrent.Size - manager.TotalUploaded) / uSpeed) : -1);
 			}
 			else
 				return string.Empty;

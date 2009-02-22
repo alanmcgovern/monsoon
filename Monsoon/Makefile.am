@@ -123,6 +123,8 @@ FILES =  \
 	MainWindow.cs \
 	Menus/SpeedLimitMenu.cs \
 	Menus/SpeedMenuItem.cs \
+	Model/Download.cs \
+	Model/Event.cs \
 	Model/TorrentFileModel.cs \
 	PeerTreeView.cs \
 	PiecesTreeView.cs \

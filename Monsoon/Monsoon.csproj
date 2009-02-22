@@ -56,7 +56,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>libs\MonoTorrent.dll</HintPath>
     </Reference>
-    <Reference Include="gconf-sharp, Version=2.24.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="gconf-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -132,6 +132,8 @@
     <Compile Include="gtk-gui\Monsoon.MainWindow.cs" />
     <Compile Include="gtk-gui\Monsoon.EditColumnsDialog.cs" />
     <Compile Include="gtk-gui\Monsoon.CreateTorrentProgressDialog.cs" />
+    <Compile Include="Model\Download.cs" />
+    <Compile Include="Model\Event.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\rss.png">

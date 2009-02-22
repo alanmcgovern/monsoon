@@ -102,7 +102,7 @@ namespace Monsoon
 		private	TorrentTreeView torrentTreeView;
 		private TreeSelection torrentsSelected;
 		private ListStore torrentListStore;
-		private Dictionary<TorrentManager, TreeIter> torrents;
+		private Dictionary<Download, TreeIter> torrents;
 		
 		private TorrentController torrentController;
 
@@ -195,7 +195,7 @@ namespace Monsoon
 			}
 		}
 
-		public Dictionary<TorrentManager, TreeIter> Torrents {
+		public Dictionary<Download, TreeIter> Torrents {
 			get {
 				return torrents;
 			}
@@ -211,19 +211,6 @@ namespace Monsoon
 		{
 			this.engineSettings = engineSettings;
 			this.portController = portController;
-			portController.PortMapped += WrappedHandler ((EventHandler) delegate {
-				GLib.Idle.Add(delegate {
-					natStatus.PortForwarded = true;
-					return false;
-				});
-			});
-
-			portController.RouterFound += WrappedHandler ((EventHandler) delegate {
-				GLib.Idle.Add(delegate {
-					natStatus.RouterFound = true;
-					return false;
-				});
-			});
             
 			interfaceSettings = new GConfInterfaceSettingsController ();
 			defaultTorrentSettings = new GconfTorrentSettingsController ();
@@ -234,12 +221,14 @@ namespace Monsoon
 			Ticker.Tock ("Loaded all settings: {0}");
 			
 			labels = new  List<TorrentLabel> ();
-			torrents = new Dictionary<MonoTorrent.Client.TorrentManager,Gtk.TreeIter> ();
+			torrents = new Dictionary<Download,Gtk.TreeIter> ();
 			
 			Ticker.Tick ();
 			Ticker.Tick ();
 			
 			Build ();
+			
+			InitNatStatus ();
 			
 			Ticker.Tock ("Build");
 			Ticker.Tick();
@@ -312,6 +301,34 @@ namespace Monsoon
 			ShowAll();
 		}
 		
+		void InitNatStatus ()
+		{
+			// Monodevelop keeps breaking and repeatedly sets the 'natStatus' variable to null
+			// whenever i rebuild the project files. Sometimes it works, sometimes it fails.
+			// Work around the bug by setting it in code
+			if (natStatus == null) {
+				hbox4.Remove (natStatus);
+				natStatus = new NatWidget ();
+				natStatus.WidthRequest = 28;
+				natStatus.Name = "natStatus";
+				hbox4.PackEnd (natStatus);
+			}
+			
+			portController.PortMapped += WrappedHandler ((EventHandler) delegate {
+				GLib.Idle.Add(delegate {
+					natStatus.PortForwarded = true;
+					return false;
+				});
+			});
+
+			portController.RouterFound += WrappedHandler ((EventHandler) delegate {
+				GLib.Idle.Add(delegate {
+					natStatus.RouterFound = true;
+					return false;
+				});
+			});
+		}
+		
 		public Egg.TrayIcon TrayIcon {
 			get { return trayIcon; }
 		}
@@ -331,14 +348,14 @@ namespace Monsoon
 			ImageMenuItem stop = new ImageMenuItem (_("Stop All"));
 			stop.Image = new Image (Stock.MediaStop, IconSize.Menu);
 			stop.Activated += WrappedHandler ((EventHandler) delegate {
-				foreach (TorrentManager m in torrentController.Torrents)
+				foreach (Download m in torrentController.Torrents)
 					m.Stop ();
 			});
 			
 			ImageMenuItem start = new ImageMenuItem (_("Start All"));
 			start.Image = new Image (Stock.MediaPlay, IconSize.Menu);
 			start.Activated += WrappedHandler ((EventHandler) delegate {
-				foreach (TorrentManager m in torrentController.Torrents)
+				foreach (Download m in torrentController.Torrents)
 					m.Start ();
 			});
 
@@ -560,7 +577,7 @@ namespace Monsoon
 		
 		private void BuildTorrentTreeView ()
 		{
-			torrentListStore = new ListStore (typeof(TorrentManager));
+			torrentListStore = new ListStore (typeof(Download));
 			torrentController = new TorrentController (this);
 			torrentTreeView = new TorrentTreeView (torrentController);
 			torrentTreeView.DeleteTorrent += WrappedHandler ((EventHandler) delegate { DeleteAndRemoveSelection (); });
@@ -595,7 +612,7 @@ namespace Monsoon
 			labelListStore.AppendValues (uploadLabel);
 			
 			TargetEntry [] targetEntries = new TargetEntry[]{
-				new TargetEntry("application/x-monotorrent-torrentmanager-objects", 0, 0)
+				new TargetEntry("application/x-monotorrent-Download-objects", 0, 0)
 			};
 
 			torrentTreeView.DragBegin += WrappedHandler ((DragBeginHandler) delegate {
@@ -643,14 +660,15 @@ namespace Monsoon
 				return;
 				
 			
-			foreach (TorrentManager manager in torrents.Keys)
+			foreach (Download download in torrents.Keys)
 			{
+				TorrentManager manager = download.Manager;
 				if(!Toolbox.ByteMatch (manager.Torrent.InfoHash, args.SelectionData.Data))
 					continue;
 				
 				if (label != deleteLabel)
 				{
-					label.AddTorrent(manager);
+					label.AddTorrent(download);
 				}
 				else
 				{
@@ -659,7 +677,7 @@ namespace Monsoon
 						return;
 					
 					label = (TorrentLabel)labelTreeView.Model.GetValue (iter, 0);
-					label.RemoveTorrent (manager);
+					label.RemoveTorrent (download);
 				}
 			}
 			
@@ -682,7 +700,7 @@ namespace Monsoon
 			if(!labelTreeView.Selection.GetSelected (out labelIter))
 				return true;
 	 		
-	 		TorrentManager manager = (TorrentManager) model.GetValue (iter, 0);
+	 		Download manager = (Download) model.GetValue (iter, 0);
 	 		if(manager == null)
 	 			return true;
 
@@ -715,7 +733,7 @@ namespace Monsoon
 		private bool FilterPeerTree (Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			PeerId peer = (PeerId) model.GetValue(iter, 0);
-			TorrentManager manager = GetSelectedTorrent();
+			Download manager = GetSelectedTorrent();
 			
 			if(manager == null)
 				return false;
@@ -726,7 +744,7 @@ namespace Monsoon
 			if(!peer.IsConnected)
 				return false;
 				
-			if (peer.TorrentManager == manager)
+			if (peer.TorrentManager == manager.Manager)
 				return true;
 			
 			return false;
@@ -750,7 +768,7 @@ namespace Monsoon
 		
 		private void updateOptionsPage ()
 		{
-			TorrentManager torrent = null;
+			Download download = null;
 			TreePath [] treePaths;
 			TreeModel model;
 			treePaths = torrentsSelected.GetSelectedRows (out model);
@@ -778,8 +796,10 @@ namespace Monsoon
 				TreeIter torrentIter;
 				model.GetIter (out torrentIter, treePath);
 				
-				torrent = (TorrentManager) model.GetValue (torrentIter,0);	
+				download = (Download) model.GetValue (torrentIter,0);	
 			}
+			
+			TorrentManager torrent = download.Manager;
 			
 			torrentUploadRateSpinButton.Sensitive = true;
 			torrentDownloadRateSpinButton.Sensitive = true;
@@ -821,7 +841,7 @@ namespace Monsoon
         private void updatePeersPage()
         {
 			peerListStore.Clear ();
-			foreach (TorrentManager manager in torrentController.Torrents) {
+			foreach (Download manager in torrentController.Torrents) {
 				foreach (PeerId peer in manager.GetPeers ()) {
 					PeerListStore.AppendValues(peer);
 				}
@@ -865,7 +885,7 @@ namespace Monsoon
 				h.WaitOne (TimeSpan.FromSeconds(2), false);	
 
 //			List<WaitHandle> handles = new List<WaitHandle> ();
-//			foreach (TorrentManager manager in torrents.Keys){
+//			foreach (Download manager in torrents.Keys){
 //				if(manager.State == TorrentState.Stopped)
 //					continue;
 //				try{
@@ -895,14 +915,15 @@ namespace Monsoon
 			
 			logger.Info ("Storing torrent settings");
 
-			foreach (TorrentManager manager in torrents.Keys){
+			foreach (Download download in torrents.Keys){
+				TorrentManager manager = download.Manager;
 				TorrentStorage torrentToStore = new TorrentStorage();
 				torrentToStore.TorrentPath = manager.Torrent.TorrentPath;
 				torrentToStore.SavePath = manager.SavePath;
 				torrentToStore.Settings = manager.Settings;
 				torrentToStore.State = manager.State;
-				torrentToStore.UploadedData = torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded;
-				torrentToStore.DownloadedData = torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded;
+				torrentToStore.UploadedData = download.TotalUploaded;
+				torrentToStore.DownloadedData = download.TotalDownloaded;
 				torrentToStore.InfoHash = Convert.ToString(manager.GetHashCode());
 				foreach(TorrentFile file in manager.FileManager.Files) {
 					TorrentFileSettingsModel fileSettings = new TorrentFileSettingsModel();
@@ -945,12 +966,12 @@ namespace Monsoon
 				labels.Add (label);
 				
 				// Restore previously labeled torrents
-				foreach (TorrentManager torrentManager in torrents.Keys){
+				foreach (Download download in torrents.Keys){
 					if(label.TruePaths == null)
 						continue;
 					foreach (string path in label.TruePaths){
-						if (path == torrentManager.Torrent.TorrentPath)
-							label.AddTorrent(torrentManager);
+						if (path == download.Manager.Torrent.TorrentPath)
+							label.AddTorrent(download);
 					}
 				}
 			}
@@ -1101,18 +1122,18 @@ namespace Monsoon
 		{
 			piecesListStore.Clear ();
 		
-			TorrentManager manager = GetSelectedTorrent ();
+			Download manager = GetSelectedTorrent ();
 			if(manager == null)
 				return;
 
-			List<Piece> pieces = manager.GetActiveRequests ();
+			List<Piece> pieces = manager.Manager.GetActiveRequests ();
 			pieces.Sort ();
 			
 			foreach (Piece piece in pieces)
 				piecesListStore.AppendValues(piece);
 		}
 		
-		public TorrentManager GetSelectedTorrent ()
+		public Download GetSelectedTorrent ()
 		{
 			TreePath [] treePaths;
 			TreeModel filteredModel;
@@ -1121,13 +1142,13 @@ namespace Monsoon
 				return null;
 				
 			treePaths = torrentsSelected.GetSelectedRows( out filteredModel);
-			TorrentManager manager = null;
+			Download manager = null;
 			
 			// Should only be one item but have to use GetSelectedRows
 			// because of TreeView is set to allow multiple selection
 			TreeIter iter;
 			filteredModel.GetIter (out iter, treePaths [0]);
-			manager = (TorrentManager)filteredModel.GetValue(iter,0);	
+			manager = (Download)filteredModel.GetValue(iter,0);	
 			
 			return manager;
 		}
@@ -1150,7 +1171,7 @@ namespace Monsoon
 			TreeModel filteredModel;
 			treePaths = torrentsSelected.GetSelectedRows (out filteredModel);
 			
-			TorrentManager manager = null;
+			Download download = null;
 			
 			if (treePaths.Length != 1) {
 				statusProgressBar.Fraction = 0;
@@ -1177,24 +1198,21 @@ namespace Monsoon
 				TreeIter iter;
 				filteredModel.GetIter (out iter, treePath);
 				
-				manager = (TorrentManager) filteredModel.GetValue (iter,0);	
+				download = (Download) filteredModel.GetValue (iter,0);	
 			}
 			
-			if(manager.State == TorrentState.Hashing) {
-			 	statusProgressBar.Fraction = (torrentController.GetTorrentHashProgress(manager) / 100f);
-			 	statusProgressBar.Text = string.Format("{0} {1:D}%", manager.State, torrentController.GetTorrentHashProgress(manager));
-			} else {
-				statusProgressBar.Fraction = manager.Progress / 100f;
-				statusProgressBar.Text = string.Format("{0} {1:F}%", manager.State, manager.Progress);
-			}
+			TorrentManager manager = download.Manager;
+			
+			statusProgressBar.Fraction = download.Progress;
+			statusProgressBar.Text = string.Format("{0} {1:0.00}%", manager.State, download.Progress * 100);
 			
 			if (manager.State != TorrentState.Stopped)
 				elapsedTimeValueLabel.Text = DateTime.MinValue.Add(DateTime.Now.Subtract(manager.StartTime)).ToString("HH:mm:ss");
 			else
 				elapsedTimeValueLabel.Text = null;
 			
-			downloadedValueLabel.Text = ByteConverter.ConvertSize (torrentController.GetPreviousDownload(manager) + manager.Monitor.DataBytesDownloaded);
-			uploadedValueLabel.Text = ByteConverter.ConvertSize (torrentController.GetPreviousUpload(manager) + manager.Monitor.DataBytesUploaded);
+			downloadedValueLabel.Text = ByteConverter.ConvertSize (download.TotalDownloaded);
+			uploadedValueLabel.Text = ByteConverter.ConvertSize (download.TotalUploaded);
 			MonoTorrent.Client.Tracker.Tracker tracker = manager.TrackerManager.CurrentTracker;
 			if (tracker == null)
 			{
@@ -1223,7 +1241,7 @@ namespace Monsoon
 				}
 			}
 			
-			swarmSpeedLabel.Text = ByteConverter.ConvertSpeed (torrentController.GetTorrentSwarm(manager));
+			swarmSpeedLabel.Text = ByteConverter.ConvertSpeed (torrentController.SelectedDownload.SwarmSpeed);
 			savePathValueLabel.Text = manager.SavePath;
 			sizeValueLabel.Text = ByteConverter.ConvertSize (manager.Torrent.Size);
 			createdOnValueLabel.Text = manager.Torrent.CreationDate.ToLongDateString ();
@@ -1235,7 +1253,7 @@ namespace Monsoon
 			TreePath [] treePaths;	
 			TreeModel model;
 			
-			TorrentManager previousTorrent = null;
+			Download previousTorrent = null;
 			bool isDifferent = false;
 			TorrentState state = TorrentState.Downloading;
 			
@@ -1255,10 +1273,10 @@ namespace Monsoon
 			
 			foreach (TreePath treePath in treePaths) {
 				TreeIter iter;
-				TorrentManager torrent;
+				Download torrent;
 				model.GetIter (out iter, treePath);
 				
-				torrent = (TorrentManager) model.GetValue (iter,0);
+				torrent = (Download) model.GetValue (iter,0);
 				state = torrent.State;			
 				if (previousTorrent != null) {
 					if (previousTorrent.State != torrent.State) {
@@ -1302,20 +1320,20 @@ namespace Monsoon
 			
 			foreach (TreePath treePath in treePaths) {
 				TreeIter iter;
-				TorrentManager torrent;
+				Download torrent;
 				model.GetIter(out iter, treePath);
 				
-				torrent = (TorrentManager) model.GetValue (iter, 0);
+				torrent = (Download) model.GetValue (iter, 0);
 				try {
 					if (startTorrentButton.StockId == "gtk-media-pause") {
 						torrent.Pause ();
-						logger.Info ("Torrent paused " + torrent.Torrent.Name);
+						logger.Info ("Torrent paused " + torrent.Manager.Torrent.Name);
 					} else {
 						torrent.Start ();
-						logger.Info ("Torrent started " + torrent.Torrent.Name);
+						logger.Info ("Torrent started " + torrent.Manager.Torrent.Name);
 					}
 				} catch {
-					logger.Error ("Torrent already started " + torrent.Torrent.Name);
+					logger.Error ("Torrent already started " + torrent.Manager.Torrent.Name);
 				}
 			}
 		}
@@ -1328,13 +1346,13 @@ namespace Monsoon
 			
 			foreach (TreePath treePath in treePaths) {
 				TreeIter iter;
-				TorrentManager torrent;
+				Download torrent;
 				model.GetIter (out iter, treePath);
-				torrent = (TorrentManager) model.GetValue (iter,0);
+				torrent = (Download) model.GetValue (iter,0);
 				try {
 					torrent.Stop ();
 				} catch {
-					logger.Error ("Torrent already stopped " + torrent.Torrent.Name);
+					logger.Error ("Torrent already stopped " + torrent.Manager.Torrent.Name);
 				}
 			}
 		}
@@ -1366,26 +1384,27 @@ namespace Monsoon
 			
 			TreePath [] treePaths;
 			TreeModel model;
-			List<TorrentManager> torrentsToRemove = new List<TorrentManager> ();
+			List<Download> torrentsToRemove = new List<Download> ();
 			
 			//treePaths = torrentTreeView.Selection.GetSelectedRows();
 			treePaths = torrentsSelected.GetSelectedRows (out model);
 			
 			foreach (TreePath treePath in treePaths) {
 				TreeIter iter;
-				TorrentManager torrentToRemove;
+				Download torrentToRemove;
 				model.GetIter (out iter, treePath);
 				
-				torrentToRemove = (TorrentManager) model.GetValue (iter,0);
+				torrentToRemove = (Download) model.GetValue (iter,0);
 				torrentsToRemove.Add (torrentToRemove);
 			}
 			
 			torrentTreeView.Selection.UnselectAll ();
 			
-			foreach (TorrentManager toDelete in torrentsToRemove) {
+			foreach (Download download in torrentsToRemove) {
+				TorrentManager toDelete = download.Manager;
 				toDelete.PeerConnected -= PeerConnected;
-				torrentController.removeTorrent (toDelete);
-				File.Delete(toDelete.Torrent.TorrentPath);
+				torrentController.removeTorrent (download);
+				File.Delete(download.Manager.Torrent.TorrentPath);
 			}
 		}
 		
@@ -1410,7 +1429,7 @@ namespace Monsoon
 		
 		private void DeleteAndRemoveSelection ()
 		{
-			List<TorrentManager> torrentsToRemove = new List<TorrentManager> ();
+			List<Download> torrentsToRemove = new List<Download> ();
 			MessageDialog messageDialog = new MessageDialog (this,
 						DialogFlags.Modal,
 						MessageType.Question, 
@@ -1427,15 +1446,15 @@ namespace Monsoon
 				treePaths = torrentsSelected.GetSelectedRows (out model);
 				foreach (TreePath treePath in treePaths) {
 					TreeIter iter;
-					TorrentManager torrentToRemove;
+					Download torrentToRemove;
 					model.GetIter (out iter, treePath);
-					torrentToRemove = (TorrentManager) model.GetValue (iter,0);
+					torrentToRemove = (Download) model.GetValue (iter,0);
 					torrentsToRemove.Add(torrentToRemove);
 				}
 				
 				torrentTreeView.Selection.UnselectAll();
 				
-				foreach(TorrentManager torrent in torrentsToRemove){
+				foreach(Download torrent in torrentsToRemove){
 					torrentController.removeTorrent (torrent, true, true);
 				}
 				
@@ -1487,11 +1506,12 @@ namespace Monsoon
 		}
 		private void OnTorrentSettingsChanged (object sender, EventArgs args)
 		{
-			TorrentManager torrent = GetSelectedTorrent();	
+			Download download = GetSelectedTorrent();	
 						
-			if (torrent == null)
+			if (download == null)
 				return;
 				
+			TorrentManager torrent = download.Manager;
 			torrent.Settings.MaxConnections = (int) torrentMaxConnectionsSpinButton.Value;
 			torrent.Settings.MaxDownloadSpeed = (int) torrentDownloadRateSpinButton.Value * 1024;
 			torrent.Settings.MaxUploadSpeed = (int) torrentUploadRateSpinButton.Value * 1024;
@@ -1584,8 +1604,8 @@ namespace Monsoon
 			
 			try
 			{
-				TorrentManager manager = torrentController.addTorrent (torrent, savePath);
-				manager.PeerConnected += delegate(object o, PeerConnectionEventArgs e) {
+				Download manager = torrentController.addTorrent (torrent, savePath);
+				manager.Manager.PeerConnected += delegate(object o, PeerConnectionEventArgs e) {
 					GLib.Idle.Add(delegate {
 						PeerConnected(o, e);
 						return false;
@@ -1594,6 +1614,7 @@ namespace Monsoon
 			}
 			catch (Exception ex)
 			{
+				Console.WriteLine (ex);
 				string error = _("An unexpected error occured while loading the torrent. {0}");
 				MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent,
 				                                              MessageType.Error, ButtonsType.Close,

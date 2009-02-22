@@ -42,7 +42,7 @@ namespace Monsoon
 		public event EventHandler RemoveTorrent;
 		
 		private TorrentController torrentController;
-		private TorrentManager selectedTorrent;
+		private Download selectedTorrent;
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		public TorrentContextMenu(TorrentController torrentController)
@@ -124,13 +124,13 @@ namespace Monsoon
 				try{
 					selectedTorrent.Pause();
 				} catch(Exception){
-					logger.Warn("Unable to pause " + selectedTorrent.Torrent.Name);
+					logger.Warn("Unable to pause " + selectedTorrent.Manager.Torrent.Name);
 				}
 			}else{
 				try{
 					selectedTorrent.Start();
 				}catch(Exception ex){
-					logger.Warn("Unable to start {0}: {1}", selectedTorrent.Torrent.Name, ex);
+					logger.Warn("Unable to start {0}: {1}", selectedTorrent.Manager.Torrent.Name, ex);
 				}	
 			}
 		}
@@ -145,22 +145,27 @@ namespace Monsoon
 				selectedTorrent.Stop();
 			} catch(Exception)
 			{
-				logger.Warn("Unable to stop " + selectedTorrent.Torrent.Name);
+				logger.Warn("Unable to stop " + selectedTorrent.Manager.Torrent.Name);
 			}
 		}
 		
 		private void OnRecheckItemActivated(object sender, EventArgs args)
 		{
 			selectedTorrent = torrentController.GetSelectedTorrent();
-			if (selectedTorrent == null)
+			if (selectedTorrent == null) {
+				Console.WriteLine ("Slect null");
 				return;
-			
+			}
 			try{
-				if(selectedTorrent.State != TorrentState.Stopped)
+				if(selectedTorrent.State != TorrentState.Stopped) {
+					Console.WriteLine ("Not stopped");
 					selectedTorrent.Stop();
-				selectedTorrent.HashCheck(false);
+				}
+				Console.WriteLine ("Checking");
+				selectedTorrent.Manager.HashCheck(false);
+				Console.WriteLine ("called it");
 			} catch(Exception){
-				logger.Warn("Unable to force re-hash on " + selectedTorrent.Torrent.Name);
+				logger.Warn("Unable to force re-hash on " + selectedTorrent.Manager.Torrent.Name);
 			}
 		}
 				
@@ -171,9 +176,9 @@ namespace Monsoon
 				return;
 			
 			try{
-				selectedTorrent.TrackerManager.Announce();
+				selectedTorrent.Manager.TrackerManager.Announce();
 			} catch(Exception){
-				logger.Warn("Unable to force announce on " + selectedTorrent.Torrent.Name);
+				logger.Warn("Unable to force announce on " + selectedTorrent.Manager.Torrent.Name);
 			}
 		}
 		
@@ -183,9 +188,9 @@ namespace Monsoon
 			if (selectedTorrent == null)
 				return;
 			
-			string path = selectedTorrent.SavePath;
-			if (selectedTorrent.FileManager.Files.Length == 1)
-				path = System.IO.Path.Combine (path, selectedTorrent.FileManager.Files[0].Path);
+			string path = selectedTorrent.Manager.SavePath;
+			if (selectedTorrent.Manager.FileManager.Files.Length == 1)
+				path = System.IO.Path.Combine (path, selectedTorrent.Manager.FileManager.Files[0].Path);
 			
 			logger.Debug("Launching: {0}", path); 
 			Process.Start(string.Format (@"""{0}""", path));

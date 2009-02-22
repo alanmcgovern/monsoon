@@ -41,23 +41,24 @@ using MonoTorrent.TorrentWatcher;
 
 namespace Monsoon
 {
-
 	public class TorrentController
 	{
-		private ClientEngine engine;
-		private ListStore torrentListStore;
-		private PreferencesSettings prefSettings;
-		private Dictionary<TorrentManager, TreeIter> torrents;
-		private Dictionary<TorrentManager, SpeedMonitor> torrentSwarm;
-		private Dictionary<TorrentManager, int> hashProgress;
-		private Dictionary<TorrentManager, long> torrentPreviousUpload;
-		private Dictionary<TorrentManager, long> torrentPreviousDownload;
-		private MainWindow mainWindow;
-		private TorrentManager completedManager;
+		public event EventHandler Added;
+		public event EventHandler Removed;
+		public event EventHandler SelectionChanged;
 		
-		private List<TorrentManager> torrentsDownloading;
-		private List<TorrentManager> torrentsSeeding;
-		private List<TorrentManager> allTorrents;
+		public Download SelectedDownload {
+			get { return GetSelectedTorrent (); }
+		}
+		
+		private ClientEngine engine;
+		private PreferencesSettings prefSettings;
+		private MainWindow mainWindow;
+		private Download completedManager;
+		
+		private List<Download> torrentsDownloading;
+		private List<Download> torrentsSeeding;
+		private List<Download> allTorrents;
 		private List<TorrentLabel> labels;
 		private List<FastResume> fastResume;
 		public List<FastResume> FastResume
@@ -75,11 +76,7 @@ namespace Monsoon
 		{
 			this.prefSettings = mainWindow.Preferences;
 			this.labels = mainWindow.Labels;
-			this.torrentListStore = mainWindow.TorrentListStore;
-			this.torrents = mainWindow.Torrents;
 			this.mainWindow = mainWindow;
-			this.torrentPreviousUpload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
-			this.torrentPreviousDownload = new Dictionary<MonoTorrent.Client.TorrentManager,long>();
 			
 			Ticker.Tick ();
 			fastResume = LoadFastResume();
@@ -89,22 +86,9 @@ namespace Monsoon
 			engine = new ClientEngine(mainWindow.EngineSettings);
 			Ticker.Tock ("Client engine");
 
-			engine.ConnectionManager.PeerMessageTransferred += delegate (object o, PeerMessageEventArgs e) {
-				GLib.Idle.Add(delegate {
-					OnPeerMessageTransferred(o, e);
-					return false;
-				});
-			};
-			hashProgress = new Dictionary<MonoTorrent.Client.TorrentManager,int>();
-			torrentSwarm = new Dictionary<MonoTorrent.Client.TorrentManager, SpeedMonitor>();
-			torrentsDownloading = new List<TorrentManager>();
-			torrentsSeeding = new List<TorrentManager>(); 
-			allTorrents = new List<TorrentManager>();
-			GLib.Timeout.Add (1000, delegate {
-				foreach (SpeedMonitor m in torrentSwarm.Values)
-					m.Tick ();
-				return true;
-			});
+			torrentsDownloading = new List<Download>();
+			torrentsSeeding = new List<Download>(); 
+			allTorrents = new List<Download>();
 		}
 		
 		public void StoreFastResume ()
@@ -113,7 +97,7 @@ namespace Monsoon
 			{
 				logger.Info("storing fast resume");
 				BEncodedList list = new BEncodedList();
-				foreach (TorrentManager t in Torrents)
+				foreach (Download t in Torrents)
 					list.Add(t.SaveFastResume().Encode ());
 				File.WriteAllBytes(Defines.SerializedFastResume, list.Encode());
 			}
@@ -151,51 +135,29 @@ namespace Monsoon
 			return list;
 		}
 
-		private void OnPeerMessageTransferred(object sender, PeerMessageEventArgs args)
-		{
-			if (args.Direction != Direction.Incoming)
-				return;
-			
-			if (!(args.Message is MonoTorrent.Client.Messages.Standard.HaveMessage))
-				return;
-			
-			if (!torrentSwarm.ContainsKey(args.TorrentManager))
-				torrentSwarm.Add(args.TorrentManager, new SpeedMonitor());
-			
-			torrentSwarm[args.TorrentManager].AddDelta(args.TorrentManager.Torrent.PieceLength);
-		}
-		
-		public long GetTorrentSwarm(TorrentManager manager)
-		{
-			SpeedMonitor monitor;
-			if(!torrentSwarm.TryGetValue(manager, out monitor))
-				return 0;
-			return monitor.Rate;
-		}
-
 		// TODO: Refactor all of these functions!!!
-		public TorrentManager addTorrent(Torrent torrent)
+		public Download addTorrent(Torrent torrent)
 		{
 			return addTorrent(torrent, prefSettings.StartNewTorrents);
 		}
 		
-		public TorrentManager addTorrent (Torrent torrent, string savePath)
+		public Download addTorrent (Torrent torrent, string savePath)
 		{
 			return addTorrent(torrent, prefSettings.StartNewTorrents, prefSettings.RemoveOnImport, null, savePath, false);
 		}
 		
-		public TorrentManager addTorrent(Torrent torrent, bool startTorrent)
+		public Download addTorrent(Torrent torrent, bool startTorrent)
 		{
 			return addTorrent(torrent, startTorrent, prefSettings.RemoveOnImport, null);
 		}
-		public TorrentManager addTorrent(Torrent torrent, bool startTorrent, bool removeOriginal, TorrentSettings savedSettings)
+		public Download addTorrent(Torrent torrent, bool startTorrent, bool removeOriginal, TorrentSettings savedSettings)
 		{
 			return addTorrent(torrent, startTorrent, removeOriginal, savedSettings, engine.Settings.SavePath, false);
 		}
-		public TorrentManager addTorrent(Torrent torrent, bool startTorrent, bool removeOriginal, TorrentSettings savedSettings, string savePath, bool isUrl)
+		public Download addTorrent(Torrent torrent, bool startTorrent, bool removeOriginal, TorrentSettings savedSettings, string savePath, bool isUrl)
 		{
 			string originalPath = torrent.TorrentPath;
-			TorrentManager manager;
+			Download manager;
 			
 			if(!Directory.Exists(savePath))
 				throw new TorrentException("Torrent save path does not exist, " + savePath);
@@ -213,18 +175,18 @@ namespace Monsoon
 			FastResume resume = this.fastResume.Find(delegate (FastResume f) { return Toolbox.ByteMatch(f.InfoHash, torrent.InfoHash); });
 			
 			if (resume != null)
-				manager = new TorrentManager(torrent, savePath, settings, resume);
+				manager = new Download(new TorrentManager (torrent, savePath, settings, resume));
 			else
-				manager = new TorrentManager(torrent, savePath, settings);
+				manager = new Download(new TorrentManager (torrent, savePath, settings));
 					
-			engine.Register(manager);
+			engine.Register(manager.Manager);
 			
 			if (removeOriginal) {
 				logger.Info ("Removing {0}", originalPath);
 				File.Delete (originalPath);
 			}
 			
-			torrents.Add (manager, torrentListStore.AppendValues(manager));
+			mainWindow.Torrents.Add (manager, mainWindow.TorrentListStore.AppendValues(manager));
 			allTorrents.Add (manager);
 			
 			if (startTorrent) {
@@ -239,18 +201,13 @@ namespace Monsoon
 					
 			logger.Info ("Added torrent " + manager.Torrent.Name);
 			
-			manager.TorrentStateChanged += delegate(object o, TorrentStateChangedEventArgs e) {
+			manager.StateChanged += delegate(object o, TorrentStateChangedEventArgs e) {
 				GLib.Idle.Add(delegate {
 					OnTorrentStateChanged(o, e);
 					return false;
 				});
 			};
-			manager.PieceHashed += delegate(object o, PieceHashedEventArgs e) {
-				GLib.Idle.Add(delegate {
-					OnPieceHashed(o, e);
-					return false;
-				});
-			};
+			
 			// add to "All" label
 			mainWindow.AllLabel.AddTorrent(manager);
 			
@@ -286,27 +243,10 @@ namespace Monsoon
 			
 			torrent = t;
 		}
-		
-		private void OnPieceHashed (object sender, PieceHashedEventArgs args)
-		{
-	
-			if(!hashProgress.ContainsKey(args.TorrentManager))
-				hashProgress.Add(args.TorrentManager, 0);
-			else
-				hashProgress[args.TorrentManager] = (int) ((args.PieceIndex / (float)args.TorrentManager.Torrent.Pieces.Count) * 100);
-		}
-		
-		public int GetTorrentHashProgress(TorrentManager manager)
-		{
-			if(!hashProgress.ContainsKey(manager))
-				return 0;
-			
-			return hashProgress[manager];
-		}
-		
+
 		private void OnTorrentStateChanged(object sender, TorrentStateChangedEventArgs args)
 		{
-			TorrentManager manager = (TorrentManager)sender;
+			Download manager = (Download)sender;
 			completedManager = manager;
 			if (args.OldState == TorrentState.Downloading) {
 				logger.Debug("Removing " + manager.Torrent.Name + " from download label");
@@ -314,9 +254,6 @@ namespace Monsoon
 			} else if (args.OldState == TorrentState.Seeding) {
 				logger.Debug("Removing " + manager.Torrent.Name + " from upload label");
 				mainWindow.SeedingLabel.RemoveTorrent(manager);
-			} else if (args.OldState == TorrentState.Hashing) {
-				if (hashProgress.ContainsKey(manager))
-					hashProgress[manager] = 0;
 			}
 			
 			if (args.NewState == TorrentState.Downloading) {
@@ -352,17 +289,17 @@ namespace Monsoon
 			System.Diagnostics.Process.Start("\"file://" + completedManager.SavePath + "\"");
 		}
 
-		public List<TorrentManager> TorrentsDownloading
+		public List<Download> TorrentsDownloading
 		{
 			get{ return torrentsDownloading; }
 		}
 		
-		public List<TorrentManager> Torrents
+		public List<Download> Torrents
 		{
 			get{ return allTorrents; }
 		}
 		
-		public List<TorrentManager> TorrentsSeeding
+		public List<Download> TorrentsSeeding
 		{
 			get { return torrentsSeeding; }
 		}
@@ -373,24 +310,24 @@ namespace Monsoon
 			}
 		}
 		
-		public void removeTorrent(TorrentManager torrent)
+		public void removeTorrent(Download torrent)
 		{
 			removeTorrent(torrent, false);
 		}
 		
-		public void removeTorrent(TorrentManager torrent, bool deleteTorrent)
+		public void removeTorrent(Download torrent, bool deleteTorrent)
 		{
 			removeTorrent(torrent, deleteTorrent, false);
 		}
 		
-		public void removeTorrent(TorrentManager torrent, bool deleteTorrent, bool deleteData)
+		public void removeTorrent(Download torrent, bool deleteTorrent, bool deleteData)
 		{
 			if(torrent.State != TorrentState.Stopped)
 				torrent.Stop();
 			
-			TreeIter iter = torrents[torrent];
-			torrentListStore.Remove(ref iter);
-			torrents.Remove(torrent);
+			TreeIter iter = MainWindow.Torrents [torrent];
+			mainWindow.TorrentListStore.Remove(ref iter);
+			MainWindow.Torrents.Remove(torrent);
 			allTorrents.Remove(torrent);
 			
 			if(deleteData){
@@ -427,17 +364,12 @@ namespace Monsoon
 			
 			logger.Info("Removed torrent " + torrent.Torrent.Name);
 			mainWindow.AllLabel.RemoveTorrent(torrent);
-			
-			if (torrentSwarm.ContainsKey(torrent))
-				torrentSwarm.Remove(torrent);
-			if (hashProgress.ContainsKey(torrent))
-				hashProgress.Remove(torrent);
-			
+
 			fastResume.RemoveAll (delegate (FastResume f) {
 				return Toolbox.ByteMatch (f.InfoHash, torrent.Torrent.InfoHash); 
 			});
 			
-			engine.Unregister(torrent);
+			engine.Unregister(torrent.Manager);
 			mainWindow.StoreTorrentSettings();
 		}
 		
@@ -470,7 +402,7 @@ namespace Monsoon
 		
 		public void LoadStoredTorrents()
 		{
-			TorrentManager manager;
+			Download manager;
 			
 			XmlTorrentStorageController controller = new XmlTorrentStorageController();
 			controller.Load();
@@ -490,10 +422,7 @@ namespace Monsoon
 					continue;
 				}
 				
-				torrentPreviousUpload.Add(manager, torrentStore.UploadedData);
-				torrentPreviousDownload.Add(manager, torrentStore.DownloadedData);
-				
-				foreach(TorrentFile file in manager.FileManager.Files) {
+				foreach(TorrentFile file in manager.Manager.FileManager.Files) {
 					foreach(TorrentFileSettingsModel settings in torrentStore.Files) {
 						if (settings.Path != file.Path)
 							continue;
@@ -511,28 +440,14 @@ namespace Monsoon
 				}		                                                                       
 			}
 		}
-		
-		public long GetPreviousDownload(TorrentManager manager){
-			if(!torrentPreviousDownload.ContainsKey(manager))
-				return 0;
-				
-			return torrentPreviousDownload[manager];
-		}
-		
-		public long GetPreviousUpload(TorrentManager manager){
-			if(!torrentPreviousUpload.ContainsKey(manager))
-				return 0;
-			
-			return torrentPreviousUpload[manager];
-		}
-		
+
 		public void SetFilePriority(TorrentFile torrentFile, Priority priority)
 		{
 			logger.Info("Changing priority of " + torrentFile.Path + " to " + priority);
 			torrentFile.Priority = priority;
 		}
 		
-		public TorrentManager GetSelectedTorrent()
+		public Download GetSelectedTorrent()
 		{
 			return mainWindow.GetSelectedTorrent();
 		}

@@ -49,16 +49,16 @@ namespace Monsoon
 		
 		// Temporary solution until TreeModelFilter is able to be subclassed
 		private ListStore model;
-		private List<TorrentManager> torrents;
+		private List<Download> torrents;
 		
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		
 		public TorrentLabel()
 		{
-			torrents = new List<TorrentManager> ();
+			torrents = new List<Download> ();
 			icon = Gtk.IconTheme.Default.LoadIcon("gtk-about", 16, 0);
-			model = new ListStore (typeof(TorrentManager));
+			model = new ListStore (typeof(Download));
 		}
 		
 		
@@ -85,14 +85,14 @@ namespace Monsoon
 			}
 
 			this.iconPath = iconPath;
-			this.torrents = new List<TorrentManager> ();
+			this.torrents = new List<Download> ();
 			this.name = name;
 			this.icon = icon;
-			model = new ListStore (typeof(TorrentManager));
+			model = new ListStore (typeof(Download));
 		}
 		
 		[XmlIgnore]
-		public List<TorrentManager> Torrents {
+		public List<Download> Torrents {
 			get { return torrents; }
 		}
 		
@@ -112,8 +112,8 @@ namespace Monsoon
 		{
 			get { 
 				List<string> list = new List<string> ();
-				foreach(TorrentManager manager in torrents){
-					list.Add(manager.Torrent.TorrentPath);
+				foreach(Download manager in torrents){
+					list.Add(manager.Manager.Torrent.TorrentPath);
 				}
 				return list.ToArray ();
 			}
@@ -172,7 +172,7 @@ namespace Monsoon
 		}
 	
 	
-		public bool AddTorrent(TorrentManager manager)
+		public bool AddTorrent(Download manager)
 		{
 			if(torrents.Contains(manager))
 				return false;
@@ -184,7 +184,7 @@ namespace Monsoon
 		}
 		
 		
-		public bool RemoveTorrent(TorrentManager manager)
+		public bool RemoveTorrent(Download manager)
 		{
 			TreeIter iter = TreeIter.Zero;
 			
@@ -203,14 +203,14 @@ namespace Monsoon
 		}
 		
 		
-		private bool GetTorrentIter(TorrentManager manager, out TreeIter iter)
+		private bool GetTorrentIter(Download manager, out TreeIter iter)
 		{
 			
 			if(!model.GetIterFirst(out iter))
 				return false;
 			
 			do{
-				if(manager == (TorrentManager) model.GetValue (iter, 0))
+				if(manager == (Download) model.GetValue (iter, 0))
 					return true;
 			} while (model.IterNext(ref iter));
 			
