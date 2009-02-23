@@ -280,12 +280,7 @@ namespace Monsoon
 
 			logger.Info("New torrent detected, adding " + args.TorrentPath);
 			GLib.Timeout.Add (1000, delegate {
-				try {
-					LoadTorrent (args.TorrentPath, false);
-				}
-				catch (Exception ex) {
-					Console.WriteLine (ex);
-				}
+				LoadTorrent (args.TorrentPath, false);
 				return false;
 			});
 		}
@@ -1151,15 +1146,8 @@ namespace Monsoon
 			
 			if (result == ResponseType.Accept) {
 				logger.Debug ("Open torrent dialog response recieved");
-				foreach (String fileName in fileChooser.Filenames) {
-					try {
-						LoadTorrent (fileName);
-					} catch (Exception ex) {
-						MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, ex.Message);
-						errorDialog.Run();
-						errorDialog.Destroy();
-					}
-				}
+				foreach (String fileName in fileChooser.Filenames)
+					LoadTorrent (fileName);
 			}
 			
 			fileChooser.Destroy ();
