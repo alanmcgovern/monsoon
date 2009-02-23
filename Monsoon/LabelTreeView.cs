@@ -41,14 +41,17 @@ namespace Monsoon
 		
 		private Gtk.Menu contextMenu;
 		private ImageMenuItem createItem;
+		
+		List<TorrentLabel> labels;
+		ListStore labelStore;
 		private ImageMenuItem removeItem;
 		
-		private MainWindow mainWindow;
 		private bool contextActive;
 		
-		public LabelTreeView(MainWindow mainWindow, bool contextActive)
+		public LabelTreeView(ListStore labelStore, List<TorrentLabel> labels, bool contextActive)
 		{
-			this.mainWindow = mainWindow;
+			this.labels = labels;
+			this.labelStore = labelStore;
 			this.contextActive = contextActive;
 			buildColumns();
 									
@@ -72,9 +75,9 @@ namespace Monsoon
 			nameRendererCell.Editable = true;
 			nameRendererCell.Edited += MainWindow.WrappedHandler ((EditedHandler) delegate (object o, Gtk.EditedArgs args) {
 				Gtk.TreeIter iter;
-				mainWindow.LabelListStore.GetIter (out iter, new Gtk.TreePath (args.Path));
+				labelStore.GetIter (out iter, new Gtk.TreePath (args.Path));
 			 
-				TorrentLabel label = (TorrentLabel) mainWindow.LabelListStore.GetValue (iter, 0);
+				TorrentLabel label = (TorrentLabel) labelStore.GetValue (iter, 0);
 				label.Name = args.NewText;
 			});
 
@@ -101,8 +104,8 @@ namespace Monsoon
 			createItem.Image = new Image (Stock.Add, IconSize.Menu);
 			createItem.Activated += MainWindow.WrappedHandler ((EventHandler) delegate (object o, EventArgs e) {
 				TorrentLabel l = new TorrentLabel(_("New Label"));
-				mainWindow.LabelListStore.AppendValues(l);
-				mainWindow.Labels.Add(l);
+				labelStore.AppendValues(l);
+				labels.Add(l);
 			});
 			contextMenu.Append(createItem);
 			
@@ -115,12 +118,12 @@ namespace Monsoon
 				if (!Selection.GetSelected(out iter))
 					return;
 				
-				TorrentLabel label = (TorrentLabel) mainWindow.LabelListStore.GetValue(iter, 0);
+				TorrentLabel label = (TorrentLabel) labelStore.GetValue(iter, 0);
 				if (label.Immutable)
 					return;
 				
-				mainWindow.LabelListStore.Remove(ref iter);
-				mainWindow.Labels.Remove(label);
+				labelStore.Remove(ref iter);
+				labels.Remove(label);
 			});
 		}
 		

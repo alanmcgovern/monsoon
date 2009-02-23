@@ -189,7 +189,7 @@ namespace Monsoon
 		
 		private void buildLabelPage()
 		{
-			labelTreeView = new LabelTreeView(mainWindow, false);
+			labelTreeView = new LabelTreeView(mainWindow.LabelListStore, mainWindow.Labels, false);
 			labelTreeView.sizeColumn.Visible = false;
 			labelTreeView.Model = filterListStore;
 			

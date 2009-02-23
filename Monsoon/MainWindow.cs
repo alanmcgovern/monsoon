@@ -705,8 +705,8 @@ namespace Monsoon
 		private void BuildLabelTreeView()
 		{
 			/* Move some stuff to LabelTreeView */
-			labelTreeView = new LabelTreeView (this, true);
 			labelListStore = new ListStore (typeof (TorrentLabel));
+			labelTreeView = new LabelTreeView (labelListStore, labels, true);
 			
 			labelTreeView.Model = labelListStore;
 			labelTreeView.Selection.Changed += OnLabelSelectionChanged;
