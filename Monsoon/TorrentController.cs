@@ -30,7 +30,6 @@ using MonoTorrent.Client;
 using MonoTorrent.Common;
 using MonoTorrent.BEncoding;
 
-using Gtk;
 using System;
 using System.IO;
 using System.Collections.Generic;
