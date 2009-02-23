@@ -53,7 +53,7 @@ namespace Monsoon
 			speeds = new List<int> (labels.Capacity);
 			
 			SpeedMenuItem l = new SpeedMenuItem (_("Unlimited"));
-			l.Activated += MainWindow.WrappedHandler ((EventHandler) delegate (object sender, EventArgs e) {
+			l.Activated += Event.Wrap ((EventHandler) delegate (object sender, EventArgs e) {
 				if (ClickedItem != null)
 					ClickedItem (sender, e);
 			});
@@ -62,7 +62,7 @@ namespace Monsoon
 			for (int i = 0; i < labels.Capacity; i++)
 			{
 				l = new SpeedMenuItem ("");
-				l.Activated += MainWindow.WrappedHandler ((EventHandler) delegate (object sender, EventArgs e) {
+				l.Activated += Event.Wrap ((EventHandler) delegate (object sender, EventArgs e) {
 					if (ClickedItem != null)
 						ClickedItem (sender, e);
 				});

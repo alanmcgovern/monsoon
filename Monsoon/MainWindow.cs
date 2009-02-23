@@ -49,44 +49,7 @@ using MonoTorrent.TorrentWatcher;
 namespace Monsoon
 {
 	public partial class MainWindow: Gtk.Window
-	{
-		internal static EventHandler WrappedHandler (EventHandler h)
-		{
-			return delegate (object o, EventArgs e) {
-				h (o, e);
-			};
-		}
-		internal static EnterNotifyEventHandler WrappedHandler (EnterNotifyEventHandler h)
-		{
-			return delegate (object o, EnterNotifyEventArgs e) {
-				h (o, e);
-			};
-		}
-		internal static DragBeginHandler WrappedHandler (DragBeginHandler h)
-		{
-			return delegate (object o, DragBeginArgs e) {
-				h (o, e);
-			};
-		}
-		internal static DragEndHandler WrappedHandler (DragEndHandler h)
-		{
-			return delegate (object o, DragEndArgs e) {
-				h (o, e);
-			};
-		}
-		internal static GLib.IdleHandler WrappedHandler (GLib.IdleHandler h)
-		{
-			return delegate {
-				return h ();
-			};
-		}
-		internal static EditedHandler WrappedHandler (EditedHandler h)
-		{
-			return delegate (object o, EditedArgs e) {
-				h (o, e);
-			};
-		}
-		
+	{		
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		private LabelTreeView labelTreeView;
@@ -284,7 +247,7 @@ namespace Monsoon
 			
 			folderWatcher = new TorrentFolderWatcher (new DirectoryInfo (Preferences.ImportLocation));
 			folderWatcher.TorrentFound += delegate(object o, TorrentWatcherEventArgs e) {
-				GLib.Idle.Add(WrappedHandler ((GLib.IdleHandler) delegate {
+				GLib.Idle.Add(Event.Wrap ((GLib.IdleHandler) delegate {
 					TorrentFound (o, e);
 					return false;
 				}));
@@ -350,14 +313,14 @@ namespace Monsoon
 				hbox4.PackEnd (natStatus);
 			}
 			
-			portController.PortMapped += WrappedHandler ((EventHandler) delegate {
+			portController.PortMapped += Event.Wrap ((EventHandler) delegate {
 				GLib.Idle.Add(delegate {
 					natStatus.PortForwarded = true;
 					return false;
 				});
 			});
 
-			portController.RouterFound += WrappedHandler ((EventHandler) delegate {
+			portController.RouterFound += Event.Wrap ((EventHandler) delegate {
 				GLib.Idle.Add(delegate {
 					natStatus.RouterFound = true;
 					return false;
@@ -376,28 +339,28 @@ namespace Monsoon
 			
 			ImageMenuItem quitItem = new ImageMenuItem (_("Quit"));
 			quitItem.Image = new Image (Stock.Quit, IconSize.Menu);
-			quitItem.Activated += WrappedHandler (delegate(object sender, EventArgs args) {
+			quitItem.Activated += Event.Wrap (delegate(object sender, EventArgs args) {
 				DeleteEventHandler h = OnDeleteEvent;
 				h (sender ,new DeleteEventArgs ());
 			});
 			
 			ImageMenuItem stop = new ImageMenuItem (_("Stop All"));
 			stop.Image = new Image (Stock.MediaStop, IconSize.Menu);
-			stop.Activated += WrappedHandler ((EventHandler) delegate {
+			stop.Activated += Event.Wrap ((EventHandler) delegate {
 				foreach (Download m in torrentController.Torrents)
 					m.Stop ();
 			});
 			
 			ImageMenuItem start = new ImageMenuItem (_("Start All"));
 			start.Image = new Image (Stock.MediaPlay, IconSize.Menu);
-			start.Activated += WrappedHandler ((EventHandler) delegate {
+			start.Activated += Event.Wrap ((EventHandler) delegate {
 				foreach (Download m in torrentController.Torrents)
 					m.Start ();
 			});
 
 			CheckMenuItem notifications = new CheckMenuItem (_("Show Notifications"));
 			notifications.Active = Preferences.EnableNotifications;
-			notifications.Activated += WrappedHandler ((EventHandler) delegate {
+			notifications.Activated += Event.Wrap ((EventHandler) delegate {
 				Preferences.EnableNotifications = !Preferences.EnableNotifications; 
 			});
 			
@@ -416,7 +379,7 @@ namespace Monsoon
 			
 			Tooltips trayTip = new Tooltips();
 			
-			trayIcon.EnterNotifyEvent += WrappedHandler ((EnterNotifyEventHandler) delegate { 
+			trayIcon.EnterNotifyEvent += Event.Wrap ((EnterNotifyEventHandler) delegate { 
 				trayTip.SetTip(trayIcon, "Monsoon - D: " + ByteConverter.ConvertSpeed(torrentController.Engine.TotalDownloadSpeed) +
 				               " U: " + ByteConverter.ConvertSpeed(torrentController.Engine.TotalUploadSpeed), null);
 			});
@@ -637,8 +600,8 @@ namespace Monsoon
 			};
 			torrentTreeView = new TorrentTreeView (torrentController);
 			torrentTreeView.DragDataReceived += TreeviewDragDataReceived;
-			torrentTreeView.DeleteTorrent += WrappedHandler ((EventHandler) delegate { DeleteAndRemoveSelection (); });
-			torrentTreeView.RemoveTorrent += WrappedHandler ((EventHandler) delegate { RemoveTorrent (); });
+			torrentTreeView.DeleteTorrent += Event.Wrap ((EventHandler) delegate { DeleteAndRemoveSelection (); });
+			torrentTreeView.RemoveTorrent += Event.Wrap ((EventHandler) delegate { RemoveTorrent (); });
 			//torrentTreeView.Model = torrentListStore;
 			torrentTreeView.Selection.Changed += OnTorrentSelectionChanged;
 			
@@ -728,7 +691,7 @@ namespace Monsoon
 				new TargetEntry("application/x-monotorrent-Download-objects", 0, 0)
 			};
 
-			torrentTreeView.DragBegin += WrappedHandler ((DragBeginHandler) delegate {
+			torrentTreeView.DragBegin += Event.Wrap ((DragBeginHandler) delegate {
 				TreeIter it;
 				if (!labelTreeView.Selection.GetSelected (out it))
 					return;
@@ -738,7 +701,7 @@ namespace Monsoon
 					labelListStore.AppendValues(deleteLabel); 
 			});
 			
-			torrentTreeView.DragEnd += WrappedHandler ((DragEndHandler) delegate {
+			torrentTreeView.DragEnd += Event.Wrap ((DragEndHandler) delegate {
 				TreeIter iter;
 				if (!labelListStore.GetIterFirst (out iter))
 					return;
@@ -1591,20 +1554,20 @@ namespace Monsoon
 		private void BuildSpeedsPopup()
 		{
 			SpeedLimitMenu menu = new SpeedLimitMenu();
-			statusUpButton.Clicked += WrappedHandler ((EventHandler) delegate {
+			statusUpButton.Clicked += Event.Wrap ((EventHandler) delegate {
 				menu.ShowAll ();
 				menu.IsUpload = true;
 				menu.CalculateSpeeds (engineSettings.GlobalMaxUploadSpeed);
 				menu.Popup ();
 			});
-			statusDownButton.Clicked += WrappedHandler ((EventHandler) delegate {
+			statusDownButton.Clicked += Event.Wrap ((EventHandler) delegate {
 				menu.ShowAll ();
 				menu.IsUpload = false;
 				menu.CalculateSpeeds (engineSettings.GlobalMaxDownloadSpeed);
 				menu.Popup ();
 			});
 
-			menu.ClickedItem += WrappedHandler ((EventHandler) delegate (object sender, EventArgs e) {
+			menu.ClickedItem += Event.Wrap ((EventHandler) delegate (object sender, EventArgs e) {
 				menu.HideAll ();
 				
 				SpeedMenuItem item = (SpeedMenuItem)sender;

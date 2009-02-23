@@ -73,7 +73,7 @@ namespace Monsoon
 			Gtk.CellRendererText sizeRendererCell = new Gtk.CellRendererText();
 			
 			nameRendererCell.Editable = true;
-			nameRendererCell.Edited += MainWindow.WrappedHandler ((EditedHandler) delegate (object o, Gtk.EditedArgs args) {
+			nameRendererCell.Edited += Event.Wrap ((EditedHandler) delegate (object o, Gtk.EditedArgs args) {
 				Gtk.TreeIter iter;
 				labelStore.GetIter (out iter, new Gtk.TreePath (args.Path));
 			 
@@ -102,7 +102,7 @@ namespace Monsoon
 			
 			createItem = new ImageMenuItem (_("Create"));
 			createItem.Image = new Image (Stock.Add, IconSize.Menu);
-			createItem.Activated += MainWindow.WrappedHandler ((EventHandler) delegate (object o, EventArgs e) {
+			createItem.Activated += Event.Wrap ((EventHandler) delegate (object o, EventArgs e) {
 				TorrentLabel l = new TorrentLabel(_("New Label"));
 				labelStore.AppendValues(l);
 				labels.Add(l);
@@ -112,7 +112,7 @@ namespace Monsoon
 			removeItem = new ImageMenuItem (_("Remove"));
 			removeItem.Image = new Image (Stock.Remove, IconSize.Menu);
 			contextMenu.Add (removeItem);
-			removeItem.Activated += MainWindow.WrappedHandler ((EventHandler) delegate (object o, EventArgs e) {
+			removeItem.Activated += Event.Wrap ((EventHandler) delegate (object o, EventArgs e) {
 				
 				TreeIter iter;
 				if (!Selection.GetSelected(out iter))

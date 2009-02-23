@@ -70,12 +70,12 @@ namespace Monsoon
 			openItem.Activated += OnOpenItemActivated;
 			startItem.Activated += OnStartItemActivated;
 			stopItem.Activated += OnStopItemActivated;
-			removeItem.Activated += MainWindow.WrappedHandler ((EventHandler) delegate {
+			removeItem.Activated += Event.Wrap ((EventHandler) delegate {
 				if (RemoveTorrent != null)
 					RemoveTorrent (this, EventArgs.Empty);
 			});
 			
-			deleteItem.Activated += MainWindow.WrappedHandler ((EventHandler) delegate {
+			deleteItem.Activated += Event.Wrap ((EventHandler) delegate {
 				if (DeleteTorrent != null)
 					DeleteTorrent(this, EventArgs.Empty);
 			});
