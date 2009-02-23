@@ -295,9 +295,17 @@ namespace Monsoon
 				folderWatcher.Start ();
 			}
 			
-			rssManagerController = new RssManagerController(torrentController);
+			rssManagerController = new RssManagerController(EngineSettings);
+			rssManagerController.TorrentFound += delegate(object sender, TorrentRssWatcherEventArgs e) {
+				string savePath = e.Filter == null ? EngineSettings.SavePath : e.Filter.SavePath;
+				try {
+					LoadTorrent(e.Item.Link, true, false, false, null, savePath, true);
+				} catch {
+					logger.Error("RSS Manager: Unable to add - " + e.Item.Title);
+				}
+			};
+						
 			rssManagerController.StartWatchers();
-            
 			ShowAll();
 		}
 		

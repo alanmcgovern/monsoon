@@ -40,23 +40,26 @@ namespace Monsoon
 	
 	public class RssManagerController
 	{
+		public event EventHandler<TorrentRssWatcherEventArgs> TorrentFound;
 		
 		private List<RssItem> history;
 		private List<string> feeds;
 		private List<RssFilter> filters;
 		private Dictionary<string, TorrentRssWatcher> watchers;
 		private List<RssItem> items;
-	
-		private TorrentController controller;
 		
 		// Eerrrmm
 		private Gtk.ListStore historyListStore;
-		
+		private MonoTorrent.Client.EngineSettings settings;
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
+		public string SavePath {
+			get { return settings.SavePath; }
+		}
 		
-		public RssManagerController(TorrentController controller)
+		public RssManagerController(MonoTorrent.Client.EngineSettings settings)
 		{
+			this.settings = settings;
 			history = new List<Monsoon.RssItem>();
 			feeds = new List<string>();
 			filters = new List<Monsoon.RssFilter>();
@@ -65,7 +68,6 @@ namespace Monsoon
 			
 			historyListStore = new Gtk.ListStore(typeof(RssItem));
 			
-			this.controller = controller;
 		
 			RestoreFeeds();
 			RestoreHistory();
@@ -142,7 +144,7 @@ namespace Monsoon
 				}
 			}
 			
-			AddTorrent(args.Item, args.Filter);
+			AddTorrent(args);
 		}
 		
 		
@@ -150,31 +152,12 @@ namespace Monsoon
 		// Solutions: Pop every add onto main loop resulting in blocking
 		// or add async Load(uri, location) to library, or let the GUI
 		// program handle downloading the torrent file 
-		public void AddTorrent(RssItem item, RssFilter filter)
+		public void AddTorrent(TorrentRssWatcherEventArgs args)
 		{
-			history.Add(item);
-			historyListStore.AppendValues(item);
+			history.Add(args.Item);
+			historyListStore.AppendValues(args.Item);
 			
-			if(filter == null){
-				Console.Out.WriteLine("About to add with default savepath, URL: " + item.Link);
-				try {
-					// FIXME - This should raise an event
-					throw new Exception ("RSS Manager is disabled");
-					//controller.MainWindow.LoadTorrent(item.Link, true, false, false, null, controller.Engine.Settings.SavePath, true);
-				} catch {
-					logger.Error("RSS Manager: Unable to add - " + item.Title);
-				}
-			}
-			else {
-				Console.Out.WriteLine("About to add with custom savepath, Path: " + filter.SavePath);
-				try{
-					// FIXME - This should raise an event
-					throw new Exception ("RSS Manager is disabled");
-					//controller.MainWindow.LoadTorrent(item.Link, true, false, false, null, filter.SavePath, true);
-				} catch {
-					logger.Error("RSS Manager: Unabled to add - " + item.Title);
-				}
-			}
+			Event.Raise<TorrentRssWatcherEventArgs>(TorrentFound, this, args);
 		}
 		
 		
@@ -308,10 +291,6 @@ namespace Monsoon
 		
 		public List<RssItem> Items {
 			get { return items; }
-		}
-		
-		public TorrentController TorrentController {
-			get { return controller; }
 		}
 	}
 }

@@ -146,7 +146,7 @@ namespace Monsoon
 			filterTreeView.Model = filterListStore;
 			
 			savePathChooserButton = new FileChooserButton(_("Select a Save Path"), FileChooserAction.SelectFolder);
-			savePathChooserButton.SetCurrentFolder(controller.TorrentController.Engine.Settings.SavePath);
+			savePathChooserButton.SetCurrentFolder(controller.SavePath);
 			savePathChooserButton.ShowAll();
 			
 			filterTable.Attach(savePathChooserButton, 1, 2, 3, 4, AttachOptions.Fill, AttachOptions.Shrink, 0, 0); 
@@ -248,7 +248,8 @@ namespace Monsoon
 			item = (RssItem) itemTreeView.Model.GetValue(iter, 0);
 
 			Console.Out.WriteLine("Downloading " + item.Link);
-			this.AddTorrent(item);
+		
+			controller.AddTorrent(new TorrentRssWatcherEventArgs (null, item));
 		}
 		
 		
@@ -331,11 +332,9 @@ namespace Monsoon
 		protected virtual void OnAddFilterButtonClicked (object sender, System.EventArgs e)
 		{
 			RssFilter filter = new RssFilter();
-			filter.SavePath = controller.TorrentController.Engine.Settings.SavePath;
+			filter.SavePath = controller.SavePath;
 			filterListStore.AppendValues(filter);
 			controller.AddFilter(filter);
-			//controller.Filters.Add(filter);
-			
 		}
 
 
@@ -443,11 +442,6 @@ namespace Monsoon
 			logger.Debug("Populating filter settings");
 			
 			return (RssFilter) filterListStore.GetValue(iter, 0);
-		}
-		
-		private void AddTorrent(RssItem item)
-		{
-			controller.AddTorrent(item, null);
 		}
 
 		protected virtual void OnRemoveHistoryButtonClicked (object sender, System.EventArgs e)
