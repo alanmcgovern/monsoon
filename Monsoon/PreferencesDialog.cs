@@ -37,15 +37,17 @@ namespace Monsoon
 	public partial class PreferencesDialog : Gtk.Dialog
 	{
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
-	//	private UserTorrentSettings userTorrentSettings;
+
 		private EngineSettings engineSettings;
 		private PreferencesSettings prefSettings;
+		private InterfaceSettings interfaceSettings;
 		
 		private FileChooserButton downloadLocationButton;
 		private FileChooserButton torrentStorageLocationButton;
 		private FileChooserButton importLocationButton;
 		
 		private ListStore filterListStore;
+		private ListStore labelStore;
 		private List<TorrentLabel> labels;
 		private LabelTreeView labelTreeView;
 		
@@ -54,17 +56,15 @@ namespace Monsoon
 		private string selectedIcon;
 		private Button selectButton;
 		
-		private MainWindow mainWindow;
-		
 		public PreferencesDialog(MainWindow mainWindow)
 		{
-		//	this.userTorrentSettings = mainWindow.userTorrentSettings;
 			this.engineSettings = mainWindow.EngineSettings;
 			this.prefSettings = mainWindow.Preferences; 
 			this.labels = mainWindow.Labels;
+			this.labelStore = mainWindow.LabelListStore;
 			this.filterListStore = mainWindow.LabelListStore;
 			this.trayIcon = mainWindow.TrayIcon;
-			this.mainWindow = mainWindow;
+			this.interfaceSettings = mainWindow.InterfaceSettings;
 			
 			Build();
 			buildFoldersPanel();
@@ -84,7 +84,7 @@ namespace Monsoon
 		
 		private void BuildGeneralPage()
 		{
-			loadDialogCheckButton.Active = mainWindow.InterfaceSettings.ShowLoadDialog;			
+			loadDialogCheckButton.Active = interfaceSettings.ShowLoadDialog;			
 			minimizeTrayCheckButton.Active = prefSettings.QuitOnClose;
 			enableTrayCheckButton.Active = prefSettings.EnableTray;
 			enableNotificationsCheckButton.Active = prefSettings.EnableNotifications;
@@ -99,7 +99,7 @@ namespace Monsoon
 		
 		private void OnLoadDialogToggled (object sender, EventArgs args)
 		{
-			mainWindow.InterfaceSettings.ShowLoadDialog = loadDialogCheckButton.Active;
+			interfaceSettings.ShowLoadDialog = loadDialogCheckButton.Active;
 		}
 		
 		private void OnEnableNotificationsToggled (object sender, EventArgs args)
@@ -189,7 +189,7 @@ namespace Monsoon
 		
 		private void buildLabelPage()
 		{
-			labelTreeView = new LabelTreeView(mainWindow.LabelListStore, mainWindow.Labels, false);
+			labelTreeView = new LabelTreeView(this.labelStore, this.labels, false);
 			labelTreeView.sizeColumn.Visible = false;
 			labelTreeView.Model = filterListStore;
 			
