@@ -276,27 +276,16 @@ namespace Monsoon
 		{
 			if(!prefSettings.Settings.ImportEnabled)
 				return;
-			
+
 			logger.Info("New torrent detected, adding " + args.TorrentPath);
-			string newPath = System.IO.Path.GetFileName (args.TorrentPath);
-			newPath = System.IO.Path.Combine (prefSettings.Settings.TorrentStorageLocation, newPath);
-			if (System.IO.Path.GetDirectoryName (args.TorrentPath) != prefSettings.Settings.TorrentStorageLocation)
-			{
-				logger.Info ("Copying: {0} to {1}", args.TorrentPath, newPath);
-				File.WriteAllBytes (newPath, File.ReadAllBytes (args.TorrentPath));
-				if(Preferences.RemoveOnImport)
-					File.Delete(args.TorrentPath);
-			}
-			
 			GLib.Timeout.Add (1000, delegate {
 				try {
-					LoadTorrent (newPath, false);
-					return false;
+					LoadTorrent (args.TorrentPath, false);
 				}
 				catch (Exception ex) {
 					Console.WriteLine (ex);
-					return false;
 				}
+				return false;
 			});
 		}
 		
