@@ -44,6 +44,7 @@ namespace Monsoon
 	{
 		public event EventHandler<DownloadAddedEventArgs> Added;
 		public event EventHandler<DownloadAddedEventArgs> Removed;
+		public event EventHandler<ShouldAddEventArgs> ShouldAdd;
 		public event EventHandler SelectionChanged;
 		
 		public Download SelectedDownload {
@@ -130,6 +131,53 @@ namespace Monsoon
 			return list;
 		}
 
+		public bool addTorrent (string path, bool ask, out string error)
+		{
+			Torrent torrent;
+			error = null;
+			
+			if (!Torrent.TryLoad (path, out torrent)) {
+				error = _("Invalid torrent selected");
+				return false;
+			}
+			
+			if (Engine.Contains(torrent)) {
+				error = _("Torrent has already been added");
+				return false;
+			}
+			
+			string savePath = engine.Settings.SavePath;
+			if (ask) {
+				EventHandler<ShouldAddEventArgs> h = ShouldAdd;
+				if (h != null) {
+					ShouldAddEventArgs e = new ShouldAddEventArgs (torrent, savePath);
+					h (this, e);
+					if (!e.ShouldAdd)
+						return true;
+					savePath = e.SavePath;
+				}
+			}
+
+			try
+			{
+				Download manager = addTorrent (torrent, savePath);
+				// FIXME: Add this inside the 'Download' class if it's required.
+//				manager.Manager.PeerConnected += delegate(object o, PeerConnectionEventArgs e) {
+//					GLib.Idle.Add(delegate {
+//						PeerConnected(o, e);
+//						return false;
+//					});
+//				};
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine (ex);
+				error = _("An unexpected error occured while loading the torrent. {0}");
+				error = string.Format (error, ex.Message);
+				return  false;
+			}
+			return true;
+		}
 		// TODO: Refactor all of these functions!!!
 		public Download addTorrent(Torrent torrent)
 		{

@@ -135,6 +135,7 @@
     <Compile Include="Model\Download.cs" />
     <Compile Include="Model\Event.cs" />
     <Compile Include="Model\DownloadAddedEventArgs.cs" />
+    <Compile Include="Model\ShouldAddEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\rss.png">

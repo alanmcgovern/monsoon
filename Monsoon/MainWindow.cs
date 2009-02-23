@@ -49,7 +49,8 @@ using MonoTorrent.TorrentWatcher;
 namespace Monsoon
 {
 	public partial class MainWindow: Gtk.Window
-	{		
+	{
+		
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		private LabelTreeView labelTreeView;
@@ -587,6 +588,7 @@ namespace Monsoon
 				
 				StoreTorrentSettings();
 			};
+			torrentController.ShouldAdd += HandleShouldAdd;
 			torrentTreeView = new TorrentTreeView (torrentController);
 			torrentTreeView.DragDataReceived += TreeviewDragDataReceived;
 			torrentTreeView.DeleteTorrent += Event.Wrap ((EventHandler) delegate { DeleteAndRemoveSelection (); });
@@ -596,6 +598,22 @@ namespace Monsoon
 			
 			torrentViewScrolledWindow.Add (torrentTreeView);
 			//torrentTreeView.Show ();
+		}
+
+		void HandleShouldAdd(object sender, ShouldAddEventArgs e)
+		{
+			LoadTorrentDialog dialog = new LoadTorrentDialog(e.Torrent, e.SavePath);
+			dialog.AlwaysAsk = interfaceSettings.Settings.ShowLoadDialog;
+			
+			try
+			{
+				e.ShouldAdd = dialog.Run () == (int)ResponseType.Ok;
+				interfaceSettings.Settings.ShowLoadDialog = dialog.AlwaysAsk;
+			}
+			finally
+			{
+				dialog.Destroy ();
+			}
 		}
 		
 		private void TreeviewDragDataReceived (object o, DragDataReceivedArgs args) 
@@ -1626,67 +1644,14 @@ namespace Monsoon
 		
 		public void LoadTorrent (string path, bool ask)
 		{
-			Torrent torrent;
-			
-			if (!Torrent.TryLoad (path, out torrent)) {
+			string error;
+
+			if (!TorrentController.addTorrent (path, ask, out error)) {
 				MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent,
 				                                              MessageType.Error, ButtonsType.Close,
-				                                              _("Invalid torrent selected"));
+				                                              error);
 				errorDialog.Run();
 				errorDialog.Destroy();
-				return;
-			}
-			
-			if(torrentController.Engine.Contains(torrent)) {
-				MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent,
-				                                              MessageType.Error, ButtonsType.Close,
-				                                              _("Torrent has already been added"));
-				errorDialog.Run();
-				errorDialog.Destroy();
-				return;
-			}
-			
-			string savePath = engineSettings.SavePath;
-			if (ask)
-			{
-				LoadTorrentDialog dialog = new LoadTorrentDialog(torrent, savePath);
-				dialog.AlwaysAsk = interfaceSettings.Settings.ShowLoadDialog;
-				
-				try
-				{
-					int response = dialog.Run ();
-					interfaceSettings.Settings.ShowLoadDialog = dialog.AlwaysAsk;
-					if (response != (int)ResponseType.Ok) {
-						return;
-					}
-					
-					savePath = dialog.SelectedPath;
-				}
-				finally
-				{
-					dialog.Destroy ();
-				}
-			}
-			
-			try
-			{
-				Download manager = torrentController.addTorrent (torrent, savePath);
-				manager.Manager.PeerConnected += delegate(object o, PeerConnectionEventArgs e) {
-					GLib.Idle.Add(delegate {
-						PeerConnected(o, e);
-						return false;
-					});
-				};
-			}
-			catch (Exception ex)
-			{
-				Console.WriteLine (ex);
-				string error = _("An unexpected error occured while loading the torrent. {0}");
-				MessageDialog errorDialog = new MessageDialog(this, DialogFlags.DestroyWithParent,
-				                                              MessageType.Error, ButtonsType.Close,
-				                                              string.Format (error, ex.Message));
-				errorDialog.Run ();
-				errorDialog.Destroy ();
 			}
 		}
 		
