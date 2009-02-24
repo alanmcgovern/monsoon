@@ -207,7 +207,7 @@ namespace Monsoon
 			
 			Ticker.Tick ();
 			try{
-			torrentController.LoadStoredTorrents ();
+				torrentController.LoadStoredTorrents ();
 			}catch (Exception ex) {
 				Console.WriteLine (ex);
 				Environment.Exit(414);
@@ -215,7 +215,21 @@ namespace Monsoon
 			Ticker.Tock ("Loaded torrents");
 			
 			Ticker.Tick ();
-			RestoreLabels ();
+			logger.Info ("Restoring labels");
+			LabelController.Restore ();
+			
+			// Restore previously labeled torrents
+			foreach (Download download in torrentController.Torrents){
+				foreach (TorrentLabel l in LabelController.Labels) {
+					if (l.TruePaths == null)
+						continue;
+					
+					if (Array.IndexOf <string> (l.TruePaths, download.Manager.Torrent.TorrentPath) < 0)
+						continue;
+					
+					l.AddTorrent (download);
+				}
+			}
 			Ticker.Tock ("Restored labels");
 			
 			folderWatcher = new TorrentFolderWatcher (new DirectoryInfo (Preferences.ImportLocation));
@@ -936,7 +950,8 @@ namespace Monsoon
 //			}
 			
 			StoreInterfaceSettings ();
-			StoreLabels ();
+			logger.Info ("Storing labels");
+			LabelController.Store ();
 			rssManagerController.Store();
 			torrentController.StoreFastResume ();
 			
@@ -973,46 +988,6 @@ namespace Monsoon
 				controller.Settings.Add(torrentToStore);	
 			}
 			controller.Save();
-		}
-
-		private void StoreLabels ()
-		{
-			XmlTorrentLabelController labelSaver = new XmlTorrentLabelController();
-			
-			logger.Info ("Storing labels");
-
-			labelSaver.Settings.Clear();
-			
-			// FIXME: This is bad -- differentiate between application and user created labels properly
-			foreach (TorrentLabel label in LabelController.Labels) {
-				if (label.Immutable)
-					continue;
-				labelSaver.Settings.Add(label);
-			}
-			
-			labelSaver.Save();
-		}
-		
-		private void RestoreLabels()
-		{			
-			XmlTorrentLabelController labelLoader = new XmlTorrentLabelController();
-			logger.Info ("Restoring labels");
-			
-			labelLoader.Load();
-			
-			foreach (TorrentLabel label in labelLoader.Settings) {
-				LabelController.Add (label);
-				
-				// Restore previously labeled torrents
-				foreach (Download download in torrents.Keys){
-					if(label.TruePaths == null)
-						continue;
-					foreach (string path in label.TruePaths){
-						if (path == download.Manager.Torrent.TorrentPath)
-							label.AddTorrent(download);
-					}
-				}
-			}
 		}
 
 		protected virtual void OnAboutActivated (object sender, System.EventArgs e)

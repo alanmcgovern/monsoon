@@ -50,6 +50,30 @@ namespace Monsoon
 				Event.Raise <LabelEventArgs> (Removed, this, new LabelEventArgs (label)); 
 		}
 		
+		public void Restore ()
+		{			
+			XmlTorrentLabelController labelLoader = new XmlTorrentLabelController();
+			labelLoader.Load();
+			
+			foreach (TorrentLabel label in labelLoader.Settings) {
+				Add (label);
+			}
+		}
+		
+		public void Store ()
+		{
+			XmlTorrentLabelController labelSaver = new XmlTorrentLabelController();
+			labelSaver.Settings.Clear();
+			
+			foreach (TorrentLabel label in Labels) {
+				if (label.Immutable)
+					continue;
+				labelSaver.Settings.Add(label);
+			}
+			
+			labelSaver.Save();
+		}
+		
 		static string _(string s)
 		{
 			return s;
