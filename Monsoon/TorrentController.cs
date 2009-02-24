@@ -58,7 +58,6 @@ namespace Monsoon
 		private List<Download> torrentsDownloading;
 		private List<Download> torrentsSeeding;
 		private List<Download> allTorrents;
-		private List<TorrentLabel> labels;
 		private List<FastResume> fastResume;
 		public List<FastResume> FastResume
 		{
@@ -68,11 +67,10 @@ namespace Monsoon
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		TorrentSettings defaultTorrentSettings;
-		public TorrentController(TorrentSettings defaults, EngineSettings settings, PreferencesSettings preferences, List<TorrentLabel> labels)
+		public TorrentController(TorrentSettings defaults, EngineSettings settings, PreferencesSettings preferences)
 		{
 			this.defaultTorrentSettings = defaults;
 			this.prefSettings = preferences;
-			this.labels = labels;
 			
 			Ticker.Tick ();
 			fastResume = LoadFastResume();

@@ -54,12 +54,10 @@ namespace Monsoon
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		private LabelTreeView labelTreeView;
-		private ListStore labelListStore;
-		
-		private TorrentLabel allLabel;
-		private TorrentLabel deleteLabel;
-		private TorrentLabel downloadingLabel;
-		private TorrentLabel uploadLabel;
+		public LabelController LabelController {
+			get; private set;
+		}
+
 		private Button statusDownButton;
 		private Button statusUpButton;
 		
@@ -85,7 +83,6 @@ namespace Monsoon
 		private PiecesTreeView piecesTreeView;
 		private ListStore piecesListStore;
 		
-		private List<TorrentLabel> labels;
 		private ListenPortController portController;
 		
 		private TorrentFolderWatcher folderWatcher;
@@ -99,18 +96,6 @@ namespace Monsoon
 		internal ListStore PeerListStore
 		{
 			get { return peerListStore; }
-		}
-		
-		public TorrentLabel AllLabel {
-			get { return allLabel; }
-		}
-		
-		public TorrentLabel DownloadingLabel {
-			get { return downloadingLabel; }
-		}
-		
-		public TorrentLabel SeedingLabel {
-			get { return uploadLabel; }
 		}
 
 		public GconfSettingsStorage SettingsStorage {
@@ -147,12 +132,6 @@ namespace Monsoon
 			}
 		}
 
-		public List<TorrentLabel> Labels {
-			get {
-				return labels;
-			}
-		}
-
 		public ListStore TorrentListStore {
 			get {
 				return torrentListStore;
@@ -165,12 +144,6 @@ namespace Monsoon
 			}
 		}
 
-		public ListStore LabelListStore {
-			get {
-				return labelListStore;
-			}
-		}
-		
 		public MainWindow (EngineSettings engineSettings, ListenPortController portController): base (Gtk.WindowType.Toplevel)
 		{
 			this.engineSettings = engineSettings;
@@ -183,8 +156,7 @@ namespace Monsoon
 			Ticker.Tick ();
 			LoadAllSettings ();
 			Ticker.Tock ("Loaded all settings: {0}");
-			
-			labels = new  List<TorrentLabel> ();
+
 			torrents = new Dictionary<Download,Gtk.TreeIter> ();
 			
 			Ticker.Tick ();
@@ -562,10 +534,10 @@ namespace Monsoon
 		private void BuildTorrentTreeView ()
 		{
 			torrentListStore = new ListStore (typeof(Download));
-			torrentController = new TorrentController (DefaultTorrentSettings, EngineSettings, Preferences, Labels);
+			torrentController = new TorrentController (DefaultTorrentSettings, EngineSettings, Preferences);
 			torrentController.Added += delegate(object sender, DownloadAddedEventArgs e) {
 				Torrents.Add (e.Download, TorrentListStore.AppendValues(e.Download));
-				AllLabel.AddTorrent(e.Download);
+				LabelController.All.AddTorrent(e.Download);
 				StoreTorrentSettings ();
 				
 				e.Download.StateChanged += HandleStateChanged;
@@ -576,8 +548,8 @@ namespace Monsoon
 				TorrentListStore.Remove(ref iter);
 				Torrents.Remove(torrent);
 
-				AllLabel.RemoveTorrent(torrent);
-				foreach(TorrentLabel label in labels){
+				LabelController.All.RemoveTorrent(torrent);
+				foreach(TorrentLabel label in LabelController.Labels){
 					label.RemoveTorrent(torrent);
 				}
 				
@@ -633,18 +605,18 @@ namespace Monsoon
 			Download manager = (Download) sender;
 			if (args.OldState == TorrentState.Downloading) {
 				logger.Debug("Removing " + manager.Torrent.Name + " from download label");
-				DownloadingLabel.RemoveTorrent(manager);
+				LabelController.Downloading.RemoveTorrent(manager);
 			} else if (args.OldState == TorrentState.Seeding) {
 				logger.Debug("Removing " + manager.Torrent.Name + " from upload label");
-				SeedingLabel.RemoveTorrent(manager);
+				LabelController.Seeding.RemoveTorrent(manager);
 			}
 			
 			if (args.NewState == TorrentState.Downloading) {
 				logger.Debug("Adding " + manager.Torrent.Name + " to download label");
-				DownloadingLabel.AddTorrent(manager);
+				LabelController.Downloading.AddTorrent(manager);
 			} else if (args.NewState == TorrentState.Seeding) {
 				logger.Debug("Adding " + manager.Torrent.Name + " to upload label");
-				SeedingLabel.AddTorrent(manager);
+				LabelController.Seeding.AddTorrent(manager);
 			} else if (args.NewState == TorrentState.Stopped) {
 				PeerListStore.Clear ();
 			}
@@ -670,25 +642,14 @@ namespace Monsoon
 		private void BuildLabelTreeView()
 		{
 			/* Move some stuff to LabelTreeView */
-			labelListStore = new ListStore (typeof (TorrentLabel));
-			labelTreeView = new LabelTreeView (labelListStore, labels, true);
+			LabelController = new LabelController ();
+			labelTreeView = new LabelTreeView (LabelController, true);
 			
-			labelTreeView.Model = labelListStore;
 			labelTreeView.Selection.Changed += OnLabelSelectionChanged;
 			labelViewScrolledWindow.Add (labelTreeView);
-			//labelTreeView.Show ();
 
 			torrentTreeView.Model = torrentListStore;
 
-			allLabel = new TorrentLabel (_("All"), "gtk-home", true);
-			deleteLabel = new TorrentLabel (_("Remove"), "gtk-remove", true);
-			downloadingLabel = new TorrentLabel (_("Downloading"), "gtk-go-down", true);
-			uploadLabel = new TorrentLabel (_("Seeding"), "gtk-go-up", true);
-		
-			labelListStore.AppendValues (allLabel);
-			labelListStore.AppendValues (downloadingLabel);
-			labelListStore.AppendValues (uploadLabel);
-			
 			TargetEntry [] targetEntries = new TargetEntry[]{
 				new TargetEntry("application/x-monotorrent-Download-objects", 0, 0)
 			};
@@ -700,21 +661,21 @@ namespace Monsoon
 				
 				TorrentLabel label = (TorrentLabel) labelTreeView.Model.GetValue (it, 0);
 				if (!label.Immutable)
-					labelListStore.AppendValues(deleteLabel); 
+					labelTreeView.Model.AppendValues(LabelController.Delete); 
 			});
 			
 			torrentTreeView.DragEnd += Event.Wrap ((DragEndHandler) delegate {
 				TreeIter iter;
-				if (!labelListStore.GetIterFirst (out iter))
+				if (!labelTreeView.Model.GetIterFirst (out iter))
 					return;
 				
 				TreeIter prev = iter;
-				while (labelListStore.IterNext(ref iter))
+				while (labelTreeView.Model.IterNext(ref iter))
 					prev = iter;
 				
 				TorrentLabel label = (TorrentLabel) labelTreeView.Model.GetValue (prev, 0);
-				if (label == deleteLabel)
-					labelListStore.Remove (ref prev);
+				if (label == LabelController.Delete)
+					labelTreeView.Model.Remove (ref prev);
 			});
 			
 			labelTreeView.EnableModelDragDest(targetEntries, Gdk.DragAction.Copy);
@@ -734,9 +695,8 @@ namespace Monsoon
 				return;
 				
 			label = (TorrentLabel) labelTreeView.Model.GetValue(iter, 0);
-			if(label == allLabel || label == DownloadingLabel || label == SeedingLabel)
+			if(label == LabelController.All || label == LabelController.Downloading || label == LabelController.Seeding)
 				return;
-				
 			
 			foreach (Download download in torrents.Keys)
 			{
@@ -744,7 +704,7 @@ namespace Monsoon
 				if(!Toolbox.ByteMatch (manager.Torrent.InfoHash, args.SelectionData.Data))
 					continue;
 				
-				if (label != deleteLabel)
+				if (label != LabelController.Delete)
 				{
 					label.AddTorrent(download);
 				}
@@ -909,7 +869,7 @@ namespace Monsoon
 				torrentTreeView.Model = torrentListStore;	
 				return;
 			}
-			label = (TorrentLabel) labelListStore.GetValue(iter, 0);
+			label = (TorrentLabel) labelTreeView.Model.GetValue(iter, 0);
 			torrentTreeView.Model = label.Model;
 			logger.Debug("Label " + label.Name + " selected." );
 			
@@ -1017,32 +977,31 @@ namespace Monsoon
 
 		private void StoreLabels ()
 		{
-			XmlTorrentLabelController labelController = new XmlTorrentLabelController();
+			XmlTorrentLabelController labelSaver = new XmlTorrentLabelController();
 			
 			logger.Info ("Storing labels");
 
-			labelController.Settings.Clear();
+			labelSaver.Settings.Clear();
 			
 			// FIXME: This is bad -- differentiate between application and user created labels properly
-			foreach (TorrentLabel label in labels) {
-				if (label.Name == _("All") || label.Name == _("Downloading") || label.Name == _("Seeding"))
+			foreach (TorrentLabel label in LabelController.Labels) {
+				if (label.Immutable)
 					continue;
-				labelController.Settings.Add(label);
+				labelSaver.Settings.Add(label);
 			}
 			
-			labelController.Save();
+			labelSaver.Save();
 		}
 		
 		private void RestoreLabels()
 		{			
-			XmlTorrentLabelController labelController = new XmlTorrentLabelController();
+			XmlTorrentLabelController labelLoader = new XmlTorrentLabelController();
 			logger.Info ("Restoring labels");
 			
-			labelController.Load();
+			labelLoader.Load();
 			
-			foreach (TorrentLabel label in labelController.Settings) {
-				labelListStore.AppendValues (label);
-				labels.Add (label);
+			foreach (TorrentLabel label in labelLoader.Settings) {
+				LabelController.Add (label);
 				
 				// Restore previously labeled torrents
 				foreach (Download download in torrents.Keys){
@@ -1228,11 +1187,13 @@ namespace Monsoon
 		private void updateLabels ()
 		{
 			TreeIter iter;
-			if (labelListStore.GetIterFirst (out iter)) {
+			TreeModel model = labelTreeView.Model;
+			
+			if (model.GetIterFirst (out iter)) {
 				do {
-					if (((TorrentLabel)labelListStore.GetValue (iter, 0)).Immutable)
-						labelListStore.EmitRowChanged(labelListStore.GetPath(iter), iter);
-				} while (labelListStore.IterNext(ref iter));
+					if (((TorrentLabel)model.GetValue (iter, 0)).Immutable)
+						model.EmitRowChanged(model.GetPath(iter), iter);
+				} while (model.IterNext(ref iter));
 			}
 		}
 		

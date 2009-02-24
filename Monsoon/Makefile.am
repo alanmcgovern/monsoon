@@ -126,6 +126,8 @@ FILES =  \
 	Model/Download.cs \
 	Model/DownloadAddedEventArgs.cs \
 	Model/Event.cs \
+	Model/LabelController.cs \
+	Model/LabelEventArgs.cs \
 	Model/ShouldAddEventArgs.cs \
 	Model/TorrentFileModel.cs \
 	PeerTreeView.cs \

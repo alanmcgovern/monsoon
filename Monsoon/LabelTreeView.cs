@@ -42,24 +42,62 @@ namespace Monsoon
 		private Gtk.Menu contextMenu;
 		private ImageMenuItem createItem;
 		
-		List<TorrentLabel> labels;
-		ListStore labelStore;
-		private ImageMenuItem removeItem;
+		LabelController Controller {
+			get; set;
+		}
+		
+		ImageMenuItem removeItem;
+		
+		public new ListStore Model {
+			get { return (ListStore) base.Model; }
+			set { base.Model = value; }
+		}
 		
 		private bool contextActive;
 		
-		public LabelTreeView(ListStore labelStore, List<TorrentLabel> labels, bool contextActive)
+		public LabelTreeView(LabelController labels, bool contextActive)
 		{
-			this.labels = labels;
-			this.labelStore = labelStore;
+			Controller = labels;
 			this.contextActive = contextActive;
-			buildColumns();
-									
+			
 			Reorderable = false;
 			HeadersVisible = false;
 			HeadersClickable = false;
 			
+			Model = new ListStore (typeof (TorrentLabel));
+			
+			buildColumns();
 			BuildContextMenu();
+			
+			Controller.Added += delegate(object sender, LabelEventArgs e) {
+				Add (e.Label);
+			};
+			
+			Controller.Removed += delegate(object sender, LabelEventArgs e) {
+				Remove (e.Label);
+			};
+			
+			Controller.Labels.ForEach (Add);
+			Remove (Controller.Delete);
+		}
+		
+		void Add (TorrentLabel label)
+		{
+			Model.AppendValues (label);
+		}
+		
+		void Remove (TorrentLabel label)
+		{
+			TreeIter iter;
+			if (Model.GetIterFirst (out iter)) {
+				do {
+					if (Model.GetValue (iter, 0) != label)
+						continue;
+					
+					Model.Remove (ref iter);
+					return;
+				} while (Model.IterNext (ref iter));
+			}
 		}
 					
 		private void buildColumns()
@@ -75,9 +113,9 @@ namespace Monsoon
 			nameRendererCell.Editable = true;
 			nameRendererCell.Edited += Event.Wrap ((EditedHandler) delegate (object o, Gtk.EditedArgs args) {
 				Gtk.TreeIter iter;
-				labelStore.GetIter (out iter, new Gtk.TreePath (args.Path));
+				Model.GetIter (out iter, new Gtk.TreePath (args.Path));
 			 
-				TorrentLabel label = (TorrentLabel) labelStore.GetValue (iter, 0);
+				TorrentLabel label = (TorrentLabel) Model.GetValue (iter, 0);
 				label.Name = args.NewText;
 			});
 
@@ -93,9 +131,7 @@ namespace Monsoon
 			AppendColumn (nameColumn);
 			AppendColumn (sizeColumn);
 		}
-		
-		
-		
+
 		private void BuildContextMenu ()
 		{
 			contextMenu = new Menu ();
@@ -103,9 +139,7 @@ namespace Monsoon
 			createItem = new ImageMenuItem (_("Create"));
 			createItem.Image = new Image (Stock.Add, IconSize.Menu);
 			createItem.Activated += Event.Wrap ((EventHandler) delegate (object o, EventArgs e) {
-				TorrentLabel l = new TorrentLabel(_("New Label"));
-				labelStore.AppendValues(l);
-				labels.Add(l);
+				Controller.Add(new TorrentLabel(_("New Label")));
 			});
 			contextMenu.Append(createItem);
 			
@@ -118,12 +152,11 @@ namespace Monsoon
 				if (!Selection.GetSelected(out iter))
 					return;
 				
-				TorrentLabel label = (TorrentLabel) labelStore.GetValue(iter, 0);
+				TorrentLabel label = (TorrentLabel) Model.GetValue(iter, 0);
 				if (label.Immutable)
 					return;
 				
-				labelStore.Remove(ref iter);
-				labels.Remove(label);
+				Controller.Remove(label);
 			});
 		}
 		

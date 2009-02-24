@@ -45,10 +45,8 @@ namespace Monsoon
 		private FileChooserButton downloadLocationButton;
 		private FileChooserButton torrentStorageLocationButton;
 		private FileChooserButton importLocationButton;
-		
-		private ListStore filterListStore;
-		private ListStore labelStore;
-		private List<TorrentLabel> labels;
+
+		private LabelController labelController;
 		private LabelTreeView labelTreeView;
 		
 		private Egg.TrayIcon trayIcon;
@@ -60,9 +58,7 @@ namespace Monsoon
 		{
 			this.engineSettings = mainWindow.EngineSettings;
 			this.prefSettings = mainWindow.Preferences; 
-			this.labels = mainWindow.Labels;
-			this.labelStore = mainWindow.LabelListStore;
-			this.filterListStore = mainWindow.LabelListStore;
+			this.labelController = mainWindow.LabelController;
 			this.trayIcon = mainWindow.TrayIcon;
 			this.interfaceSettings = mainWindow.InterfaceSettings;
 			
@@ -189,9 +185,8 @@ namespace Monsoon
 		
 		private void buildLabelPage()
 		{
-			labelTreeView = new LabelTreeView(this.labelStore, this.labels, false);
+			labelTreeView = new LabelTreeView (labelController, false);
 			labelTreeView.sizeColumn.Visible = false;
-			labelTreeView.Model = filterListStore;
 			
 			labelTreeView.Selection.Changed += OnLabelSelectionChanged;
 			
@@ -385,21 +380,15 @@ namespace Monsoon
 			} else {
 				label = new TorrentLabel(nameEntry.Text);
 			}
-			labels.Add(label);
-			filterListStore.AppendValues(label);
-			//labelListStore.AppendValues(label.Icon, label.Name);
+			labelController.Add(label);
 		}
 
 		protected virtual void OnRemoveLabelButtonClicked (object sender, System.EventArgs e)
 		{
 			TreeIter iter;
 			
-			if(!labelTreeView.Selection.GetSelected(out iter))
-				return;
-			
-			TorrentLabel label = (TorrentLabel) filterListStore.GetValue(iter, 0);
-			filterListStore.Remove(ref iter);
-			labels.Remove(label);
+			if(labelTreeView.Selection.GetSelected(out iter))
+				labelController.Remove ((TorrentLabel) labelTreeView.Model.GetValue (iter, 0));
 		}
 
 		protected virtual void OnRemoveOnImportCheckButtonClicked (object sender, System.EventArgs e)
