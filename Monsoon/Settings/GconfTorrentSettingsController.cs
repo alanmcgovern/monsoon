@@ -31,7 +31,7 @@ using MonoTorrent.Client;
 
 namespace Monsoon
 {
-	public class GconfTorrentSettingsController : SettingsController<TorrentSettings>
+	public class GconfTorrentSettingsController : GConfSettings<TorrentSettings>
 	{
 		static readonly string SETTINGS_PATH = "TorrentSettings/";
 	 	
@@ -44,36 +44,11 @@ namespace Monsoon
 
 		public override void Load ()
 		{
-			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
-			try {
-				Settings.InitialSeedingEnabled = (bool) gconf.Retrieve (InitialSeedingKey);
-			} catch (SettingNotFoundException) {
-				
-			}
-            
-			try {
-				Settings.UploadSlots = (int) gconf.Retrieve(UploadSlotsKey);
-			} catch(SettingNotFoundException) {
-				
-			}
-			
-			try {
-				Settings.MaxConnections = (int) gconf.Retrieve(MaxConnectionsKey);
-			} catch(SettingNotFoundException) {
-				
-			}
-			
-			try{
-				Settings.MaxDownloadSpeed = (int) gconf.Retrieve(MaxDownloadSpeedKey);
-			} catch(SettingNotFoundException){
-				
-			}
-			
-			try {
-				Settings.MaxUploadSpeed = (int) gconf.Retrieve(MaxUploadSpeedKey);
-			} catch(SettingNotFoundException){
-				
-			}
+			Settings.InitialSeedingEnabled = Get <bool> (InitialSeedingKey);
+			Settings.UploadSlots = Get <int> (UploadSlotsKey);
+			Settings.MaxConnections = Get <int> (MaxConnectionsKey);
+			Settings.MaxDownloadSpeed = Get <int> (MaxDownloadSpeedKey);
+			Settings.MaxUploadSpeed = Get <int> (MaxUploadSpeedKey);
 		}
 		
 		public override void Save ()

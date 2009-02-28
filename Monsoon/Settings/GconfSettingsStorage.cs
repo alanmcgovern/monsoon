@@ -57,19 +57,16 @@ namespace Monsoon
 
 		public object Retrieve(string key)
 		{
-			object retrievedKey;
-			
 			try
 			{
 				lock (GCONF_APP_PATH)
-					retrievedKey = client.Get(GCONF_APP_PATH + key);
+					return client.Get(GCONF_APP_PATH + key);
 			}
 			catch (GConf.NoSuchKeyException e)
 			{
 				logger.Info("Key not found: " + e.Message);
 				throw new SettingNotFoundException("Setting '" + key + "' cannot be found"); 
 			}
-			return retrievedKey;
 		}
 
 		public void Flush()

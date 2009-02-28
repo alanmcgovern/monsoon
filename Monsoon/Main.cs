@@ -61,7 +61,7 @@ namespace Monsoon
 
 		private static NLog.Logger logger = null;
 		private ListenPortController portController;
-		private SettingsController<EngineSettings> engineSettings;
+		private EngineSettings engineSettings;
 		private MainWindow mainWindow;
 		
 		public static void Main (string[] args)
@@ -94,8 +94,8 @@ namespace Monsoon
 			Ticker.Tock ("Checking folders");
 
 			Ticker.Tick ();
-			Monsoon.GconfPreferencesSettingsController sets = new GconfPreferencesSettingsController();
-			sets.Load ();
+			PreferencesSettings sets = new PreferencesSettings ();
+			SettingsManager.Restore <PreferencesSettings> (sets);
 			Ticker.Tock ("Loading preferences");
 			
 			foreach (string arg in args)
@@ -115,16 +115,16 @@ namespace Monsoon
 			Ticker.Tock("Setting process name");
 			
 			Ticker.Tick ();
-			engineSettings = new GconfEngineSettingsController ();
+			engineSettings = new EngineSettings ();
 			try {
-				engineSettings.Load();
+				SettingsManager.Restore <EngineSettings> (engineSettings);
 			}
 			catch (Exception ex) {
 				logger.Error("Could not load engine settings: {0}", ex.Message);
 			}
 			Ticker.Tock("Engine settings");
 			
-			portController = new ListenPortController(engineSettings.Settings);
+			portController = new ListenPortController(engineSettings);
 			string localeDir = Path.Combine(Defines.ApplicationDirectory, "locale");
 			if (!Directory.Exists(localeDir)) {
 				localeDir = Path.Combine(Defines.InstallPrefix, "share");
@@ -141,7 +141,7 @@ namespace Monsoon
 			try
 			{
 				Ticker.Tick();
-				mainWindow = new MainWindow (engineSettings.Settings,
+				mainWindow = new MainWindow (engineSettings,
 				                             portController);
 				Ticker.Tock ("Instantiating window");
 				
@@ -158,7 +158,7 @@ namespace Monsoon
 			Application.Run();
 
 			try {
-				engineSettings.Save ();
+				SettingsManager.Store <EngineSettings> (engineSettings);
 			}
 			catch (Exception ex) {
 				logger.Error("Could save engine settings: {0}", ex.Message);

@@ -33,16 +33,13 @@ namespace Monsoon
 	public abstract class SettingsController<T>
 		where T : new()
 	{
-		private T settings;
-		
-		public T Settings
-		{
-			get { return settings; }
+		public T Settings {
+			get; set;
 		}
 		
 		public SettingsController()
 		{
-			settings = new T();
+			
 		}
 		
 		public abstract void Save ();

@@ -69,9 +69,9 @@ namespace Monsoon
 		private TorrentController torrentController;
 
 		private EngineSettings engineSettings;
-		private SettingsController<TorrentSettings> defaultTorrentSettings;
-		private SettingsController<PreferencesSettings> prefSettings;
-		private SettingsController<InterfaceSettings> interfaceSettings;
+		private TorrentSettings defaultTorrentSettings;
+		private PreferencesSettings prefSettings;
+		private InterfaceSettings interfaceSettings;
 		
 		private PeerTreeView peerTreeView;
 		private ListStore peerListStore;
@@ -105,7 +105,7 @@ namespace Monsoon
 		}
 		
 		public InterfaceSettings InterfaceSettings {
-			get { return interfaceSettings.Settings; }
+			get { return interfaceSettings; }
 		}
 
 		public EngineSettings EngineSettings {
@@ -116,7 +116,7 @@ namespace Monsoon
 
 		public PreferencesSettings Preferences {
 			get {
-				return prefSettings.Settings;
+				return prefSettings;
 			}
 		}
 		
@@ -128,7 +128,7 @@ namespace Monsoon
 
 		public TorrentSettings DefaultTorrentSettings {
 			get {
-				return defaultTorrentSettings.Settings;
+				return defaultTorrentSettings;
 			}
 		}
 
@@ -149,9 +149,9 @@ namespace Monsoon
 			this.engineSettings = engineSettings;
 			this.portController = portController;
             
-			interfaceSettings = new GConfInterfaceSettingsController ();
-			defaultTorrentSettings = new GconfTorrentSettingsController ();
-			prefSettings = new GconfPreferencesSettingsController ();
+			interfaceSettings = new InterfaceSettings ();
+			defaultTorrentSettings = new  TorrentSettings ();
+			prefSettings = new PreferencesSettings ();
 			
 			Ticker.Tick ();
 			LoadAllSettings ();
@@ -261,7 +261,7 @@ namespace Monsoon
 		
 		void TorrentFound (object sender, TorrentWatcherEventArgs args)
 		{
-			if(!prefSettings.Settings.ImportEnabled)
+			if(!prefSettings.ImportEnabled)
 				return;
 
 			logger.Info("New torrent detected, adding " + args.TorrentPath);
@@ -355,7 +355,7 @@ namespace Monsoon
 				               " U: " + ByteConverter.ConvertSpeed(torrentController.Engine.TotalUploadSpeed), null);
 			});
 			
-			if (this.prefSettings.Settings.EnableTray)
+			if (this.prefSettings.EnableTray)
 				trayIcon.ShowAll ();
 		}
 		
@@ -367,12 +367,12 @@ namespace Monsoon
 				if (Visible) {
 					int x, y;
 					GetPosition (out x, out y);
-					interfaceSettings.Settings.WindowXPos = x;
-					interfaceSettings.Settings.WindowYPos = y;
+					interfaceSettings.WindowXPos = x;
+					interfaceSettings.WindowYPos = y;
 					Hide();
 				} else {
 					Show();
-					Move (interfaceSettings.Settings.WindowXPos, interfaceSettings.Settings.WindowYPos);
+					Move (interfaceSettings.WindowXPos, interfaceSettings.WindowYPos);
 				}	
 			}
 			
@@ -387,7 +387,7 @@ namespace Monsoon
 		{
 			try
 			{
-				interfaceSettings.Load ();
+				SettingsManager.Restore <InterfaceSettings> (InterfaceSettings);
 			}
 			catch (Exception ex)
 			{
@@ -396,7 +396,7 @@ namespace Monsoon
 			
 			try	
 			{
-				prefSettings.Load ();
+				SettingsManager.Restore <PreferencesSettings> (Preferences);
 			}
 			catch (Exception ex)
 			{
@@ -405,7 +405,7 @@ namespace Monsoon
 			
 			try	
 			{
-				defaultTorrentSettings.Load ();
+				SettingsManager.Restore <TorrentSettings> (DefaultTorrentSettings);
 			}
 			catch (Exception ex)
 			{
@@ -415,7 +415,7 @@ namespace Monsoon
 		
 		private void RestoreInterfaceSettings ()
 		{
-			InterfaceSettings settings = interfaceSettings.Settings;
+			InterfaceSettings settings = interfaceSettings;
 			
 			logger.Info ("Restoring interface settings");
 			SetDefaultSize (settings.WindowWidth, settings.WindowHeight);
@@ -459,7 +459,7 @@ namespace Monsoon
 
 		private void StoreInterfaceSettings ()
 		{
-			InterfaceSettings interfaceSettings = this.interfaceSettings.Settings;
+			InterfaceSettings interfaceSettings = this.interfaceSettings;
 			
 			int w, h;
 			int x, y;
@@ -503,7 +503,7 @@ namespace Monsoon
 			interfaceSettings.EtaColumnWidth = torrentTreeView.etaColumn.Width;
 			interfaceSettings.EtaColumnVisible = torrentTreeView.etaColumn.Visible;
 			
-			this.interfaceSettings.Save ();
+			SettingsManager.Store <InterfaceSettings> (InterfaceSettings);
 		}
 		
 		private void BuildStatusBar()
@@ -584,12 +584,12 @@ namespace Monsoon
 		void HandleShouldAdd(object sender, ShouldAddEventArgs e)
 		{
 			LoadTorrentDialog dialog = new LoadTorrentDialog(e.Torrent, e.SavePath);
-			dialog.AlwaysAsk = interfaceSettings.Settings.ShowLoadDialog;
+			dialog.AlwaysAsk = interfaceSettings.ShowLoadDialog;
 			
 			try
 			{
 				e.ShouldAdd = dialog.Run () == (int)ResponseType.Ok;
-				interfaceSettings.Settings.ShowLoadDialog = dialog.AlwaysAsk;
+				interfaceSettings.ShowLoadDialog = dialog.AlwaysAsk;
 			}
 			finally
 			{
@@ -1032,8 +1032,8 @@ namespace Monsoon
 			preferencesDialog.Run ();
 			preferencesDialog.Destroy ();
 			
-			defaultTorrentSettings.Save ();
-			prefSettings.Save ();
+			SettingsManager.Store <TorrentSettings> (DefaultTorrentSettings);
+			SettingsManager.Store <PreferencesSettings> (Preferences);
 			
 			if (Preferences.ImportEnabled) {
 				logger.Info ("Starting import folder watcher");
@@ -1563,7 +1563,7 @@ namespace Monsoon
 		
 		public void LoadTorrent (string path)
 		{
-			LoadTorrent (path, interfaceSettings.Settings.ShowLoadDialog);
+			LoadTorrent (path, interfaceSettings.ShowLoadDialog);
 		}
 		
 		public void LoadTorrent (string path, bool ask)

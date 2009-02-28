@@ -142,12 +142,14 @@ FILES =  \
 	Settings/GconfEngineSettingsController.cs \
 	Settings/GConfInterfaceSettingsController.cs \
 	Settings/GconfPreferencesSettingsController.cs \
+	Settings/GConfSettings.cs \
 	Settings/GconfSettingsStorage.cs \
 	Settings/GconfTorrentSettingsController.cs \
 	Settings/InterfaceSettings.cs \
 	Settings/PreferencesSettings.cs \
 	Settings/SettingNotFoundException.cs \
 	Settings/SettingsController.cs \
+	Settings/SettingsManager.cs \
 	Settings/XmlRssFeedsController.cs \
 	Settings/XmlRssFiltersController.cs \
 	Settings/XmlRssHistoryController.cs \
