@@ -77,17 +77,7 @@ namespace Monsoon
 		public Download (TorrentManager manager)
 		{
 			this.manager = manager;
-			this.swarmSpeed = new SpeedMonitor ();
-			// FIXME: This needs to be re-instated better
-//			this.manager.Engine.ConnectionManager.PeerMessageTransferred += delegate(object sender, PeerMessageEventArgs e) {
-//				if (e.Direction != Direction.Incoming)
-//					return;
-//			
-//				if (!(e.Message is MonoTorrent.Client.Messages.Standard.HaveMessage))
-//					return;
-//
-//				swarmSpeed.AddDelta (manager.Torrent.PieceLength);
-//			};
+			this.swarmSpeed = new SpeedMonitor (30);
 			
 			GLib.Timeout.Add (1000, delegate {
 				swarmSpeed.Tick ();
@@ -95,7 +85,7 @@ namespace Monsoon
 			});
 
 			manager.PieceHashed += delegate (object sender, PieceHashedEventArgs e) {
-				hashProgress = (float) e.PieceIndex / manager.Torrent.Pieces.Count;
+				hashProgress = (double) e.PieceIndex / manager.Torrent.Pieces.Count;
 			};
 			
 			manager.TorrentStateChanged += delegate(object sender, TorrentStateChangedEventArgs e) {
@@ -117,6 +107,16 @@ namespace Monsoon
 			return manager.GetPeers ();
 		}
 
+		void HandlePeerMessageTransferred(object sender, PeerMessageEventArgs e)
+		{
+			if (e.Direction != Direction.Incoming)
+				return;
+			if (!(e.Message is MonoTorrent.Client.Messages.Standard.HaveMessage))
+				return;
+			
+			swarmSpeed.AddDelta (manager.Torrent.PieceLength);
+		}
+		
 		public void Pause ()
 		{
 			manager.Pause ();
@@ -138,12 +138,14 @@ namespace Monsoon
 		{
 			manager.Start ();
 			Event.Raise (Started, this, EventArgs.Empty);
+			manager.Engine.ConnectionManager.PeerMessageTransferred += HandlePeerMessageTransferred;
 		}
 		
 		public void Stop ()
 		{
 			manager.Stop ().WaitOne ();
 			Event.Raise (Stopped, this, EventArgs.Empty);
+			manager.Engine.ConnectionManager.PeerMessageTransferred -= HandlePeerMessageTransferred;
 		}
 	}
 }
