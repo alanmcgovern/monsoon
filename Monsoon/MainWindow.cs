@@ -131,7 +131,7 @@ namespace Monsoon
 		public MainWindow (): base (Gtk.WindowType.Toplevel)
 		{
 			this.portController = ServiceManager.Get <ListenPortController> ();
-            
+			this.torrentController = ServiceManager.Get <TorrentController> ();
 			interfaceSettings = new InterfaceSettings ();
 			
 			Ticker.Tick ();
@@ -211,7 +211,7 @@ namespace Monsoon
 				}
 			}
 			Ticker.Tock ("Restored labels");
-			torrentController = ServiceManager.Get <TorrentController> ();
+			
 			torrentController.Initialise ();
 			folderWatcher = new TorrentFolderWatcher (new DirectoryInfo (SettingsManager.Preferences.ImportLocation));
 			folderWatcher.TorrentFound += delegate(object o, TorrentWatcherEventArgs e) {
