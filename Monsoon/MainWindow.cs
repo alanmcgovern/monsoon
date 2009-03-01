@@ -514,9 +514,6 @@ namespace Monsoon
 			torrentListStore = new ListStore (typeof(Download));
 			torrentController.Added += delegate(object sender, DownloadAddedEventArgs e) {
 				Torrents.Add (e.Download, TorrentListStore.AppendValues(e.Download));
-				LabelController.All.AddTorrent(e.Download);
-				StoreTorrentSettings ();
-				
 				e.Download.StateChanged += HandleStateChanged;
 			};
 			TorrentController.Removed += delegate(object sender, DownloadAddedEventArgs e) {
@@ -524,16 +521,10 @@ namespace Monsoon
 				TreeIter iter = Torrents [torrent];
 				TorrentListStore.Remove(ref iter);
 				Torrents.Remove(torrent);
-
-				LabelController.All.RemoveTorrent(torrent);
-				foreach(TorrentLabel label in LabelController.Labels){
-					label.RemoveTorrent(torrent);
-				}
-				
-				StoreTorrentSettings();
+				e.Download.StateChanged -= HandleStateChanged;
 			};
 			torrentController.ShouldAdd += HandleShouldAdd;
-			torrentTreeView = new TorrentTreeView (torrentController);
+			torrentTreeView = new TorrentTreeView ();
 			torrentTreeView.DragDataReceived += TreeviewDragDataReceived;
 			torrentTreeView.DeleteTorrent += Event.Wrap ((EventHandler) delegate { DeleteAndRemoveSelection (); });
 			torrentTreeView.RemoveTorrent += Event.Wrap ((EventHandler) delegate { RemoveTorrent (); });
@@ -580,23 +571,10 @@ namespace Monsoon
 		void HandleStateChanged(object sender, TorrentStateChangedEventArgs args)
 		{
 			Download manager = (Download) sender;
-			if (args.OldState == TorrentState.Downloading) {
-				logger.Debug("Removing " + manager.Torrent.Name + " from download label");
-				LabelController.Downloading.RemoveTorrent(manager);
-			} else if (args.OldState == TorrentState.Seeding) {
-				logger.Debug("Removing " + manager.Torrent.Name + " from upload label");
-				LabelController.Seeding.RemoveTorrent(manager);
-			}
-			
-			if (args.NewState == TorrentState.Downloading) {
-				logger.Debug("Adding " + manager.Torrent.Name + " to download label");
-				LabelController.Downloading.AddTorrent(manager);
-			} else if (args.NewState == TorrentState.Seeding) {
-				logger.Debug("Adding " + manager.Torrent.Name + " to upload label");
-				LabelController.Seeding.AddTorrent(manager);
-			} else if (args.NewState == TorrentState.Stopped) {
+
+			if (args.NewState == TorrentState.Stopped)
 				PeerListStore.Clear ();
-			}
+			
 			this.updateView ();
 			
 			if (!Preferences.EnableNotifications)

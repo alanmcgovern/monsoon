@@ -56,9 +56,9 @@ namespace Monsoon
 		private TargetEntry[] targetEntries;
 		private TargetEntry[] sourceEntries;
 
-		public TorrentTreeView(TorrentController torrentController) : base()
+		public TorrentTreeView() : base()
 		{
-			this.torrentController = torrentController;
+			this.torrentController = ServiceManager.Get <TorrentController> ();
 			
 			targetEntries = new TargetEntry[]{
 				new TargetEntry("text/uri-list", 0, 0) 

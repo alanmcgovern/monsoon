@@ -1,10 +1,13 @@
 using System;
+using MonoTorrent.Common;
 using System.Collections.Generic;
 
 namespace Monsoon
 {
 	public class LabelController
 	{
+		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
+		
 		public event EventHandler<LabelEventArgs> Added;
 		public event EventHandler<LabelEventArgs> Removed;
 		
@@ -36,8 +39,46 @@ namespace Monsoon
 			Seeding = new TorrentLabel (_("Seeding"), "gtk-go-up", true);
 			
 			Labels = new List<TorrentLabel> { All, Delete, Downloading, Seeding };
+			HookEvents ();
 		}
 		
+		void HookEvents ()
+		{
+			var torrentController = ServiceManager.Get <TorrentController> ();
+			
+			torrentController.Added += delegate(object sender, DownloadAddedEventArgs e) {
+				All.AddTorrent(e.Download);
+				e.Download.StateChanged += HandleStateChanged;
+			};
+			
+			torrentController.Removed += delegate(object sender, DownloadAddedEventArgs e) {
+				All.RemoveTorrent(e.Download);
+				e.Download.StateChanged -= HandleStateChanged;
+				
+				foreach(TorrentLabel label in Labels)
+					label.RemoveTorrent(e.Download);
+			};
+		}
+		
+		void HandleStateChanged (object sender, MonoTorrent.Client.TorrentStateChangedEventArgs args)
+		{
+			Download manager = (Download) sender;
+			if (args.OldState == TorrentState.Downloading) {
+				logger.Debug("Removing " + manager.Torrent.Name + " from download label");
+				Downloading.RemoveTorrent(manager);
+			} else if (args.OldState == TorrentState.Seeding) {
+				logger.Debug("Removing " + manager.Torrent.Name + " from upload label");
+				Seeding.RemoveTorrent(manager);
+			}
+			
+			if (args.NewState == TorrentState.Downloading) {
+				logger.Debug("Adding " + manager.Torrent.Name + " to download label");
+				Downloading.AddTorrent(manager);
+			} else if (args.NewState == TorrentState.Seeding) {
+				logger.Debug("Adding " + manager.Torrent.Name + " to upload label");
+				Seeding.AddTorrent(manager);
+			}
+		}
 		public void Add (TorrentLabel label)
 		{
 			Labels.Add (label);
