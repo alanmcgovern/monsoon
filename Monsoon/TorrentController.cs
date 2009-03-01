@@ -40,13 +40,16 @@ using MonoTorrent.TorrentWatcher;
 
 namespace Monsoon
 {
-	public class TorrentController
+	public class TorrentController : IService
 	{
 		public event EventHandler<DownloadAddedEventArgs> Added;
 		public event EventHandler<DownloadAddedEventArgs> Removed;
 		public event EventHandler<ShouldAddEventArgs> ShouldAdd;
 		public event EventHandler SelectionChanged;
 		
+		public bool Initialised {
+			get; private set;
+		}
 		public Download SelectedDownload {
 			get; set;
 		}
@@ -67,17 +70,17 @@ namespace Monsoon
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		TorrentSettings defaultTorrentSettings;
-		public TorrentController(TorrentSettings defaults, EngineSettings settings, PreferencesSettings preferences)
+		public TorrentController()
 		{
-			this.defaultTorrentSettings = defaults;
-			this.prefSettings = preferences;
+			this.defaultTorrentSettings = SettingsManager.DefaultTorrentSettings;
+			this.prefSettings = SettingsManager.Preferences;
 			
 			Ticker.Tick ();
 			fastResume = LoadFastResume();
 			Ticker.Tock ("Fast Resume");
 			
 			Ticker.Tick ();
-			engine = new ClientEngine(settings);
+			engine = new ClientEngine(SettingsManager.EngineSettings);
 			Ticker.Tock ("Client engine");
 
 			torrentsDownloading = new List<Download>();
@@ -129,6 +132,11 @@ namespace Monsoon
 			return list;
 		}
 
+		public void Initialise ()
+		{
+			Initialised = true;
+		}
+		
 		public bool addTorrent (string path, bool ask, out string error)
 		{
 			Torrent torrent;

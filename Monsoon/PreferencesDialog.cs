@@ -56,8 +56,8 @@ namespace Monsoon
 		
 		public PreferencesDialog(MainWindow mainWindow)
 		{
-			this.engineSettings = mainWindow.EngineSettings;
-			this.prefSettings = mainWindow.Preferences; 
+			this.engineSettings = SettingsManager.EngineSettings;
+			this.prefSettings = SettingsManager.Preferences; 
 			this.labelController = mainWindow.LabelController;
 			this.trayIcon = mainWindow.TrayIcon;
 			this.interfaceSettings = mainWindow.InterfaceSettings;

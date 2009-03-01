@@ -142,8 +142,7 @@ namespace Monsoon
 			try
 			{
 				Ticker.Tick();
-				mainWindow = new MainWindow (engineSettings,
-				                             portController);
+				mainWindow = new MainWindow (portController);
 				Ticker.Tock ("Instantiating window");
 				
 			}

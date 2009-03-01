@@ -9,6 +9,17 @@ namespace Monsoon
 	{
 		static Dictionary <Type, Type> controllers = new Dictionary <Type, Type> ();
 		
+		public static TorrentSettings DefaultTorrentSettings {
+			get; private set;
+		}
+		public static EngineSettings EngineSettings {
+			get; private set;	
+		}
+		
+		public static PreferencesSettings Preferences {
+			get; private set;
+		}
+		
 		static SettingsController <T> Get <T> (T settings)
 			where T : new ()
 		{
@@ -39,6 +50,23 @@ namespace Monsoon
 		
 		static SettingsManager ()
 		{
+			DefaultTorrentSettings = new TorrentSettings ();
+			EngineSettings = new EngineSettings ();
+			Preferences = new PreferencesSettings ();
+			
+			RegisterAll ();
+			Restore ();
+		}
+		
+		static void Restore ()
+		{
+			Restore <TorrentSettings> (DefaultTorrentSettings);
+			Restore <EngineSettings> (EngineSettings);
+			Restore <PreferencesSettings> (Preferences);
+		}
+		
+		static void RegisterAll ()
+		{
 			// On unix we use GConf to store all the relevant settings
 			// On windows we'll store elsewhere
 			if (Environment.OSVersion.Platform == PlatformID.Unix) {
@@ -49,11 +77,12 @@ namespace Monsoon
 			} else {
 				
 			}
+			
 			Register <List <RssItem>, XmlRssHistoryController> ();
 			Register <List <string>, XmlRssFeedsController> ();
 			Register <List <TorrentLabel>, XmlTorrentLabelController> ();
 			Register <List <TorrentStorage>, XmlTorrentStorageController> ();
-			Register <List <RssFilter>, XmlRssFiltersController> ();
+			Register <List <RssFilter>, XmlRssFiltersController> ();	
 		}
 	}
 }
