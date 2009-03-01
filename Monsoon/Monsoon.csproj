@@ -138,6 +138,8 @@
     <Compile Include="Settings\SettingsManager.cs" />
     <Compile Include="Settings\GConfSettings.cs" />
     <Compile Include="Settings\XmlSettings.cs" />
+    <Compile Include="Services\IService.cs" />
+    <Compile Include="Services\ServiceManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\rss.png">
@@ -185,4 +187,7 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
 </Project>

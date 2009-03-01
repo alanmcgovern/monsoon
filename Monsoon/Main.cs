@@ -78,7 +78,8 @@ namespace Monsoon
 				GLib.Thread.Init();
 			
 			// Connect to dbus
-			DBusInstance.Connect ();
+			DBusInstance DBusInstance = ServiceManager.Get <DBusInstance> ();
+			DBusInstance.Initialise ();
 
 			if (DBusInstance.AlreadyRunning)
 			{

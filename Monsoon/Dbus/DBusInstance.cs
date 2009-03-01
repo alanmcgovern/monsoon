@@ -28,32 +28,35 @@ using org.freedesktop.DBus;
 
 namespace Monsoon
 {
-	public static class DBusInstance
+	public class DBusInstance : IService
 	{
 		private const string CommandParserPath = "/org/monsoon/commandparser";
 		private const string BusName = "org.monsoon.monsoon";
 		
-		private static ICommandParser commandParser;
-		private static bool alreadyRunning;
+		public bool Initialised {
+			get; private set;
+		}
+		
+		private ICommandParser commandParser;
+		private bool alreadyRunning;
 		
 		
-		public static bool AlreadyRunning
+		public bool AlreadyRunning
 		{
 			get { return alreadyRunning; }
 		}
 		
-		public static ICommandParser CommandParser
+		public ICommandParser CommandParser
 		{
 			get { return commandParser; }
 		}
-
 		
-		static DBusInstance ()
+		public DBusInstance ()
 		{
 			commandParser = new CommandParser ();
 		}
 		
-		public static void Connect ()
+		public void Initialise ()
 		{
 			try
 			{
@@ -75,6 +78,7 @@ namespace Monsoon
 			}
 			finally
 			{
+				Initialised = true;
 				Ticker.Tock ("DBus");
 			}
 		}

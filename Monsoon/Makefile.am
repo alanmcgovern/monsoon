@@ -139,6 +139,8 @@ FILES =  \
 	RssManager/RssReader.cs \
 	RssManager/TorrentRssWatcher.cs \
 	RssManager/TorrentRssWatcherEventArgs.cs \
+	Services/IService.cs \
+	Services/ServiceManager.cs \
 	Settings/GconfEngineSettingsController.cs \
 	Settings/GConfInterfaceSettingsController.cs \
 	Settings/GconfPreferencesSettingsController.cs \
