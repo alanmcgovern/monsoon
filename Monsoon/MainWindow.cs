@@ -205,6 +205,8 @@ namespace Monsoon
 				}));
 			};
 			
+			torrentController.ShouldRemove += HandleShouldRemove;
+			
 			if (SettingsManager.Preferences.ImportEnabled) {
 				logger.Info ("Starting import folder watcher");
 				folderWatcher.Start ();
@@ -223,6 +225,29 @@ namespace Monsoon
 			logger.Info ("Started RSS manager");
 			rssManagerController.StartWatchers();
 			ShowAll();
+		}
+
+		void HandleShouldRemove (object sender, ShouldRemoveEventArgs e)
+		{
+			string title;
+			string message;
+			
+			if (e.DeleteData) {
+				title = _("Delete torrent");
+				message = _("Remove torrent and delete all data?");
+			} else {
+				title = _("Remove torrent");
+				message = _("Are you sure you want to remove the torrent?");
+			}
+			
+			MessageDialog messageDialog = new MessageDialog (this,
+			                                                 DialogFlags.Modal,
+			                                                 MessageType.Question, 
+			                                                 ButtonsType.YesNo, message);
+			messageDialog.Title = title;
+			e.ShouldRemove = (ResponseType) messageDialog.Run() == ResponseType.Yes;
+			messageDialog.Hide();
+			messageDialog.Destroy ();
 		}
 		
 		void TorrentFound (object sender, TorrentWatcherEventArgs args)
@@ -505,8 +530,12 @@ namespace Monsoon
 			torrentController.ShouldAdd += HandleShouldAdd;
 			torrentTreeView = new TorrentTreeView ();
 			torrentTreeView.DragDataReceived += TreeviewDragDataReceived;
-			torrentTreeView.DeleteTorrent += Event.Wrap ((EventHandler) delegate { DeleteAndRemoveSelection (); });
-			torrentTreeView.RemoveTorrent += Event.Wrap ((EventHandler) delegate { RemoveTorrent (); });
+			torrentTreeView.DeleteTorrent += Event.Wrap ((EventHandler) delegate {
+				TorrentController.RemoveTorrent (TorrentController.SelectedDownload, true, true);
+			});
+			torrentTreeView.RemoveTorrent += Event.Wrap ((EventHandler) delegate {
+				TorrentController.RemoveTorrent (TorrentController.SelectedDownload, true, false);
+			});
 			torrentTreeView.Selection.Changed += OnTorrentSelectionChanged;
 			
 			torrentViewScrolledWindow.Add (torrentTreeView);
@@ -1296,7 +1325,8 @@ namespace Monsoon
 		
 		protected virtual void OnRemoveTorrentButtonActivated (object sender, System.EventArgs e)
 		{
-			RemoveTorrent ();
+			if (TorrentController.SelectedDownload != null)
+				TorrentController.RemoveTorrent (TorrentController.SelectedDownload);
 		}
 		
 		private void PeerConnected (object o, PeerConnectionEventArgs e)
@@ -1304,50 +1334,7 @@ namespace Monsoon
 			if (e.ConnectionDirection == MonoTorrent.Common.Direction.Incoming)
 				natStatus.HasIncoming = true;
 		}
-        
-		private void RemoveTorrent ()
-		{
-			if (torrentsSelected == null)
-				return;
-			
-			MessageDialog messageDialog = new MessageDialog (this,
-						DialogFlags.Modal,
-						MessageType.Question, 
-						ButtonsType.YesNo, _("Are you sure you want to remove the torrent?"));
-			messageDialog.Title = _("Remove torrent"); 
-			ResponseType result = (ResponseType)messageDialog.Run();
-			messageDialog.Hide();
-			messageDialog.Destroy ();
-			
-			if (result != ResponseType.Yes)
-				return;
-			
-			TreePath [] treePaths;
-			TreeModel model;
-			List<Download> torrentsToRemove = new List<Download> ();
-			
-			//treePaths = torrentTreeView.Selection.GetSelectedRows();
-			treePaths = torrentsSelected.GetSelectedRows (out model);
-			
-			foreach (TreePath treePath in treePaths) {
-				TreeIter iter;
-				Download torrentToRemove;
-				model.GetIter (out iter, treePath);
-				
-				torrentToRemove = (Download) model.GetValue (iter,0);
-				torrentsToRemove.Add (torrentToRemove);
-			}
-			
-			torrentTreeView.Selection.UnselectAll ();
-			
-			foreach (Download download in torrentsToRemove) {
-				TorrentManager toDelete = download.Manager;
-				toDelete.PeerConnected -= PeerConnected;
-				torrentController.removeTorrent (download);
-				File.Delete(download.Manager.Torrent.TorrentPath);
-			}
-		}
-		
+
 		protected virtual void OnNewActivated (object sender, System.EventArgs e)
 		{
 			CreateTorrentDialog createTorrentDialog = new CreateTorrentDialog (torrentController);
@@ -1364,48 +1351,7 @@ namespace Monsoon
 		}
 		private void OnDeleteTorrentButtonActivated (object o, EventArgs e)
 		{
-			DeleteAndRemoveSelection ();
-		}
-		
-		private void DeleteAndRemoveSelection ()
-		{
-			if (torrentsSelected == null)
-				return;
-			
-			List<Download> torrentsToRemove = new List<Download> ();
-			MessageDialog messageDialog = new MessageDialog (this,
-						DialogFlags.Modal,
-						MessageType.Question, 
-						ButtonsType.YesNo, _("Remove torrent and delete all data?"));
-			messageDialog.Title = _("Delete torrent"); 
-			ResponseType result = (ResponseType)messageDialog.Run();
-			messageDialog.Hide();
-			messageDialog.Destroy ();
-			
-			if (result == ResponseType.Yes) {
-				TreePath [] treePaths;
-				TreeModel model;
-				//treePaths = torrentTreeView.Selection.GetSelectedRows();
-				treePaths = torrentsSelected.GetSelectedRows (out model);
-				foreach (TreePath treePath in treePaths) {
-					TreeIter iter;
-					Download torrentToRemove;
-					model.GetIter (out iter, treePath);
-					torrentToRemove = (Download) model.GetValue (iter,0);
-					torrentsToRemove.Add(torrentToRemove);
-				}
-				
-				torrentTreeView.Selection.UnselectAll();
-				
-				foreach(Download torrent in torrentsToRemove){
-					torrentController.removeTorrent (torrent, true, true);
-				}
-				
-			} else {
-	  		   	logger.Info ("Selected NO to delete torrent");
-			}
-			
-
+			TorrentController.RemoveTorrent (TorrentController.SelectedDownload, true, true);
 		}
 		
 		private void BuildOptionsPage ()

@@ -45,6 +45,7 @@ namespace Monsoon
 		public event EventHandler<DownloadAddedEventArgs> Added;
 		public event EventHandler<DownloadAddedEventArgs> Removed;
 		public event EventHandler<ShouldAddEventArgs> ShouldAdd;
+		public event EventHandler<ShouldRemoveEventArgs> ShouldRemove;
 		public event EventHandler SelectionChanged;
 		
 		public bool Initialised {
@@ -290,22 +291,30 @@ namespace Monsoon
 			}
 		}
 		
-		public void removeTorrent(Download torrent)
+		public void RemoveTorrent(Download torrent)
 		{
-			removeTorrent(torrent, false);
+			RemoveTorrent(torrent, false);
 		}
 		
-		public void removeTorrent(Download torrent, bool deleteTorrent)
+		public void RemoveTorrent(Download torrent, bool deleteTorrent)
 		{
-			removeTorrent(torrent, deleteTorrent, false);
+			RemoveTorrent(torrent, deleteTorrent, false);
 		}
 		
-		public void removeTorrent(Download torrent, bool deleteTorrent, bool deleteData)
+		public void RemoveTorrent(Download torrent, bool deleteTorrent, bool deleteData)
 		{
+			EventHandler <ShouldRemoveEventArgs> h = ShouldRemove;
+			if (h != null) {
+				ShouldRemoveEventArgs e = new ShouldRemoveEventArgs (torrent, deleteData, deleteTorrent); 
+				h (this, e);
+				if (!e.ShouldRemove)
+					return;
+			}
+			
 			if(torrent.State != TorrentState.Stopped)
 				torrent.Stop();
 
-			allTorrents.Remove(torrent);
+			allTorrents.Remove (torrent);
 			
 			if(deleteData){
 				logger.Info("Deleting {0} data", torrent.Torrent.Name);
@@ -327,6 +336,7 @@ namespace Monsoon
 					logger.Error("Unable to delete " + torrent.Torrent.TorrentPath);
 				}
 				
+				// FIXME: Fast resume is central now, not individual for each torrent.
 				try{
                     logger.Info("Deleting torrent fast resume file " + torrent.Torrent.TorrentPath);
                     File.Delete(torrent.Torrent.TorrentPath + ".fresume");

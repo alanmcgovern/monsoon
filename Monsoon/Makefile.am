@@ -129,6 +129,7 @@ FILES =  \
 	Model/LabelController.cs \
 	Model/LabelEventArgs.cs \
 	Model/ShouldAddEventArgs.cs \
+	Model/ShouldRemoveEventArgs.cs \
 	Model/TorrentFileModel.cs \
 	PeerTreeView.cs \
 	PiecesTreeView.cs \

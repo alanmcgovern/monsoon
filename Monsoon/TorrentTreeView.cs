@@ -129,6 +129,7 @@ namespace Monsoon
 			TreeIter iter = torrents [download];
 			Model.Remove(ref iter);
 			torrents.Remove(download);
+			Selection.UnselectAll ();
 		}
 
 
