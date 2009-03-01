@@ -15,7 +15,6 @@ namespace Monsoon
 		public static EngineSettings EngineSettings {
 			get; private set;	
 		}
-		
 		public static PreferencesSettings Preferences {
 			get; private set;
 		}
@@ -50,21 +49,13 @@ namespace Monsoon
 		
 		static SettingsManager ()
 		{
+			RegisterAll ();
+			
 			DefaultTorrentSettings = new TorrentSettings ();
 			EngineSettings = new EngineSettings ();
 			Preferences = new PreferencesSettings ();
-			
-			RegisterAll ();
-			Restore ();
 		}
-		
-		static void Restore ()
-		{
-			Restore <TorrentSettings> (DefaultTorrentSettings);
-			Restore <EngineSettings> (EngineSettings);
-			Restore <PreferencesSettings> (Preferences);
-		}
-		
+
 		static void RegisterAll ()
 		{
 			// On unix we use GConf to store all the relevant settings

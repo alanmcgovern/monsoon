@@ -60,7 +60,6 @@ namespace Monsoon
 		private static extern int prctl(int option, byte [] arg2, ulong arg3, ulong arg4, ulong arg5);
 
 		private static NLog.Logger logger = null;
-		private EngineSettings engineSettings;
 		private MainWindow mainWindow;
 		
 		public static void Main (string[] args)
@@ -93,11 +92,6 @@ namespace Monsoon
 			CheckDataFolders();
 			Ticker.Tock ("Checking folders");
 
-			Ticker.Tick ();
-			PreferencesSettings sets = new PreferencesSettings ();
-			SettingsManager.Restore <PreferencesSettings> (sets);
-			Ticker.Tock ("Loading preferences");
-			
 			foreach (string arg in args)
 				HandleCommand (arg);
 			
@@ -113,17 +107,7 @@ namespace Monsoon
 			Ticker.Tick ();
 			SetProcessName("monsoon");
 			Ticker.Tock("Setting process name");
-			
-			Ticker.Tick ();
-			engineSettings = new EngineSettings ();
-			try {
-				SettingsManager.Restore <EngineSettings> (engineSettings);
-			}
-			catch (Exception ex) {
-				logger.Error("Could not load engine settings: {0}", ex.Message);
-			}
-			Ticker.Tock("Engine settings");
-			
+
 			string localeDir = Path.Combine(Defines.ApplicationDirectory, "locale");
 			if (!Directory.Exists(localeDir)) {
 				localeDir = Path.Combine(Defines.InstallPrefix, "share");
@@ -136,6 +120,15 @@ namespace Monsoon
 
 			Application.Init("monsoon", ref args);
 			Ticker.Tock("Locale");
+			
+			try {
+				SettingsManager.Restore <EngineSettings> (SettingsManager.EngineSettings);
+				SettingsManager.Restore <PreferencesSettings> (SettingsManager.Preferences);
+				SettingsManager.Restore <TorrentSettings> (SettingsManager.DefaultTorrentSettings);
+			}
+			catch (Exception ex) {
+				logger.Error("Couldn't restore old settings: {0}", ex.Message);
+			}
 			
 			try
 			{
@@ -156,7 +149,9 @@ namespace Monsoon
 			Application.Run();
 
 			try {
-				SettingsManager.Store <EngineSettings> (engineSettings);
+				SettingsManager.Store <EngineSettings> (SettingsManager.EngineSettings);
+				SettingsManager.Store <PreferencesSettings> (SettingsManager.Preferences);
+				SettingsManager.Store <TorrentSettings> (SettingsManager.DefaultTorrentSettings);
 			}
 			catch (Exception ex) {
 				logger.Error("Could save engine settings: {0}", ex.Message);
