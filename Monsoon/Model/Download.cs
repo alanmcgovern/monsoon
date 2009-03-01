@@ -101,7 +101,9 @@ namespace Monsoon
 			manager.TorrentStateChanged += delegate(object sender, TorrentStateChangedEventArgs e) {
 				if (e.NewState == TorrentState.Hashing)
 					hashProgress = 0;
-				Event.Raise<TorrentStateChangedEventArgs> (StateChanged, this, e);
+				Gtk.Application.Invoke (delegate {
+					Event.Raise<TorrentStateChangedEventArgs> (StateChanged, this, e);
+				});
 			};
 		}
 		
