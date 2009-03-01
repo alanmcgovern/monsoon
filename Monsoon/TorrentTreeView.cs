@@ -37,14 +37,6 @@ namespace Monsoon
 {
 	public class TorrentTreeView : TreeView
 	{
-		// REMOVE ME
-		private TreeSelection torrentsSelected;
-		
-		// REMOVE ME
-		
-		public event EventHandler DeleteTorrent;
-		public event EventHandler RemoveTorrent;
-		
 		public TreeViewColumn nameColumn;
 		public TreeViewColumn statusColumn;
 		public TreeViewColumn doneColumn;
@@ -106,16 +98,7 @@ namespace Monsoon
 			DragDataGet += OnTorrentDragDataGet;
 
 			
-			menu = new TorrentContextMenu(torrentController);
-			menu.DeleteTorrent += Event.Wrap ((EventHandler) delegate {
-				if (DeleteTorrent != null)
-					DeleteTorrent(this, EventArgs.Empty);
-			});
-			menu.RemoveTorrent += Event.Wrap ((EventHandler) delegate {
-				if (RemoveTorrent != null)
-					RemoveTorrent (this, EventArgs.Empty);
-			});
-			
+			menu = new TorrentContextMenu ();
 			torrentController.Added += delegate(object sender, DownloadAddedEventArgs e) {
 				AddDownload (e.Download);
 			};

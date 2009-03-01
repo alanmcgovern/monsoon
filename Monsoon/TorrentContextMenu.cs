@@ -38,20 +38,23 @@ namespace Monsoon
 	
 	public class TorrentContextMenu : Gtk.Menu
 	{
-		public event EventHandler DeleteTorrent;
-		public event EventHandler RemoveTorrent;
-		
 		private TorrentController torrentController;
-		private Download selectedTorrent;
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
-		public TorrentContextMenu(TorrentController torrentController)
+		ImageMenuItem startItem;
+		ImageMenuItem stopItem;
+		
+		Download selectedTorrent {
+			get { return torrentController.SelectedDownload; }
+		}
+		
+		public TorrentContextMenu()
 		{
-			this.torrentController = torrentController;
+			this.torrentController = ServiceManager.Get <TorrentController> ();
 			
 			ImageMenuItem openItem = new ImageMenuItem(_("Open"));
-			ImageMenuItem startItem = new ImageMenuItem(_("Start/Pause"));
-			ImageMenuItem stopItem  = new ImageMenuItem(_("Stop"));
+			startItem = new ImageMenuItem(_("Start/Pause"));
+			stopItem  = new ImageMenuItem(_("Stop"));
 			ImageMenuItem removeItem  = new ImageMenuItem(_("Remove"));
 			ImageMenuItem deleteItem  = new ImageMenuItem(_("Delete"));
 			ImageMenuItem recheckItem  = new ImageMenuItem(_("Force Re-_check"));
@@ -70,14 +73,13 @@ namespace Monsoon
 			openItem.Activated += OnOpenItemActivated;
 			startItem.Activated += OnStartItemActivated;
 			stopItem.Activated += OnStopItemActivated;
+
 			removeItem.Activated += Event.Wrap ((EventHandler) delegate {
-				if (RemoveTorrent != null)
-					RemoveTorrent (this, EventArgs.Empty);
+				torrentController.RemoveTorrent (torrentController.SelectedDownload, true, false);
 			});
 			
 			deleteItem.Activated += Event.Wrap ((EventHandler) delegate {
-				if (DeleteTorrent != null)
-					DeleteTorrent(this, EventArgs.Empty);
+				torrentController.RemoveTorrent (torrentController.SelectedDownload, true, true);
 			});
 			recheckItem.Activated += OnRecheckItemActivated;
 			//hashItem.Activated += OnHashItemActivated;
@@ -93,30 +95,38 @@ namespace Monsoon
 			Append(recheckItem);
 			//Append(hashItem);
 			Append(announceItem);
+		}
+		
+		protected override void OnShown ()
+		{
+			Label startText = (Label) startItem.Child;
+			TorrentState state = torrentController.SelectedDownload.State;
 			
-			selectedTorrent = torrentController.SelectedDownload;
-			if (selectedTorrent == null)
-				return;
+			startItem.Sensitive = state != TorrentState.Hashing;
+			stopItem.Sensitive = state != TorrentState.Stopped;
 			
-			switch(selectedTorrent.State)
+			switch(state)
 			{
 				case TorrentState.Downloading:
+				case TorrentState.Hashing:
+				case TorrentState.Seeding:
+					startText.Text = _("Pause");
 					startItem.Image = new Image(Stock.MediaPause, IconSize.Menu);
 					break;
-				case TorrentState.Seeding:
-					startItem.Image = new Image(Stock.MediaPause, IconSize.Menu);
+				case TorrentState.Paused:
+					startText.Text = _("Resume");
+					startItem.Image = new Image (Stock.MediaPlay, IconSize.Menu);
 					break;
 				case TorrentState.Stopped:
-					stopItem.Sensitive = false;
-					break;
-				default:
+					startText.Text = _("Start");
+					startItem.Image = new Image (Stock.MediaPlay, IconSize.Menu);
 					break;
 			}
+			base.OnShown ();
 		}
 		
 		private void OnStartItemActivated(object sender, EventArgs args)
 		{
-			selectedTorrent = torrentController.SelectedDownload;
 			if (selectedTorrent == null)
 				return;
 			
@@ -137,7 +147,6 @@ namespace Monsoon
 		
 		private void OnStopItemActivated(object sender, EventArgs args)
 		{
-			selectedTorrent = torrentController.SelectedDownload;
 			if (selectedTorrent == null)
 				return;
 			
@@ -151,7 +160,6 @@ namespace Monsoon
 		
 		private void OnRecheckItemActivated(object sender, EventArgs args)
 		{
-			selectedTorrent = torrentController.SelectedDownload;
 			if (selectedTorrent == null) {
 				Console.WriteLine ("Slect null");
 				return;
@@ -171,7 +179,6 @@ namespace Monsoon
 				
 		private void OnAnnounceItemActivated(object sender, EventArgs args)
 		{
-			selectedTorrent = torrentController.SelectedDownload;
 			if (selectedTorrent == null)
 				return;
 			
@@ -184,7 +191,6 @@ namespace Monsoon
 		
 		private void OnOpenItemActivated(object sender, EventArgs args)
 		{
-			selectedTorrent = torrentController.SelectedDownload;
 			if (selectedTorrent == null)
 				return;
 			

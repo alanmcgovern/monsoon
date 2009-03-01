@@ -540,12 +540,6 @@ namespace Monsoon
 			torrentController.ShouldAdd += HandleShouldAdd;
 			torrentTreeView = new TorrentTreeView ();
 			torrentTreeView.DragDataReceived += TreeviewDragDataReceived;
-			torrentTreeView.DeleteTorrent += Event.Wrap ((EventHandler) delegate {
-				TorrentController.RemoveTorrent (TorrentController.SelectedDownload, true, true);
-			});
-			torrentTreeView.RemoveTorrent += Event.Wrap ((EventHandler) delegate {
-				TorrentController.RemoveTorrent (TorrentController.SelectedDownload, true, false);
-			});
 			torrentViewScrolledWindow.Add (torrentTreeView);
 		}
 
