@@ -63,8 +63,6 @@ namespace Monsoon
 		
 		private	TorrentTreeView torrentTreeView;
 		private TreeSelection torrentsSelected;
-		private ListStore torrentListStore;
-		private Dictionary<Download, TreeIter> torrents;
 		
 		private TorrentController torrentController;
 		private InterfaceSettings interfaceSettings;
@@ -116,18 +114,6 @@ namespace Monsoon
 			}
 		}
 
-		public ListStore TorrentListStore {
-			get {
-				return torrentListStore;
-			}
-		}
-
-		public Dictionary<Download, TreeIter> Torrents {
-			get {
-				return torrents;
-			}
-		}
-
 		public MainWindow (): base (Gtk.WindowType.Toplevel)
 		{
 			this.portController = ServiceManager.Get <ListenPortController> ();
@@ -137,8 +123,6 @@ namespace Monsoon
 			Ticker.Tick ();
 			LoadAllSettings ();
 			Ticker.Tock ("Loaded all settings: {0}");
-
-			torrents = new Dictionary<Download,Gtk.TreeIter> ();
 			
 			Ticker.Tick ();
 			Ticker.Tick ();
@@ -511,16 +495,11 @@ namespace Monsoon
 		
 		private void BuildTorrentTreeView ()
 		{
-			torrentListStore = new ListStore (typeof(Download));
 			torrentController.Added += delegate(object sender, DownloadAddedEventArgs e) {
-				Torrents.Add (e.Download, TorrentListStore.AppendValues(e.Download));
 				e.Download.StateChanged += HandleStateChanged;
 			};
+			
 			TorrentController.Removed += delegate(object sender, DownloadAddedEventArgs e) {
-				Download torrent = e.Download;
-				TreeIter iter = Torrents [torrent];
-				TorrentListStore.Remove(ref iter);
-				Torrents.Remove(torrent);
 				e.Download.StateChanged -= HandleStateChanged;
 			};
 			torrentController.ShouldAdd += HandleShouldAdd;
@@ -528,11 +507,9 @@ namespace Monsoon
 			torrentTreeView.DragDataReceived += TreeviewDragDataReceived;
 			torrentTreeView.DeleteTorrent += Event.Wrap ((EventHandler) delegate { DeleteAndRemoveSelection (); });
 			torrentTreeView.RemoveTorrent += Event.Wrap ((EventHandler) delegate { RemoveTorrent (); });
-			//torrentTreeView.Model = torrentListStore;
 			torrentTreeView.Selection.Changed += OnTorrentSelectionChanged;
 			
 			torrentViewScrolledWindow.Add (torrentTreeView);
-			//torrentTreeView.Show ();
 		}
 
 		void HandleShouldAdd(object sender, ShouldAddEventArgs e)
@@ -604,8 +581,6 @@ namespace Monsoon
 			labelTreeView.Selection.Changed += OnLabelSelectionChanged;
 			labelViewScrolledWindow.Add (labelTreeView);
 
-			torrentTreeView.Model = torrentListStore;
-
 			TargetEntry [] targetEntries = new TargetEntry[]{
 				new TargetEntry("application/x-monotorrent-Download-objects", 0, 0)
 			};
@@ -654,29 +629,26 @@ namespace Monsoon
 			if(label == LabelController.All || label == LabelController.Downloading || label == LabelController.Seeding)
 				return;
 			
-			foreach (Download download in torrents.Keys)
-			{
-				TorrentManager manager = download.Manager;
-				if(!Toolbox.ByteMatch (manager.Torrent.InfoHash, args.SelectionData.Data))
-					continue;
-				
-				if (label != LabelController.Delete)
-				{
-					label.AddTorrent(download);
-				}
-				else
-				{
-					
-					if (!labelTreeView.Selection.GetSelected (out iter))
-						return;
-					
-					label = (TorrentLabel)labelTreeView.Model.GetValue (iter, 0);
-					label.RemoveTorrent (download);
-				}
-			}
+			Download download = TorrentController.Torrents.Find (delegate (Download o) {
+				return Toolbox.ByteMatch (o.Torrent.InfoHash, args.SelectionData.Data);
+			});
+			if (download == null)
+				return;
 			
+			if (label != LabelController.Delete)
+			{
+				label.AddTorrent(download);
+			}
+			else
+			{
+				if (!labelTreeView.Selection.GetSelected (out iter))
+					return;
+				
+				label = (TorrentLabel)labelTreeView.Model.GetValue (iter, 0);
+				label.RemoveTorrent (download);
+			}
 		}
-		
+
 		private void BuildPiecesTreeView()
 		{
 			piecesListStore = new ListStore (typeof(Piece));
@@ -763,6 +735,9 @@ namespace Monsoon
 		
 		private void updateOptionsPage ()
 		{
+			if (torrentsSelected == null)
+				return;
+			
 			Download download = null;
 			TreePath [] treePaths;
 			TreeModel model;
@@ -821,8 +796,7 @@ namespace Monsoon
 			TorrentLabel label;
 			
 			TreeSelection selection = (TreeSelection) sender;
-			if(!selection.GetSelected(out iter)){
-				torrentTreeView.Model = torrentListStore;	
+			if(!selection.GetSelected(out iter)){	
 				return;
 			}
 			label = (TorrentLabel) labelTreeView.Model.GetValue(iter, 0);
@@ -911,7 +885,7 @@ namespace Monsoon
 
 			logger.Info ("Storing torrent settings");
 
-			foreach (Download download in this.torrents.Keys){
+			foreach (Download download in TorrentController.Torrents) {
 				TorrentManager manager = download.Manager;
 				TorrentStorage torrentToStore = new TorrentStorage();
 				torrentToStore.TorrentPath = manager.Torrent.TorrentPath;
@@ -1116,6 +1090,9 @@ namespace Monsoon
 		
 		private void updateGeneralPage ()
 		{
+			if (torrentsSelected == null)
+				return;
+			
 			TreePath [] treePaths;
 			
 			TreeModel filteredModel;
@@ -1200,6 +1177,9 @@ namespace Monsoon
 		
 		private void updateToolBar ()
 		{
+			if (torrentsSelected == null)
+				return;
+			
 			TreePath [] treePaths;	
 			TreeModel model;
 			
@@ -1263,6 +1243,9 @@ namespace Monsoon
 
 		protected virtual void OnStartTorrentActivated (object sender, System.EventArgs e)
 		{
+			if (torrentsSelected == null)
+				return;
+			
 			TreePath [] treePaths;	
 			TreeModel model;
 			
@@ -1290,6 +1273,10 @@ namespace Monsoon
 		
 		protected virtual void OnStopTorrentActivated (object sender, System.EventArgs e)
 		{
+			if (torrentsSelected == null)
+				return;
+			
+			
 			TreePath [] treePaths;
 			TreeModel model;
 			treePaths = torrentsSelected.GetSelectedRows (out model);
@@ -1320,6 +1307,9 @@ namespace Monsoon
         
 		private void RemoveTorrent ()
 		{
+			if (torrentsSelected == null)
+				return;
+			
 			MessageDialog messageDialog = new MessageDialog (this,
 						DialogFlags.Modal,
 						MessageType.Question, 
@@ -1379,6 +1369,9 @@ namespace Monsoon
 		
 		private void DeleteAndRemoveSelection ()
 		{
+			if (torrentsSelected == null)
+				return;
+			
 			List<Download> torrentsToRemove = new List<Download> ();
 			MessageDialog messageDialog = new MessageDialog (this,
 						DialogFlags.Modal,

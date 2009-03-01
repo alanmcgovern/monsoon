@@ -28,6 +28,7 @@
 
 using Gtk;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using MonoTorrent.Common;
 using MonoTorrent.Client;
@@ -56,8 +57,18 @@ namespace Monsoon
 		private TargetEntry[] targetEntries;
 		private TargetEntry[] sourceEntries;
 
+		
+		public new ListStore Model {
+			get { return (ListStore) base.Model; }
+			set { base.Model = value; }
+		}
+
+		Dictionary<Download, TreeIter> torrents = new Dictionary<Download, TreeIter> ();
+		
+		
 		public TorrentTreeView() : base()
 		{
+			Model = new ListStore (typeof (Download));
 			this.torrentController = ServiceManager.Get <TorrentController> ();
 			
 			targetEntries = new TargetEntry[]{
@@ -92,6 +103,32 @@ namespace Monsoon
 				if (RemoveTorrent != null)
 					RemoveTorrent (this, EventArgs.Empty);
 			});
+			
+			torrentController.Added += delegate(object sender, DownloadAddedEventArgs e) {
+				AddDownload (e.Download);
+			};
+			
+			torrentController.Removed += delegate(object sender, DownloadAddedEventArgs e) {
+				RemoveDownload (e.Download);
+			};
+			
+			// FIXME: This shouldn't be necessary
+			torrentController.Torrents.ForEach (AddDownload);
+		}
+		
+		void AddDownload (Download download)
+		{
+			if (torrents == null)throw new Exception ("Torrents");
+			if (download == null) throw new Exception ("Download");
+			if (Model == null) throw new Exception ("Model");
+			torrents.Add (download, Model.AppendValues(download));
+		}
+		
+		void RemoveDownload (Download download)
+		{
+			TreeIter iter = torrents [download];
+			Model.Remove(ref iter);
+			torrents.Remove(download);
 		}
 
 
