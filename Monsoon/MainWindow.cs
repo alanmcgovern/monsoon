@@ -475,7 +475,7 @@ namespace Monsoon
 			interfaceSettings.EtaColumnWidth = torrentTreeView.etaColumn.Width;
 			interfaceSettings.EtaColumnVisible = torrentTreeView.etaColumn.Visible;
 			
-			SettingsManager.Store <InterfaceSettings> (InterfaceSettings);
+			SettingsManager.Store <InterfaceSettings> (interfaceSettings);
 		}
 		
 		private void BuildStatusBar()
@@ -831,6 +831,8 @@ namespace Monsoon
 		
 		protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 		{
+			StoreInterfaceSettings ();
+			
 			Hide ();
 			
 			if(Preferences.QuitOnClose && sender == this){
@@ -856,7 +858,7 @@ namespace Monsoon
 //				}	
 //			}
 			
-			StoreInterfaceSettings ();
+			
 			logger.Info ("Storing labels");
 			LabelController.Store ();
 			rssManagerController.Store();
