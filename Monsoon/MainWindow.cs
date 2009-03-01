@@ -128,9 +128,9 @@ namespace Monsoon
 			}
 		}
 
-		public MainWindow (ListenPortController portController): base (Gtk.WindowType.Toplevel)
+		public MainWindow (): base (Gtk.WindowType.Toplevel)
 		{
-			this.portController = portController;
+			this.portController = ServiceManager.Get <ListenPortController> ();
             
 			interfaceSettings = new InterfaceSettings ();
 			

@@ -60,7 +60,6 @@ namespace Monsoon
 		private static extern int prctl(int option, byte [] arg2, ulong arg3, ulong arg4, ulong arg5);
 
 		private static NLog.Logger logger = null;
-		private ListenPortController portController;
 		private EngineSettings engineSettings;
 		private MainWindow mainWindow;
 		
@@ -125,7 +124,6 @@ namespace Monsoon
 			}
 			Ticker.Tock("Engine settings");
 			
-			portController = new ListenPortController(engineSettings);
 			string localeDir = Path.Combine(Defines.ApplicationDirectory, "locale");
 			if (!Directory.Exists(localeDir)) {
 				localeDir = Path.Combine(Defines.InstallPrefix, "share");
@@ -142,7 +140,7 @@ namespace Monsoon
 			try
 			{
 				Ticker.Tick();
-				mainWindow = new MainWindow (portController);
+				mainWindow = new MainWindow ();
 				Ticker.Tock ("Instantiating window");
 				
 			}
@@ -163,7 +161,7 @@ namespace Monsoon
 			catch (Exception ex) {
 				logger.Error("Could save engine settings: {0}", ex.Message);
 			}
-			portController.Stop();
+			ServiceManager.Get <ListenPortController> ().Stop ();
 			mainWindow.Destroy ();
 		}
 		

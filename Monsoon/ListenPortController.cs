@@ -38,7 +38,7 @@ using MonoTorrent.Client;
 
 namespace Monsoon
 {
-	public class ListenPortController
+	public class ListenPortController : IService
 	{
 		public event EventHandler RouterFound;
 		public event EventHandler PortMapped;
@@ -49,17 +49,20 @@ namespace Monsoon
 		private Mapping tcpMapping;
 		private Mapping udpMapping;
 		
+		public bool Initialised {
+			get; private set;
+		}
+		
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
-		public ListenPortController(EngineSettings engineSettings)
+		public ListenPortController ()
 		{
-			settings = engineSettings;
-			
+			settings = SettingsManager.EngineSettings;
 			devices = new List<INatDevice> ();
-			tcpMapping = new Mapping (Protocol.Tcp, engineSettings.ListenPort, engineSettings.ListenPort);
+			tcpMapping = new Mapping (Protocol.Tcp, settings.ListenPort, settings.ListenPort);
 			tcpMapping.Description = Defines.ApplicationName;
 			
-			udpMapping = new Mapping (Protocol.Udp, engineSettings.ListenPort, engineSettings.ListenPort);
+			udpMapping = new Mapping (Protocol.Udp, settings.ListenPort, settings.ListenPort);
 			udpMapping.Description = Defines.ApplicationName;
 			
 			IPAddress[] addresses = null;
@@ -94,6 +97,11 @@ namespace Monsoon
 			udpMapping.Description = Defines.ApplicationName;
 
 			MapPort();
+		}
+		
+		public void Initialise ()
+		{
+			Initialised = true;
 		}
 		
 		public void Stop()
