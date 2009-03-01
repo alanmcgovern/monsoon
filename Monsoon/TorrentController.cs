@@ -166,14 +166,7 @@ namespace Monsoon
 
 			try
 			{
-				Download manager = addTorrent (torrent, savePath);
-				// FIXME: Add this inside the 'Download' class if it's required.
-//				manager.Manager.PeerConnected += delegate(object o, PeerConnectionEventArgs e) {
-//					GLib.Idle.Add(delegate {
-//						PeerConnected(o, e);
-//						return false;
-//					});
-//				};
+				addTorrent (torrent, savePath);
 			}
 			catch (Exception ex)
 			{
