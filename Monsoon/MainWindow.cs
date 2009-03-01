@@ -597,7 +597,8 @@ namespace Monsoon
 			} else if (args.NewState == TorrentState.Stopped) {
 				PeerListStore.Clear ();
 			}
-		
+			this.updateView ();
+			
 			if (!Preferences.EnableNotifications)
 				return;
 			if (args.NewState != TorrentState.Seeding)
