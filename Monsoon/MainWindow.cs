@@ -62,7 +62,6 @@ namespace Monsoon
 		private Button statusUpButton;
 		
 		private	TorrentTreeView torrentTreeView;
-		private TreeSelection torrentsSelected;
 		
 		private TorrentController torrentController;
 		private InterfaceSettings interfaceSettings;
@@ -520,12 +519,23 @@ namespace Monsoon
 		
 		private void BuildTorrentTreeView ()
 		{
-			torrentController.Added += delegate(object sender, DownloadAddedEventArgs e) {
+			TorrentController.Added += delegate(object sender, DownloadAddedEventArgs e) {
 				e.Download.StateChanged += HandleStateChanged;
 			};
 			
 			TorrentController.Removed += delegate(object sender, DownloadAddedEventArgs e) {
 				e.Download.StateChanged -= HandleStateChanged;
+			};
+			TorrentController.SelectionChanged += delegate {
+				updateView ();
+				
+				// Update Files Page
+				updateFilesPage ();
+				
+				//update Options Page
+				updateOptionsPage ();
+				
+				peerFilter.Refilter();
 			};
 			torrentController.ShouldAdd += HandleShouldAdd;
 			torrentTreeView = new TorrentTreeView ();
@@ -536,8 +546,6 @@ namespace Monsoon
 			torrentTreeView.RemoveTorrent += Event.Wrap ((EventHandler) delegate {
 				TorrentController.RemoveTorrent (TorrentController.SelectedDownload, true, false);
 			});
-			torrentTreeView.Selection.Changed += OnTorrentSelectionChanged;
-			
 			torrentViewScrolledWindow.Add (torrentTreeView);
 		}
 
@@ -728,7 +736,7 @@ namespace Monsoon
 		private bool FilterPeerTree (Gtk.TreeModel model, Gtk.TreeIter iter)
 		{
 			PeerId peer = (PeerId) model.GetValue(iter, 0);
-			Download manager = GetSelectedTorrent();
+			Download manager = TorrentController.SelectedDownload;
 			
 			if(manager == null)
 				return false;
@@ -745,77 +753,37 @@ namespace Monsoon
 			return false;
 		}
 		
-		private void OnTorrentSelectionChanged (object sender, System.EventArgs args)
-		{
-			torrentsSelected = (TreeSelection) sender;
-
-			torrentController.SelectedDownload = GetSelectedTorrent ();
-			updateView ();
-			
-			// Update Files Page
-			updateFilesPage ();
-			
-			//update Options Page
-			updateOptionsPage ();
-			
-			peerFilter.Refilter();
-			
-		}
-		
 		private void updateOptionsPage ()
 		{
-			if (torrentsSelected == null)
-				return;
-			
-			Download download = null;
-			TreePath [] treePaths;
-			TreeModel model;
-			treePaths = torrentsSelected.GetSelectedRows (out model);
+			Download download = torrentController.SelectedDownload;
 
 			torrentUploadRateSpinButton.ValueChanged -= OnTorrentSettingsChanged;
 			torrentDownloadRateSpinButton.ValueChanged -= OnTorrentSettingsChanged;
 			torrentMaxConnectionsSpinButton.ValueChanged -= OnTorrentSettingsChanged;
 			torrentUploadSlotSpinButton.ValueChanged -= OnTorrentSettingsChanged;	
 			
-			if(treePaths.Length != 1){
-				torrentUploadRateSpinButton.Sensitive = false;
-				torrentDownloadRateSpinButton.Sensitive = false;
-				torrentMaxConnectionsSpinButton.Sensitive = false;
-				torrentUploadSlotSpinButton.Sensitive = false;
-				
+			torrentUploadRateSpinButton.Sensitive = download != null;
+			torrentDownloadRateSpinButton.Sensitive = download != null;
+			torrentMaxConnectionsSpinButton.Sensitive = download != null;
+			torrentUploadSlotSpinButton.Sensitive = download != null;
+			
+			if (download == null) {
 				torrentUploadRateSpinButton.Value = 0;
 				torrentDownloadRateSpinButton.Value = 0;
 				torrentMaxConnectionsSpinButton.Value = 0;
 				torrentUploadSlotSpinButton.Value = 0;
-			
-				return;
+			} else {
+				TorrentSettings settings = download.Manager.Settings;
+				torrentUploadRateSpinButton.Value = settings.MaxUploadSpeed / 1024;;
+				torrentDownloadRateSpinButton.Value = settings.MaxDownloadSpeed / 1024;
+				torrentMaxConnectionsSpinButton.Value = settings.MaxConnections;
+				torrentUploadSlotSpinButton.Value = settings.UploadSlots;
 			}
-			
-			foreach(TreePath treePath in treePaths){
-				TreeIter torrentIter;
-				model.GetIter (out torrentIter, treePath);
-				
-				download = (Download) model.GetValue (torrentIter,0);	
-			}
-			
-			TorrentManager torrent = download.Manager;
-			
-			torrentUploadRateSpinButton.Sensitive = true;
-			torrentDownloadRateSpinButton.Sensitive = true;
-			torrentMaxConnectionsSpinButton.Sensitive = true;
-			torrentUploadSlotSpinButton.Sensitive = true;
-			
-			// Load selected torrents's settings
-			torrentUploadRateSpinButton.Value = torrent.Settings.MaxUploadSpeed / 1024;;
-			torrentDownloadRateSpinButton.Value = torrent.Settings.MaxDownloadSpeed / 1024;
-			torrentMaxConnectionsSpinButton.Value = torrent.Settings.MaxConnections;
-			torrentUploadSlotSpinButton.Value = torrent.Settings.UploadSlots;
-			
+
 			torrentUploadRateSpinButton.ValueChanged += OnTorrentSettingsChanged;
 			torrentDownloadRateSpinButton.ValueChanged += OnTorrentSettingsChanged;
 			torrentMaxConnectionsSpinButton.ValueChanged += OnTorrentSettingsChanged;
 			torrentUploadSlotSpinButton.ValueChanged += OnTorrentSettingsChanged;	
-			
 		}
 		
 		private void OnLabelSelectionChanged (object sender, System.EventArgs e)
@@ -1066,14 +1034,14 @@ namespace Monsoon
         
 		private void updateFilesPage ()
 		{
-			this.fileTreeStore.Update (GetSelectedTorrent ());
+			this.fileTreeStore.Update (TorrentController.SelectedDownload);
 		}
 		
 		private void updatePiecesPage()
 		{
 			piecesListStore.Clear ();
 		
-			Download manager = GetSelectedTorrent ();
+			Download manager = TorrentController.SelectedDownload;
 			if(manager == null)
 				return;
 
@@ -1082,26 +1050,6 @@ namespace Monsoon
 			
 			foreach (Piece piece in pieces)
 				piecesListStore.AppendValues(piece);
-		}
-		
-		public Download GetSelectedTorrent ()
-		{
-			TreePath [] treePaths;
-			TreeModel filteredModel;
-			
-			if(torrentsSelected == null || torrentsSelected.CountSelectedRows() != 1) 
-				return null;
-				
-			treePaths = torrentsSelected.GetSelectedRows( out filteredModel);
-			Download manager = null;
-			
-			// Should only be one item but have to use GetSelectedRows
-			// because of TreeView is set to allow multiple selection
-			TreeIter iter;
-			filteredModel.GetIter (out iter, treePaths [0]);
-			manager = (Download)filteredModel.GetValue(iter,0);	
-			
-			return manager;
 		}
 		
 		private void updateLabels ()
@@ -1119,18 +1067,11 @@ namespace Monsoon
 		
 		private void updateGeneralPage ()
 		{
-			if (torrentsSelected == null)
-				return;
+			Download download = TorrentController.SelectedDownload;
 			
-			TreePath [] treePaths;
-			
-			TreeModel filteredModel;
-			treePaths = torrentsSelected.GetSelectedRows (out filteredModel);
-			
-			Download download = null;
-			
-			if (treePaths.Length != 1) {
+			if (download == null) {
 				statusProgressBar.Fraction = 0;
+				statusProgressBar.Text = string.Empty;
 				
 				downloadedValueLabel.Text = string.Empty;
 				uploadedValueLabel.Text = string.Empty;
@@ -1147,182 +1088,116 @@ namespace Monsoon
 				lastUpdatedLabel.Text = string.Empty;
 				updateInLabel.Text = string.Empty;
 				messageLabel.Text = string.Empty;
-				return;
-			}
-			
-			foreach (TreePath treePath in treePaths) {
-				TreeIter iter;
-				filteredModel.GetIter (out iter, treePath);
+			} else {
+				TorrentManager manager = download.Manager;
+				statusProgressBar.Fraction = download.Progress;
+				statusProgressBar.Text = string.Format("{0} {1:0.00}%", manager.State, download.Progress * 100);
 				
-				download = (Download) filteredModel.GetValue (iter,0);	
-			}
-			
-			TorrentManager manager = download.Manager;
-			
-			statusProgressBar.Fraction = download.Progress;
-			statusProgressBar.Text = string.Format("{0} {1:0.00}%", manager.State, download.Progress * 100);
-			
-			if (manager.State != TorrentState.Stopped)
-				elapsedTimeValueLabel.Text = DateTime.MinValue.Add(DateTime.Now.Subtract(manager.StartTime)).ToString("HH:mm:ss");
-			else
-				elapsedTimeValueLabel.Text = null;
-			
-			downloadedValueLabel.Text = ByteConverter.ConvertSize (download.TotalDownloaded);
-			uploadedValueLabel.Text = ByteConverter.ConvertSize (download.TotalUploaded);
-			MonoTorrent.Client.Tracker.Tracker tracker = manager.TrackerManager.CurrentTracker;
-			if (tracker == null)
-			{
-				trackerUrlValueLabel.Text = "";
-				trackerStatusValueLabel.Text = "";
-				lastUpdatedLabel.Text = "";
-				messageLabel.Text = "";
-			}
-			
-			else
-			{
-				trackerUrlValueLabel.Text = tracker.Uri.ToString ();
-				trackerStatusValueLabel.Text = tracker.Status.ToString ();
-				lastUpdatedLabel.Text = manager.TrackerManager.LastUpdated.ToString ("HH:mm:ss") ;
-				messageLabel.Text = tracker.WarningMessage + ". " + tracker.FailureMessage;
-			}
-			hashFailsLabel.Text = manager.HashFails.ToString ();
-			
-			if (manager.State != TorrentState.Stopped){
-				if (tracker != null)
+				downloadedValueLabel.Text = ByteConverter.ConvertSize (download.TotalDownloaded);
+				uploadedValueLabel.Text = ByteConverter.ConvertSize (download.TotalUploaded);
+				
+				if (manager.State != TorrentState.Stopped)
+					elapsedTimeValueLabel.Text = DateTime.MinValue.Add ((DateTime.Now - manager.StartTime)).ToString("HH:mm:ss");
+				else
+					elapsedTimeValueLabel.Text = null;
+
+				MonoTorrent.Client.Tracker.Tracker tracker = manager.TrackerManager.CurrentTracker;
+				if (tracker == null)
 				{
-					DateTime nextUpdate = manager.TrackerManager.LastUpdated.Add (tracker.UpdateInterval);
-				
-					if(nextUpdate > DateTime.Now)
-						updateInLabel.Text =  DateTime.MinValue.Add (nextUpdate - DateTime.Now).ToString("HH:mm:ss");
+					trackerUrlValueLabel.Text = "";
+					trackerStatusValueLabel.Text = "";
+					lastUpdatedLabel.Text = "";
+					messageLabel.Text = "";
 				}
+				
+				else
+				{
+					trackerUrlValueLabel.Text = tracker.Uri.ToString ();
+					trackerStatusValueLabel.Text = tracker.Status.ToString ();
+					lastUpdatedLabel.Text = manager.TrackerManager.LastUpdated.ToString ("HH:mm:ss") ;
+					messageLabel.Text = tracker.WarningMessage + ". " + tracker.FailureMessage;
+				}
+				hashFailsLabel.Text = manager.HashFails.ToString ();
+				
+				if (manager.State != TorrentState.Stopped){
+					if (tracker != null)
+					{
+						DateTime nextUpdate = manager.TrackerManager.LastUpdated.Add (tracker.UpdateInterval);
+						
+						if(nextUpdate > DateTime.Now)
+							updateInLabel.Text =  DateTime.MinValue.Add ((nextUpdate - DateTime.Now)).ToString("HH:mm:ss");
+					}
+				}
+				
+				swarmSpeedLabel.Text = ByteConverter.ConvertSpeed (torrentController.SelectedDownload.SwarmSpeed);
+				savePathValueLabel.Text = manager.SavePath;
+				sizeValueLabel.Text = ByteConverter.ConvertSize (manager.Torrent.Size);
+				createdOnValueLabel.Text = manager.Torrent.CreationDate.ToLongDateString ();
+				commentValueLabel.Text = manager.Torrent.Comment;
 			}
-			
-			swarmSpeedLabel.Text = ByteConverter.ConvertSpeed (torrentController.SelectedDownload.SwarmSpeed);
-			savePathValueLabel.Text = manager.SavePath;
-			sizeValueLabel.Text = ByteConverter.ConvertSize (manager.Torrent.Size);
-			createdOnValueLabel.Text = manager.Torrent.CreationDate.ToLongDateString ();
-			commentValueLabel.Text = manager.Torrent.Comment;
 		}
 		
 		private void updateToolBar ()
 		{
-			if (torrentsSelected == null)
-				return;
+			Download download = TorrentController.SelectedDownload;
 			
-			TreePath [] treePaths;	
-			TreeModel model;
+			removeTorrentButton.Sensitive = download != null;
+			deleteTorrentButton.Sensitive = download != null;
 			
-			Download previousTorrent = null;
-			bool isDifferent = false;
-			TorrentState state = TorrentState.Downloading;
-			
-			//treePaths = torrentTreeView.Selection.GetSelectedRows();
-			treePaths = torrentsSelected.GetSelectedRows(out model);
-			
-			if (treePaths.Length == 0) {
-				startTorrentButton.Sensitive = false;
-				stopTorrentButton.Sensitive = false;
-				removeTorrentButton.Sensitive = false;
-				deleteTorrentButton.Sensitive = false;
-				return;
-			}
-			
-			removeTorrentButton.Sensitive = true;
-			deleteTorrentButton.Sensitive = true;
-			
-			foreach (TreePath treePath in treePaths) {
-				TreeIter iter;
-				Download torrent;
-				model.GetIter (out iter, treePath);
-				
-				torrent = (Download) model.GetValue (iter,0);
-				state = torrent.State;			
-				if (previousTorrent != null) {
-					if (previousTorrent.State != torrent.State) {
-						isDifferent = true;
-						break;
-					}
-				}
-				previousTorrent = torrent;	
-			}
-			
-			if (isDifferent) {
+			if (download == null) {
 				startTorrentButton.Sensitive = false;
 				stopTorrentButton.Sensitive = false;
 			} else {
-				startTorrentButton.Sensitive = true;
-				if (state == TorrentState.Downloading || state == TorrentState.Seeding) {
+				TorrentState state = download.Manager.State;
+				
+				stopTorrentButton.Sensitive = state != TorrentState.Stopped;
+				startTorrentButton.Sensitive = state != TorrentState.Hashing;
+				
+				if (state == TorrentState.Downloading || state == TorrentState.Seeding || state == TorrentState.Hashing) {
 					startTorrentButton.StockId = "gtk-media-pause";
 					startTorrentButton.Label = _("Pause");
-					stopTorrentButton.Sensitive = true;
-				} else if(state == TorrentState.Paused) {
-					stopTorrentButton.Sensitive = true;
+				} else if (state == TorrentState.Paused) {
 					startTorrentButton.StockId = "gtk-media-play";
 					startTorrentButton.Label = _("Start");
-				} else if(state == TorrentState.Hashing) {
-					startTorrentButton.StockId = "gtk-media-play";
-					stopTorrentButton.Sensitive = true;
 				} else {
 					startTorrentButton.StockId = "gtk-media-play";
 					startTorrentButton.Label = _("Start");
-					stopTorrentButton.Sensitive = false;
 				}
 			}	
 		}
 
 		protected virtual void OnStartTorrentActivated (object sender, System.EventArgs e)
 		{
-			if (torrentsSelected == null)
-				return;
-			
-			TreePath [] treePaths;	
-			TreeModel model;
-			
-			treePaths = torrentsSelected.GetSelectedRows (out model);
-			
-			foreach (TreePath treePath in treePaths) {
-				TreeIter iter;
-				Download torrent;
-				model.GetIter(out iter, treePath);
-				
-				torrent = (Download) model.GetValue (iter, 0);
-				try {
-					if (startTorrentButton.StockId == "gtk-media-pause") {
-						torrent.Pause ();
-						logger.Info ("Torrent paused " + torrent.Manager.Torrent.Name);
-					} else {
-						torrent.Start ();
-						logger.Info ("Torrent started " + torrent.Manager.Torrent.Name);
-					}
-				} catch {
-					logger.Error ("Torrent already started " + torrent.Manager.Torrent.Name);
+			Download download = TorrentController.SelectedDownload;
+			try {
+				switch (download.Manager.State) {
+				case TorrentState.Downloading:
+				case TorrentState.Seeding:
+					download.Pause ();
+					break;
+					
+				case TorrentState.Stopped:
+					download.Start ();
+					break;
+					
+				case TorrentState.Paused:
+					download.Resume ();
+					break;
 				}
+			} catch {
+				logger.Error ("Torrent already started " + download.Manager.Torrent.Name);
 			}
 		}
 		
 		protected virtual void OnStopTorrentActivated (object sender, System.EventArgs e)
 		{
-			if (torrentsSelected == null)
-				return;
-			
-			
-			TreePath [] treePaths;
-			TreeModel model;
-			treePaths = torrentsSelected.GetSelectedRows (out model);
-			
-			foreach (TreePath treePath in treePaths) {
-				TreeIter iter;
-				Download torrent;
-				model.GetIter (out iter, treePath);
-				torrent = (Download) model.GetValue (iter,0);
-				try {
-					torrent.Stop ();
-				} catch {
-					logger.Error ("Torrent already stopped " + torrent.Manager.Torrent.Name);
-				}
+			try {
+				TorrentController.SelectedDownload.Stop ();
+			} catch {
+				logger.Error ("Torrent already stopped " + TorrentController.SelectedDownload.Manager.Torrent.Name);
 			}
 		}
-		
+	
 		protected virtual void OnRemoveTorrentButtonActivated (object sender, System.EventArgs e)
 		{
 			if (TorrentController.SelectedDownload != null)
@@ -1395,16 +1270,15 @@ namespace Monsoon
 		}
 		private void OnTorrentSettingsChanged (object sender, EventArgs args)
 		{
-			Download download = GetSelectedTorrent();	
+			Download download = TorrentController.SelectedDownload;
 						
-			if (download == null)
-				return;
-				
-			TorrentManager torrent = download.Manager;
-			torrent.Settings.MaxConnections = (int) torrentMaxConnectionsSpinButton.Value;
-			torrent.Settings.MaxDownloadSpeed = (int) torrentDownloadRateSpinButton.Value * 1024;
-			torrent.Settings.MaxUploadSpeed = (int) torrentUploadRateSpinButton.Value * 1024;
-			torrent.Settings.UploadSlots = Math.Max (2, (int) torrentUploadSlotSpinButton.Value);
+			if (download != null) {
+				TorrentManager torrent = download.Manager;
+				torrent.Settings.MaxConnections = (int) torrentMaxConnectionsSpinButton.Value;
+				torrent.Settings.MaxDownloadSpeed = (int) torrentDownloadRateSpinButton.Value * 1024;
+				torrent.Settings.MaxUploadSpeed = (int) torrentUploadRateSpinButton.Value * 1024;
+				torrent.Settings.UploadSlots = Math.Max (2, (int) torrentUploadSlotSpinButton.Value);
+			}
 		}
 
 		protected virtual void OnColumnsActivated (object sender, System.EventArgs e)

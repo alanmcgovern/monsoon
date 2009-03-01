@@ -48,11 +48,18 @@ namespace Monsoon
 		public event EventHandler<ShouldRemoveEventArgs> ShouldRemove;
 		public event EventHandler SelectionChanged;
 		
+		Download selectedDownload;
+		
 		public bool Initialised {
 			get; private set;
 		}
+		
 		public Download SelectedDownload {
-			get; set;
+			get { return selectedDownload; }
+			set {
+				selectedDownload = value;
+				Event.Raise (SelectionChanged, this, EventArgs.Empty);
+			}
 		}
 		
 		private ClientEngine engine;
