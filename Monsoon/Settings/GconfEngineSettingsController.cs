@@ -35,7 +35,7 @@ using MonoTorrent.Client.Encryption;
 namespace Monsoon
 {
 	
-	public class GconfEngineSettingsController : SettingsController<EngineSettings>
+	public class GconfEngineSettingsController : GConfSettings <EngineSettings>
 	{
 		static string SETTINGS_PATH = "EngineSettings/";
 		
@@ -54,102 +54,41 @@ namespace Monsoon
 
 		public override void Load ()
 		{
-			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
+			Settings.AllowedEncryption = (EncryptionTypes) Get <int> (AllowedEncryptionKey);
+			Settings.GlobalMaxConnections = Get <int> (GlobalMaxConnectionsKey);
+			Settings.GlobalMaxDownloadSpeed = Get <int> (GlobalMaxDownloadSpeedKey);
+			Settings.GlobalMaxHalfOpenConnections = Get <int> (GlobalMaxHalfOpenConnectionsKey);
+			Settings.MaxOpenFiles = Get <int> (MaxOpenFilesKey);
+			Settings.GlobalMaxUploadSpeed = Get <int> (GlobalMaxUploadSpeedKey);
+			Settings.HaveSupressionEnabled = Get <bool> (HaveSuppressionKey);
+			Settings.ListenPort = Get <int> (ListenPortKey);
+			Settings.MaxReadRate = Get <int> (MaxReadRateKey);
+			Settings.MaxWriteRate = Get <int> (MaxWriteRateKey);
+			Settings.PreferEncryption = Get <bool> (PreferEncryptionKey);
+			Settings.SavePath = Get <string> (SavePathKey);
 			
-			try{
-				Settings.AllowedEncryption = (EncryptionTypes)(int)gconf.Retrieve(AllowedEncryptionKey);
-			} catch(SettingNotFoundException){
-				
-			}
-            
-			try{
-				Settings.GlobalMaxConnections = (int)gconf.Retrieve(GlobalMaxConnectionsKey);
-			} catch(SettingNotFoundException){
-				
-			}
-			
-			try{
-				Settings.GlobalMaxDownloadSpeed = (int)gconf.Retrieve(GlobalMaxDownloadSpeedKey);
-			} catch(SettingNotFoundException){
-				
-			}
-			
-			try{
-				Settings.GlobalMaxHalfOpenConnections = (int)gconf.Retrieve(GlobalMaxHalfOpenConnectionsKey);
-			} catch(SettingNotFoundException){
-				
-			}
-            
-			try{
-				Settings.MaxOpenFiles = (int)gconf.Retrieve(MaxOpenFilesKey);
-			} catch(SettingNotFoundException) {
-				
-			}
-			
-			try{
-				Settings.GlobalMaxUploadSpeed = (int)gconf.Retrieve(GlobalMaxUploadSpeedKey);
-			} catch(SettingNotFoundException){
-				
-			}
-			
-			try{
-				Settings.HaveSupressionEnabled = (bool)gconf.Retrieve(HaveSuppressionKey);
-			} catch (SettingNotFoundException) {
-				
-			}
-            
-			try{
-				Settings.ListenPort = (int)gconf.Retrieve(ListenPortKey);
-			} catch(SettingNotFoundException){
-				Settings.ListenPort = new System.Random().Next(30000, 36000);
-			}
-			
-			try{
-				Settings.MaxReadRate = (int)gconf.Retrieve(MaxReadRateKey);
-			} catch(SettingNotFoundException){
-				
-			}
-			
-			try{
-				Settings.MaxWriteRate = (int)gconf.Retrieve(MaxWriteRateKey);
-			} catch(SettingNotFoundException){
-				
-			}
-            
-			try {
-				Settings.PreferEncryption = (bool) gconf.Retrieve(PreferEncryptionKey);
-			} catch (SettingNotFoundException) {
-				
-			}
-            
-			try{ 
-				Settings.SavePath = (string)gconf.Retrieve(SavePathKey);
-			} catch(SettingNotFoundException){
-				
-			} finally{
-				// Try to get XDG_DOWNLOAD_DIR path, if unavailible fallback to
-				// users home directory
-				if (String.IsNullOrEmpty(Settings.SavePath) || !Directory.Exists(Settings.SavePath))
-					Settings.SavePath = GetDownloadDirectory();
-			}
+			// Try to get XDG_DOWNLOAD_DIR path, if unavailible fallback to
+			// users home directory
+			if (String.IsNullOrEmpty(Settings.SavePath) || !Directory.Exists(Settings.SavePath))
+				Settings.SavePath = GetDownloadDirectory();
 		}
 		
 		public override void Save ()
 		{
 			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
 			
-			gconf.Store(AllowedEncryptionKey, (int)Settings.AllowedEncryption);
-			gconf.Store(GlobalMaxConnectionsKey, Settings.GlobalMaxConnections);
-			gconf.Store(GlobalMaxDownloadSpeedKey, Settings.GlobalMaxDownloadSpeed);
-			gconf.Store(GlobalMaxHalfOpenConnectionsKey, Settings.GlobalMaxHalfOpenConnections);
-			gconf.Store(GlobalMaxUploadSpeedKey, Settings.GlobalMaxUploadSpeed);
-			gconf.Store(HaveSuppressionKey, Settings.HaveSupressionEnabled);
-			gconf.Store(ListenPortKey, Settings.ListenPort);
-			gconf.Store(SavePathKey, Settings.SavePath);
-			gconf.Store(MaxOpenFilesKey, Settings.MaxOpenFiles);
-			gconf.Store(MaxReadRateKey, Settings.MaxReadRate);
-			gconf.Store(MaxWriteRateKey, Settings.MaxWriteRate);
-			gconf.Store(PreferEncryptionKey, Settings.PreferEncryption);
+			Set (AllowedEncryptionKey, (int) Settings.AllowedEncryption);
+			Set (GlobalMaxConnectionsKey, Settings.GlobalMaxConnections);
+			Set (GlobalMaxDownloadSpeedKey, Settings.GlobalMaxDownloadSpeed);
+			Set (GlobalMaxHalfOpenConnectionsKey, Settings.GlobalMaxHalfOpenConnections);
+			Set (GlobalMaxUploadSpeedKey, Settings.GlobalMaxUploadSpeed);
+			Set (HaveSuppressionKey, Settings.HaveSupressionEnabled);
+			Set (ListenPortKey, Settings.ListenPort);
+			Set (SavePathKey, Settings.SavePath);
+			Set (MaxOpenFilesKey, Settings.MaxOpenFiles);
+			Set (MaxReadRateKey, Settings.MaxReadRate);
+			Set (MaxWriteRateKey, Settings.MaxWriteRate);
+			Set (PreferEncryptionKey, Settings.PreferEncryption);
 		}
 		
 		private string GetDownloadDirectory() {

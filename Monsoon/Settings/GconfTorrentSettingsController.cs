@@ -53,13 +53,11 @@ namespace Monsoon
 		
 		public override void Save ()
 		{
-			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
-			
-			gconf.Store(InitialSeedingKey, Settings.InitialSeedingEnabled);
-			gconf.Store(UploadSlotsKey, Settings.UploadSlots);
-			gconf.Store(MaxConnectionsKey, Settings.MaxConnections);
-			gconf.Store(MaxDownloadSpeedKey, Settings.MaxDownloadSpeed);
-			gconf.Store(MaxUploadSpeedKey, Settings.MaxUploadSpeed);
+			Set (InitialSeedingKey, Settings.InitialSeedingEnabled);
+			Set (UploadSlotsKey, Settings.UploadSlots);
+			Set (MaxConnectionsKey, Settings.MaxConnections);
+			Set (MaxDownloadSpeedKey, Settings.MaxDownloadSpeed);
+			Set (MaxUploadSpeedKey, Settings.MaxUploadSpeed);
 		}
 	}
 }

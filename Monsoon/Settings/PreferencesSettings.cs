@@ -1,5 +1,5 @@
 //
-// PreferencesSettings.cs
+// Preferencescs
 //
 // Author:
 //   Jared Hendry (buchan@gmail.com)
@@ -33,62 +33,53 @@ namespace Monsoon
 {
 	public class PreferencesSettings
 	{
-	 	private string torrentStorageLocation;
-	 	private string importLocation;
-	 	private bool startNewTorrents;
-	 	private bool upnpEnabled;
-	 	private bool importEnabled;
-	 	private bool removeOnImport;
-	 	
-		private bool enableNotifications;
-		private bool quitOnClose;
-		private bool enableTray;
-
-
 		public bool EnableNotifications {
-			get { return enableNotifications; }
-			set { enableNotifications = value; }
+			get; set;
 		}
-		
+
 		public bool EnableTray {
-			get { return enableTray; }
-			set { enableTray = value; }
+			get; set;
 		}
-		
-		public bool QuitOnClose {
-			get { return quitOnClose; }
-			set { quitOnClose = value; }
-		}
-		
-		public string TorrentStorageLocation {
-			get { return torrentStorageLocation; }
-			set { torrentStorageLocation = value; }
-			
-		}
-	 	
-	 	public string ImportLocation{
-	 		get { return importLocation; }
-	 		set { importLocation = value; }
-	 	}
-	 	
-	 	public bool StartNewTorrents{
-	 		get { return startNewTorrents; }
-	 		set { startNewTorrents = value; }
-	 	}
-	 	
-	 	public bool UpnpEnabled{
-	 		get { return upnpEnabled; }
-	 		set { upnpEnabled = value; }
-	 	}
-	 	
+
 	 	public bool ImportEnabled{
-	 		get { return importEnabled; }
-	 		set { importEnabled = value; }
+	 		get; set;
 	 	}
-	 	
+
+	 	public string ImportLocation{
+	 		get; set;
+	 	}
+
+		public bool QuitOnClose {
+			get; set;
+		}
+
 	 	public bool RemoveOnImport{
-	 		get { return removeOnImport; }
-	 		set { removeOnImport = value; }
+	 		get; set;
 	 	}
+
+	 	public bool StartNewTorrents{
+	 		get; set;
+	 	}
+
+		public string TorrentStorageLocation {
+			get; set;
+		}
+
+	 	public bool UpnpEnabled{
+	 		get; set;
+	 	}
+
+		public PreferencesSettings ()
+		{
+			EnableNotifications = true;
+			QuitOnClose = false;
+			EnableTray = true;
+			TorrentStorageLocation = Defines.TorrentFolder;
+			ImportLocation = Environment.GetFolderPath (Environment.SpecialFolder.Personal);
+			UpnpEnabled = true;
+			StartNewTorrents = true;
+			ImportEnabled = false;
+			RemoveOnImport = false;
+		}
 	}
 }

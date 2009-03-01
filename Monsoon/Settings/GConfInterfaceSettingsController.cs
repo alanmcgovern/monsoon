@@ -32,227 +32,80 @@ using System.Xml.Serialization;
 
 namespace Monsoon
 {
-	public class GConfInterfaceSettingsController : SettingsController<InterfaceSettings>
+	public class GConfInterfaceSettingsController : GConfSettings <InterfaceSettings>
 	{
 		private static string SETTINGS_PATH = "InterfaceSettings/";
 
 		public override void Load ()
 		{
-			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
+				Settings.ShowDetails = Get <bool> (SETTINGS_PATH + "showDetails");
+				Settings.ShowLabels = Get <bool> (SETTINGS_PATH + "showLabels");
 			
-			try {
-				Settings.ShowDetails = (bool) gconf.Retrieve(SETTINGS_PATH + "showDetails");
-			} catch(SettingNotFoundException) {
-				Settings.ShowDetails = true;
-			}
+				Settings.WindowHeight = Get <int> (SETTINGS_PATH + "windowHeight");
+				Settings.WindowWidth = Get <int> (SETTINGS_PATH + "windowWidth");
+				Settings.VPaned = Get <int> (SETTINGS_PATH + "vPaned");
+				Settings.HPaned = Get <int> (SETTINGS_PATH + "hPaned");
+				Settings.WindowYPos = Get <int> (SETTINGS_PATH + "windowYPos");
+				Settings.WindowXPos = Get <int> (SETTINGS_PATH + "windowXPos");
 			
-			try {
-				Settings.ShowLabels = (bool) gconf.Retrieve(SETTINGS_PATH + "showLabels");
-			} catch(SettingNotFoundException) {
-				Settings.ShowLabels = true;
-			}
-			
-			try {
-				Settings.WindowHeight = (int) gconf.Retrieve(SETTINGS_PATH + "windowHeight");
-			} catch(SettingNotFoundException) {
-				Settings.WindowHeight = 480;
-			}
-			
-			try {
-				Settings.WindowWidth = (int) gconf.Retrieve(SETTINGS_PATH + "windowWidth");
-			} catch(SettingNotFoundException) {
-				Settings.WindowWidth = 640;
-			}
-			
-			try { 
-				Settings.VPaned = (int) gconf.Retrieve(SETTINGS_PATH + "vPaned");
-			} catch(SettingNotFoundException) {
-				Settings.VPaned = 145; 
-			}
-			
-			try {
-				Settings.HPaned = (int) gconf.Retrieve(SETTINGS_PATH + "hPaned");
-			} catch(SettingNotFoundException) {
-				Settings.HPaned = 160;
-			}
-			
-			try {
-				Settings.WindowYPos = (int) gconf.Retrieve(SETTINGS_PATH + "windowYPos");
-			} catch(SettingNotFoundException) {
-				Settings.WindowYPos = 0;
-			}
-			
-			try{
-				Settings.WindowXPos = (int) gconf.Retrieve(SETTINGS_PATH + "windowXPos");
-			} catch(SettingNotFoundException) {
-				Settings.WindowXPos = 0;
-			}
-			
-			// Restore column order/width/visibility
-			try{
-				Settings.NameColumnWidth = (int) gconf.Retrieve(SETTINGS_PATH + "Columns/Name/Width");
-			} catch(SettingNotFoundException){
-				Settings.NameColumnWidth = 75;
-			}
-			
-			try{
-				Settings.NameColumnVisible = (bool) gconf.Retrieve(SETTINGS_PATH + "Columns/Name/Visible");
-			} catch(SettingNotFoundException){
-				Settings.NameColumnVisible = true;
-			}
-			
-			try{
-				Settings.StatusColumnWidth = (int) gconf.Retrieve(SETTINGS_PATH + "Columns/Status/Width");
-			} catch(SettingNotFoundException){
-				Settings.StatusColumnWidth = 75;
-			}
-			
-			try{
-				Settings.StatusColumnVisible = (bool) gconf.Retrieve(SETTINGS_PATH + "Columns/Status/Visible");
-			} catch(SettingNotFoundException){
-				Settings.StatusColumnVisible = true;
-			}
-			
-			try{
-				Settings.DoneColumnWidth = (int) gconf.Retrieve(SETTINGS_PATH + "Columns/Done/Width");
-			} catch(SettingNotFoundException){
-				Settings.DoneColumnWidth = 75;
-			}
-			
-			try{
-				Settings.DoneColumnVisible = (bool) gconf.Retrieve(SETTINGS_PATH + "Columns/Done/Visible");
-			} catch(SettingNotFoundException){
-				Settings.DoneColumnVisible = true;
-			}
-			
-			try{
-				Settings.SeedsColumnWidth = (int) gconf.Retrieve(SETTINGS_PATH + "Columns/Seeds/Width");
-			} catch(SettingNotFoundException){
-				Settings.SeedsColumnWidth = 75;
-			}
-			
-			try{
-				Settings.SeedsColumnVisible = (bool) gconf.Retrieve(SETTINGS_PATH + "Columns/Seeds/Visible");
-			} catch(SettingNotFoundException){
-				Settings.SeedsColumnVisible = true;
-			}
-			
-			try{
-				Settings.PeersColumnWidth = (int) gconf.Retrieve(SETTINGS_PATH + "Columns/Peers/Width");
-			} catch(SettingNotFoundException){
-				Settings.PeersColumnWidth = 75;
-			}
-			
-			try{
-				Settings.PeersColumnVisible = (bool) gconf.Retrieve(SETTINGS_PATH + "Columns/Peers/Visible");
-			} catch(SettingNotFoundException){
-				Settings.PeersColumnVisible = true;
-			}
-			
-			try{
-				Settings.DlSpeedColumnWidth = (int) gconf.Retrieve(SETTINGS_PATH + "Columns/DLSpeed/Width");
-			} catch(SettingNotFoundException){
-				Settings.DlSpeedColumnWidth = 75;
-			}
-			
-			try{
-				Settings.DlSpeedColumnVisible = (bool) gconf.Retrieve(SETTINGS_PATH + "Columns/DLSpeed/Visible");
-			} catch(SettingNotFoundException){
-				Settings.DlSpeedColumnVisible = true;
-			}
-			
-			try{
-				Settings.UpSpeedColumnWidth = (int) gconf.Retrieve(SETTINGS_PATH + "Columns/UPSpeed/Width");
-			} catch(SettingNotFoundException){
-				Settings.UpSpeedColumnWidth = 75;
-			}
-			
-			try{
-				Settings.UpSpeedColumnVisible = (bool) gconf.Retrieve(SETTINGS_PATH + "Columns/UPSpeed/Visible");
-			} catch(SettingNotFoundException){
-				Settings.UpSpeedColumnVisible = true;
-			}
-			
-			try{
-				Settings.RatioColumnWidth = (int) gconf.Retrieve(SETTINGS_PATH + "Columns/Ratio/Width");
-			} catch(SettingNotFoundException){
-				Settings.RatioColumnWidth = 75;
-			}
-			
-			try{
-				Settings.RatioColumnVisible = (bool) gconf.Retrieve(SETTINGS_PATH + "Columns/Ratio/Visible");
-			} catch(SettingNotFoundException){
-				Settings.RatioColumnVisible = true;
-			}
-			
-			try{
-				Settings.SizeColumnWidth = (int) gconf.Retrieve(SETTINGS_PATH + "Columns/Size/Width");
-			} catch(SettingNotFoundException){
-				Settings.SizeColumnWidth = 75;
-			}
-			
-			try{
-				Settings.SizeColumnVisible = (bool) gconf.Retrieve(SETTINGS_PATH + "Columns/Size/Visible");
-			} catch(SettingNotFoundException){
-				Settings.SizeColumnVisible = true;
-			}
-			
-			try{
-				Settings.ShowLoadDialog = (bool) gconf.Retrieve (SETTINGS_PATH + "ShowLoadDialog");
-			} catch (SettingNotFoundException) {
-				Settings.ShowLoadDialog = true;
-			}
-			
-			try{
-				Settings.EtaColumnWidth = (int) gconf.Retrieve(SETTINGS_PATH + "Columns/Eta/Width");
-			} catch(SettingNotFoundException){
-				Settings.EtaColumnWidth = 50;
-			}
-
-			try{
-				Settings.EtaColumnVisible = (bool) gconf.Retrieve(SETTINGS_PATH + "Columns/Eta/Visible");
-			} catch(SettingNotFoundException){
-				Settings.EtaColumnVisible = true;
-			}
+				Settings.NameColumnWidth = Get <int> (SETTINGS_PATH + "Columns/Name/Width");
+				Settings.NameColumnVisible = Get <bool> (SETTINGS_PATH + "Columns/Name/Visible");
+				Settings.StatusColumnWidth = Get <int> (SETTINGS_PATH + "Columns/Status/Width");
+				Settings.StatusColumnVisible = Get <bool> (SETTINGS_PATH + "Columns/Status/Visible");
+				Settings.DoneColumnWidth = Get <int> (SETTINGS_PATH + "Columns/Done/Width");
+				Settings.DoneColumnVisible = Get <bool> (SETTINGS_PATH + "Columns/Done/Visible");
+				Settings.SeedsColumnWidth = Get <int> (SETTINGS_PATH + "Columns/Seeds/Width");
+				Settings.SeedsColumnVisible = Get <bool> (SETTINGS_PATH + "Columns/Seeds/Visible");
+				Settings.PeersColumnWidth = Get <int> (SETTINGS_PATH + "Columns/Peers/Width");
+				Settings.PeersColumnVisible = Get <bool> (SETTINGS_PATH + "Columns/Peers/Visible");
+				Settings.DlSpeedColumnWidth = Get <int> (SETTINGS_PATH + "Columns/DLSpeed/Width");
+				Settings.DlSpeedColumnVisible = Get <bool> (SETTINGS_PATH + "Columns/DLSpeed/Visible");
+				Settings.UpSpeedColumnWidth = Get <int> (SETTINGS_PATH + "Columns/UPSpeed/Width");
+				Settings.UpSpeedColumnVisible = Get <bool> (SETTINGS_PATH + "Columns/UPSpeed/Visible");
+				Settings.RatioColumnWidth = Get <int> (SETTINGS_PATH + "Columns/Ratio/Width");
+				Settings.RatioColumnVisible = Get <bool> (SETTINGS_PATH + "Columns/Ratio/Visible");
+				Settings.SizeColumnWidth = Get <int> (SETTINGS_PATH + "Columns/Size/Width");
+				Settings.SizeColumnVisible = Get <bool> (SETTINGS_PATH + "Columns/Size/Visible");
+				Settings.ShowLoadDialog = Get <bool>  (SETTINGS_PATH + "ShowLoadDialog");
+				Settings.EtaColumnWidth = Get <int> (SETTINGS_PATH + "Columns/Eta/Width");
+				Settings.EtaColumnVisible = Get <bool> (SETTINGS_PATH + "Columns/Eta/Visible");
 		}
 
 		public override void Save ()
 		{
-			GconfSettingsStorage gconf = GconfSettingsStorage.Instance;
+			Set (SETTINGS_PATH + "showDetails", Settings.ShowDetails);
+			Set (SETTINGS_PATH + "showLabels", Settings.ShowLabels);
 			
-			gconf.Store(SETTINGS_PATH + "showDetails", Settings.ShowDetails);
-			gconf.Store(SETTINGS_PATH + "showLabels", Settings.ShowLabels);
-			
-			gconf.Store(SETTINGS_PATH + "windowHeight", Settings.WindowHeight);
-			gconf.Store(SETTINGS_PATH + "windowWidth", Settings.WindowWidth);
-			gconf.Store(SETTINGS_PATH + "vPaned", Settings.VPaned);
-			gconf.Store(SETTINGS_PATH + "hPaned", Settings.HPaned);
-			gconf.Store(SETTINGS_PATH + "windowXPos", Settings.WindowXPos);
-			gconf.Store(SETTINGS_PATH + "windowYPos", Settings.WindowYPos);
+			Set (SETTINGS_PATH + "windowHeight", Settings.WindowHeight);
+			Set (SETTINGS_PATH + "windowWidth", Settings.WindowWidth);
+			Set (SETTINGS_PATH + "vPaned", Settings.VPaned);
+			Set (SETTINGS_PATH + "hPaned", Settings.HPaned);
+			Set (SETTINGS_PATH + "windowXPos", Settings.WindowXPos);
+			Set (SETTINGS_PATH + "windowYPos", Settings.WindowYPos);
 			
 			// Columns
-			gconf.Store(SETTINGS_PATH + "Columns/Name/Width", Settings.NameColumnWidth);
-			gconf.Store(SETTINGS_PATH + "Columns/Name/Visible", Settings.NameColumnVisible);
-			gconf.Store(SETTINGS_PATH + "Columns/Status/Width", Settings.StatusColumnWidth);
-			gconf.Store(SETTINGS_PATH + "Columns/Status/Visible", Settings.StatusColumnVisible);
-			gconf.Store(SETTINGS_PATH + "Columns/Done/Width", Settings.DoneColumnWidth);
-			gconf.Store(SETTINGS_PATH + "Columns/Done/Visible", Settings.DoneColumnVisible);
-			gconf.Store(SETTINGS_PATH + "Columns/Seeds/Width", Settings.SeedsColumnWidth);
-			gconf.Store(SETTINGS_PATH + "Columns/Seeds/Visible", Settings.SeedsColumnVisible);
-			gconf.Store(SETTINGS_PATH + "Columns/Peers/Width", Settings.PeersColumnWidth);
-			gconf.Store(SETTINGS_PATH + "Columns/Peers/Visible", Settings.PeersColumnVisible);
-			gconf.Store(SETTINGS_PATH + "Columns/DLSpeed/Width", Settings.DlSpeedColumnWidth);
-			gconf.Store(SETTINGS_PATH + "Columns/DLSpeed/Visible", Settings.DlSpeedColumnVisible);
-			gconf.Store(SETTINGS_PATH + "Columns/UPSpeed/Width", Settings.UpSpeedColumnWidth);
-			gconf.Store(SETTINGS_PATH + "Columns/UPSpeed/Visible", Settings.UpSpeedColumnVisible);
-			gconf.Store(SETTINGS_PATH + "Columns/Ratio/Width", Settings.RatioColumnWidth);
-			gconf.Store(SETTINGS_PATH + "Columns/Ratio/Visible", Settings.RatioColumnVisible);
-			gconf.Store(SETTINGS_PATH + "Columns/Size/Width", Settings.SizeColumnWidth);
-			gconf.Store(SETTINGS_PATH + "Columns/Size/Visible", Settings.SizeColumnVisible);
-			gconf.Store(SETTINGS_PATH + "Columns/Eta/Width", Settings.EtaColumnWidth);
-			gconf.Store(SETTINGS_PATH + "Columns/Eta/Visible", Settings.EtaColumnVisible);
+			Set (SETTINGS_PATH + "Columns/Name/Width", Settings.NameColumnWidth);
+			Set (SETTINGS_PATH + "Columns/Name/Visible", Settings.NameColumnVisible);
+			Set (SETTINGS_PATH + "Columns/Status/Width", Settings.StatusColumnWidth);
+			Set (SETTINGS_PATH + "Columns/Status/Visible", Settings.StatusColumnVisible);
+			Set (SETTINGS_PATH + "Columns/Done/Width", Settings.DoneColumnWidth);
+			Set (SETTINGS_PATH + "Columns/Done/Visible", Settings.DoneColumnVisible);
+			Set (SETTINGS_PATH + "Columns/Seeds/Width", Settings.SeedsColumnWidth);
+			Set (SETTINGS_PATH + "Columns/Seeds/Visible", Settings.SeedsColumnVisible);
+			Set (SETTINGS_PATH + "Columns/Peers/Width", Settings.PeersColumnWidth);
+			Set (SETTINGS_PATH + "Columns/Peers/Visible", Settings.PeersColumnVisible);
+			Set (SETTINGS_PATH + "Columns/DLSpeed/Width", Settings.DlSpeedColumnWidth);
+			Set (SETTINGS_PATH + "Columns/DLSpeed/Visible", Settings.DlSpeedColumnVisible);
+			Set (SETTINGS_PATH + "Columns/UPSpeed/Width", Settings.UpSpeedColumnWidth);
+			Set (SETTINGS_PATH + "Columns/UPSpeed/Visible", Settings.UpSpeedColumnVisible);
+			Set (SETTINGS_PATH + "Columns/Ratio/Width", Settings.RatioColumnWidth);
+			Set (SETTINGS_PATH + "Columns/Ratio/Visible", Settings.RatioColumnVisible);
+			Set (SETTINGS_PATH + "Columns/Size/Width", Settings.SizeColumnWidth);
+			Set (SETTINGS_PATH + "Columns/Size/Visible", Settings.SizeColumnVisible);
+			Set (SETTINGS_PATH + "Columns/Eta/Width", Settings.EtaColumnWidth);
+			Set (SETTINGS_PATH + "Columns/Eta/Visible", Settings.EtaColumnVisible);
 			
-			gconf.Store(SETTINGS_PATH + "ShowLoadDialog", Settings.ShowLoadDialog);
+			Set (SETTINGS_PATH + "ShowLoadDialog", Settings.ShowLoadDialog);
 		}
 	}
 }

@@ -32,183 +32,152 @@ namespace Monsoon
 {
 	public class InterfaceSettings
 	{
-		private int windowHeight;
-		private int windowWidth;
-		private int windowYPos;
-		private int windowXPos;
-		private int vPaned;
-		private int hPaned;
-		private bool showDetails;
-		private bool showLabels;
-		
-		// Columns
-		private int nameColumnWidth;
-		private int statusColumnWidth;
-		private int doneColumnWidth;
-		private int seedsColumnWidth;
-		private int peersColumnWidth;
-		private int dlSpeedColumnWidth;
-		private int upSpeedColumnWidth;
-		private int ratioColumnWidth;
-		private int sizeColumnWidth;
-		private int etaColumnWidth;
-		
-		private bool nameColumnVisible;
-		private bool statusColumnVisible;
-		private bool doneColumnVisible;
-		private bool seedsColumnVisible;
-		private bool peersColumnVisible;
-		private bool dlSpeedColumnVisible;
-		private bool upSpeedColumnVisible;
-		private bool ratioColumnVisible;
-		private bool sizeColumnVisible;
-		private bool etaColumnVisible;
-		
-		private bool showLoadDialog;
-
 		public bool ShowLoadDialog {
-			get { return showLoadDialog; }
-			set { showLoadDialog = value; }
+			get; set;
 		}
 		
 		public bool ShowDetails {
-			get { return showDetails; }
-			set { showDetails = value; }
+			get; set;
 		}
 		
 		public bool ShowLabels {
-			get { return showLabels; }
-			set { showLabels = value; }
+			get; set;
 		}
 		
 		public int WindowHeight {
-			get { return windowHeight; }
-			set { windowHeight = value; }
+			get; set;
 		}
 		
 		public int WindowWidth {
-			get { return windowWidth; }
-			set { windowWidth = value; }
+			get; set;
 		}
 		
 		public int VPaned {
-			get { return vPaned; }
-			set { vPaned = value; }
+			get; set;
 		}
 		
 		public int HPaned {
-			get { return hPaned; }
-			set { hPaned = value; }
+			get; set;
 		}
 		
 		public int WindowXPos{
-			get { return windowXPos; }
-			set { windowXPos = value; }
+			get; set;
 		}
 		
 		public int WindowYPos{
-			get { return windowYPos; }
-			set { windowYPos = value; }
+			get; set;
 		}
 		
 		public int NameColumnWidth{
-			get { return nameColumnWidth; }
-			set { nameColumnWidth = value; }
+			get; set;
 		}
 		
 		public bool NameColumnVisible{
-			get { return nameColumnVisible; }
-			set { nameColumnVisible = value; }
+			get; set;
 		}
 		
 		public int StatusColumnWidth{
-			get { return statusColumnWidth; }
-			set { statusColumnWidth = value; }
+			get; set;
 		}
 		
 		public bool StatusColumnVisible{
-			get { return statusColumnVisible; }
-			set { statusColumnVisible = value; }
+			get; set;
 		}
 		
 		public int DoneColumnWidth{
-			get { return doneColumnWidth; }
-			set { doneColumnWidth = value; }
+			get; set;
 		}
 		
 		public bool DoneColumnVisible{
-			get { return doneColumnVisible; }
-			set { doneColumnVisible = value; }
+			get; set;
 		}
 		
 		public int SeedsColumnWidth{
-			get { return seedsColumnWidth; }
-			set { seedsColumnWidth = value; }
+			get; set;
 		}
 		
 		public bool SeedsColumnVisible{
-			get { return seedsColumnVisible; }
-			set { seedsColumnVisible = value; }
+			get; set;
 		}
 		
 		public int PeersColumnWidth{
-			get { return peersColumnWidth; }
-			set { peersColumnWidth = value; }
+			get; set;
 		}
 		
 		public bool PeersColumnVisible{
-			get { return peersColumnVisible; }
-			set { peersColumnVisible = value; }
+			get; set;
 		}
 		
 		public int DlSpeedColumnWidth{
-			get { return dlSpeedColumnWidth; }
-			set { dlSpeedColumnWidth = value; }
+			get; set;
 		}
 		
 		public bool DlSpeedColumnVisible{
-			get { return dlSpeedColumnVisible; }
-			set { dlSpeedColumnVisible = value; }
+			get; set;
 		}
 		
 		public int UpSpeedColumnWidth{
-			get { return upSpeedColumnWidth; }
-			set { upSpeedColumnWidth = value; }
+			get; set;
 		}
 		
 		public bool UpSpeedColumnVisible{
-			get { return upSpeedColumnVisible; }
-			set { upSpeedColumnVisible = value; }
+			get; set;
 		}
 		
 		public int RatioColumnWidth{
-			get { return ratioColumnWidth; }
-			set { ratioColumnWidth = value; }
+			get; set;
 		}
 		
 		public bool RatioColumnVisible{
-			get { return ratioColumnVisible; }
-			set { ratioColumnVisible = value; }
+			get; set;
 		}
 		
 		public int SizeColumnWidth{
-			get { return sizeColumnWidth; }
-			set { sizeColumnWidth = value; }
+			get; set;
 		}
 		
 		public bool SizeColumnVisible{
-			get { return sizeColumnVisible; }
-			set { sizeColumnVisible = value; }
+			get; set;
 		}
 		
 		public int EtaColumnWidth{
-			get { return etaColumnWidth; }
-			set { etaColumnWidth = value; }
+			get; set;
 		}
 		
 		public bool EtaColumnVisible{
-			get { return etaColumnVisible; }
-			set { etaColumnVisible = value; }
+			get; set;
 		}
+		
+		public InterfaceSettings ()
+		{
+			ShowDetails = true;
+			ShowLabels = true;
+			WindowHeight = 480;
+			WindowWidth = 640;
+			VPaned = 145; 
+			HPaned = 160;
+			WindowYPos = 0;
+			WindowXPos = 0;
+			NameColumnWidth = 75;
+			NameColumnVisible = true;
+			StatusColumnWidth = 75;
+			StatusColumnVisible = true;
+			DoneColumnWidth = 75;
+			DoneColumnVisible = true;
+			SeedsColumnWidth = 75;
+			SeedsColumnVisible = true;
+			PeersColumnWidth = 75;
+			PeersColumnVisible = true;
+			DlSpeedColumnWidth = 75;
+			DlSpeedColumnVisible = true;
+			UpSpeedColumnWidth = 75;
+			UpSpeedColumnVisible = true;
+			RatioColumnWidth = 75;
+			RatioColumnVisible = true;
+			SizeColumnWidth = 75;
+			SizeColumnVisible = true;
+			ShowLoadDialog = true;
+			EtaColumnWidth = 50;
+			EtaColumnVisible = true;		}
 	}
 }
