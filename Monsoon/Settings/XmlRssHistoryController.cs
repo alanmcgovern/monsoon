@@ -37,45 +37,17 @@ namespace Monsoon
 {
 	
 	
-	public class XmlRssHistoryController : SettingsController<List<RssItem>>
+	public class XmlRssHistoryController : XmlSettings <List<RssItem>>
 	{
-		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
-		
 		public override void Load ()
 		{
-			XmlSerializer xs = new XmlSerializer (typeof(RssItem[]));
-			
-			logger.Info ("Restoring RSS history");
-			
-			try
-			{
-				if (!File.Exists(Defines.SerializedRssHistroy))
-					return;
-					
-				using (Stream fs = File.Open(Defines.SerializedRssHistroy, FileMode.Open))
-					Settings.AddRange ((RssItem[]) xs.Deserialize (fs));
-			}
-			catch (IOException)
-			{
-				logger.Error("Error opening rsshistory.xml");
-			}
-			catch (Exception)
-			{
-				logger.Error("Failed to restore history");
-			}
+			Settings.Clear ();
+			Settings.AddRange (Load <RssItem> (Defines.SerializedRssHistroy));
 		}
 		
 		public override void Save ()
 		{
-			logger.Info ("Storing history");
-	
-			using (Stream fs = new FileStream (Defines.SerializedRssHistroy, FileMode.Create))
-			{
-				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-				
-				XmlSerializer s = new XmlSerializer (typeof(RssItem[]));
-				s.Serialize(writer, Settings.ToArray());
-			}
+			Save <RssItem> (Defines.SerializedRssHistroy, Settings.ToArray ());
 		}
 	}
 }

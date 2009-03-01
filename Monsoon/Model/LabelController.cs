@@ -51,27 +51,23 @@ namespace Monsoon
 		}
 		
 		public void Restore ()
-		{			
-			XmlTorrentLabelController labelLoader = new XmlTorrentLabelController();
-			labelLoader.Load();
-			
-			foreach (TorrentLabel label in labelLoader.Settings) {
-				Add (label);
-			}
+		{
+			List <TorrentLabel> labels = new List<TorrentLabel> ();
+			SettingsManager.Restore <List <TorrentLabel>> (labels);
+			labels.ForEach (Add);
 		}
 		
 		public void Store ()
 		{
-			XmlTorrentLabelController labelSaver = new XmlTorrentLabelController();
-			labelSaver.Settings.Clear();
+			List <TorrentLabel> labels = new List<TorrentLabel> ();
 			
 			foreach (TorrentLabel label in Labels) {
 				if (label.Immutable)
 					continue;
-				labelSaver.Settings.Add(label);
+				labels.Add(label);
 			}
 			
-			labelSaver.Save();
+			SettingsManager.Store <List <TorrentLabel>> (labels);
 		}
 		
 		static string _(string s)

@@ -137,6 +137,7 @@
     <Compile Include="Model\LabelEventArgs.cs" />
     <Compile Include="Settings\SettingsManager.cs" />
     <Compile Include="Settings\GConfSettings.cs" />
+    <Compile Include="Settings\XmlSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\rss.png">

@@ -7,7 +7,7 @@ namespace Monsoon
 {
 	public static class SettingsManager
 	{
-		static Dictionary <Type, Type> controllers;
+		static Dictionary <Type, Type> controllers = new Dictionary <Type, Type> ();
 		
 		static SettingsController <T> Get <T> (T settings)
 			where T : new ()
@@ -49,6 +49,11 @@ namespace Monsoon
 			} else {
 				
 			}
+			Register <List <RssItem>, XmlRssHistoryController> ();
+			Register <List <string>, XmlRssFeedsController> ();
+			Register <List <TorrentLabel>, XmlTorrentLabelController> ();
+			Register <List <TorrentStorage>, XmlTorrentStorageController> ();
+			Register <List <RssFilter>, XmlRssFiltersController> ();
 		}
 	}
 }

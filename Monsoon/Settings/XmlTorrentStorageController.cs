@@ -37,40 +37,17 @@ namespace Monsoon
 {
 	
 	
-	public class XmlTorrentStorageController : SettingsController<List<TorrentStorage>>
+	public class XmlTorrentStorageController : XmlSettings <List<TorrentStorage>>
 	{
-		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
-		
 		public override void Load ()
 		{
-			TorrentStorage[] storedTorrents;
-
-			if(!File.Exists(Defines.SerializedTorrentSettings))
-			   return;
-			
-			try {
-				using (FileStream fs = File.Open(Defines.SerializedTorrentSettings, FileMode.Open)) {
-					XmlSerializer xs = new XmlSerializer(typeof(TorrentStorage[]));				
-					storedTorrents = (TorrentStorage[]) xs.Deserialize(fs);
-				}
-			} catch (XmlException) {
-				logger.Error("Error loading stored torrents");
-				return;
-			}
-			
-			Settings.Clear();
-			foreach(TorrentStorage torrentStorage in storedTorrents)
-				Settings.Add(torrentStorage);
+			Settings.Clear ();
+			Settings.AddRange (Load <TorrentStorage> (Defines.SerializedTorrentSettings));
 		}
 		
 		public override void Save ()
 		{
-			using (Stream fs = new FileStream (Defines.SerializedTorrentSettings, FileMode.Create)) {
-				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);				
-				XmlSerializer s = new XmlSerializer (typeof(TorrentStorage[]));
-				s.Serialize (writer, Settings.ToArray()); 	
-			}
+			Save <TorrentStorage> (Defines.SerializedTorrentSettings, Settings.ToArray ());
 		}
-
 	}
 }

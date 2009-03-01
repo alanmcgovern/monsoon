@@ -217,7 +217,6 @@ namespace Monsoon
 			Ticker.Tick ();
 			logger.Info ("Restoring labels");
 			LabelController.Restore ();
-			
 			// Restore previously labeled torrents
 			foreach (Download download in torrentController.Torrents){
 				foreach (TorrentLabel l in LabelController.Labels) {
@@ -245,6 +244,7 @@ namespace Monsoon
 				folderWatcher.Start ();
 			}
 			
+			logger.Info ("Starting RSS manager");
 			rssManagerController = new RssManagerController(EngineSettings);
 			rssManagerController.TorrentFound += delegate(object sender, TorrentRssWatcherEventArgs e) {
 				string savePath = e.Filter == null ? EngineSettings.SavePath : e.Filter.SavePath;
@@ -254,7 +254,7 @@ namespace Monsoon
 					logger.Error("RSS Manager: Unable to add - " + e.Item.Title);
 				}
 			};
-						
+			logger.Info ("Started RSS manager");
 			rssManagerController.StartWatchers();
 			ShowAll();
 		}
@@ -965,11 +965,11 @@ namespace Monsoon
 		
 		public void StoreTorrentSettings ()
 		{
-			XmlTorrentStorageController controller = new XmlTorrentStorageController();
-			
+			List<TorrentStorage> torrents = new List<TorrentStorage> ();
+
 			logger.Info ("Storing torrent settings");
 
-			foreach (Download download in torrents.Keys){
+			foreach (Download download in this.torrents.Keys){
 				TorrentManager manager = download.Manager;
 				TorrentStorage torrentToStore = new TorrentStorage();
 				torrentToStore.TorrentPath = manager.Torrent.TorrentPath;
@@ -985,9 +985,9 @@ namespace Monsoon
 					fileSettings.Priority = file.Priority;
 					torrentToStore.Files.Add(fileSettings);
 				}
-				controller.Settings.Add(torrentToStore);	
+				torrents.Add(torrentToStore);	
 			}
-			controller.Save();
+			SettingsManager.Store <List <TorrentStorage>> (torrents);
 		}
 
 		protected virtual void OnAboutActivated (object sender, System.EventArgs e)

@@ -153,6 +153,7 @@ FILES =  \
 	Settings/XmlRssFeedsController.cs \
 	Settings/XmlRssFiltersController.cs \
 	Settings/XmlRssHistoryController.cs \
+	Settings/XmlSettings.cs \
 	Settings/XmlTorrentLabelController.cs \
 	Settings/XmlTorrentStorageController.cs \
 	Ticker.cs \

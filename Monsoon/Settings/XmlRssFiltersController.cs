@@ -37,48 +37,19 @@ namespace Monsoon
 {
 	
 	
-	public class XmlRssFiltersController : SettingsController<List<RssFilter>>
+	public class XmlRssFiltersController : XmlSettings <List<RssFilter>>
 	{
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		public override void Load ()
 		{
-			XmlSerializer xs = new XmlSerializer (typeof(RssFilter[]));
-			
-			logger.Info ("Restoring RSS feeds");
-			
-			try
-			{
-				if (!System.IO.File.Exists (Defines.SerializedRssFilters))
-					return;
-				
-				using (FileStream fs = File.Open (Defines.SerializedRssFilters, FileMode.Open))
-				{
-					Settings.Clear ();
-					Settings.AddRange ((RssFilter[]) xs.Deserialize (fs));
-				}
-			}
-			catch (IOException)
-			{
-				logger.Error ("Error opening rssfilters.xml");
-			}
-			catch (Exception)
-			{
-				logger.Error ("Failed to restore RSS filters");
-			}
+			Settings.Clear ();
+			Settings.AddRange (Load <RssFilter> (Defines.SerializedRssFilters));
 		}
 		
 		public override void Save ()
 		{
-			logger.Info ("Storing filters");
-
-			using (Stream fs = new FileStream (Defines.SerializedRssFilters, FileMode.Create))
-			{
-				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-
-				XmlSerializer s = new XmlSerializer (typeof(RssFilter[]));
-				s.Serialize(writer, Settings.ToArray ());
-			}
+			Save <RssFilter> (Defines.SerializedRssFilters, Settings.ToArray ());
 		}
 	}
 }

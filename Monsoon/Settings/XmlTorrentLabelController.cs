@@ -37,37 +37,17 @@ namespace Monsoon
 {
 	
 	
-	public class XmlTorrentLabelController : SettingsController<List<TorrentLabel>>
+	public class XmlTorrentLabelController : XmlSettings <List<TorrentLabel>>
 	{
-		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
-		
 		public override void Load ()
 		{
-			XmlSerializer xs = new XmlSerializer(typeof(TorrentLabel[]));
-
-			if (!System.IO.File.Exists(Defines.SerializedLabels))
-				return;
-			
-			using (FileStream fs = System.IO.File.OpenRead(Defines.SerializedLabels))
-			{
-				try {
-					Settings.Clear();
-					Settings.AddRange ((TorrentLabel[]) xs.Deserialize(fs));
-				} catch {
-					logger.Error("Failed to restore Labels");
-				}
-			}
+			Settings.Clear ();
+			Settings.AddRange (Load <TorrentLabel> (Defines.SerializedLabels));
 		}
 		
 		public override void Save ()
 		{
-			using (Stream fs = new FileStream (Defines.SerializedLabels, FileMode.Create))
-			{
-				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-				XmlSerializer s = new XmlSerializer (typeof(TorrentLabel[]));
-				s.Serialize(writer, Settings.ToArray());
-			}
+			Save <TorrentLabel> (Defines.SerializedLabels, Settings.ToArray ());
 		}
-		
 	}
 }

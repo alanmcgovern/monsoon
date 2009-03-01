@@ -171,71 +171,39 @@ namespace Monsoon
 		
 		public void StoreFeeds()
 		{
-			XmlRssFeedsController controller = new XmlRssFeedsController();
-			
-			controller.Settings.Clear();
-			
-			foreach(String feed in feeds) {
-				controller.Settings.Add(feed);
-			}
-			 
-			controller.Save();
+			SettingsManager.Store <List <string>> (feeds);
 		}
 		
 		
 		public void StoreHistory()
 		{	
-			XmlRssHistoryController controller = new XmlRssHistoryController();
-			controller.Settings.Clear();
-			
-			foreach(RssItem item in history) {
-				controller.Settings.Add(item);
-			}
-			
-			controller.Save();
+			SettingsManager.Store <List <RssItem>> (history);
 		}
 		
 		
 		public void StoreFilters()
 		{
-			XmlRssFiltersController controller = new XmlRssFiltersController();
-			controller.Settings.Clear();
-			
-			foreach(RssFilter filter in filters) {
-				controller.Settings.Add(filter);
-			}
-			
-			controller.Save();			
+			SettingsManager.Store <List <RssFilter>> (filters);	
 		}
 		
 		
 		public void RestoreFeeds()
 		{
-			XmlRssFeedsController controller = new XmlRssFeedsController();
-			controller.Load();
-			feeds = controller.Settings;
+			SettingsManager.Restore <List <string>> (feeds);
 		}
 		
 		
 		public void RestoreHistory()
 		{
-			XmlRssHistoryController controller = new XmlRssHistoryController();
-			controller.Load();
-			
-			foreach(RssItem item in controller.Settings){
-					history.Add(item);
-					historyListStore.AppendValues(item);
-			}
+			SettingsManager.Restore <List <RssItem>> (history);
+			foreach (RssItem item in history)
+				historyListStore.AppendValues (item);
 		}
 		
 		
 		public void RestoreFilters()
 		{
-			XmlRssFiltersController controller = new XmlRssFiltersController();
-			
-			controller.Load();
-			filters = controller.Settings;
-			
+			SettingsManager.Restore <List <RssFilter>> (filters);
 			RefreshWatchers();
 		}
 		

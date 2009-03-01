@@ -347,10 +347,10 @@ namespace Monsoon
 		{
 			Download manager;
 			
-			XmlTorrentStorageController controller = new XmlTorrentStorageController();
-			controller.Load();
-
-			foreach(TorrentStorage torrentStore in controller.Settings){
+			List<TorrentStorage> torrents =new List<TorrentStorage> ();
+			SettingsManager.Restore <List<TorrentStorage>> (torrents);
+			
+			foreach(TorrentStorage torrentStore in torrents){
 				try{
 					Torrent t = Torrent.Load (torrentStore.TorrentPath);
 					manager = addTorrent(t, false, false, torrentStore.Settings);

@@ -37,46 +37,17 @@ namespace Monsoon
 {
 	
 	
-	public class XmlRssFeedsController : SettingsController<List<string>>
+	public class XmlRssFeedsController : XmlSettings <List<string>>
 	{
-		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
-		
 		public override void Load ()
 		{
-			XmlSerializer xs = new XmlSerializer (typeof(List<string>));
-			
-			logger.Info ("Restoring RSS feeds");
-			
-			try
-			{
-				if (!System.IO.File.Exists(Defines.SerializedRssFeeds))
-					return;
-				
-				using (FileStream fs = File.OpenRead(Defines.SerializedRssFeeds))
-					Settings.AddRange ((List<string>) xs.Deserialize(fs));
-			}
-			catch (IOException)
-			{
-				logger.Error ("Error opening {0}", Defines.SerializedRssFeeds);
-			}
-			catch (Exception)
-			{
-				logger.Error("Error restoring RSS feeds");
-			}
+			Settings.Clear ();
+			Settings.AddRange (Load <string> (Defines.SerializedRssFeeds));
 		}
 		
 		public override void Save ()
 		{
-						
-			using (Stream fs = new FileStream (Defines.SerializedRssFeeds, FileMode.Create))
-			{
-				XmlWriter writer = new XmlTextWriter (fs, Encoding.UTF8);
-				
-				XmlSerializer s = new XmlSerializer (typeof(List<string>));
-				s.Serialize(writer, Settings);
-			}
+			Save <string> (Defines.SerializedRssFeeds, Settings.ToArray ());
 		}
-
-
 	}
 }
