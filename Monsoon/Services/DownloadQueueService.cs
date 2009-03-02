@@ -28,12 +28,12 @@ namespace Monsoon
 			};
 		}
 
-		void HandleStateChanged(object sender, TorrentStateChangedEventArgs e)
+		void HandleStateChanged(object sender, StateChangedEventArgs e)
 		{
 			TorrentController c = ServiceManager.Get <TorrentController> ();
-			if (e.OldState == TorrentState.Downloading && e.NewState != TorrentState.Paused) {
+			if (e.OldState == State.Downloading && e.NewState != State.Paused) {
 				foreach (Download download in c.Torrents) {
-					if (download.Queued) {
+					if (download.State == State.Queued) {
 						download.Start ();
 						return;
 					}
@@ -52,7 +52,7 @@ namespace Monsoon
 			
 			if (count >= MaxActiveDownloads) {
 				e.ShouldStart = false;
-				e.Download.Queued = true;
+				e.Download.State = State.Queued;
 			}
 		}
 		

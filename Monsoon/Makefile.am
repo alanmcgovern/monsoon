@@ -131,6 +131,8 @@ FILES =  \
 	Model/ShouldAddEventArgs.cs \
 	Model/ShouldRemoveEventArgs.cs \
 	Model/ShouldStartEventArgs.cs \
+	Model/State.cs \
+	Model/StateChangedEventArgs.cs \
 	Model/TorrentFileModel.cs \
 	PeerTreeView.cs \
 	PiecesTreeView.cs \

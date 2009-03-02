@@ -43,7 +43,7 @@ namespace Monsoon
 		private string torrentPath;
 		private string savePath;
 		private TorrentSettings settings;
-		private TorrentState state;
+		private State state;
 		private long uploadedData;
 		private long downloadedData;
 		private string infoHash;
@@ -72,10 +72,10 @@ namespace Monsoon
 			set { settings = value; }
 		}
 
-		public TorrentState State
+		public State State
 		{
-			get { return state; }
-			set { state = value; }
+			get { Console.WriteLine ("Getting: {0}", state); return state; }
+			set { Console.WriteLine ("Setting: {0}", value); state = value; }
 		}
 
 		public long UploadedData

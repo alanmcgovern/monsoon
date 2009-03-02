@@ -318,7 +318,7 @@ namespace Monsoon
 					return;
 			}
 			
-			if(torrent.State != TorrentState.Stopped)
+			if(torrent.State != Monsoon.State.Stopped)
 				torrent.Stop();
 
 			allTorrents.Remove (torrent);
@@ -391,7 +391,9 @@ namespace Monsoon
 					}
 				}				
 				
-				if(torrentStore.State == TorrentState.Downloading || torrentStore.State == TorrentState.Seeding){
+				if(torrentStore.State == Monsoon.State.Downloading ||
+				   torrentStore.State == Monsoon.State.Seeding ||
+				   torrentStore.State == Monsoon.State.Queued) {
 					try{
 						manager.Start();
 					}catch{

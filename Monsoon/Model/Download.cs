@@ -10,7 +10,7 @@ namespace Monsoon
 	{
 		public event EventHandler<ShouldStartEventArgs> ShouldStart;
 		public event EventHandler Started;
-		public event EventHandler<TorrentStateChangedEventArgs> StateChanged;
+		public event EventHandler<StateChangedEventArgs> StateChanged;
 		public event EventHandler Stopped;
 		public event EventHandler Paused;
 		public event EventHandler Resumed;
@@ -18,14 +18,21 @@ namespace Monsoon
 		double hashProgress;
 		TorrentManager manager;
 		bool queued;
+		State state = State.Stopped;
 		SpeedMonitor swarmSpeed;
 		
 		public TorrentManager Manager {
 			get { return manager; }
 		}
 		
-		public MonoTorrent.Common.TorrentState State {
-			get { return manager.State; }
+		public State State {
+			get { return state; }
+			set {
+				State oldState = state;
+				state = value;
+				if (oldState != state)
+					Event.Raise <StateChangedEventArgs> (StateChanged, this, new StateChangedEventArgs (this, state, oldState));
+			}
 		}
 		
 		public int Available {
@@ -45,15 +52,7 @@ namespace Monsoon
 		}
 		
 		public double Progress {
-			get { return manager.State == TorrentState.Hashing ? hashProgress : manager.Progress / 100.0; }
-		}
-		
-		public bool Queued {
-			get { return queued; }
-			set {
-				queued = value;
-				Event.Raise <TorrentStateChangedEventArgs> (StateChanged, this, new TorrentStateChangedEventArgs (Manager, State, State));;
-			}
+			get { return state == State.Hashing ? hashProgress : manager.Progress / 100.0; }
 		}
 		
 		public string SavePath {
@@ -99,10 +98,26 @@ namespace Monsoon
 			};
 			
 			manager.TorrentStateChanged += delegate(object sender, TorrentStateChangedEventArgs e) {
-				if (e.NewState == TorrentState.Hashing)
-					hashProgress = 0;
+				hashProgress = 0;
+
 				Gtk.Application.Invoke (delegate {
-					Event.Raise<TorrentStateChangedEventArgs> (StateChanged, this, e);
+					switch (e.NewState) {
+					case TorrentState.Downloading:
+						State = State.Downloading;
+						break;
+					case TorrentState.Hashing:
+						State = State.Hashing;
+						break;
+					case TorrentState.Paused:
+						State = State.Paused;
+						break;
+					case TorrentState.Seeding:
+						State = State.Seeding;
+						break;
+					case TorrentState.Stopped:
+						State = State.Stopped;
+						break;
+					}
 				});
 			};
 		}
@@ -131,12 +146,14 @@ namespace Monsoon
 		{
 			manager.Pause ();
 			Event.Raise (Paused, this, EventArgs.Empty);
+			State = State.Paused;
 		}
 		
 		public void Resume ()
 		{
 			manager.Start ();
 			Event.Raise (Resumed, this, EventArgs.Empty);
+			State = Manager.Complete ? State.Seeding : State.Downloading;
 		}
 		
 		public FastResume SaveFastResume ()
@@ -153,20 +170,23 @@ namespace Monsoon
 				if (!e.ShouldStart)
 					return;
 			}
-			Queued = false;
 			manager.Start ();
-			Event.Raise (Started, this, EventArgs.Empty);
 			manager.Engine.ConnectionManager.PeerMessageTransferred += HandlePeerMessageTransferred;
+			
+			Event.Raise (Started, this, EventArgs.Empty);
+			State = manager.Complete ? State.Seeding : State.Downloading;
 		}
 		
 		public void Stop ()
 		{
-			if (Queued) {
-				Queued = false;
+			if (State == State.Queued) {
+				State = State.Stopped;
 			} else {
-				manager.Stop ().WaitOne ();
-				Event.Raise (Stopped, this, EventArgs.Empty);
+				manager.Stop ();
 				manager.Engine.ConnectionManager.PeerMessageTransferred -= HandlePeerMessageTransferred;
+				
+				Event.Raise (Stopped, this, EventArgs.Empty);
+				State = State.Stopped;
 			}
 		}
 	}

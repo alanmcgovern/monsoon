@@ -274,20 +274,19 @@ namespace Monsoon
 			if(torrent == null)
 				return;
 			
-			if (torrent.State == TorrentState.Downloading){
+			if (torrent.State == Monsoon.State.Downloading){
 				(cell as Gtk.CellRendererText).Foreground = "darkgreen";
-			}else if (torrent.State == TorrentState.Paused){
+			}else if (torrent.State == Monsoon.State.Paused){
 				(cell as Gtk.CellRendererText).Foreground = "orange";
-			}else if (torrent.State == TorrentState.Hashing){
+			}else if (torrent.State == Monsoon.State.Hashing){
 				(cell as Gtk.CellRendererText).Foreground = "purple";
-			}else if (torrent.State == TorrentState.Seeding){
+			}else if (torrent.State == Monsoon.State.Seeding){
 				(cell as Gtk.CellRendererText).Foreground = "darkgreen";
-			}else if (torrent.State == TorrentState.Stopped && torrent.Complete){
+			}else if (torrent.State == Monsoon.State.Stopped && torrent.Complete){
 				(cell as Gtk.CellRendererText).Foreground = "blue";
-			} else if (torrent.Queued) {
-				
-			}
-			else {
+			} else if (torrent.State == Monsoon.State.Queued) {
+				(cell as Gtk.CellRendererText).Foreground = "black";
+			} else {
 				(cell as Gtk.CellRendererText).Foreground = "red";
 			}
 	
@@ -299,20 +298,20 @@ namespace Monsoon
 			if (manager == null)
 				return "";
 			
-			if(manager.Queued)
+			if(manager.State == Monsoon.State.Queued)
 				return _("Queued");
 			
 			switch (manager.State)
 			{
-			case TorrentState.Stopped:
+			case Monsoon.State.Stopped:
 				return manager.Complete ? "Finished" : "Stopped";
-			case TorrentState.Seeding:
+			case Monsoon.State.Seeding:
 				return "Seeding";
-			case TorrentState.Downloading:
+			case Monsoon.State.Downloading:
 				return "Downloading";
-			case TorrentState.Hashing:
+			case Monsoon.State.Hashing:
 				return "Hashing";
-			case TorrentState.Paused:
+			case Monsoon.State.Paused:
 				return "Paused";
 			default:
 				return manager.State.ToString ();
@@ -406,12 +405,12 @@ namespace Monsoon
 		private string GetEtaString (Download manager)
 		{
 			TimeSpan eta;
-			if (manager.State == TorrentState.Downloading && (manager.Torrent.Size - manager.TotalDownloaded) > 0)
+			if (manager.State == Monsoon.State.Downloading && (manager.Torrent.Size - manager.TotalDownloaded) > 0)
 			{
 				double dSpeed = manager.DownloadSpeed;
 				eta = TimeSpan.FromSeconds(dSpeed > 0 ? ((manager.Torrent.Size - manager.TotalDownloaded) / dSpeed) : -1);
 			}
-			else if (manager.State == TorrentState.Seeding && (manager.Torrent.Size - manager.TotalUploaded) > 0)
+			else if (manager.State == Monsoon.State.Seeding && (manager.Torrent.Size - manager.TotalUploaded) > 0)
 			{
 				double uSpeed = manager.UploadSpeed;
 				eta = TimeSpan.FromSeconds(uSpeed > 0 ? ((manager.Torrent.Size - manager.TotalUploaded) / uSpeed) : -1);

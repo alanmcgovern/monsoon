@@ -576,20 +576,20 @@ namespace Monsoon
 			}
 		}
 
-		void HandleStateChanged(object sender, TorrentStateChangedEventArgs args)
+		void HandleStateChanged(object sender, StateChangedEventArgs args)
 		{
 			Download manager = (Download) sender;
 
-			if (args.NewState == TorrentState.Stopped)
+			if (args.NewState == Monsoon.State.Stopped)
 				PeerListStore.Clear ();
 			
 			this.updateView ();
 			
 			if (!Preferences.EnableNotifications)
 				return;
-			if (args.NewState != TorrentState.Seeding)
+			if (args.NewState != Monsoon.State.Seeding)
 				return;
-			if (args.OldState != TorrentState.Downloading)
+			if (args.OldState != Monsoon.State.Downloading)
 				return;
 
 			Notifications.Notification notify = new Notifications.Notification (_("Download Complete"), manager.Torrent.Name, Stock.GoDown);
@@ -884,7 +884,7 @@ namespace Monsoon
 				torrentToStore.TorrentPath = manager.Torrent.TorrentPath;
 				torrentToStore.SavePath = manager.SavePath;
 				torrentToStore.Settings = manager.Settings;
-				torrentToStore.State = manager.State;
+				torrentToStore.State = download.State;
 				torrentToStore.UploadedData = download.TotalUploaded;
 				torrentToStore.DownloadedData = download.TotalDownloaded;
 				torrentToStore.InfoHash = Convert.ToString(manager.GetHashCode());
@@ -1087,12 +1087,12 @@ namespace Monsoon
 			} else {
 				TorrentManager manager = download.Manager;
 				statusProgressBar.Fraction = download.Progress;
-				statusProgressBar.Text = string.Format("{0} {1:0.00}%", manager.State, download.Progress * 100);
+				statusProgressBar.Text = string.Format("{0} {1:0.00}%", download.State, download.Progress * 100);
 				
 				downloadedValueLabel.Text = ByteConverter.ConvertSize (download.TotalDownloaded);
 				uploadedValueLabel.Text = ByteConverter.ConvertSize (download.TotalUploaded);
 				
-				if (manager.State != TorrentState.Stopped)
+				if (download.State != Monsoon.State.Stopped)
 					elapsedTimeValueLabel.Text = DateTime.MinValue.Add ((DateTime.Now - manager.StartTime)).ToString("HH:mm:ss");
 				else
 					elapsedTimeValueLabel.Text = null;
@@ -1115,7 +1115,7 @@ namespace Monsoon
 				}
 				hashFailsLabel.Text = manager.HashFails.ToString ();
 				
-				if (manager.State != TorrentState.Stopped){
+				if (download.State != Monsoon.State.Stopped){
 					if (tracker != null)
 					{
 						DateTime nextUpdate = manager.TrackerManager.LastUpdated.Add (tracker.UpdateInterval);
@@ -1144,18 +1144,18 @@ namespace Monsoon
 				startTorrentButton.Sensitive = false;
 				stopTorrentButton.Sensitive = false;
 			} else {
-				TorrentState state = download.Manager.State;
+				Monsoon.State state = download.State;
 				
-				stopTorrentButton.Sensitive = state != TorrentState.Stopped || download.Queued;
-				startTorrentButton.Sensitive = state != TorrentState.Hashing && !download.Queued;
+				stopTorrentButton.Sensitive = state != Monsoon.State.Stopped || state == Monsoon.State.Queued;
+				startTorrentButton.Sensitive = state != Monsoon.State.Hashing && state != Monsoon.State.Queued;
 				
-				if (state == TorrentState.Downloading ||
-				    state == TorrentState.Seeding ||
-				    state == TorrentState.Hashing ||
-				    download.Queued) {
+				if (state == Monsoon.State.Downloading ||
+				    state == Monsoon.State.Seeding ||
+				    state == Monsoon.State.Hashing ||
+				    state == Monsoon.State.Queued) {
 					startTorrentButton.StockId = "gtk-media-pause";
 					startTorrentButton.Label = _("Pause");
-				} else if (state == TorrentState.Paused) {
+				} else if (state == Monsoon.State.Paused) {
 					startTorrentButton.StockId = "gtk-media-play";
 					startTorrentButton.Label = _("Start");
 				} else {
@@ -1169,17 +1169,17 @@ namespace Monsoon
 		{
 			Download download = TorrentController.SelectedDownload;
 			try {
-				switch (download.Manager.State) {
-				case TorrentState.Downloading:
-				case TorrentState.Seeding:
+				switch (download.State) {
+				case Monsoon.State.Downloading:
+				case Monsoon.State.Seeding:
 					download.Pause ();
 					break;
 					
-				case TorrentState.Stopped:
+				case Monsoon.State.Stopped:
 					download.Start ();
 					break;
 					
-				case TorrentState.Paused:
+				case Monsoon.State.Paused:
 					download.Resume ();
 					break;
 				}

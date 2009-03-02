@@ -60,21 +60,21 @@ namespace Monsoon
 			};
 		}
 		
-		void HandleStateChanged (object sender, MonoTorrent.Client.TorrentStateChangedEventArgs args)
+		void HandleStateChanged (object sender, StateChangedEventArgs args)
 		{
 			Download manager = (Download) sender;
-			if (args.OldState == TorrentState.Downloading) {
+			if (args.OldState == State.Downloading) {
 				logger.Debug("Removing " + manager.Torrent.Name + " from download label");
 				Downloading.RemoveTorrent(manager);
-			} else if (args.OldState == TorrentState.Seeding) {
+			} else if (args.OldState == State.Seeding) {
 				logger.Debug("Removing " + manager.Torrent.Name + " from upload label");
 				Seeding.RemoveTorrent(manager);
 			}
 			
-			if (args.NewState == TorrentState.Downloading) {
+			if (args.NewState == State.Downloading) {
 				logger.Debug("Adding " + manager.Torrent.Name + " to download label");
 				Downloading.AddTorrent(manager);
-			} else if (args.NewState == TorrentState.Seeding) {
+			} else if (args.NewState == State.Seeding) {
 				logger.Debug("Adding " + manager.Torrent.Name + " to upload label");
 				Seeding.AddTorrent(manager);
 			}

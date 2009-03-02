@@ -101,21 +101,21 @@ namespace Monsoon
 		{
 			Label startText = (Label) startItem.Child;
 			Download download = torrentController.SelectedDownload;
-			TorrentState state = download.State;
+			Monsoon.State state = download.State;
 			
-			startItem.Sensitive = state != TorrentState.Hashing && !download.Queued;
-			stopItem.Sensitive = state != TorrentState.Stopped || download.Queued;
+			startItem.Sensitive = state != Monsoon.State.Hashing && download.State != Monsoon.State.Queued;
+			stopItem.Sensitive = state != Monsoon.State.Stopped || download.State == Monsoon.State.Queued;
 			
-			if (state == TorrentState.Downloading ||
-				state == TorrentState.Hashing ||
-			    state == TorrentState.Seeding ||
-			    download.Queued) {
+			if (state == Monsoon.State.Downloading ||
+				state == Monsoon.State.Hashing ||
+			    state == Monsoon.State.Seeding ||
+			    state == Monsoon.State.Queued) {
 					startText.Text = _("Pause");
 					startItem.Image = new Image(Stock.MediaPause, IconSize.Menu);
-			} else if (state == TorrentState.Paused) {
+			} else if (state == Monsoon.State.Paused) {
 					startText.Text = _("Resume");
 					startItem.Image = new Image (Stock.MediaPlay, IconSize.Menu);
-			} else if (state == TorrentState.Stopped) {
+			} else if (state == Monsoon.State.Stopped) {
 					startText.Text = _("Start");
 					startItem.Image = new Image (Stock.MediaPlay, IconSize.Menu);
 			}
@@ -128,7 +128,7 @@ namespace Monsoon
 			if (selectedTorrent == null)
 				return;
 			
-			if(selectedTorrent.State == TorrentState.Seeding || selectedTorrent.State == TorrentState.Downloading){
+			if(selectedTorrent.State == Monsoon.State.Seeding || selectedTorrent.State == Monsoon.State.Downloading){
 				try{
 					selectedTorrent.Pause();
 				} catch(Exception){
@@ -163,7 +163,7 @@ namespace Monsoon
 				return;
 			}
 			try{
-				if(selectedTorrent.State != TorrentState.Stopped) {
+				if(selectedTorrent.State != Monsoon.State.Stopped) {
 					Console.WriteLine ("Not stopped");
 					selectedTorrent.Stop();
 				}
