@@ -130,6 +130,7 @@ FILES =  \
 	Model/LabelEventArgs.cs \
 	Model/ShouldAddEventArgs.cs \
 	Model/ShouldRemoveEventArgs.cs \
+	Model/ShouldStartEventArgs.cs \
 	Model/TorrentFileModel.cs \
 	PeerTreeView.cs \
 	PiecesTreeView.cs \
@@ -140,6 +141,7 @@ FILES =  \
 	RssManager/RssReader.cs \
 	RssManager/TorrentRssWatcher.cs \
 	RssManager/TorrentRssWatcherEventArgs.cs \
+	Services/DownloadQueueService.cs \
 	Services/IService.cs \
 	Services/ServiceManager.cs \
 	Settings/GconfEngineSettingsController.cs \

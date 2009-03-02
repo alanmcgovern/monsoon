@@ -1146,10 +1146,13 @@ namespace Monsoon
 			} else {
 				TorrentState state = download.Manager.State;
 				
-				stopTorrentButton.Sensitive = state != TorrentState.Stopped;
-				startTorrentButton.Sensitive = state != TorrentState.Hashing;
+				stopTorrentButton.Sensitive = state != TorrentState.Stopped || download.Queued;
+				startTorrentButton.Sensitive = state != TorrentState.Hashing && !download.Queued;
 				
-				if (state == TorrentState.Downloading || state == TorrentState.Seeding || state == TorrentState.Hashing) {
+				if (state == TorrentState.Downloading ||
+				    state == TorrentState.Seeding ||
+				    state == TorrentState.Hashing ||
+				    download.Queued) {
 					startTorrentButton.StockId = "gtk-media-pause";
 					startTorrentButton.Label = _("Pause");
 				} else if (state == TorrentState.Paused) {

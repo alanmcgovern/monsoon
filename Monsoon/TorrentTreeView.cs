@@ -284,7 +284,10 @@ namespace Monsoon
 				(cell as Gtk.CellRendererText).Foreground = "darkgreen";
 			}else if (torrent.State == TorrentState.Stopped && torrent.Complete){
 				(cell as Gtk.CellRendererText).Foreground = "blue";
-			} else {
+			} else if (torrent.Queued) {
+				
+			}
+			else {
 				(cell as Gtk.CellRendererText).Foreground = "red";
 			}
 	
@@ -295,6 +298,9 @@ namespace Monsoon
 		{
 			if (manager == null)
 				return "";
+			
+			if(manager.Queued)
+				return _("Queued");
 			
 			switch (manager.State)
 			{

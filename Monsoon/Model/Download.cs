@@ -8,6 +8,7 @@ namespace Monsoon
 {
 	public class Download
 	{
+		public event EventHandler<ShouldStartEventArgs> ShouldStart;
 		public event EventHandler Started;
 		public event EventHandler<TorrentStateChangedEventArgs> StateChanged;
 		public event EventHandler Stopped;
@@ -16,6 +17,7 @@ namespace Monsoon
 		
 		double hashProgress;
 		TorrentManager manager;
+		bool queued;
 		SpeedMonitor swarmSpeed;
 		
 		public TorrentManager Manager {
@@ -44,6 +46,14 @@ namespace Monsoon
 		
 		public double Progress {
 			get { return manager.State == TorrentState.Hashing ? hashProgress : manager.Progress / 100.0; }
+		}
+		
+		public bool Queued {
+			get { return queued; }
+			set {
+				queued = value;
+				Event.Raise <TorrentStateChangedEventArgs> (StateChanged, this, new TorrentStateChangedEventArgs (Manager, State, State));;
+			}
 		}
 		
 		public string SavePath {
@@ -136,6 +146,14 @@ namespace Monsoon
 		
 		public void Start ()
 		{
+			EventHandler <ShouldStartEventArgs> h = ShouldStart;
+			if (h != null) {
+				ShouldStartEventArgs e = new ShouldStartEventArgs (this);
+				h (this, e);
+				if (!e.ShouldStart)
+					return;
+			}
+			Queued = false;
 			manager.Start ();
 			Event.Raise (Started, this, EventArgs.Empty);
 			manager.Engine.ConnectionManager.PeerMessageTransferred += HandlePeerMessageTransferred;

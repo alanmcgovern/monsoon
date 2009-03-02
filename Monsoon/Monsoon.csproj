@@ -141,6 +141,8 @@
     <Compile Include="Services\IService.cs" />
     <Compile Include="Services\ServiceManager.cs" />
     <Compile Include="Model\ShouldRemoveEventArgs.cs" />
+    <Compile Include="Model\ShouldStartEventArgs.cs" />
+    <Compile Include="Services\DownloadQueueService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\rss.png">
@@ -175,7 +177,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <MonoDevelop>
-      <Properties>
+      <Properties InternalTargetFrameworkVersion="3.5">
         <MonoDevelop.Autotools.MakefileInfo IntegrationEnabled="true" RelativeMakefileName="Makefile.am" ExecuteTargetName="run" RelativeConfigureInPath="..">
           <BuildFilesVar Sync="true" Name="FILES" />
           <DeployFilesVar />
