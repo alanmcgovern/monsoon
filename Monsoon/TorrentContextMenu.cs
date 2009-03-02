@@ -100,28 +100,26 @@ namespace Monsoon
 		protected override void OnShown ()
 		{
 			Label startText = (Label) startItem.Child;
-			TorrentState state = torrentController.SelectedDownload.State;
+			Download download = torrentController.SelectedDownload;
+			TorrentState state = download.State;
 			
-			startItem.Sensitive = state != TorrentState.Hashing;
-			stopItem.Sensitive = state != TorrentState.Stopped;
+			startItem.Sensitive = state != TorrentState.Hashing && !download.Queued;
+			stopItem.Sensitive = state != TorrentState.Stopped || download.Queued;
 			
-			switch(state)
-			{
-				case TorrentState.Downloading:
-				case TorrentState.Hashing:
-				case TorrentState.Seeding:
+			if (state == TorrentState.Downloading ||
+				state == TorrentState.Hashing ||
+			    state == TorrentState.Seeding ||
+			    download.Queued) {
 					startText.Text = _("Pause");
 					startItem.Image = new Image(Stock.MediaPause, IconSize.Menu);
-					break;
-				case TorrentState.Paused:
+			} else if (state == TorrentState.Paused) {
 					startText.Text = _("Resume");
 					startItem.Image = new Image (Stock.MediaPlay, IconSize.Menu);
-					break;
-				case TorrentState.Stopped:
+			} else if (state == TorrentState.Stopped) {
 					startText.Text = _("Start");
 					startItem.Image = new Image (Stock.MediaPlay, IconSize.Menu);
-					break;
 			}
+			
 			base.OnShown ();
 		}
 		
