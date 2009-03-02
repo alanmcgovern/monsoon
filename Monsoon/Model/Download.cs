@@ -161,9 +161,13 @@ namespace Monsoon
 		
 		public void Stop ()
 		{
-			manager.Stop ().WaitOne ();
-			Event.Raise (Stopped, this, EventArgs.Empty);
-			manager.Engine.ConnectionManager.PeerMessageTransferred -= HandlePeerMessageTransferred;
+			if (Queued) {
+				Queued = false;
+			} else {
+				manager.Stop ().WaitOne ();
+				Event.Raise (Stopped, this, EventArgs.Empty);
+				manager.Engine.ConnectionManager.PeerMessageTransferred -= HandlePeerMessageTransferred;
+			}
 		}
 	}
 }
