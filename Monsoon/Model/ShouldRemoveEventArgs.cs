@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 
 namespace Monsoon
 {
@@ -11,18 +12,18 @@ namespace Monsoon
 		public bool DeleteTorrent {
 			get; private set;
 		}
-		public Download Download {
+		public List<Download> Downloads {
 			get; private set;
 		}
 		public bool ShouldRemove {
 			get; set;
 		}
 		
-		public ShouldRemoveEventArgs (Download download, bool deleteData, bool deleteTorrent)
+		public ShouldRemoveEventArgs (List <Download> downloads, bool deleteData, bool deleteTorrent)
 		{
 			DeleteData = deleteData;
-			DeleteTorrent = DeleteTorrent;
-			Download = download;
+			DeleteTorrent = deleteTorrent;
+			Downloads = downloads;
 			ShouldRemove = true;
 		}
 	}

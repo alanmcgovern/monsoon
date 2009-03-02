@@ -552,6 +552,7 @@ namespace Monsoon
 			{
 				e.ShouldAdd = dialog.Run () == (int)ResponseType.Ok;
 				interfaceSettings.ShowLoadDialog = dialog.AlwaysAsk;
+				e.SavePath = dialog.SelectedPath;
 			}
 			finally
 			{
@@ -658,6 +659,9 @@ namespace Monsoon
 				
 			label = (TorrentLabel) labelTreeView.Model.GetValue(iter, 0);
 			if(label == LabelController.All || label == LabelController.Downloading || label == LabelController.Seeding)
+				return;
+			
+			if (args.SelectionData.Format != 8)
 				return;
 			
 			Download download = TorrentController.Torrents.Find (delegate (Download o) {
@@ -1135,72 +1139,75 @@ namespace Monsoon
 		
 		private void updateToolBar ()
 		{
-			Download download = TorrentController.SelectedDownload;
+			int count = TorrentController.SelectedDownloads.Count;
+			removeTorrentButton.Sensitive = count != 0;
+			deleteTorrentButton.Sensitive = count != 0;
 			
-			removeTorrentButton.Sensitive = download != null;
-			deleteTorrentButton.Sensitive = download != null;
-			
-			if (download == null) {
+			if (count == 0) {
 				startTorrentButton.Sensitive = false;
 				stopTorrentButton.Sensitive = false;
 			} else {
-				Monsoon.State state = download.State;
+				bool anyActive = TorrentController.SelectedDownloads.Exists (delegate (Download d) {
+					Console.WriteLine ("State is: {0}", d.State);
+					return d.State != Monsoon.State.Stopped && d.State != Monsoon.State.Stopping;
+				});
+				bool anyStopped = TorrentController.SelectedDownloads.Exists (delegate (Download d) {
+					return d.State == Monsoon.State.Stopped;
+				});
+				bool allActive = TorrentController.SelectedDownloads.TrueForAll (delegate (Download d) {
+					return d.State != Monsoon.State.Stopped && d.State != Monsoon.State.Stopping;
+				});
 				
-				stopTorrentButton.Sensitive = state != Monsoon.State.Stopped || state == Monsoon.State.Queued;
-				startTorrentButton.Sensitive = state != Monsoon.State.Hashing && state != Monsoon.State.Queued;
+				stopTorrentButton.Sensitive = anyActive;
+				startTorrentButton.Sensitive = count != 0;
 				
-				if (state == Monsoon.State.Downloading ||
-				    state == Monsoon.State.Seeding ||
-				    state == Monsoon.State.Hashing ||
-				    state == Monsoon.State.Queued) {
+				if (allActive) {
 					startTorrentButton.StockId = "gtk-media-pause";
 					startTorrentButton.Label = _("Pause");
-				} else if (state == Monsoon.State.Paused) {
-					startTorrentButton.StockId = "gtk-media-play";
-					startTorrentButton.Label = _("Start");
-				} else {
+				} else if (anyStopped) {
 					startTorrentButton.StockId = "gtk-media-play";
 					startTorrentButton.Label = _("Start");
 				}
-			}	
+			}
 		}
 
 		protected virtual void OnStartTorrentActivated (object sender, System.EventArgs e)
 		{
-			Download download = TorrentController.SelectedDownload;
-			try {
-				switch (download.State) {
-				case Monsoon.State.Downloading:
-				case Monsoon.State.Seeding:
-					download.Pause ();
-					break;
-					
-				case Monsoon.State.Stopped:
-					download.Start ();
-					break;
-					
-				case Monsoon.State.Paused:
-					download.Resume ();
-					break;
+			foreach (Download download in TorrentController.SelectedDownloads) {
+				try {
+					switch (download.State) {
+					case Monsoon.State.Downloading:
+					case Monsoon.State.Seeding:
+						download.Pause ();
+						break;
+						
+					case Monsoon.State.Stopped:
+						download.Start ();
+						break;
+						
+					case Monsoon.State.Paused:
+						download.Resume ();
+						break;
+					}
+				} catch {
+					logger.Error ("Torrent already started " + download.Manager.Torrent.Name);
 				}
-			} catch {
-				logger.Error ("Torrent already started " + download.Manager.Torrent.Name);
 			}
 		}
 		
 		protected virtual void OnStopTorrentActivated (object sender, System.EventArgs e)
 		{
+			foreach (Download download in TorrentController.SelectedDownloads)
 			try {
-				TorrentController.SelectedDownload.Stop ();
+				download.Stop ();
 			} catch {
-				logger.Error ("Torrent already stopped " + TorrentController.SelectedDownload.Manager.Torrent.Name);
+				logger.Error ("Torrent already stopped " + download.Manager.Torrent.Name);
 			}
 		}
 	
 		protected virtual void OnRemoveTorrentButtonActivated (object sender, System.EventArgs e)
 		{
-			if (TorrentController.SelectedDownload != null)
-				TorrentController.RemoveTorrent (TorrentController.SelectedDownload);
+			TorrentController.RemoveTorrent ();
 		}
 		
 		private void PeerConnected (object o, PeerConnectionEventArgs e)
@@ -1225,7 +1232,7 @@ namespace Monsoon
 		}
 		private void OnDeleteTorrentButtonActivated (object o, EventArgs e)
 		{
-			TorrentController.RemoveTorrent (TorrentController.SelectedDownload, true, true);
+			TorrentController.RemoveTorrent (true, true);
 		}
 		
 		private void BuildOptionsPage ()

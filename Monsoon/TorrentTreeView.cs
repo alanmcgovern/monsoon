@@ -81,13 +81,19 @@ namespace Monsoon
 			Reorderable = true;
 			HeadersVisible = true;
 			HeadersClickable = true;
-			Selection.Mode = SelectionMode.Single;
+			Selection.Mode = SelectionMode.Multiple;
 			Selection.Changed += delegate (object o, EventArgs e) {
 				TreeIter iter;
 				TreePath [] selectedTorrents = Selection.GetSelectedRows ();
-				if (selectedTorrents.Length == 1 && Model.GetIter (out iter, selectedTorrents [0])) {
-					torrentController.SelectedDownload = (Download) Model.GetValue (iter, 0);
+				
+				List <Download> downloads = new List<Download> ();
+				foreach (TreePath path in Selection.GetSelectedRows ()) {
+					if (Model.GetIter (out iter, path)) {
+						downloads.Add ((Download) Model.GetValue (iter, 0));
+					}
 				}
+				
+				torrentController.Select (downloads);
 			};
 			
 			EnableModelDragDest(targetEntries, Gdk.DragAction.Copy);

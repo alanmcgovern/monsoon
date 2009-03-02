@@ -7,7 +7,7 @@ namespace Monsoon
 	public class ShouldAddEventArgs : EventArgs
 	{
 		public string SavePath {
-			get; private set;
+			get; set;
 		}
 		public bool ShouldAdd {
 			get; set;

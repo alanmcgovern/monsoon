@@ -75,11 +75,11 @@ namespace Monsoon
 			stopItem.Activated += OnStopItemActivated;
 
 			removeItem.Activated += Event.Wrap ((EventHandler) delegate {
-				torrentController.RemoveTorrent (torrentController.SelectedDownload, true, false);
+				torrentController.RemoveTorrent (true, false);
 			});
 			
 			deleteItem.Activated += Event.Wrap ((EventHandler) delegate {
-				torrentController.RemoveTorrent (torrentController.SelectedDownload, true, true);
+				torrentController.RemoveTorrent (true, true);
 			});
 			recheckItem.Activated += OnRecheckItemActivated;
 			//hashItem.Activated += OnHashItemActivated;

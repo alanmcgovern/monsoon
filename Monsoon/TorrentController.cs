@@ -47,19 +47,17 @@ namespace Monsoon
 		public event EventHandler<ShouldAddEventArgs> ShouldAdd;
 		public event EventHandler<ShouldRemoveEventArgs> ShouldRemove;
 		public event EventHandler SelectionChanged;
-		
-		Download selectedDownload;
-		
+
 		public bool Initialised {
 			get; private set;
 		}
 		
 		public Download SelectedDownload {
-			get { return selectedDownload; }
-			set {
-				selectedDownload = value;
-				Event.Raise (SelectionChanged, this, EventArgs.Empty);
-			}
+			get { return SelectedDownloads.Count == 1 ? SelectedDownloads [0] : null; }
+		}
+		
+		public List <Download> SelectedDownloads {
+			get; private set;
 		}
 		
 		private ClientEngine engine;
@@ -82,6 +80,7 @@ namespace Monsoon
 		{
 			this.defaultTorrentSettings = SettingsManager.DefaultTorrentSettings;
 			this.prefSettings = SettingsManager.Preferences;
+			this.SelectedDownloads = new List<Download> ();
 			
 			Ticker.Tick ();
 			fastResume = LoadFastResume();
@@ -297,68 +296,80 @@ namespace Monsoon
 				return engine;
 			}
 		}
-		
-		public void RemoveTorrent(Download torrent)
+
+		public void Select (IEnumerable <Download> downloads)
 		{
-			RemoveTorrent(torrent, false);
+			SelectedDownloads.Clear ();
+			SelectedDownloads.AddRange (downloads);
+			Event.Raise (SelectionChanged, this, EventArgs.Empty);
 		}
 		
-		public void RemoveTorrent(Download torrent, bool deleteTorrent)
+		public void RemoveTorrent()
 		{
-			RemoveTorrent(torrent, deleteTorrent, false);
+			RemoveTorrent (false);
 		}
 		
-		public void RemoveTorrent(Download torrent, bool deleteTorrent, bool deleteData)
+		public void RemoveTorrent(bool deleteTorrent)
+		{
+			RemoveTorrent(deleteTorrent, false);
+		}
+		
+		public void RemoveTorrent(bool deleteTorrent, bool deleteData)
 		{
 			EventHandler <ShouldRemoveEventArgs> h = ShouldRemove;
 			if (h != null) {
-				ShouldRemoveEventArgs e = new ShouldRemoveEventArgs (torrent, deleteData, deleteTorrent); 
+				ShouldRemoveEventArgs e = new ShouldRemoveEventArgs (SelectedDownloads, deleteData, deleteTorrent); 
 				h (this, e);
 				if (!e.ShouldRemove)
 					return;
 			}
 			
-			if(torrent.State != Monsoon.State.Stopped)
-				torrent.Stop();
-
-			allTorrents.Remove (torrent);
-			
-			if(deleteData){
-				logger.Info("Deleting {0} data", torrent.Torrent.Name);
-				try{
-					if (Directory.Exists(Path.Combine(torrent.SavePath, torrent.Torrent.Name)))
-						Directory.Delete(Path.Combine(torrent.SavePath, torrent.Torrent.Name), true);
-					else
-						File.Delete(Path.Combine(torrent.SavePath, torrent.Torrent.Name));
-				} catch (Exception e) {
-					logger.Error("Failed to delete {0}: {1}", Path.Combine(torrent.SavePath, torrent.Torrent.Name), e.Message);
-				}
-			}
-			
-			if(deleteTorrent){
-				try{
-					logger.Info("Deleting torrent file {0} ", torrent.Torrent.TorrentPath);
-					File.Delete(torrent.Torrent.TorrentPath);
-				} catch {
-					logger.Error("Unable to delete " + torrent.Torrent.TorrentPath);
+			foreach (Download torrent in SelectedDownloads) {
+				if(torrent.State != Monsoon.State.Stopped)
+					torrent.Stop();
+	
+				allTorrents.Remove (torrent);
+				
+				if(deleteData){
+					logger.Info("Deleting {0} data", torrent.Torrent.Name);
+					try{
+						if (Directory.Exists(Path.Combine(torrent.SavePath, torrent.Torrent.Name)))
+							Directory.Delete(Path.Combine(torrent.SavePath, torrent.Torrent.Name), true);
+						else
+							File.Delete(Path.Combine(torrent.SavePath, torrent.Torrent.Name));
+					} catch (Exception e) {
+						logger.Error("Failed to delete {0}: {1}", Path.Combine(torrent.SavePath, torrent.Torrent.Name), e.Message);
+					}
 				}
 				
-				// FIXME: Fast resume is central now, not individual for each torrent.
-				try{
-                    logger.Info("Deleting torrent fast resume file " + torrent.Torrent.TorrentPath);
-                    File.Delete(torrent.Torrent.TorrentPath + ".fresume");
-                } catch {
-                    logger.Error("Unable to delete " + torrent.Torrent.TorrentPath + ".fresume");
-                }
+				if(deleteTorrent){
+					try{
+						logger.Info("Deleting torrent file {0} ", torrent.Torrent.TorrentPath);
+						File.Delete(torrent.Torrent.TorrentPath);
+					} catch {
+						logger.Error("Unable to delete " + torrent.Torrent.TorrentPath);
+					}
+					
+					// FIXME: Fast resume is central now, not individual for each torrent.
+					try{
+	                    logger.Info("Deleting torrent fast resume file " + torrent.Torrent.TorrentPath);
+	                    File.Delete(torrent.Torrent.TorrentPath + ".fresume");
+	                } catch {
+	                    logger.Error("Unable to delete " + torrent.Torrent.TorrentPath + ".fresume");
+	                }
+				}
+				
+				engine.Unregister(torrent.Manager);
+				fastResume.RemoveAll (delegate (FastResume f) {
+					return Toolbox.ByteMatch (f.InfoHash, torrent.Torrent.InfoHash); 
+				});
+				
+				logger.Info("Removed torrent " + torrent.Torrent.Name);
 			}
-			
-			engine.Unregister(torrent.Manager);
-			fastResume.RemoveAll (delegate (FastResume f) {
-				return Toolbox.ByteMatch (f.InfoHash, torrent.Torrent.InfoHash); 
-			});
-			
-			logger.Info("Removed torrent " + torrent.Torrent.Name);
-			Event.Raise<DownloadAddedEventArgs> (Removed, this, new DownloadAddedEventArgs (torrent));
+			foreach (Download download in new List<Download> (SelectedDownloads))
+				Event.Raise<DownloadAddedEventArgs> (Removed, this, new DownloadAddedEventArgs (download));
+			SelectedDownloads.Clear ();
+			Select (SelectedDownloads);
 		}
 		
 		public void LoadStoredTorrents()
