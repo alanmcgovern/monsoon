@@ -63,9 +63,7 @@ namespace Monsoon
 		private ClientEngine engine;
 		private PreferencesSettings prefSettings;
 		private Download completedManager;
-		
-		private List<Download> torrentsDownloading;
-		private List<Download> torrentsSeeding;
+
 		private List<Download> allTorrents;
 		private List<FastResume> fastResume;
 		public List<FastResume> FastResume
@@ -90,8 +88,6 @@ namespace Monsoon
 			engine = new ClientEngine(SettingsManager.EngineSettings);
 			Ticker.Tock ("Client engine");
 
-			torrentsDownloading = new List<Download>();
-			torrentsSeeding = new List<Download>(); 
 			allTorrents = new List<Download>();
 		}
 		
@@ -276,21 +272,11 @@ namespace Monsoon
 			torrent = t;
 		}
 
-		public List<Download> TorrentsDownloading
-		{
-			get{ return torrentsDownloading; }
-		}
-		
 		public List<Download> Torrents
 		{
 			get{ return allTorrents; }
 		}
 		
-		public List<Download> TorrentsSeeding
-		{
-			get { return torrentsSeeding; }
-		}
-
 		public ClientEngine Engine {
 			get {
 				return engine;
