@@ -61,8 +61,6 @@ namespace Monsoon
 		}
 		
 		private ClientEngine engine;
-		private PreferencesSettings prefSettings;
-		private Download completedManager;
 
 		private List<Download> allTorrents;
 		private List<FastResume> fastResume;
@@ -77,7 +75,6 @@ namespace Monsoon
 		public TorrentController()
 		{
 			this.defaultTorrentSettings = SettingsManager.DefaultTorrentSettings;
-			this.prefSettings = SettingsManager.Preferences;
 			this.SelectedDownloads = new List<Download> ();
 			
 			Ticker.Tick ();
@@ -183,17 +180,17 @@ namespace Monsoon
 		// TODO: Refactor all of these functions!!!
 		public Download addTorrent(Torrent torrent)
 		{
-			return addTorrent(torrent, prefSettings.StartNewTorrents);
+			return addTorrent(torrent, SettingsManager.Preferences.StartNewTorrents);
 		}
 		
 		public Download addTorrent (Torrent torrent, string savePath)
 		{
-			return addTorrent(torrent, prefSettings.StartNewTorrents, prefSettings.RemoveOnImport, null, savePath, false);
+			return addTorrent(torrent, SettingsManager.Preferences.StartNewTorrents, SettingsManager.Preferences.RemoveOnImport, null, savePath, false);
 		}
 		
 		public Download addTorrent(Torrent torrent, bool startTorrent)
 		{
-			return addTorrent(torrent, startTorrent, prefSettings.RemoveOnImport, null);
+			return addTorrent(torrent, startTorrent, SettingsManager.Preferences.RemoveOnImport, null);
 		}
 		public Download addTorrent(Torrent torrent, bool startTorrent, bool removeOriginal, TorrentSettings savedSettings)
 		{
@@ -253,12 +250,12 @@ namespace Monsoon
 				return;
 			}
 			// Torrent already in storage
-			if (prefSettings.TorrentStorageLocation == Directory.GetParent(torrentPath).ToString()) {
+			if (SettingsManager.Preferences.TorrentStorageLocation == Directory.GetParent(torrentPath).ToString()) {
 				logger.Info ("Torrent was already in the storage folder");
 				return;
 			}
 			
-			string newPath = Path.Combine(prefSettings.TorrentStorageLocation, Path.GetFileName(torrentPath));
+			string newPath = Path.Combine(SettingsManager.Preferences.TorrentStorageLocation, Path.GetFileName(torrentPath));
 			logger.Debug("Copying torrent to " + newPath);
 			if (File.Exists (newPath))
 				File.Delete (newPath);
