@@ -60,9 +60,6 @@ namespace Monsoon
 			set { base.Model = value; }
 		}
 
-		Dictionary<Download, TreeIter> torrents = new Dictionary<Download, TreeIter> ();
-		
-		
 		public TorrentTreeView() : base()
 		{
 			Model = new ListStore (typeof (Download));
@@ -119,18 +116,21 @@ namespace Monsoon
 		
 		void AddDownload (Download download)
 		{
-			if (torrents == null)throw new Exception ("Torrents");
-			if (download == null) throw new Exception ("Download");
-			if (Model == null) throw new Exception ("Model");
-			torrents.Add (download, Model.AppendValues(download));
+			Model.AppendValues (download);
 		}
 		
 		void RemoveDownload (Download download)
 		{
-			TreeIter iter = torrents [download];
-			Model.Remove(ref iter);
-			torrents.Remove(download);
-			Selection.UnselectAll ();
+			TreeIter iter;
+			if (Model.GetIterFirst (out iter)) {
+				do {
+					if (download != Model.GetValue (iter, 0))
+						continue;
+					Model.Remove (ref iter);
+					Selection.UnselectAll ();
+					break;
+				} while (Model.IterNext (ref iter));
+			}
 		}
 
 
