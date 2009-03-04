@@ -998,9 +998,6 @@ namespace Monsoon
 			// Update General Page
 			updateGeneralPage ();
 			
-			// Update Labels
-			updateLabels ();
-			
 			// Update peers
 			updatePeersPage ();
 					
@@ -1032,20 +1029,7 @@ namespace Monsoon
 			foreach (Piece piece in pieces)
 				piecesListStore.AppendValues(piece);
 		}
-		
-		private void updateLabels ()
-		{
-			TreeIter iter;
-			TreeModel model = labelTreeView.Model;
-			
-			if (model.GetIterFirst (out iter)) {
-				do {
-					if (((TorrentLabel)model.GetValue (iter, 0)).Immutable)
-						model.EmitRowChanged(model.GetPath(iter), iter);
-				} while (model.IterNext(ref iter));
-			}
-		}
-		
+
 		private void updateGeneralPage ()
 		{
 			Download download = TorrentController.SelectedDownload;

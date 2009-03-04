@@ -38,22 +38,20 @@ namespace Monsoon
 		public TreeViewColumn iconColumn;
 		public TreeViewColumn nameColumn;
 		public TreeViewColumn sizeColumn;
-		
+
+		private bool contextActive;
 		private Gtk.Menu contextMenu;
 		private ImageMenuItem createItem;
+		ImageMenuItem removeItem;
 		
 		LabelController Controller {
 			get; set;
 		}
 		
-		ImageMenuItem removeItem;
-		
 		public new ListStore Model {
 			get { return (ListStore) base.Model; }
 			set { base.Model = value; }
 		}
-		
-		private bool contextActive;
 		
 		public LabelTreeView(LabelController labels, bool contextActive)
 		{
@@ -63,8 +61,6 @@ namespace Monsoon
 			Reorderable = false;
 			HeadersVisible = false;
 			HeadersClickable = false;
-			
-			Model = new ListStore (typeof (TorrentLabel));
 			
 			buildColumns();
 			BuildContextMenu();
@@ -77,11 +73,11 @@ namespace Monsoon
 				Remove (e.Label);
 			};
 
-			Selection.Changed += delegate(object sender, EventArgs e) {
+			Selection.Changed += Event.Wrap (delegate(object sender, EventArgs e) {
 				TreeIter iter;
 				if (Selection.GetSelected (out iter))
 					Controller.Selection = ((TorrentLabel) Model.GetValue (iter, 0));
-			};
+			});
 			
 			Controller.Labels.ForEach (Add);
 			Remove (Controller.Delete);
@@ -89,7 +85,22 @@ namespace Monsoon
 		
 		void Add (TorrentLabel label)
 		{
-			Model.AppendValues (label);
+			UpdateSize (Model.AppendValues (label, label.Icon, label.Name, "", !label.Immutable));
+			label.Added += LabelChanged;
+			label.Removed += LabelChanged;
+		}
+
+		void LabelChanged (object sender, DownloadAddedEventArgs e)
+		{
+			TreeIter iter;
+			if (Model.GetIterFirst (out iter)) {
+				do {
+					if (Model.GetValue (iter, 0) == sender) {
+						UpdateSize (iter);
+						return;
+					}
+				} while (Model.IterNext (ref iter));
+			}
 		}
 		
 		void Remove (TorrentLabel label)
@@ -99,7 +110,9 @@ namespace Monsoon
 				do {
 					if (Model.GetValue (iter, 0) != label)
 						continue;
-					
+
+					label.Added -= LabelChanged;
+					label.Removed -= LabelChanged;
 					Model.Remove (ref iter);
 					return;
 				} while (Model.IterNext (ref iter));
@@ -108,34 +121,37 @@ namespace Monsoon
 					
 		private void buildColumns()
 		{
+			Model = new ListStore (typeof (TorrentLabel), typeof (Gdk.Pixbuf),
+			                       typeof (string), typeof (string), typeof (bool));
+			
 			iconColumn = new TreeViewColumn();
 			nameColumn = new TreeViewColumn();
 			sizeColumn = new TreeViewColumn();
 			
 			Gtk.CellRendererPixbuf iconRendererCell = new Gtk.CellRendererPixbuf ();
-			Gtk.CellRendererText nameRendererCell = new Gtk.CellRendererText();
+			Gtk.CellRendererText nameRendererCell = new Gtk.CellRendererText { Editable = true };
 			Gtk.CellRendererText sizeRendererCell = new Gtk.CellRendererText();
-			
-			nameRendererCell.Editable = true;
-			nameRendererCell.Edited += Event.Wrap ((EditedHandler) delegate (object o, Gtk.EditedArgs args) {
-				Gtk.TreeIter iter;
-				Model.GetIter (out iter, new Gtk.TreePath (args.Path));
-			 
-				TorrentLabel label = (TorrentLabel) Model.GetValue (iter, 0);
-				label.Name = args.NewText;
-			});
 
 			iconColumn.PackStart(iconRendererCell, true);
 			nameColumn.PackStart(nameRendererCell, true);
 			sizeColumn.PackStart(sizeRendererCell, true);
 			
-			iconColumn.SetCellDataFunc (iconRendererCell, new Gtk.TreeCellDataFunc (RenderIcon));
-			nameColumn.SetCellDataFunc (nameRendererCell, new Gtk.TreeCellDataFunc (RenderName));
-			sizeColumn.SetCellDataFunc (sizeRendererCell, new Gtk.TreeCellDataFunc (RenderSize));
+			iconColumn.AddAttribute (iconRendererCell, "pixbuf", 1);
+			nameColumn.AddAttribute (nameRendererCell, "text", 2);
+			sizeColumn.AddAttribute (sizeRendererCell, "text", 3);
+			nameColumn.AddAttribute (nameRendererCell, "editable", 4);
 			
 			AppendColumn (iconColumn);  
 			AppendColumn (nameColumn);
 			AppendColumn (sizeColumn);
+
+			nameRendererCell.Edited += Event.Wrap ((EditedHandler) delegate (object o, Gtk.EditedArgs args) {
+				Gtk.TreeIter iter;
+				if (Model.GetIter (out iter, new Gtk.TreePath (args.Path))) {
+					TorrentLabel label = (TorrentLabel) Model.GetValue (iter, 0);
+					label.Name = args.NewText;
+				}
+			});
 		}
 
 		private void BuildContextMenu ()
@@ -188,24 +204,11 @@ namespace Monsoon
 			
 			return false;
 		}
-		
-		private void RenderIcon (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+
+		void UpdateSize (TreeIter iter)
 		{
-			TorrentLabel label = (TorrentLabel) model.GetValue (iter, 0);
-			(cell as Gtk.CellRendererPixbuf).Pixbuf = label.Icon;
-		}
-		
-		private void RenderName (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-		{
-			TorrentLabel label = (TorrentLabel) model.GetValue (iter, 0);
-			cell.Mode = label.Immutable ? CellRendererMode.Inert : CellRendererMode.Editable;
-			(cell as Gtk.CellRendererText).Text = label.Name;
-		}
-		
-		private void RenderSize (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-		{
-			TorrentLabel label = (TorrentLabel) model.GetValue (iter, 0);
-			(cell as Gtk.CellRendererText).Text = "(" + label.Size + ")";
+			TorrentLabel label = (TorrentLabel) Model.GetValue (iter, 0);
+			Model.SetValue (iter, 3, "(" + label.Size + ")");
 		}
 		
 		private static string _(string s)
