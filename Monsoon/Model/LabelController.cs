@@ -51,7 +51,7 @@ namespace Monsoon
 			Seeding = new TorrentLabel (_("Seeding"), "gtk-go-up", true);
 			Selection = All;
 			
-			Labels = new List<TorrentLabel> { All, Delete, Downloading, Seeding };
+			Labels = new List<TorrentLabel> { All, Downloading, Seeding };
 			HookEvents ();
 		}
 		
