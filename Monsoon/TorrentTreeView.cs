@@ -102,7 +102,7 @@ namespace Monsoon
 			HeadersVisible = true;
 			HeadersClickable = true;
 			Selection.Mode = SelectionMode.Multiple;
-			Selection.Changed += delegate (object o, EventArgs e) {
+			Selection.Changed += Event.Wrap (delegate (object o, EventArgs e) {
 				TreeIter iter;
 				TreePath [] selectedTorrents = Selection.GetSelectedRows ();
 				
@@ -114,7 +114,7 @@ namespace Monsoon
 				}
 				
 				torrentController.Select (downloads);
-			};
+			});
 			
 			EnableModelDragDest(targetEntries, Gdk.DragAction.Copy);
 			//this.DragDrop += OnTest;
