@@ -49,7 +49,9 @@ namespace Monsoon
 		private List<Download> torrents;
 		
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
-		
+
+		public event EventHandler <DownloadAddedEventArgs> Added;
+		public event EventHandler <DownloadAddedEventArgs> Removed;
 		
 		public TorrentLabel()
 		{
@@ -150,7 +152,7 @@ namespace Monsoon
 				return false;
 			
 			torrents.Add(manager);
-			
+			Event.Raise<DownloadAddedEventArgs> (Added, this, new DownloadAddedEventArgs (manager));
 			return true;
 		}
 		
@@ -161,7 +163,7 @@ namespace Monsoon
 				return false;
 			
 			torrents.Remove(manager);
-			
+			Event.Raise<DownloadAddedEventArgs> (Removed, this, new DownloadAddedEventArgs (manager));
 			return true;
 		}
 	}
