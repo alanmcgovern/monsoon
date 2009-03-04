@@ -167,7 +167,6 @@ FILES =  \
 	TorrentContextMenu.cs \
 	TorrentController.cs \
 	TorrentFileSettingsModel.cs \
-	TorrentFilterModel.cs \
 	TorrentLabel.cs \
 	TorrentStorage.cs \
 	TorrentTreeView.cs \

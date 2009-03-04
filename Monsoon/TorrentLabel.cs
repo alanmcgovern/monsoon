@@ -46,9 +46,6 @@ namespace Monsoon
 		private Gdk.Pixbuf icon;
 		private string iconPath;
 		private string[] torrentPaths;
-		
-		// Temporary solution until TreeModelFilter is able to be subclassed
-		private ListStore model;
 		private List<Download> torrents;
 		
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
@@ -58,7 +55,6 @@ namespace Monsoon
 		{
 			torrents = new List<Download> ();
 			icon = Gtk.IconTheme.Default.LoadIcon("gtk-about", 16, 0);
-			model = new ListStore (typeof(Download));
 		}
 		
 		
@@ -77,7 +73,6 @@ namespace Monsoon
 			this.immutable = immutable;
 			if(!System.IO.File.Exists(iconPath)){
 				logger.Debug("File " + iconPath + " does not exist, trying stock icon");
-				//icon = Gtk.IconTheme.Default.LoadIcon("gtk-about", 16, 0);
 				icon = Gtk.IconTheme.Default.LoadIcon(iconPath, 16, 0);
 			} else {
 				logger.Debug("Loading icon from path: " + iconPath);
@@ -88,7 +83,6 @@ namespace Monsoon
 			this.torrents = new List<Download> ();
 			this.name = name;
 			this.icon = icon;
-			model = new ListStore (typeof(Download));
 		}
 		
 		[XmlIgnore]
@@ -147,38 +141,15 @@ namespace Monsoon
 		[XmlIgnore]
 		public int Size
 		{
-			get { 
-				/*if(name == "All"){
-					return torrents.Count;				
-				} else if(name == "Downloading"){
-					return getTotalStates(TorrentState.Downloading);
-				} else if(name == "Seeding"){
-					return getTotalStates(TorrentState.Seeding);
-				} else{
-					return torrents.Count;
-				}*/
-				if(model == null)
-					return 0;
-				else
-					return model.IterNChildren();
-			}
+			get { return torrents.Count; }
 		}
-		
-		
-		[XmlIgnore]
-		public ListStore Model {
-			get { return model; }
-			set { model = value; }
-		}
-	
-	
+
 		public bool AddTorrent(Download manager)
 		{
 			if(torrents.Contains(manager))
 				return false;
 			
 			torrents.Add(manager);
-			model.AppendValues(manager);
 			
 			return true;
 		}
@@ -186,36 +157,12 @@ namespace Monsoon
 		
 		public bool RemoveTorrent(Download manager)
 		{
-			TreeIter iter = TreeIter.Zero;
-			
 			if(!torrents.Contains(manager))
 				return false;
 			
 			torrents.Remove(manager);
 			
-			if(!GetTorrentIter(manager, out iter))
-				return false;
-		
-			if(!model.Remove(ref iter))
-				return false;
-			
 			return true;
 		}
-		
-		
-		private bool GetTorrentIter(Download manager, out TreeIter iter)
-		{
-			
-			if(!model.GetIterFirst(out iter))
-				return false;
-			
-			do{
-				if(manager == (Download) model.GetValue (iter, 0))
-					return true;
-			} while (model.IterNext(ref iter));
-			
-			return false;
-		}
-		
 	}
 }

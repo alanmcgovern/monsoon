@@ -77,7 +77,6 @@
     <Compile Include="CreateTorrentDialog.cs" />
     <Compile Include="FileTreeView.cs" />
     <Compile Include="TorrentLabel.cs" />
-    <Compile Include="TorrentFilterModel.cs" />
     <Compile Include="ListenPortController.cs" />
     <Compile Include="EditColumnsDialog.cs" />
     <Compile Include="PiecesTreeView.cs" />

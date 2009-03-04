@@ -783,10 +783,10 @@ namespace Monsoon
 			torrentMaxConnectionsSpinButton.ValueChanged += OnTorrentSettingsChanged;
 			torrentUploadSlotSpinButton.ValueChanged += OnTorrentSettingsChanged;	
 		}
-		
+
 		private void OnLabelSelectionChanged (object sender, System.EventArgs e)
 		{
-			
+			Console.WriteLine ("Label selection");
 			TreeIter iter;
 			TorrentLabel label;
 			
@@ -795,7 +795,9 @@ namespace Monsoon
 				return;
 			}
 			label = (TorrentLabel) labelTreeView.Model.GetValue(iter, 0);
-			torrentTreeView.Model = label.Model;
+			torrentTreeView.Filter = delegate (Download d) {
+				return label.Torrents.Contains (d);
+			};
 			logger.Debug("Label " + label.Name + " selected." );
 			
 			//torrentTreeView.Selection.UnselectAll();

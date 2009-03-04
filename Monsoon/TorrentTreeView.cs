@@ -47,22 +47,45 @@ namespace Monsoon
 		public TreeViewColumn ratioColumn;
 		public TreeViewColumn sizeColumn;
 		public TreeViewColumn etaColumn;
-		
+
+		private Predicate<Download> filter;
 		private TorrentController torrentController;
 		private TorrentContextMenu menu;
 		
 		private TargetEntry[] targetEntries;
 		private TargetEntry[] sourceEntries;
 
-		
-		public new ListStore Model {
-			get { return (ListStore) base.Model; }
-			set { base.Model = value; }
+		public ListStore Torrents {
+			get; set;
+		}
+
+		public Predicate <Download> Filter {
+			get { return filter; }
+			set {
+				filter = value;
+				UpdateAll ();
+			}
+		}
+
+		public TreeModelFilter FilterModel {
+			get; set;
 		}
 
 		public TorrentTreeView() : base()
 		{
-			Model = new ListStore (typeof (Download));
+			GLib.Timeout.Add (1000, delegate {
+				UpdateAll ();
+				return true;
+			});
+			Torrents = new ListStore (typeof (Download), typeof (string), typeof (string),
+			                       typeof (int), typeof (string), typeof (string),
+			                       typeof (string), typeof (string), typeof (string),
+			                       typeof (string), typeof (string), typeof (string));
+			FilterModel = new Gtk.TreeModelFilter (Torrents, null);
+			FilterModel.VisibleFunc = delegate (TreeModel model, TreeIter iter) {
+				return Filter == null ? true : Filter ((Download) model.GetValue (iter, 0));
+			};
+			Model = FilterModel;
 			this.torrentController = ServiceManager.Get <TorrentController> ();
 			
 			targetEntries = new TargetEntry[]{
@@ -85,8 +108,8 @@ namespace Monsoon
 				
 				List <Download> downloads = new List<Download> ();
 				foreach (TreePath path in Selection.GetSelectedRows ()) {
-					if (Model.GetIter (out iter, path)) {
-						downloads.Add ((Download) Model.GetValue (iter, 0));
+					if (Torrents.GetIter (out iter, path)) {
+						downloads.Add ((Download) Torrents.GetValue (iter, 0));
 					}
 				}
 				
@@ -116,23 +139,22 @@ namespace Monsoon
 		
 		void AddDownload (Download download)
 		{
-			Model.AppendValues (download);
+			Update (Torrents.AppendValues (download));
 		}
 		
 		void RemoveDownload (Download download)
 		{
 			TreeIter iter;
-			if (Model.GetIterFirst (out iter)) {
+			if (Torrents.GetIterFirst (out iter)) {
 				do {
-					if (download != Model.GetValue (iter, 0))
+					if (download != Torrents.GetValue (iter, 0))
 						continue;
-					Model.Remove (ref iter);
+					Torrents.Remove (ref iter);
 					Selection.UnselectAll ();
 					break;
-				} while (Model.IterNext (ref iter));
+				} while (Torrents.IterNext (ref iter));
 			}
 		}
-
 
 		protected override bool	OnButtonPressEvent (Gdk.EventButton e)
 		{
@@ -162,50 +184,18 @@ namespace Monsoon
 			
 		private void buildColumns()
 		{
-			nameColumn = new TreeViewColumn();
-			statusColumn = new TreeViewColumn();
-			doneColumn = new TreeViewColumn();
-			seedsColumn = new TreeViewColumn();
-			peersColumn = new TreeViewColumn();
-			downSpeedColumn = new TreeViewColumn();
-			upSpeedColumn = new TreeViewColumn();
-			ratioColumn = new TreeViewColumn();
-			sizeColumn = new TreeViewColumn();
-			etaColumn = new TreeViewColumn();
-			
-			nameColumn.Title = _("Name");
-			statusColumn.Title = _("Status");
-			doneColumn.Title = _("Done");
-			seedsColumn.Title = _("Seeds");
-			peersColumn.Title = _("Peers");
-			downSpeedColumn.Title = _("DL Speed");
-			upSpeedColumn.Title = _("UP Speed");
-			ratioColumn.Title = _("Ratio");
-			sizeColumn.Title = _("Size");
-			etaColumn.Title = _("ETA");
-			
-			nameColumn.Resizable = true;
-			statusColumn.Resizable = true;
-			doneColumn.Resizable = true;
-			seedsColumn.Resizable = true;
-			peersColumn.Resizable = true;
-			downSpeedColumn.Resizable = true;
-			upSpeedColumn.Resizable = true;
-			ratioColumn.Resizable = true;
-			sizeColumn.Resizable = true;
-			etaColumn.Resizable = true;
-			
-			nameColumn.Reorderable = true;
-			statusColumn.Reorderable = true;
-			doneColumn.Reorderable = true;
-			seedsColumn.Reorderable = true;
-			peersColumn.Reorderable = true;
-			downSpeedColumn.Reorderable = true;
-			upSpeedColumn.Reorderable = true;
-			ratioColumn.Reorderable = true;
-			sizeColumn.Reorderable = true;
-			etaColumn.Reorderable = true;
-			
+			TreeViewColumn downloadColumn = new TreeViewColumn { Visible = false, Title = "N/A" };
+			nameColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Name") };
+			statusColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Status") };
+			doneColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Done") };
+			seedsColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Seeds") };
+			peersColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Peers") };
+			downSpeedColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("DL Speed") };
+			upSpeedColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("UP Speed") };
+			ratioColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Ratio") };
+			sizeColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Size") };
+			etaColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("ETA") };
+
 			Gtk.CellRendererText torrentNameCell = new Gtk.CellRendererText ();
 			Gtk.CellRendererText torrentStatusCell = new Gtk.CellRendererText();
 			Gtk.CellRendererProgress torrentDoneCell = new Gtk.CellRendererProgress();
@@ -216,7 +206,7 @@ namespace Monsoon
 			Gtk.CellRendererText torrentRatioCell = new Gtk.CellRendererText();
 			Gtk.CellRendererText torrentSizeCell = new Gtk.CellRendererText();
 			Gtk.CellRendererText torrentEtaCell = new Gtk.CellRendererText();
-					
+
 			nameColumn.PackStart(torrentNameCell, true);
 			statusColumn.PackStart(torrentStatusCell, true);
 			doneColumn.PackStart(torrentDoneCell, true);
@@ -227,17 +217,18 @@ namespace Monsoon
 			ratioColumn.PackStart(torrentRatioCell, true);
 			sizeColumn.PackStart(torrentSizeCell, true);
 			etaColumn.PackStart(torrentEtaCell, true);
-							
-			nameColumn.SetCellDataFunc (torrentNameCell, new Gtk.TreeCellDataFunc (RenderTorrentName));
-			statusColumn.SetCellDataFunc (torrentStatusCell, new Gtk.TreeCellDataFunc (RenderTorrentStatus));
-			doneColumn.SetCellDataFunc (torrentDoneCell, new Gtk.TreeCellDataFunc (RenderTorrentDone));
-			seedsColumn.SetCellDataFunc (torrentSeedsCell, new Gtk.TreeCellDataFunc (RenderTorrentSeeds));
-			peersColumn.SetCellDataFunc (torrentPeersCell, new Gtk.TreeCellDataFunc (RenderTorrentPeers));
-			downSpeedColumn.SetCellDataFunc (torrentDownSpeedCell, new Gtk.TreeCellDataFunc (RenderTorrentDownSpeed));
-			upSpeedColumn.SetCellDataFunc (torrentUpSpeedCell, new Gtk.TreeCellDataFunc (RenderTorrentUpSpeed));
-			ratioColumn.SetCellDataFunc (torrentRatioCell, new Gtk.TreeCellDataFunc (RenderTorrentRatio));
-			sizeColumn.SetCellDataFunc (torrentSizeCell, new Gtk.TreeCellDataFunc (RenderTorrentSize));
-			etaColumn.SetCellDataFunc(torrentEtaCell, new Gtk.TreeCellDataFunc(RenderTorrentEta));
+
+			nameColumn.AddAttribute (torrentNameCell, "text", 1);
+			statusColumn.AddAttribute (torrentStatusCell, "text", 2);
+			statusColumn.AddAttribute (torrentStatusCell, "foreground", 11);
+			doneColumn.AddAttribute (torrentDoneCell, "value", 3);
+			seedsColumn.AddAttribute (torrentSeedsCell, "text", 4);
+			peersColumn.AddAttribute (torrentPeersCell, "text", 5);
+			downSpeedColumn.AddAttribute (torrentDownSpeedCell, "text", 6);
+			upSpeedColumn.AddAttribute (torrentUpSpeedCell, "text", 7);
+			ratioColumn.AddAttribute (torrentRatioCell, "text", 8);
+			sizeColumn.AddAttribute (torrentSizeCell, "text", 9);
+			etaColumn.AddAttribute (torrentEtaCell, "text", 10);
 			
 			nameColumn.Sizing = TreeViewColumnSizing.Fixed;
 			statusColumn.Sizing = TreeViewColumnSizing.Fixed;
@@ -249,7 +240,8 @@ namespace Monsoon
 			ratioColumn.Sizing = TreeViewColumnSizing.Fixed;
 			sizeColumn.Sizing = TreeViewColumnSizing.Fixed;
 			etaColumn.Sizing = TreeViewColumnSizing.Fixed;
-			
+
+			AppendColumn(downloadColumn);
 			AppendColumn(nameColumn);
 			AppendColumn(statusColumn);
 			AppendColumn(doneColumn);
@@ -262,150 +254,54 @@ namespace Monsoon
 			AppendColumn(sizeColumn);
 		}
 		
-		
-		private void RenderTorrentName (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+		void UpdateAll ()
 		{
-			Download torrent = (Download) model.GetValue (iter, 0);
-			
-			if (torrent == null)
-				(cell as Gtk.CellRendererText).Text = string.Empty;
-			else
-				(cell as Gtk.CellRendererText).Text = torrent.Torrent.Name;
-		}
-		
-		private void RenderTorrentStatus (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-		{
-			Download torrent = (Download) model.GetValue (iter, 0);
-			
-			if(torrent == null)
-				return;
-			
-			if (torrent.State == Monsoon.State.Downloading){
-				(cell as Gtk.CellRendererText).Foreground = "darkgreen";
-			}else if (torrent.State == Monsoon.State.Paused){
-				(cell as Gtk.CellRendererText).Foreground = "orange";
-			}else if (torrent.State == Monsoon.State.Hashing){
-				(cell as Gtk.CellRendererText).Foreground = "purple";
-			}else if (torrent.State == Monsoon.State.Seeding){
-				(cell as Gtk.CellRendererText).Foreground = "darkgreen";
-			}else if (torrent.State == Monsoon.State.Stopped && torrent.Complete){
-				(cell as Gtk.CellRendererText).Foreground = "blue";
-			} else if (torrent.State == Monsoon.State.Queued) {
-				(cell as Gtk.CellRendererText).Foreground = "black";
-			} else {
-				(cell as Gtk.CellRendererText).Foreground = "red";
-			}
-	
-			(cell as Gtk.CellRendererText).Text = GetStatusString (torrent);
-		}
-		
-		private string GetStatusString (Download manager)
-		{
-			if (manager == null)
-				return "";
-			
-			if(manager.State == Monsoon.State.Queued)
-				return _("Queued");
-			
-			switch (manager.State)
-			{
-			case Monsoon.State.Stopped:
-				return manager.Complete ? "Finished" : "Stopped";
-			case Monsoon.State.Seeding:
-				return "Seeding";
-			case Monsoon.State.Downloading:
-				return "Downloading";
-			case Monsoon.State.Hashing:
-				return "Hashing";
-			case Monsoon.State.Paused:
-				return "Paused";
-			default:
-				return manager.State.ToString ();
+			TreeIter iter;
+			if (Torrents.GetIterFirst (out iter)) {
+				do {
+					Update (iter);
+				} while (Torrents.IterNext (ref iter));
 			}
 		}
-		
-		private void RenderTorrentDone (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-		{
-			Download torrent = (Download) model.GetValue (iter, 0);
-			
-			if(torrent == null)
-				return;
-			Gtk.CellRendererProgress a;
-			(cell as Gtk.CellRendererProgress).Value = (int)(torrent.Progress * 100);
-		}
-		
-		private void RenderTorrentSeeds (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-		{
-			Download torrent = (Download) model.GetValue (iter, 0); 
-			
-			if(torrent == null)
-				return;
-			
-			(cell as Gtk.CellRendererText).Text = torrent.Seeds.ToString();
-		}
-		
-		private void RenderTorrentPeers (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-		{
-			Download torrent = (Download) model.GetValue (iter, 0);
-			
-			if(torrent == null)
-				return;
-					
-			(cell as Gtk.CellRendererText).Text = torrent.Leechs  + " (" + torrent.Available + ")";
-		}
-	
-		private void RenderTorrentDownSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-		{
-			Download torrent = (Download) model.GetValue (iter, 0);
-			
-			if(torrent == null)
-				return;
-			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSpeed (torrent.DownloadSpeed);
-		}
-		
-		private void RenderTorrentUpSpeed (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-		{
-			Download torrent = (Download) model.GetValue (iter, 0);
-			
-			if(torrent == null)
-				return;
-			
-			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSpeed (torrent.UploadSpeed);
-		}
-		
-		private void RenderTorrentRatio (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
-		{
-			Download torrent = (Download) model.GetValue (iter, 0);
-			
-			if(torrent == null)
-				return;
-			
-			long totalDown = torrent.TotalDownloaded;
-			long totalUp = torrent.TotalUploaded;
 
-			if (totalDown > 0 || ((totalDown / 1024f) > torrent.Torrent.Size))
-				(cell as Gtk.CellRendererText).Text = (totalUp / (double)totalDown).ToString("0.00");
-			else
-				(cell as Gtk.CellRendererText).Text = (totalUp / (torrent.Torrent.Size / 1024f)).ToString("0.00");
-		
-		}
-		
-		private void RenderTorrentSize (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+		void Update (TreeIter row)
 		{
-			Download torrent = (Download) model.GetValue (iter, 0);
-			
-			if(torrent == null)
-				return;
-			
-			(cell as Gtk.CellRendererText).Text = ByteConverter.ConvertSize (torrent.Torrent.Size);
+			Download d = (Download) Torrents.GetValue (row, 0);
+			Console.WriteLine ("Updating: {0}", d.Torrent.Name);
+			Torrents.SetValues (row,
+			                 d,
+			                 d.Torrent.Name,
+			                 GetStatusString (d),
+			                 (int) (d.Progress * 100.0),
+			                 d.Seeds.ToString (),
+			                 d.Leechs + " (" + d.Available + ")",
+			                 ByteConverter.ConvertSpeed (d.DownloadSpeed),
+			                 ByteConverter.ConvertSize (d.UploadSpeed),
+			                 ((float)d.TotalUploaded / d.TotalDownloaded).ToString (),
+			                 ByteConverter.ConvertSize (d.Torrent.Size),
+			                 GetEtaString (d),
+			                 GetStatusColour (d)
+			                 );
+
+			Console.WriteLine ("Updated: {0}", d.Torrent.Name);
 		}
-		
-		private void RenderTorrentEta (Gtk.TreeViewColumn column, Gtk.CellRenderer cell, Gtk.TreeModel model, Gtk.TreeIter iter)
+
+		private string GetStatusColour (Download torrent)
 		{
-			Download torrent = (Download)model.GetValue(iter, 0);			
-			if (torrent == null)
-				return;
-			(cell as Gtk.CellRendererText).Text = GetEtaString(torrent);
+			if (torrent.State == Monsoon.State.Downloading)
+				return "darkgreen";
+			if (torrent.State == Monsoon.State.Paused)
+				return "orange";
+			if (torrent.State == Monsoon.State.Hashing)
+				return "purple";
+			if (torrent.State == Monsoon.State.Seeding)
+				return "darkgreen";
+			if (torrent.State == Monsoon.State.Stopped && torrent.Complete)
+				return "blue";
+			if (torrent.State == Monsoon.State.Queued)
+				return "black";
+			
+			return "red";
 		}
 		
 		private string GetEtaString (Download manager)
@@ -434,6 +330,31 @@ namespace Monsoon
 				return string.Format("{0}m {1}s", eta.Minutes, eta.Seconds);
 			
 			return string.Format("{0}s", eta.Seconds);
+		}
+
+		private string GetStatusString (Download manager)
+		{
+			if (manager == null)
+				return "";
+			
+			if(manager.State == Monsoon.State.Queued)
+				return _("Queued");
+			
+			switch (manager.State)
+			{
+			case Monsoon.State.Stopped:
+				return manager.Complete ? "Finished" : "Stopped";
+			case Monsoon.State.Seeding:
+				return "Seeding";
+			case Monsoon.State.Downloading:
+				return "Downloading";
+			case Monsoon.State.Hashing:
+				return "Hashing";
+			case Monsoon.State.Paused:
+				return "Paused";
+			default:
+				return manager.State.ToString ();
+			}
 		}
 		
 		private static string _(string s)
