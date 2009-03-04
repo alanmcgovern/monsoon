@@ -204,6 +204,10 @@ namespace Monsoon
 				}));
 			};
 			
+			torrentController.SelectionChanged += delegate {
+				updateToolBar ();
+			};
+			
 			torrentController.ShouldRemove += HandleShouldRemove;
 			
 			if (SettingsManager.Preferences.ImportEnabled) {
@@ -579,6 +583,9 @@ namespace Monsoon
 
 		void HandleStateChanged(object sender, StateChangedEventArgs args)
 		{
+			// Update toolbar
+			updateToolBar ();
+			
 			Download manager = (Download) sender;
 
 			if (args.NewState == Monsoon.State.Stopped)
@@ -593,15 +600,20 @@ namespace Monsoon
 			if (args.OldState != Monsoon.State.Downloading)
 				return;
 
-			Notifications.Notification notify = new Notifications.Notification (_("Download Complete"), manager.Torrent.Name, Stock.GoDown);
-			if (Preferences.EnableTray)
-				notify.AttachToWidget (TrayIcon);
-			notify.Urgency = Notifications.Urgency.Low;
-			notify.Timeout = 5000;
-			notify.Show ();
-			notify.AddAction("reveal-item", "Show", delegate {
-				System.Diagnostics.Process.Start("\"file://" + manager.SavePath + "\"");
-			});
+			try {
+				Notifications.Notification notify = new Notifications.Notification (_("Download Complete"), manager.Torrent.Name, Stock.GoDown);
+				if (Preferences.EnableTray)
+					notify.AttachToWidget (TrayIcon);
+				notify.Urgency = Notifications.Urgency.Low;
+				notify.Timeout = 5000;
+				notify.Show ();
+				notify.AddAction("reveal-item", "Show", delegate {
+					System.Diagnostics.Process.Start("\"file://" + manager.SavePath + "\"");
+				});
+			} catch (Exception ex) {
+				logger.Error ("Could not display notification");
+				logger.Error (ex.ToString());
+			}
 		}
 
 		private void BuildLabelTreeView()
@@ -623,7 +635,7 @@ namespace Monsoon
 				
 				TorrentLabel label = (TorrentLabel) labelTreeView.Model.GetValue (it, 0);
 				if (!label.Immutable)
-					labelTreeView.Model.AppendValues(LabelController.Delete); 
+					LabelController.Add (LabelController.Delete);
 			});
 			
 			torrentTreeView.DragEnd += Event.Wrap ((DragEndHandler) delegate {
@@ -637,7 +649,7 @@ namespace Monsoon
 				
 				TorrentLabel label = (TorrentLabel) labelTreeView.Model.GetValue (prev, 0);
 				if (label == LabelController.Delete)
-					labelTreeView.Model.Remove (ref prev);
+					LabelController.Remove (LabelController.Delete);
 			});
 			
 			labelTreeView.EnableModelDragDest(targetEntries, Gdk.DragAction.Copy);
@@ -984,9 +996,6 @@ namespace Monsoon
 		private bool updateView ()
 		{
 			TreeIter iter;
-			
-			// Update toolbar
-			updateToolBar ();
 				
 			// Update TreeView
 			if (torrentTreeView.Model != null && torrentTreeView.Model.GetIterFirst (out iter)) {
@@ -1112,24 +1121,25 @@ namespace Monsoon
 				startTorrentButton.Sensitive = false;
 				stopTorrentButton.Sensitive = false;
 			} else {
-				bool anyActive = TorrentController.SelectedDownloads.Exists (delegate (Download d) {
-					Console.WriteLine ("State is: {0}", d.State);
-					return d.State != Monsoon.State.Stopped && d.State != Monsoon.State.Stopping;
+				bool anyNotActive = TorrentController.SelectedDownloads.Exists (delegate (Download d) {
+					return d.State == Monsoon.State.Stopped || d.State == Monsoon.State.Stopping || d.State == Monsoon.State.Paused;
 				});
-				bool anyStopped = TorrentController.SelectedDownloads.Exists (delegate (Download d) {
-					return d.State == Monsoon.State.Stopped;
+				bool anyNotStopped = TorrentController.SelectedDownloads.Exists (delegate (Download d) {
+					return d.State != Monsoon.State.Stopped;
 				});
 				bool allActive = TorrentController.SelectedDownloads.TrueForAll (delegate (Download d) {
-					return d.State != Monsoon.State.Stopped && d.State != Monsoon.State.Stopping;
+					return !(d.State == Monsoon.State.Stopped || d.State == Monsoon.State.Stopping || d.State == Monsoon.State.Paused);
 				});
-				
-				stopTorrentButton.Sensitive = anyActive;
-				startTorrentButton.Sensitive = count != 0;
+				if (torrentController.SelectedDownload != null)
+				Console.WriteLine ("State: {0}, AnyNotActive: {1}, AnyNotStopped: {2}, AllActive: {3}",
+				                   TorrentController.SelectedDownload, anyNotActive, anyNotStopped, allActive);
+				stopTorrentButton.Sensitive = anyNotStopped;
+				startTorrentButton.Sensitive = true;
 				
 				if (allActive) {
 					startTorrentButton.StockId = "gtk-media-pause";
 					startTorrentButton.Label = _("Pause");
-				} else if (anyStopped) {
+				} else if (anyNotActive) {
 					startTorrentButton.StockId = "gtk-media-play";
 					startTorrentButton.Label = _("Start");
 				}
