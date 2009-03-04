@@ -73,10 +73,6 @@ namespace Monsoon
 
 		public TorrentTreeView() : base()
 		{
-			GLib.Timeout.Add (1000, delegate {
-				UpdateAll ();
-				return true;
-			});
 			Torrents = new ListStore (typeof (Download), typeof (string), typeof (string),
 			                       typeof (int), typeof (string), typeof (string),
 			                       typeof (string), typeof (string), typeof (string),
@@ -147,7 +143,13 @@ namespace Monsoon
 		
 		void AddDownload (Download download)
 		{
+			download.StateChanged += HandleStateChanged;
 			Update (Torrents.AppendValues (download));
+		}
+
+		void HandleStateChanged(object sender, StateChangedEventArgs e)
+		{
+			UpdateAll ();
 		}
 		
 		void RemoveDownload (Download download)
@@ -157,6 +159,8 @@ namespace Monsoon
 				do {
 					if (download != Torrents.GetValue (iter, 0))
 						continue;
+
+					download.StateChanged -= HandleStateChanged;
 					Torrents.Remove (ref iter);
 					Selection.UnselectAll ();
 					break;
