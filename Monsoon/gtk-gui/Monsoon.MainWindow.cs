@@ -260,6 +260,7 @@ namespace Monsoon {
             this.OpenTorrent.ShortLabel = Mono.Unix.Catalog.GetString("_Open Torrent");
             w1.Add(this.OpenTorrent, null);
             this.startTorrentButton = new Gtk.Action("startTorrentButton", null, Mono.Unix.Catalog.GetString("Start the torrent"), "gtk-media-play");
+            this.startTorrentButton.Sensitive = false;
             w1.Add(this.startTorrentButton, null);
             this.NewTorrent = new Gtk.Action("NewTorrent", Mono.Unix.Catalog.GetString("_New Torrent"), Mono.Unix.Catalog.GetString("Create a new torrent"), "gtk-new");
             this.NewTorrent.ShortLabel = Mono.Unix.Catalog.GetString("_New Torrent");

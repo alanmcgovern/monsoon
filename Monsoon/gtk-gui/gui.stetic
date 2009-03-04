@@ -155,6 +155,7 @@
       <action id="startTorrentButton">
         <property name="Type">Action</property>
         <property name="Label" translatable="yes" />
+        <property name="Sensitive">False</property>
         <property name="StockId">gtk-media-play</property>
         <property name="Tooltip" translatable="yes">Start the torrent</property>
         <signal name="Activated" handler="OnStartTorrentActivated" />
