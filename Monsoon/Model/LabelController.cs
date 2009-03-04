@@ -4,12 +4,15 @@ using System.Collections.Generic;
 
 namespace Monsoon
 {
-	public class LabelController
+	public class LabelController : IService
 	{
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		public event EventHandler<LabelEventArgs> Added;
 		public event EventHandler<LabelEventArgs> Removed;
+		public event EventHandler SelectionChanged;
+
+		private TorrentLabel selection;
 		
 		public TorrentLabel All {
 			get; private set;
@@ -22,6 +25,10 @@ namespace Monsoon
 		public TorrentLabel Downloading {
 			get; private set;
 		}
+
+		public bool Initialised {
+			get; private set;
+		}
 		
 		public List<TorrentLabel> Labels {
 			get; private set;
@@ -31,12 +38,18 @@ namespace Monsoon
 			get; private set;
 		}
 
+		public TorrentLabel Selection {
+			get {  return selection; }
+			set { selection = value; Event.Raise (SelectionChanged, this, EventArgs.Empty); }
+		}
+
 		public LabelController()
 		{
 			All = new TorrentLabel (_("All"), "gtk-home", true);
 			Delete = new TorrentLabel (_("Remove"), "gtk-remove", true);
 			Downloading = new TorrentLabel (_("Downloading"), "gtk-go-down", true);
 			Seeding = new TorrentLabel (_("Seeding"), "gtk-go-up", true);
+			Selection = All;
 			
 			Labels = new List<TorrentLabel> { All, Delete, Downloading, Seeding };
 			HookEvents ();
@@ -83,6 +96,11 @@ namespace Monsoon
 		{
 			Labels.Add (label);
 			Event.Raise <LabelEventArgs> (Added, this, new LabelEventArgs (label)); 
+		}
+
+		public void Initialise ()
+		{
+			Initialised = true;
 		}
 		
 		public void Remove (TorrentLabel label)

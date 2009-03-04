@@ -607,10 +607,9 @@ namespace Monsoon
 		private void BuildLabelTreeView()
 		{
 			/* Move some stuff to LabelTreeView */
-			LabelController = new LabelController ();
+			LabelController = ServiceManager.Get <LabelController> ();
 			labelTreeView = new LabelTreeView (LabelController, true);
 			
-			labelTreeView.Selection.Changed += OnLabelSelectionChanged;
 			labelViewScrolledWindow.Add (labelTreeView);
 
 			TargetEntry [] targetEntries = new TargetEntry[]{
@@ -782,26 +781,6 @@ namespace Monsoon
 			torrentDownloadRateSpinButton.ValueChanged += OnTorrentSettingsChanged;
 			torrentMaxConnectionsSpinButton.ValueChanged += OnTorrentSettingsChanged;
 			torrentUploadSlotSpinButton.ValueChanged += OnTorrentSettingsChanged;	
-		}
-
-		private void OnLabelSelectionChanged (object sender, System.EventArgs e)
-		{
-			Console.WriteLine ("Label selection");
-			TreeIter iter;
-			TorrentLabel label;
-			
-			TreeSelection selection = (TreeSelection) sender;
-			if(!selection.GetSelected(out iter)){	
-				return;
-			}
-			label = (TorrentLabel) labelTreeView.Model.GetValue(iter, 0);
-			torrentTreeView.Filter = delegate (Download d) {
-				return label.Torrents.Contains (d);
-			};
-			logger.Debug("Label " + label.Name + " selected." );
-			
-			//torrentTreeView.Selection.UnselectAll();
-			//torrentFilter.Refilter();
 		}
 
         private void updatePeersPage()

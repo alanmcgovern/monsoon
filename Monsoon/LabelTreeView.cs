@@ -76,6 +76,12 @@ namespace Monsoon
 			Controller.Removed += delegate(object sender, LabelEventArgs e) {
 				Remove (e.Label);
 			};
+
+			Selection.Changed += delegate(object sender, EventArgs e) {
+				TreeIter iter;
+				if (Selection.GetSelected (out iter))
+					Controller.Selection = ((TorrentLabel) Model.GetValue (iter, 0));
+			};
 			
 			Controller.Labels.ForEach (Add);
 			Remove (Controller.Delete);

@@ -132,6 +132,14 @@ namespace Monsoon
 			torrentController.Removed += delegate(object sender, DownloadAddedEventArgs e) {
 				RemoveDownload (e.Download);
 			};
+
+			LabelController lc = ServiceManager.Get <LabelController> ();
+			lc.SelectionChanged += delegate {
+				TorrentLabel label = lc.Selection;
+				Filter = delegate (Download download) {
+					return label.Torrents.Contains (download);
+				};
+			};
 			
 			// FIXME: This shouldn't be necessary
 			torrentController.Torrents.ForEach (AddDownload);
