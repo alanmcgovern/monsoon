@@ -78,6 +78,7 @@ namespace Monsoon
 			                       typeof (int), typeof (string), typeof (string),
 			                       typeof (string), typeof (string), typeof (string),
 			                       typeof (string), typeof (string), typeof (string), typeof (string));
+			
 			FilterModel = new Gtk.TreeModelFilter (Torrents, null);
 			FilterModel.VisibleFunc = delegate (TreeModel model, TreeIter iter) {
 				return Filter == null ? true : Filter ((Download) model.GetValue (iter, 0));
@@ -112,7 +113,7 @@ namespace Monsoon
 				
 				torrentController.Select (downloads);
 			});
-			
+
 			EnableModelDragDest(targetEntries, Gdk.DragAction.Copy);
 			//this.DragDrop += OnTest;
 			
@@ -253,6 +254,19 @@ namespace Monsoon
 			ratioColumn.AddAttribute (torrentRatioCell, "text", 8);
 			sizeColumn.AddAttribute (torrentSizeCell, "text", 9);
 			etaColumn.AddAttribute (torrentEtaCell, "text", 10);
+
+			nameColumn.SortColumnId = 1;
+			statusColumn.SortColumnId = 2;
+			statusColumn.SortColumnId = 11;
+			doneColumn.SortColumnId = 3;
+			seedsColumn.SortColumnId = 4;
+			peersColumn.SortColumnId = 5;
+			priorityColumn.SortColumnId = 12;
+			downSpeedColumn.SortColumnId = 6;
+			upSpeedColumn.SortColumnId = 7;
+			ratioColumn.SortColumnId = 8;
+			sizeColumn.SortColumnId = 9;
+			etaColumn.SortColumnId = 10;
 			
 			nameColumn.Sizing = TreeViewColumnSizing.Fixed;
 			statusColumn.Sizing = TreeViewColumnSizing.Fixed;
@@ -278,6 +292,22 @@ namespace Monsoon
 			AppendColumn(upSpeedColumn);
 			AppendColumn(ratioColumn);
 			AppendColumn(sizeColumn);
+			foreach (TreeViewColumn c in this.Columns) {
+				c.Clicked += delegate (object o, EventArgs e) {
+					int oldId;
+					SortType oldSort;
+					TreeViewColumn sender = (TreeViewColumn) o;
+					
+					Torrents.GetSortColumnId (out oldId, out oldSort);
+
+					// Invert the sort order if we're the same
+					if (oldId == sender.SortColumnId)
+						sender.SortOrder = sender.SortOrder == SortType.Ascending ? SortType.Descending : SortType.Ascending;
+					else
+						sender.SortOrder = SortType.Ascending;
+					Torrents.SetSortColumnId (sender.SortColumnId, sender.SortOrder);
+				};
+			}
 		}
 		
 		void UpdateAll ()
