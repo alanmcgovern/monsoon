@@ -51,6 +51,10 @@ namespace Monsoon {
         
         private Gtk.Action ReportBugAction;
         
+        private Gtk.Action gotoTopAction;
+        
+        private Gtk.Action gotoBottomAction;
+        
         private Gtk.VBox vbox1;
         
         private Gtk.MenuBar menubar1;
@@ -271,6 +275,10 @@ namespace Monsoon {
             this.ReportBugAction = new Gtk.Action("ReportBugAction", Mono.Unix.Catalog.GetString("Report Bug"), null, null);
             this.ReportBugAction.ShortLabel = Mono.Unix.Catalog.GetString("Report Bug");
             w1.Add(this.ReportBugAction, null);
+            this.gotoTopAction = new Gtk.Action("gotoTopAction", null, null, "gtk-goto-top");
+            w1.Add(this.gotoTopAction, null);
+            this.gotoBottomAction = new Gtk.Action("gotoBottomAction", null, null, "gtk-goto-bottom");
+            w1.Add(this.gotoBottomAction, null);
             this.UIManager.InsertActionGroup(w1, 0);
             this.AddAccelGroup(this.UIManager.AccelGroup);
             this.Name = "Monsoon.MainWindow";
@@ -289,7 +297,7 @@ namespace Monsoon {
             w2.Expand = false;
             w2.Fill = false;
             // Container child vbox1.Gtk.Box+BoxChild
-            this.UIManager.AddUiFromString("<ui><toolbar name='toolbar1'><toolitem name='NewTorrent' action='NewTorrent'/><toolitem name='OpenTorrent' action='OpenTorrent'/><separator/><toolitem name='startTorrentButton' action='startTorrentButton'/><toolitem name='stopTorrentButton' action='stopTorrentButton'/><toolitem name='removeTorrentButton' action='removeTorrentButton'/><toolitem name='deleteTorrentButton' action='deleteTorrentButton'/><separator/><toolitem name='Plugins' action='Plugins'/><toolitem name='preferences' action='preferences'/></toolbar></ui>");
+            this.UIManager.AddUiFromString("<ui><toolbar name='toolbar1'><toolitem name='NewTorrent' action='NewTorrent'/><toolitem name='OpenTorrent' action='OpenTorrent'/><separator/><toolitem name='startTorrentButton' action='startTorrentButton'/><toolitem name='stopTorrentButton' action='stopTorrentButton'/><toolitem name='removeTorrentButton' action='removeTorrentButton'/><toolitem name='deleteTorrentButton' action='deleteTorrentButton'/><separator/><toolitem name='gotoTopAction' action='gotoTopAction'/><toolitem name='gotoBottomAction' action='gotoBottomAction'/><separator/><toolitem name='Plugins' action='Plugins'/><toolitem name='preferences' action='preferences'/></toolbar></ui>");
             this.toolbar1 = ((Gtk.Toolbar)(this.UIManager.GetWidget("/toolbar1")));
             this.toolbar1.Name = "toolbar1";
             this.toolbar1.ShowArrow = false;
@@ -1031,6 +1039,8 @@ namespace Monsoon {
             this.NewTorrent.Activated += new System.EventHandler(this.OnNewActivated);
             this.Plugins.Activated += new System.EventHandler(this.OnPluginsActivated);
             this.ReportBugAction.Activated += new System.EventHandler(this.OnReportBugActivated);
+            this.gotoTopAction.Activated += new System.EventHandler(this.OnPriorityHighest);
+            this.gotoBottomAction.Activated += new System.EventHandler(this.OnPriorityLowest);
         }
     }
 }

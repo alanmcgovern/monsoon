@@ -86,6 +86,15 @@ namespace Monsoon
 			Ticker.Tock ("Client engine");
 
 			allTorrents = new List<Download>();
+
+			Added += delegate(object sender, DownloadAddedEventArgs e) {
+				e.Download.Priority = allTorrents.Count + 1;
+			};
+			Removed += delegate(object sender, DownloadAddedEventArgs e) {
+				for (int i=0; i < allTorrents.Count; i++)
+					if (allTorrents [i].Priority > e.Download.Priority)
+						allTorrents[i].Priority--;
+			};
 		}
 		
 		public void StoreFastResume ()
@@ -227,7 +236,7 @@ namespace Monsoon
 				logger.Info ("Removing {0}", originalPath);
 				File.Delete (originalPath);
 			}
-			
+
 			Event.Raise<DownloadAddedEventArgs> (Added, this, new DownloadAddedEventArgs (manager));
 			allTorrents.Add (manager);
 			
@@ -285,6 +294,22 @@ namespace Monsoon
 			SelectedDownloads.Clear ();
 			SelectedDownloads.AddRange (downloads);
 			Event.Raise (SelectionChanged, this, EventArgs.Empty);
+		}
+
+		public void SetPriority (Download download, int priority)
+		{
+			for (int i = 0; i < allTorrents.Count; i++)
+				if (allTorrents [i].Priority < download.Priority)
+					allTorrents [i].Priority++;
+			
+			for (int i = 0; i < allTorrents.Count; i++)
+				if (allTorrents [i].Priority <= priority)
+					allTorrents [i].Priority--;
+
+			download.Priority = priority;
+
+			for (int i = 0; i < allTorrents.Count; i++)
+				Console.WriteLine ("{0}: {1}", allTorrents [i].Priority, allTorrents [i].Torrent.Name);
 		}
 		
 		public void RemoveTorrent()

@@ -1329,5 +1329,16 @@ namespace Monsoon
 		{
 			System.Diagnostics.Process.Start (@"""https://bugzilla.novell.com/enter_bug.cgi?classification=6841&product=Mono%3A+Tools&component=Monsoon""");
 		}
+
+		void OnPriorityLowest (object sender, System.EventArgs e)
+		{
+			Console.WriteLine ("Setting priority to: {0}", TorrentController.Torrents.Count);
+			TorrentController.SetPriority (TorrentController.SelectedDownload, TorrentController.Torrents.Count);
+		}
+		
+		void OnPriorityHighest (object sender, System.EventArgs e)
+		{
+			TorrentController.SetPriority (TorrentController.SelectedDownload, 1);
+		}
 	}
 }

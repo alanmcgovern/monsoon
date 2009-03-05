@@ -13,10 +13,12 @@ namespace Monsoon
 		public event EventHandler<StateChangedEventArgs> StateChanged;
 		public event EventHandler Stopped;
 		public event EventHandler Paused;
+		public event EventHandler<DownloadAddedEventArgs> PriorityChanged;
 		public event EventHandler Resumed;
 		
 		double hashProgress;
 		TorrentManager manager;
+		int priority;
 		bool queued;
 		State state = State.Stopped;
 		SpeedMonitor swarmSpeed;
@@ -49,6 +51,14 @@ namespace Monsoon
 
 		public int Leechs {
 			get { return manager.Peers.Leechs; }
+		}
+
+		public int Priority {
+			get { return priority; }
+			set {
+				priority = value;
+				Event.Raise <DownloadAddedEventArgs> (PriorityChanged, this, new DownloadAddedEventArgs (this));
+			}
 		}
 		
 		public double Progress {

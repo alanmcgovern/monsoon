@@ -182,6 +182,18 @@
         <property name="ShortLabel" translatable="yes">Report Bug</property>
         <signal name="Activated" handler="OnReportBugActivated" />
       </action>
+      <action id="gotoTopAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-goto-top</property>
+        <signal name="Activated" handler="OnPriorityHighest" />
+      </action>
+      <action id="gotoBottomAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes" />
+        <property name="StockId">gtk-goto-bottom</property>
+        <signal name="Activated" handler="OnPriorityLowest" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Visible">False</property>
@@ -236,6 +248,9 @@
               <node type="Toolitem" action="stopTorrentButton" />
               <node type="Toolitem" action="removeTorrentButton" />
               <node type="Toolitem" action="deleteTorrentButton" />
+              <node type="Separator" />
+              <node type="Toolitem" action="gotoTopAction" />
+              <node type="Toolitem" action="gotoBottomAction" />
               <node type="Separator" />
               <node type="Toolitem" action="Plugins" />
               <node type="Toolitem" action="preferences" />
@@ -2610,7 +2625,6 @@ Force Encryption</property>
                         <child>
                           <widget class="Gtk.Table" id="table1">
                             <property name="MemberName" />
-                            <property name="NRows">1</property>
                             <property name="NColumns">2</property>
                             <property name="RowSpacing">6</property>
                             <property name="ColumnSpacing">6</property>
@@ -2733,7 +2747,6 @@ Force Encryption</property>
                                   <widget class="Gtk.TreeView" id="trackerTreeView">
                                     <property name="MemberName" />
                                     <property name="CanFocus">True</property>
-                                    <property name="HeadersClickable">True</property>
                                   </widget>
                                 </child>
                               </widget>
@@ -3302,7 +3315,6 @@ Force Encryption</property>
                 <child>
                   <widget class="Gtk.Label" id="exceptionLabel">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes" />
                     <property name="Wrap">True</property>
                   </widget>
                   <packing>
@@ -3439,7 +3451,6 @@ Force Encryption</property>
                 <child>
                   <widget class="Gtk.Label" id="fileLabel">
                     <property name="MemberName" />
-                    <property name="LabelProp" translatable="yes" />
                   </widget>
                   <packing>
                     <property name="Position">1</property>
@@ -4398,7 +4409,6 @@ Force Encryption</property>
                         <property name="MemberName" />
                         <property name="CanFocus">True</property>
                         <property name="ShowScrollbars">True</property>
-                        <property name="HeadersClickable">True</property>
                       </widget>
                     </child>
                   </widget>

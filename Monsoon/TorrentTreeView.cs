@@ -42,6 +42,7 @@ namespace Monsoon
 		public TreeViewColumn doneColumn;
 		public TreeViewColumn seedsColumn;
 		public TreeViewColumn peersColumn;
+		public TreeViewColumn priorityColumn;
 		public TreeViewColumn downSpeedColumn;
 		public TreeViewColumn upSpeedColumn;
 		public TreeViewColumn ratioColumn;
@@ -76,7 +77,7 @@ namespace Monsoon
 			Torrents = new ListStore (typeof (Download), typeof (string), typeof (string),
 			                       typeof (int), typeof (string), typeof (string),
 			                       typeof (string), typeof (string), typeof (string),
-			                       typeof (string), typeof (string), typeof (string));
+			                       typeof (string), typeof (string), typeof (string), typeof (string));
 			FilterModel = new Gtk.TreeModelFilter (Torrents, null);
 			FilterModel.VisibleFunc = delegate (TreeModel model, TreeIter iter) {
 				return Filter == null ? true : Filter ((Download) model.GetValue (iter, 0));
@@ -144,7 +145,13 @@ namespace Monsoon
 		void AddDownload (Download download)
 		{
 			download.StateChanged += HandleStateChanged;
+			download.PriorityChanged += HandlePriorityChanged;
 			Update (Torrents.AppendValues (download));
+		}
+
+		void HandlePriorityChanged(object sender, EventArgs e)
+		{
+			UpdateAll ();
 		}
 
 		void HandleStateChanged(object sender, StateChangedEventArgs e)
@@ -160,6 +167,7 @@ namespace Monsoon
 					if (download != Torrents.GetValue (iter, 0))
 						continue;
 
+					download.PriorityChanged -= HandlePriorityChanged;
 					download.StateChanged -= HandleStateChanged;
 					Torrents.Remove (ref iter);
 					Selection.UnselectAll ();
@@ -202,17 +210,19 @@ namespace Monsoon
 			doneColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Done") };
 			seedsColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Seeds") };
 			peersColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Peers") };
+			priorityColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Priority") };
 			downSpeedColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("DL Speed") };
 			upSpeedColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("UP Speed") };
 			ratioColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Ratio") };
 			sizeColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Size") };
 			etaColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("ETA") };
-
+			
 			Gtk.CellRendererText torrentNameCell = new Gtk.CellRendererText ();
 			Gtk.CellRendererText torrentStatusCell = new Gtk.CellRendererText();
 			Gtk.CellRendererProgress torrentDoneCell = new Gtk.CellRendererProgress();
 			Gtk.CellRendererText torrentSeedsCell = new Gtk.CellRendererText();
 			Gtk.CellRendererText torrentPeersCell = new Gtk.CellRendererText();
+			Gtk.CellRendererText torrentPriorityCell = new Gtk.CellRendererText();
 			Gtk.CellRendererText torrentDownSpeedCell = new Gtk.CellRendererText();
 			Gtk.CellRendererText torrentUpSpeedCell = new Gtk.CellRendererText();
 			Gtk.CellRendererText torrentRatioCell = new Gtk.CellRendererText();
@@ -224,6 +234,7 @@ namespace Monsoon
 			doneColumn.PackStart(torrentDoneCell, true);
 			seedsColumn.PackStart(torrentSeedsCell, true);
 			peersColumn.PackStart(torrentPeersCell, true);
+			priorityColumn.PackStart(torrentPriorityCell, true);
 			downSpeedColumn.PackStart(torrentDownSpeedCell, true);
 			upSpeedColumn.PackStart(torrentUpSpeedCell, true);
 			ratioColumn.PackStart(torrentRatioCell, true);
@@ -236,6 +247,7 @@ namespace Monsoon
 			doneColumn.AddAttribute (torrentDoneCell, "value", 3);
 			seedsColumn.AddAttribute (torrentSeedsCell, "text", 4);
 			peersColumn.AddAttribute (torrentPeersCell, "text", 5);
+			priorityColumn.AddAttribute (torrentPriorityCell, "text", 12);
 			downSpeedColumn.AddAttribute (torrentDownSpeedCell, "text", 6);
 			upSpeedColumn.AddAttribute (torrentUpSpeedCell, "text", 7);
 			ratioColumn.AddAttribute (torrentRatioCell, "text", 8);
@@ -247,12 +259,14 @@ namespace Monsoon
 			doneColumn.Sizing = TreeViewColumnSizing.Fixed;
 			seedsColumn.Sizing = TreeViewColumnSizing.Fixed;
 			peersColumn.Sizing = TreeViewColumnSizing.Fixed;
+			priorityColumn.Sizing = TreeViewColumnSizing.Fixed;
 			downSpeedColumn.Sizing = TreeViewColumnSizing.Fixed;
 			upSpeedColumn.Sizing = TreeViewColumnSizing.Fixed;
 			ratioColumn.Sizing = TreeViewColumnSizing.Fixed;
 			sizeColumn.Sizing = TreeViewColumnSizing.Fixed;
 			etaColumn.Sizing = TreeViewColumnSizing.Fixed;
 
+			AppendColumn(priorityColumn);
 			AppendColumn(downloadColumn);
 			AppendColumn(nameColumn);
 			AppendColumn(statusColumn);
@@ -292,7 +306,8 @@ namespace Monsoon
 			                 ((float)d.TotalUploaded / d.TotalDownloaded).ToString (),
 			                 ByteConverter.ConvertSize (d.Torrent.Size),
 			                 GetEtaString (d),
-			                 GetStatusColour (d)
+			                 GetStatusColour (d),
+			                 d.Priority.ToString ()
 			                 );
 
 			Console.WriteLine ("Updated: {0}", d.Torrent.Name);
