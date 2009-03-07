@@ -48,6 +48,10 @@ namespace Monsoon
 		private long downloadedData;
 		private string infoHash;
 		List<TorrentFileSettingsModel> files;
+
+		public int Priority {
+			get; set;
+		}
 		
 		public TorrentStorage()
 		{

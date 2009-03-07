@@ -879,6 +879,7 @@ namespace Monsoon
 				TorrentManager manager = download.Manager;
 				TorrentStorage torrentToStore = new TorrentStorage();
 				torrentToStore.TorrentPath = manager.Torrent.TorrentPath;
+				torrentToStore.Priority = download.Priority;
 				torrentToStore.SavePath = manager.SavePath;
 				torrentToStore.Settings = manager.Settings;
 				torrentToStore.State = download.State;

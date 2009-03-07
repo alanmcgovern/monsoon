@@ -386,7 +386,9 @@ namespace Monsoon
 			
 			List<TorrentStorage> torrents =new List<TorrentStorage> ();
 			SettingsManager.Restore <List<TorrentStorage>> (torrents);
-			
+			torrents.Sort (delegate (TorrentStorage l, TorrentStorage r) {
+				return l.Priority.CompareTo (r.Priority);
+			});
 			foreach(TorrentStorage torrentStore in torrents){
 				try{
 					Torrent t = Torrent.Load (torrentStore.TorrentPath);
