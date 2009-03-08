@@ -385,7 +385,7 @@ namespace Monsoon
 			}
 			catch (Exception ex)
 			{
-				logger.Error ("Couldn't load interface settings: {0}", ex.Message);
+				logger.Error ("Couldn't load interface settings: {0}", ex);
 			}
 		}
 		
@@ -400,7 +400,7 @@ namespace Monsoon
 				SetPosition (WindowPosition.Center);
 			else
 				Move (settings.WindowXPos, settings.WindowYPos);
-			
+
 			vPaned.Position = settings.VPaned;
 			hPaned.Position = settings.HPaned;
 			
@@ -410,29 +410,13 @@ namespace Monsoon
 			detailNotebook.Visible = settings.ShowDetails;
 			
 			// Restore columns
-			torrentTreeView.nameColumn.FixedWidth = settings.NameColumnWidth;
-			torrentTreeView.doneColumn.FixedWidth = settings.DoneColumnWidth;
-			torrentTreeView.statusColumn.FixedWidth = settings.StatusColumnWidth;
-			torrentTreeView.seedsColumn.FixedWidth = settings.SeedsColumnWidth;
-			torrentTreeView.peersColumn.FixedWidth = settings.PeersColumnWidth;
-			torrentTreeView.downSpeedColumn.FixedWidth = settings.DlSpeedColumnWidth;
-			torrentTreeView.upSpeedColumn.FixedWidth = settings.UpSpeedColumnWidth;
-			torrentTreeView.ratioColumn.FixedWidth = settings.RatioColumnWidth;
-			torrentTreeView.sizeColumn.FixedWidth = settings.SizeColumnWidth;
-			torrentTreeView.etaColumn.FixedWidth = settings.EtaColumnWidth; 
-			torrentTreeView.priorityColumn.FixedWidth = settings.PriorityColumnWidth;
-
-			torrentTreeView.nameColumn.Visible = settings.NameColumnVisible;
-			torrentTreeView.doneColumn.Visible = settings.DoneColumnVisible;
-			torrentTreeView.statusColumn.Visible = settings.StatusColumnVisible;
-			torrentTreeView.seedsColumn.Visible = settings.SeedsColumnVisible;
-			torrentTreeView.peersColumn.Visible = settings.PeersColumnVisible;
-			torrentTreeView.downSpeedColumn.Visible = settings.DlSpeedColumnVisible;
-			torrentTreeView.upSpeedColumn.Visible = settings.UpSpeedColumnVisible;
-			torrentTreeView.ratioColumn.Visible = settings.RatioColumnVisible;
-			torrentTreeView.sizeColumn.Visible = settings.SizeColumnVisible;
-			torrentTreeView.etaColumn.Visible = settings.EtaColumnVisible;
-			torrentTreeView.priorityColumn.Visible = settings.PriorityColumnVisible;
+			foreach (TorrentTreeView.Column c in torrentTreeView.Columns) {
+				if (c.Ignore)
+					continue;
+				
+				c.Visible = settings.ColumnVisibility [c.Name];
+				c.FixedWidth = settings.ColumnWidth [c.Name];
+			}
 		}
 
 		private void StoreInterfaceSettings ()
@@ -458,30 +442,14 @@ namespace Monsoon
 			interfaceSettings.ShowDetails = ShowDetailedInfo.Active;
 			interfaceSettings.ShowLabels = ShowLabels.Active;
 			
-			
 			// TorrentTreeView column's
-			interfaceSettings.NameColumnWidth = torrentTreeView.nameColumn.Width;
-			interfaceSettings.NameColumnVisible = torrentTreeView.nameColumn.Visible;
-			interfaceSettings.StatusColumnWidth = torrentTreeView.statusColumn.Width;
-			interfaceSettings.StatusColumnVisible = torrentTreeView.statusColumn.Visible;
-			interfaceSettings.DoneColumnWidth = torrentTreeView.doneColumn.Width;
-			interfaceSettings.DoneColumnVisible = torrentTreeView.doneColumn.Visible;
-			interfaceSettings.SeedsColumnWidth = torrentTreeView.seedsColumn.Width;
-			interfaceSettings.SeedsColumnVisible = torrentTreeView.seedsColumn.Visible;
-			interfaceSettings.PeersColumnWidth = torrentTreeView.peersColumn.Width;
-			interfaceSettings.PeersColumnVisible = torrentTreeView.peersColumn.Visible;
-			interfaceSettings.DlSpeedColumnWidth = torrentTreeView.downSpeedColumn.Width;
-			interfaceSettings.DlSpeedColumnVisible = torrentTreeView.downSpeedColumn.Visible;
-			interfaceSettings.UpSpeedColumnWidth = torrentTreeView.upSpeedColumn.Width;
-			interfaceSettings.UpSpeedColumnVisible = torrentTreeView.upSpeedColumn.Visible;
-			interfaceSettings.PriorityColumnWidth = torrentTreeView.priorityColumn.Width;
-			interfaceSettings.PriorityColumnVisible = torrentTreeView.priorityColumn.Visible;
-			interfaceSettings.RatioColumnWidth = torrentTreeView.ratioColumn.Width;
-			interfaceSettings.RatioColumnVisible = torrentTreeView.ratioColumn.Visible;
-			interfaceSettings.SizeColumnWidth = torrentTreeView.sizeColumn.Width;
-			interfaceSettings.SizeColumnVisible = torrentTreeView.sizeColumn.Visible;
-			interfaceSettings.EtaColumnWidth = torrentTreeView.etaColumn.Width;
-			interfaceSettings.EtaColumnVisible = torrentTreeView.etaColumn.Visible;
+			foreach (TorrentTreeView.Column c in torrentTreeView.Columns) {
+				if (c.Ignore)
+					continue;
+				
+				interfaceSettings.ColumnVisibility [c.Name] = c.Visible;
+				interfaceSettings.ColumnWidth [c.Name] = c.Width;
+			}
 			
 			SettingsManager.Store <InterfaceSettings> (interfaceSettings);
 		}

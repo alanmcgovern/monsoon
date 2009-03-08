@@ -27,6 +27,7 @@
 //
 
 using System;
+using System.Collections.Generic;
 
 namespace Monsoon
 {
@@ -68,92 +69,12 @@ namespace Monsoon
 			get; set;
 		}
 		
-		public int NameColumnWidth{
-			get; set;
-		}
-		
-		public bool NameColumnVisible{
-			get; set;
-		}
-		
-		public int StatusColumnWidth{
-			get; set;
-		}
-		
-		public bool StatusColumnVisible{
-			get; set;
-		}
-		
-		public int DoneColumnWidth{
-			get; set;
-		}
-		
-		public bool DoneColumnVisible{
-			get; set;
+		public Dictionary <string, bool> ColumnVisibility {
+			get; private set;
 		}
 
-		public bool PriorityColumnVisible {
-			get; set;
-		}
-		
-		public int SeedsColumnWidth{
-			get; set;
-		}
-		
-		public bool SeedsColumnVisible{
-			get; set;
-		}
-		
-		public int PeersColumnWidth{
-			get; set;
-		}
-		
-		public bool PeersColumnVisible{
-			get; set;
-		}
-		
-		public int DlSpeedColumnWidth{
-			get; set;
-		}
-		
-		public bool DlSpeedColumnVisible{
-			get; set;
-		}
-		
-		public int UpSpeedColumnWidth{
-			get; set;
-		}
-		
-		public bool UpSpeedColumnVisible{
-			get; set;
-		}
-
-		public int PriorityColumnWidth {
-			get; set;
-		}
-		
-		public int RatioColumnWidth{
-			get; set;
-		}
-		
-		public bool RatioColumnVisible{
-			get; set;
-		}
-		
-		public int SizeColumnWidth{
-			get; set;
-		}
-		
-		public bool SizeColumnVisible{
-			get; set;
-		}
-		
-		public int EtaColumnWidth{
-			get; set;
-		}
-		
-		public bool EtaColumnVisible{
-			get; set;
+		public Dictionary <string, int> ColumnWidth {
+			get; private set;
 		}
 		
 		public InterfaceSettings ()
@@ -166,29 +87,25 @@ namespace Monsoon
 			HPaned = 140;
 			WindowYPos = 0;
 			WindowXPos = 0;
-			NameColumnWidth = 220;
-			NameColumnVisible = true;
-			StatusColumnWidth = 65;
-			StatusColumnVisible = true;
-			DoneColumnWidth = 75;
-			DoneColumnVisible = true;
-			SeedsColumnWidth = 52;
-			SeedsColumnVisible = true;
-			PeersColumnWidth = 48;
-			PeersColumnVisible = true;
-			DlSpeedColumnWidth = 75;
-			DlSpeedColumnVisible = true;
-			UpSpeedColumnWidth = 75;
-			UpSpeedColumnVisible = true;
-			RatioColumnWidth = 75;
-			RatioColumnVisible = true;
-			SizeColumnWidth = 75;
-			SizeColumnVisible = true;
 			ShowLoadDialog = true;
-			EtaColumnWidth = 50;
-			EtaColumnVisible = true;
-			PriorityColumnVisible = true;
-			PriorityColumnWidth = 57;
+
+			ColumnWidth = new Dictionary<string, int> ();
+
+			ColumnWidth.Add ("name", 220);
+			ColumnWidth.Add ("status", 65);
+			ColumnWidth.Add ("done", 75);
+			ColumnWidth.Add ("seeds", 52);
+			ColumnWidth.Add ("peers", 48);
+			ColumnWidth.Add ("priority", 57);
+			ColumnWidth.Add ("downspeed", 75);
+			ColumnWidth.Add ("upspeed", 75);
+			ColumnWidth.Add ("ratio", 75);
+			ColumnWidth.Add ("size", 75);
+			ColumnWidth.Add ("eta", 50);
+
+			ColumnVisibility = new Dictionary <string, bool> ();
+			foreach (string s in ColumnWidth.Keys)
+				ColumnVisibility.Add (s, true);
 		}
 	}
 }

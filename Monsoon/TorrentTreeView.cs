@@ -37,17 +37,28 @@ namespace Monsoon
 {
 	public class TorrentTreeView : TreeView
 	{
-		public TreeViewColumn nameColumn;
-		public TreeViewColumn statusColumn;
-		public TreeViewColumn doneColumn;
-		public TreeViewColumn seedsColumn;
-		public TreeViewColumn peersColumn;
-		public TreeViewColumn priorityColumn;
-		public TreeViewColumn downSpeedColumn;
-		public TreeViewColumn upSpeedColumn;
-		public TreeViewColumn ratioColumn;
-		public TreeViewColumn sizeColumn;
-		public TreeViewColumn etaColumn;
+		public class Column : TreeViewColumn
+		{
+			public string Name {
+				get; set;
+			}
+			
+			public bool Ignore {
+				get; set;
+			}
+		}
+
+		public readonly Column nameColumn = new Column { Name = "name", Title = _("Name"), SortColumnId = 1 };
+		public readonly Column statusColumn = new Column { Name = "status", Title = _("Status"), SortColumnId = 2 };
+		public readonly Column doneColumn = new Column { Name = "done", Title = _("Done"), SortColumnId = 3 };
+		public readonly Column seedsColumn = new Column { Name = "seeds", Title = _("Seeds"), SortColumnId = 4 };
+		public readonly Column peersColumn = new Column { Name = "peers", Title = _("Peers"), SortColumnId = 5 };
+		public readonly Column priorityColumn = new Column { Name = "priority", Title = _("Priority"), SortColumnId = 12 };
+		public readonly Column downSpeedColumn = new Column { Name = "downspeed", Title = _("DL Speed"), SortColumnId = 6 };
+		public readonly Column upSpeedColumn = new Column { Name = "upspeed", Title = _("UP speed"), SortColumnId = 7 };
+		public readonly Column ratioColumn = new Column { Name = "ratio", Title = _("Ratio"), SortColumnId = 8 };
+		public readonly Column sizeColumn = new Column { Name = "size", Title = _("Size"), SortColumnId = 9 };
+		public readonly Column etaColumn = new Column { Name = "eta", Title = _("ETA"), SortColumnId = 10 };
 
 		private Predicate<Download> filter;
 		private TorrentController torrentController;
@@ -205,18 +216,7 @@ namespace Monsoon
 			
 		private void buildColumns()
 		{
-			TreeViewColumn downloadColumn = new TreeViewColumn { Visible = false, Title = "N/A" };
-			nameColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Name") };
-			statusColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Status") };
-			doneColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Done") };
-			seedsColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Seeds") };
-			peersColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Peers") };
-			priorityColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Priority") };
-			downSpeedColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("DL Speed") };
-			upSpeedColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("UP Speed") };
-			ratioColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Ratio") };
-			sizeColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("Size") };
-			etaColumn = new TreeViewColumn { Reorderable = true, Resizable = true, Title = _("ETA") };
+			Column downloadColumn = new Column { Ignore = true, Visible = false, Title = "N/A" };
 			
 			Gtk.CellRendererText torrentNameCell = new Gtk.CellRendererText ();
 			Gtk.CellRendererText torrentStatusCell = new Gtk.CellRendererText();
@@ -255,31 +255,6 @@ namespace Monsoon
 			sizeColumn.AddAttribute (torrentSizeCell, "text", 9);
 			etaColumn.AddAttribute (torrentEtaCell, "text", 10);
 
-			nameColumn.SortColumnId = 1;
-			statusColumn.SortColumnId = 2;
-			statusColumn.SortColumnId = 11;
-			doneColumn.SortColumnId = 3;
-			seedsColumn.SortColumnId = 4;
-			peersColumn.SortColumnId = 5;
-			priorityColumn.SortColumnId = 12;
-			downSpeedColumn.SortColumnId = 6;
-			upSpeedColumn.SortColumnId = 7;
-			ratioColumn.SortColumnId = 8;
-			sizeColumn.SortColumnId = 9;
-			etaColumn.SortColumnId = 10;
-			
-			nameColumn.Sizing = TreeViewColumnSizing.Fixed;
-			statusColumn.Sizing = TreeViewColumnSizing.Fixed;
-			doneColumn.Sizing = TreeViewColumnSizing.Fixed;
-			seedsColumn.Sizing = TreeViewColumnSizing.Fixed;
-			peersColumn.Sizing = TreeViewColumnSizing.Fixed;
-			priorityColumn.Sizing = TreeViewColumnSizing.Fixed;
-			downSpeedColumn.Sizing = TreeViewColumnSizing.Fixed;
-			upSpeedColumn.Sizing = TreeViewColumnSizing.Fixed;
-			ratioColumn.Sizing = TreeViewColumnSizing.Fixed;
-			sizeColumn.Sizing = TreeViewColumnSizing.Fixed;
-			etaColumn.Sizing = TreeViewColumnSizing.Fixed;
-
 			AppendColumn(priorityColumn);
 			AppendColumn(downloadColumn);
 			AppendColumn(nameColumn);
@@ -292,7 +267,12 @@ namespace Monsoon
 			AppendColumn(etaColumn);
 			AppendColumn(ratioColumn);
 			AppendColumn(sizeColumn);
+			
 			foreach (TreeViewColumn c in this.Columns) {
+				c.Sizing = TreeViewColumnSizing.Fixed;
+				c.Reorderable = true;
+				c.Resizable = true;
+				
 				c.Clicked += delegate (object o, EventArgs e) {
 					int oldId;
 					SortType oldSort;
