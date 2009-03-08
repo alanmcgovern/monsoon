@@ -420,7 +420,8 @@ namespace Monsoon
 			torrentTreeView.ratioColumn.FixedWidth = settings.RatioColumnWidth;
 			torrentTreeView.sizeColumn.FixedWidth = settings.SizeColumnWidth;
 			torrentTreeView.etaColumn.FixedWidth = settings.EtaColumnWidth; 
-			
+			torrentTreeView.priorityColumn.FixedWidth = settings.PriorityColumnWidth;
+
 			torrentTreeView.nameColumn.Visible = settings.NameColumnVisible;
 			torrentTreeView.doneColumn.Visible = settings.DoneColumnVisible;
 			torrentTreeView.statusColumn.Visible = settings.StatusColumnVisible;
@@ -431,6 +432,7 @@ namespace Monsoon
 			torrentTreeView.ratioColumn.Visible = settings.RatioColumnVisible;
 			torrentTreeView.sizeColumn.Visible = settings.SizeColumnVisible;
 			torrentTreeView.etaColumn.Visible = settings.EtaColumnVisible;
+			torrentTreeView.priorityColumn.Visible = settings.PriorityColumnVisible;
 		}
 
 		private void StoreInterfaceSettings ()
@@ -472,6 +474,8 @@ namespace Monsoon
 			interfaceSettings.DlSpeedColumnVisible = torrentTreeView.downSpeedColumn.Visible;
 			interfaceSettings.UpSpeedColumnWidth = torrentTreeView.upSpeedColumn.Width;
 			interfaceSettings.UpSpeedColumnVisible = torrentTreeView.upSpeedColumn.Visible;
+			interfaceSettings.PriorityColumnWidth = torrentTreeView.priorityColumn.Width;
+			interfaceSettings.PriorityColumnVisible = torrentTreeView.priorityColumn.Visible;
 			interfaceSettings.RatioColumnWidth = torrentTreeView.ratioColumn.Width;
 			interfaceSettings.RatioColumnVisible = torrentTreeView.ratioColumn.Visible;
 			interfaceSettings.SizeColumnWidth = torrentTreeView.sizeColumn.Width;

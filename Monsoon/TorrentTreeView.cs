@@ -285,11 +285,11 @@ namespace Monsoon
 			AppendColumn(nameColumn);
 			AppendColumn(statusColumn);
 			AppendColumn(doneColumn);
-			AppendColumn(etaColumn);
 			AppendColumn(seedsColumn);
 			AppendColumn(peersColumn);
 			AppendColumn(downSpeedColumn);
 			AppendColumn(upSpeedColumn);
+			AppendColumn(etaColumn);
 			AppendColumn(ratioColumn);
 			AppendColumn(sizeColumn);
 			foreach (TreeViewColumn c in this.Columns) {

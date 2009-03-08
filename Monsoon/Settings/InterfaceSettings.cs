@@ -91,6 +91,10 @@ namespace Monsoon
 		public bool DoneColumnVisible{
 			get; set;
 		}
+
+		public bool PriorityColumnVisible {
+			get; set;
+		}
 		
 		public int SeedsColumnWidth{
 			get; set;
@@ -123,6 +127,10 @@ namespace Monsoon
 		public bool UpSpeedColumnVisible{
 			get; set;
 		}
+
+		public int PriorityColumnWidth {
+			get; set;
+		}
 		
 		public int RatioColumnWidth{
 			get; set;
@@ -153,20 +161,20 @@ namespace Monsoon
 			ShowDetails = true;
 			ShowLabels = true;
 			WindowHeight = 480;
-			WindowWidth = 640;
-			VPaned = 145; 
-			HPaned = 160;
+			WindowWidth = 805;
+			VPaned = 185; 
+			HPaned = 140;
 			WindowYPos = 0;
 			WindowXPos = 0;
-			NameColumnWidth = 75;
+			NameColumnWidth = 220;
 			NameColumnVisible = true;
-			StatusColumnWidth = 75;
+			StatusColumnWidth = 65;
 			StatusColumnVisible = true;
 			DoneColumnWidth = 75;
 			DoneColumnVisible = true;
-			SeedsColumnWidth = 75;
+			SeedsColumnWidth = 52;
 			SeedsColumnVisible = true;
-			PeersColumnWidth = 75;
+			PeersColumnWidth = 48;
 			PeersColumnVisible = true;
 			DlSpeedColumnWidth = 75;
 			DlSpeedColumnVisible = true;
@@ -178,6 +186,9 @@ namespace Monsoon
 			SizeColumnVisible = true;
 			ShowLoadDialog = true;
 			EtaColumnWidth = 50;
-			EtaColumnVisible = true;		}
+			EtaColumnVisible = true;
+			PriorityColumnVisible = true;
+			PriorityColumnWidth = 57;
+		}
 	}
 }
