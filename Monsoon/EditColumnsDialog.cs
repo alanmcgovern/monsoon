@@ -27,6 +27,7 @@
 //
 
 using System;
+using Gtk;
 
 namespace Monsoon
 {
@@ -34,89 +35,34 @@ namespace Monsoon
 	
 	public partial class EditColumnsDialog : Gtk.Dialog
 	{
-		TorrentTreeView torrentTreeView;
-		public EditColumnsDialog(TorrentTreeView torrentTreeView)
+		public EditColumnsDialog(Gtk.TreeViewColumn[] columns)
 		{
 			this.Build();
 			
-			this.torrentTreeView = torrentTreeView;
-			
 			Title = _("Edit columns");
 			Modal = true;
-			
-			nameVisibleCheckButton.Active = torrentTreeView.nameColumn.Visible;
-			statusVisibleCheckButton.Active = torrentTreeView.statusColumn.Visible;
-			doneVisibleCheckButton.Active = torrentTreeView.doneColumn.Visible;
-			seedsVisibleCheckButton.Active = torrentTreeView.seedsColumn.Visible;
-			peersVisibleCheckButton.Active = torrentTreeView.peersColumn.Visible;
-			downSpeedVisibleCheckButton.Active = torrentTreeView.downSpeedColumn.Visible;
-			upSpeedVisibleCheckButton.Active = torrentTreeView.upSpeedColumn.Visible;
-			ratioVisibleCheckButton.Active = torrentTreeView.ratioColumn.Visible;
-			sizeVisibleCheckButton.Active = torrentTreeView.sizeColumn.Visible;
-			etaVisibleCheckButton.Active = torrentTreeView.etaColumn.Visible;
-			
-			nameVisibleCheckButton.Toggled += OnNameVisibleToggled;
-			statusVisibleCheckButton.Toggled += OnStatusVisibleToggled;
-			doneVisibleCheckButton.Toggled += OnDoneVisibleToggled;
-			seedsVisibleCheckButton.Toggled += OnSeedsVisibleToggled;
-			peersVisibleCheckButton.Toggled += OnPeersVisibleToggled;
-			downSpeedVisibleCheckButton.Toggled += OnDownSpeedVisibleToggled;
-			upSpeedVisibleCheckButton.Toggled += OnUpSpeedVisibleToggled;
-			ratioVisibleCheckButton.Toggled += OnRatioVisibleToggled;
-			sizeVisibleCheckButton.Toggled += OnSizeVisibleToggled;
-			etaVisibleCheckButton.Toggled += OnEtaVisibleToggled;
+			table.Homogeneous = true;
+
+			Array.Sort <TreeViewColumn> (columns, delegate (TreeViewColumn left, TreeViewColumn right) {
+				return left.Title.CompareTo (right.Title);
+			});
+			for (uint i = 0 ; i < columns.Length; i++) {
+				TorrentTreeView.Column c = (TorrentTreeView.Column) columns [i];
+				if (c.Ignore)
+					continue;
+				
+				CheckButton check = new CheckButton { Label = c.Title, Active = c.Visible  };
+				check.Clicked += delegate {
+					Console.WriteLine ("Setting {0} to {1} with width {2}/", c.Title, check.Active, c.Width, c.FixedWidth);
+					c.Visible = check.Active;
+					c.FixedWidth = Math.Max (c.FixedWidth, 10);
+				};
+				Console.WriteLine ("Appending one");
+				this.table.Attach (check, i % 2, i % 2 + 1, i / 2, i / 2 + 1);
+			}
+			ShowAll ();
 		}
-		
-		private void OnNameVisibleToggled(object sender, EventArgs args)
-		{
-			torrentTreeView.nameColumn.Visible = nameVisibleCheckButton.Active;
-		}
-		
-		private void OnStatusVisibleToggled(object sender, EventArgs args)
-		{
-			torrentTreeView.statusColumn.Visible = statusVisibleCheckButton.Active;
-		}
-		
-		private void OnDoneVisibleToggled(object sender, EventArgs args)
-		{
-			torrentTreeView.doneColumn.Visible = statusVisibleCheckButton.Active;
-		}
-		
-		private void OnSeedsVisibleToggled(object sender, EventArgs args)
-		{
-			torrentTreeView.seedsColumn.Visible = seedsVisibleCheckButton.Active;
-		}
-		
-		private void OnPeersVisibleToggled(object sender, EventArgs args)
-		{
-			torrentTreeView.peersColumn.Visible = peersVisibleCheckButton.Active;
-		}
-		
-		private void OnDownSpeedVisibleToggled(object sender, EventArgs args)
-		{
-			torrentTreeView.downSpeedColumn.Visible = downSpeedVisibleCheckButton.Active;
-		}
-		
-		private void OnUpSpeedVisibleToggled(object sender, EventArgs args)
-		{
-			torrentTreeView.upSpeedColumn.Visible = upSpeedVisibleCheckButton.Active;
-		}
-		
-		private void OnRatioVisibleToggled(object sender, EventArgs args)
-		{
-			torrentTreeView.ratioColumn.Visible = ratioVisibleCheckButton.Active;
-		}
-		
-		private void OnSizeVisibleToggled(object sender, EventArgs args)
-		{
-			torrentTreeView.sizeColumn.Visible = sizeVisibleCheckButton.Active;
-		}
-		
-		private void OnEtaVisibleToggled(object sender, EventArgs args)
-		{
-			torrentTreeView.etaColumn.Visible = etaVisibleCheckButton.Active;
-		}
-		
+
 		private static string _(string s)
 		{
 			return Mono.Unix.Catalog.GetString(s);

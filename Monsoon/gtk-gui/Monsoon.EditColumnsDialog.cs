@@ -17,31 +17,7 @@ namespace Monsoon {
         
         private Gtk.Alignment GtkAlignment;
         
-        private Gtk.HBox hbox1;
-        
-        private Gtk.VBox vbox2;
-        
-        private Gtk.CheckButton nameVisibleCheckButton;
-        
-        private Gtk.CheckButton doneVisibleCheckButton;
-        
-        private Gtk.CheckButton peersVisibleCheckButton;
-        
-        private Gtk.CheckButton upSpeedVisibleCheckButton;
-        
-        private Gtk.CheckButton sizeVisibleCheckButton;
-        
-        private Gtk.VBox vbox3;
-        
-        private Gtk.CheckButton statusVisibleCheckButton;
-        
-        private Gtk.CheckButton seedsVisibleCheckButton;
-        
-        private Gtk.CheckButton downSpeedVisibleCheckButton;
-        
-        private Gtk.CheckButton ratioVisibleCheckButton;
-        
-        private Gtk.CheckButton etaVisibleCheckButton;
+        private Gtk.Table table;
         
         private Gtk.Label GtkLabel10;
         
@@ -66,145 +42,11 @@ namespace Monsoon {
             this.GtkAlignment.Name = "GtkAlignment";
             this.GtkAlignment.LeftPadding = ((uint)(12));
             // Container child GtkAlignment.Gtk.Container+ContainerChild
-            this.hbox1 = new Gtk.HBox();
-            this.hbox1.Name = "hbox1";
-            this.hbox1.Spacing = 6;
-            // Container child hbox1.Gtk.Box+BoxChild
-            this.vbox2 = new Gtk.VBox();
-            this.vbox2.Name = "vbox2";
-            this.vbox2.Spacing = 6;
-            // Container child vbox2.Gtk.Box+BoxChild
-            this.nameVisibleCheckButton = new Gtk.CheckButton();
-            this.nameVisibleCheckButton.CanFocus = true;
-            this.nameVisibleCheckButton.Name = "nameVisibleCheckButton";
-            this.nameVisibleCheckButton.Label = Mono.Unix.Catalog.GetString("Name");
-            this.nameVisibleCheckButton.DrawIndicator = true;
-            this.nameVisibleCheckButton.UseUnderline = true;
-            this.vbox2.Add(this.nameVisibleCheckButton);
-            Gtk.Box.BoxChild w2 = ((Gtk.Box.BoxChild)(this.vbox2[this.nameVisibleCheckButton]));
-            w2.Position = 0;
-            w2.Expand = false;
-            w2.Fill = false;
-            // Container child vbox2.Gtk.Box+BoxChild
-            this.doneVisibleCheckButton = new Gtk.CheckButton();
-            this.doneVisibleCheckButton.CanFocus = true;
-            this.doneVisibleCheckButton.Name = "doneVisibleCheckButton";
-            this.doneVisibleCheckButton.Label = Mono.Unix.Catalog.GetString("Done");
-            this.doneVisibleCheckButton.DrawIndicator = true;
-            this.doneVisibleCheckButton.UseUnderline = true;
-            this.vbox2.Add(this.doneVisibleCheckButton);
-            Gtk.Box.BoxChild w3 = ((Gtk.Box.BoxChild)(this.vbox2[this.doneVisibleCheckButton]));
-            w3.Position = 1;
-            w3.Expand = false;
-            w3.Fill = false;
-            // Container child vbox2.Gtk.Box+BoxChild
-            this.peersVisibleCheckButton = new Gtk.CheckButton();
-            this.peersVisibleCheckButton.CanFocus = true;
-            this.peersVisibleCheckButton.Name = "peersVisibleCheckButton";
-            this.peersVisibleCheckButton.Label = Mono.Unix.Catalog.GetString("Peers");
-            this.peersVisibleCheckButton.DrawIndicator = true;
-            this.peersVisibleCheckButton.UseUnderline = true;
-            this.vbox2.Add(this.peersVisibleCheckButton);
-            Gtk.Box.BoxChild w4 = ((Gtk.Box.BoxChild)(this.vbox2[this.peersVisibleCheckButton]));
-            w4.Position = 2;
-            w4.Expand = false;
-            w4.Fill = false;
-            // Container child vbox2.Gtk.Box+BoxChild
-            this.upSpeedVisibleCheckButton = new Gtk.CheckButton();
-            this.upSpeedVisibleCheckButton.CanFocus = true;
-            this.upSpeedVisibleCheckButton.Name = "upSpeedVisibleCheckButton";
-            this.upSpeedVisibleCheckButton.Label = Mono.Unix.Catalog.GetString("UP Speed");
-            this.upSpeedVisibleCheckButton.DrawIndicator = true;
-            this.upSpeedVisibleCheckButton.UseUnderline = true;
-            this.vbox2.Add(this.upSpeedVisibleCheckButton);
-            Gtk.Box.BoxChild w5 = ((Gtk.Box.BoxChild)(this.vbox2[this.upSpeedVisibleCheckButton]));
-            w5.Position = 3;
-            w5.Expand = false;
-            w5.Fill = false;
-            // Container child vbox2.Gtk.Box+BoxChild
-            this.sizeVisibleCheckButton = new Gtk.CheckButton();
-            this.sizeVisibleCheckButton.CanFocus = true;
-            this.sizeVisibleCheckButton.Name = "sizeVisibleCheckButton";
-            this.sizeVisibleCheckButton.Label = Mono.Unix.Catalog.GetString("Size");
-            this.sizeVisibleCheckButton.DrawIndicator = true;
-            this.sizeVisibleCheckButton.UseUnderline = true;
-            this.vbox2.Add(this.sizeVisibleCheckButton);
-            Gtk.Box.BoxChild w6 = ((Gtk.Box.BoxChild)(this.vbox2[this.sizeVisibleCheckButton]));
-            w6.Position = 4;
-            w6.Expand = false;
-            w6.Fill = false;
-            this.hbox1.Add(this.vbox2);
-            Gtk.Box.BoxChild w7 = ((Gtk.Box.BoxChild)(this.hbox1[this.vbox2]));
-            w7.Position = 0;
-            // Container child hbox1.Gtk.Box+BoxChild
-            this.vbox3 = new Gtk.VBox();
-            this.vbox3.Name = "vbox3";
-            this.vbox3.Spacing = 6;
-            // Container child vbox3.Gtk.Box+BoxChild
-            this.statusVisibleCheckButton = new Gtk.CheckButton();
-            this.statusVisibleCheckButton.CanFocus = true;
-            this.statusVisibleCheckButton.Name = "statusVisibleCheckButton";
-            this.statusVisibleCheckButton.Label = Mono.Unix.Catalog.GetString("Status");
-            this.statusVisibleCheckButton.DrawIndicator = true;
-            this.statusVisibleCheckButton.UseUnderline = true;
-            this.vbox3.Add(this.statusVisibleCheckButton);
-            Gtk.Box.BoxChild w8 = ((Gtk.Box.BoxChild)(this.vbox3[this.statusVisibleCheckButton]));
-            w8.Position = 0;
-            w8.Expand = false;
-            w8.Fill = false;
-            // Container child vbox3.Gtk.Box+BoxChild
-            this.seedsVisibleCheckButton = new Gtk.CheckButton();
-            this.seedsVisibleCheckButton.CanFocus = true;
-            this.seedsVisibleCheckButton.Name = "seedsVisibleCheckButton";
-            this.seedsVisibleCheckButton.Label = Mono.Unix.Catalog.GetString("Seeds");
-            this.seedsVisibleCheckButton.DrawIndicator = true;
-            this.seedsVisibleCheckButton.UseUnderline = true;
-            this.vbox3.Add(this.seedsVisibleCheckButton);
-            Gtk.Box.BoxChild w9 = ((Gtk.Box.BoxChild)(this.vbox3[this.seedsVisibleCheckButton]));
-            w9.Position = 1;
-            w9.Expand = false;
-            w9.Fill = false;
-            // Container child vbox3.Gtk.Box+BoxChild
-            this.downSpeedVisibleCheckButton = new Gtk.CheckButton();
-            this.downSpeedVisibleCheckButton.CanFocus = true;
-            this.downSpeedVisibleCheckButton.Name = "downSpeedVisibleCheckButton";
-            this.downSpeedVisibleCheckButton.Label = Mono.Unix.Catalog.GetString("DL Speed");
-            this.downSpeedVisibleCheckButton.DrawIndicator = true;
-            this.downSpeedVisibleCheckButton.UseUnderline = true;
-            this.vbox3.Add(this.downSpeedVisibleCheckButton);
-            Gtk.Box.BoxChild w10 = ((Gtk.Box.BoxChild)(this.vbox3[this.downSpeedVisibleCheckButton]));
-            w10.Position = 2;
-            w10.Expand = false;
-            w10.Fill = false;
-            // Container child vbox3.Gtk.Box+BoxChild
-            this.ratioVisibleCheckButton = new Gtk.CheckButton();
-            this.ratioVisibleCheckButton.CanFocus = true;
-            this.ratioVisibleCheckButton.Name = "ratioVisibleCheckButton";
-            this.ratioVisibleCheckButton.Label = Mono.Unix.Catalog.GetString("Ratio");
-            this.ratioVisibleCheckButton.DrawIndicator = true;
-            this.ratioVisibleCheckButton.UseUnderline = true;
-            this.vbox3.Add(this.ratioVisibleCheckButton);
-            Gtk.Box.BoxChild w11 = ((Gtk.Box.BoxChild)(this.vbox3[this.ratioVisibleCheckButton]));
-            w11.Position = 3;
-            w11.Expand = false;
-            w11.Fill = false;
-            // Container child vbox3.Gtk.Box+BoxChild
-            this.etaVisibleCheckButton = new Gtk.CheckButton();
-            this.etaVisibleCheckButton.CanFocus = true;
-            this.etaVisibleCheckButton.Name = "etaVisibleCheckButton";
-            this.etaVisibleCheckButton.Label = Mono.Unix.Catalog.GetString("ETA");
-            this.etaVisibleCheckButton.DrawIndicator = true;
-            this.etaVisibleCheckButton.UseUnderline = true;
-            this.vbox3.Add(this.etaVisibleCheckButton);
-            Gtk.Box.BoxChild w12 = ((Gtk.Box.BoxChild)(this.vbox3[this.etaVisibleCheckButton]));
-            w12.PackType = ((Gtk.PackType)(1));
-            w12.Position = 4;
-            w12.Expand = false;
-            w12.Fill = false;
-            this.hbox1.Add(this.vbox3);
-            Gtk.Box.BoxChild w13 = ((Gtk.Box.BoxChild)(this.hbox1[this.vbox3]));
-            w13.Position = 1;
-            this.GtkAlignment.Add(this.hbox1);
+            this.table = new Gtk.Table(((uint)(3)), ((uint)(2)), false);
+            this.table.Name = "table";
+            this.table.RowSpacing = ((uint)(6));
+            this.table.ColumnSpacing = ((uint)(6));
+            this.GtkAlignment.Add(this.table);
             this.frame1.Add(this.GtkAlignment);
             this.GtkLabel10 = new Gtk.Label();
             this.GtkLabel10.Name = "GtkLabel10";
@@ -212,16 +54,14 @@ namespace Monsoon {
             this.GtkLabel10.UseMarkup = true;
             this.frame1.LabelWidget = this.GtkLabel10;
             w1.Add(this.frame1);
-            Gtk.Box.BoxChild w16 = ((Gtk.Box.BoxChild)(w1[this.frame1]));
-            w16.Position = 0;
-            w16.Expand = false;
-            w16.Fill = false;
+            Gtk.Box.BoxChild w4 = ((Gtk.Box.BoxChild)(w1[this.frame1]));
+            w4.Position = 0;
             // Internal child Monsoon.EditColumnsDialog.ActionArea
-            Gtk.HButtonBox w17 = this.ActionArea;
-            w17.Name = "dialog1_ActionArea";
-            w17.Spacing = 6;
-            w17.BorderWidth = ((uint)(5));
-            w17.LayoutStyle = ((Gtk.ButtonBoxStyle)(4));
+            Gtk.HButtonBox w5 = this.ActionArea;
+            w5.Name = "dialog1_ActionArea";
+            w5.Spacing = 6;
+            w5.BorderWidth = ((uint)(5));
+            w5.LayoutStyle = ((Gtk.ButtonBoxStyle)(4));
             // Container child dialog1_ActionArea.Gtk.ButtonBox+ButtonBoxChild
             this.button21 = new Gtk.Button();
             this.button21.CanDefault = true;
@@ -229,25 +69,25 @@ namespace Monsoon {
             this.button21.Name = "button21";
             this.button21.UseUnderline = true;
             // Container child button21.Gtk.Container+ContainerChild
-            Gtk.Alignment w18 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
+            Gtk.Alignment w6 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
             // Container child GtkAlignment1.Gtk.Container+ContainerChild
-            Gtk.HBox w19 = new Gtk.HBox();
-            w19.Spacing = 2;
+            Gtk.HBox w7 = new Gtk.HBox();
+            w7.Spacing = 2;
             // Container child GtkHBox.Gtk.Container+ContainerChild
-            Gtk.Image w20 = new Gtk.Image();
-            w20.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-close", Gtk.IconSize.Menu, 16);
-            w19.Add(w20);
+            Gtk.Image w8 = new Gtk.Image();
+            w8.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-close", Gtk.IconSize.Menu, 16);
+            w7.Add(w8);
             // Container child GtkHBox.Gtk.Container+ContainerChild
-            Gtk.Label w22 = new Gtk.Label();
-            w22.LabelProp = Mono.Unix.Catalog.GetString("Close");
-            w22.UseUnderline = true;
-            w19.Add(w22);
-            w18.Add(w19);
-            this.button21.Add(w18);
+            Gtk.Label w10 = new Gtk.Label();
+            w10.LabelProp = Mono.Unix.Catalog.GetString("Close");
+            w10.UseUnderline = true;
+            w7.Add(w10);
+            w6.Add(w7);
+            this.button21.Add(w6);
             this.AddActionWidget(this.button21, 0);
-            Gtk.ButtonBox.ButtonBoxChild w26 = ((Gtk.ButtonBox.ButtonBoxChild)(w17[this.button21]));
-            w26.Expand = false;
-            w26.Fill = false;
+            Gtk.ButtonBox.ButtonBoxChild w14 = ((Gtk.ButtonBox.ButtonBoxChild)(w5[this.button21]));
+            w14.Expand = false;
+            w14.Fill = false;
             if ((this.Child != null)) {
                 this.Child.ShowAll();
             }

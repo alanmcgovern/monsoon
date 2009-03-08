@@ -1241,7 +1241,7 @@ namespace Monsoon
 
 		protected virtual void OnColumnsActivated (object sender, System.EventArgs e)
 		{
-			EditColumnsDialog columnsDialog = new EditColumnsDialog (torrentTreeView);
+			EditColumnsDialog columnsDialog = new EditColumnsDialog (torrentTreeView.Columns);
 			columnsDialog.Run ();
 			columnsDialog.Destroy ();		
 		}
