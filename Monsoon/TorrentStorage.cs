@@ -78,8 +78,8 @@ namespace Monsoon
 
 		public State State
 		{
-			get { Console.WriteLine ("Getting: {0}", state); return state; }
-			set { Console.WriteLine ("Setting: {0}", value); state = value; }
+			get { return state; }
+			set { state = value; }
 		}
 
 		public long UploadedData
