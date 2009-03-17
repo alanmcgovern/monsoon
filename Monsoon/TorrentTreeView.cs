@@ -37,6 +37,9 @@ namespace Monsoon
 {
 	public class TorrentTreeView : TreeView
 	{
+		public static readonly Gdk.Atom FileAtom = Gdk.Atom.Intern ("text/uri-list", false);
+		public static readonly Gdk.Atom RowAtom = Gdk.Atom.Intern ("application/x-monotorrent-Download-objects", false);
+		
 		public class Column : TreeViewColumn
 		{
 			public string Name {
@@ -97,14 +100,6 @@ namespace Monsoon
 			Model = FilterModel;
 			this.torrentController = ServiceManager.Get <TorrentController> ();
 			
-			targetEntries = new TargetEntry[]{
-				new TargetEntry("text/uri-list", 0, 0) 
-			};
-			
-			sourceEntries = new TargetEntry[]{
-				new TargetEntry("application/x-monotorrent-Download-objects", 0, 0)
-			};
-			
 			buildColumns();
 				
 			Reorderable = true;
@@ -125,19 +120,21 @@ namespace Monsoon
 				torrentController.Select (downloads);
 			});
 
+			sourceEntries = new TargetEntry [] {
+				new TargetEntry(RowAtom.Name, TargetFlags.App, 0)
+			};
+			targetEntries = new TargetEntry [] {
+				new TargetEntry(RowAtom.Name, TargetFlags.Widget, 0),
+				new TargetEntry(FileAtom.Name, TargetFlags.OtherApp, 0) 
+			};
+			EnableModelDragSource(Gdk.ModifierType.Button1Mask, sourceEntries, Gdk.DragAction.Copy);
 			EnableModelDragDest(targetEntries, Gdk.DragAction.Copy);
-			//this.DragDrop += OnTest;
-			
-			
-			this.EnableModelDragSource(Gdk.ModifierType.Button1Mask, sourceEntries, Gdk.DragAction.Copy);
 			DragDataGet += OnTorrentDragDataGet;
 
-			
 			menu = new TorrentContextMenu ();
 			torrentController.Added += delegate(object sender, DownloadAddedEventArgs e) {
 				AddDownload (e.Download);
 			};
-			
 			torrentController.Removed += delegate(object sender, DownloadAddedEventArgs e) {
 				RemoveDownload (e.Download);
 			};
@@ -153,7 +150,57 @@ namespace Monsoon
 			// FIXME: This shouldn't be necessary
 			torrentController.Torrents.ForEach (AddDownload);
 		}
-		
+
+		protected override void OnDragDataReceived (Gdk.DragContext context, int x, int y, Gtk.SelectionData selection_data, uint info, uint time_)
+		{
+			if (selection_data.Target == null || selection_data.Target.Name != RowAtom.Name)
+				return;
+			
+			if (torrentController.SelectedDownload == null)
+				return;
+
+			TreeIter iter;
+			TreePath path;
+			TreeViewDropPosition pos;
+			
+			if (!GetDestRowAtPos (x, y, out path, out pos))
+				return;
+			if (!Model.GetIter (out iter, path))
+			    return;
+			
+			Download download = (Download) Model.GetValue (iter, 0);
+			if (download == torrentController.SelectedDownload)
+				return;
+
+			List<Download> downloads = new List<Download> (torrentController.Torrents);
+			downloads.Sort (delegate (Download left, Download right) {
+				return left.Priority.CompareTo (right.Priority);
+			});
+
+			int index = download.Priority;
+			if (pos != TreeViewDropPosition.After)
+				index--;
+
+			downloads.Remove (torrentController.SelectedDownload);
+			downloads.Insert (Math.Min (index, downloads.Count), torrentController.SelectedDownload);
+			
+			for (int i = downloads.Count - 1; i >= 9; i--)
+				downloads [i].Priority = i * downloads.Count;
+			for (int i = 0; i < downloads.Count; i++)
+				downloads [i].Priority = i + 1;
+		}
+
+		protected override bool OnDragDrop (Gdk.DragContext context, int x, int y, uint time_)
+		{
+			foreach (Gdk.Atom target in context.Targets) {
+				if (target.Name == FileAtom.Name)
+					Gtk.Drag.GetData (this, context, FileAtom, time_);
+				else if (target.Name == RowAtom.Name)
+					Gtk.Drag.GetData (this, context, RowAtom, time_);
+			}
+			return false;
+		}
+
 		void AddDownload (Download download)
 		{
 			download.StateChanged += HandleStateChanged;
@@ -303,7 +350,6 @@ namespace Monsoon
 		void Update (TreeIter row)
 		{
 			Download d = (Download) Torrents.GetValue (row, 0);
-			Console.WriteLine ("Updating: {0}", d.Torrent.Name);
 			Torrents.SetValues (row,
 			                 d,
 			                 d.Torrent.Name,
@@ -320,7 +366,6 @@ namespace Monsoon
 			                 d.Priority.ToString ()
 			                 );
 
-			Console.WriteLine ("Updated: {0}", d.Torrent.Name);
 		}
 
 		private string GetStatusColour (Download torrent)

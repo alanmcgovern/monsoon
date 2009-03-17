@@ -538,6 +538,9 @@ namespace Monsoon
 		
 		private void TreeviewDragDataReceived (object o, DragDataReceivedArgs args) 
 		{
+			if (args.SelectionData.Target.Name != TorrentTreeView.FileAtom.Name)
+				return;
+			
 			string [] uriList = (Encoding.UTF8.GetString(args.SelectionData.Data).TrimEnd()).Split('\n');
 			
 			foreach(string s in uriList){
@@ -597,7 +600,7 @@ namespace Monsoon
 			labelViewScrolledWindow.Add (labelTreeView);
 
 			TargetEntry [] targetEntries = new TargetEntry[]{
-				new TargetEntry("application/x-monotorrent-Download-objects", 0, 0)
+				new TargetEntry(TorrentTreeView.RowAtom.Name, 0, 0)
 			};
 
 			torrentTreeView.DragBegin += Event.Wrap ((DragBeginHandler) delegate {
@@ -630,6 +633,11 @@ namespace Monsoon
 		
 		private void OnTorrentDragDataReceived(object sender, DragDataReceivedArgs args)
 		{
+			if (args.SelectionData.Target == null)
+				return;
+			if (args.SelectionData.Target.Name != TorrentTreeView.RowAtom.Name)
+				return;
+
 			TreePath path;
 			TreeViewDropPosition pos;
 			TreeIter iter;
