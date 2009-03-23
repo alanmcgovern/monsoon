@@ -19,7 +19,6 @@ namespace Monsoon
 		double hashProgress;
 		TorrentManager manager;
 		int priority;
-		bool queued;
 		State state = State.Stopped;
 		SpeedMonitor swarmSpeed;
 		
@@ -35,6 +34,10 @@ namespace Monsoon
 				if (oldState != state)
 					Event.Raise <StateChangedEventArgs> (StateChanged, this, new StateChangedEventArgs (this, state, oldState));
 			}
+		}
+
+		public bool Active {
+			get; private set;
 		}
 		
 		public int Available {
@@ -63,6 +66,10 @@ namespace Monsoon
 		
 		public double Progress {
 			get { return state == State.Hashing ? hashProgress : manager.Progress / 100.0; }
+		}
+
+		public bool Queued {
+			get { return state == State.Queued; }
 		}
 		
 		public string SavePath {
@@ -110,6 +117,7 @@ namespace Monsoon
 			manager.TorrentStateChanged += delegate(object sender, TorrentStateChangedEventArgs e) {
 				hashProgress = 0;
 
+				if (Active)
 				Gtk.Application.Invoke (delegate {
 					switch (e.NewState) {
 					case TorrentState.Downloading:
@@ -158,6 +166,13 @@ namespace Monsoon
 			Event.Raise (Paused, this, EventArgs.Empty);
 			State = State.Paused;
 		}
+
+		public void Queue ()
+		{
+			if (Active)
+				Stop ();
+			State = State.Queued;
+		}
 		
 		public void Resume ()
 		{
@@ -180,6 +195,7 @@ namespace Monsoon
 				if (!e.ShouldStart)
 					return;
 			}
+			Active = true;
 			manager.Start ();
 			manager.Engine.ConnectionManager.PeerMessageTransferred += HandlePeerMessageTransferred;
 			
@@ -189,6 +205,7 @@ namespace Monsoon
 		
 		public void Stop ()
 		{
+			Active = false;
 			if (State == State.Queued) {
 				State = State.Stopped;
 			} else {
@@ -199,5 +216,11 @@ namespace Monsoon
 				State = State.Stopped;
 			}
 		}
+
+		public override string ToString ()
+		{
+			return Torrent.Name;
+		}
+
 	}
 }
