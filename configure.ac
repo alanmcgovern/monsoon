@@ -1,5 +1,5 @@
 AC_PREREQ([2.54])
-AC_INIT([Monsoon], [0.20])
+AC_INIT([Monsoon], [0.21])
 AM_INIT_AUTOMAKE([foreign tar-pax])
 AM_MAINTAINER_MODE
 
@@ -48,7 +48,7 @@ PKG_CHECK_MODULES([GCONF_SHARP_20], [gconf-sharp-2.0])
 PKG_CHECK_MODULES([GLIB_SHARP_20], [glib-sharp-2.0 >= 2.10])
 PKG_CHECK_MODULES([GTK_SHARP_20], [gtk-sharp-2.0])
 PKG_CHECK_MODULES([NDESK_DBUS_GLIB_10], [ndesk-dbus-glib-1.0 >= 0.4])
-PKG_CHECK_MODULES([MONOTORRENT], [monotorrent = 0.70])
+PKG_CHECK_MODULES([MONOTORRENT], [monotorrent = 0.72])
 PKG_CHECK_MODULES([MONONAT], [mono.nat >= 1.0])
 
 # I18N
