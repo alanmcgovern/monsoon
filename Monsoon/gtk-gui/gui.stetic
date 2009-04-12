@@ -193,6 +193,13 @@
         <property name="StockId">gtk-goto-bottom</property>
         <signal name="Activated" handler="OnPriorityLowest" />
       </action>
+      <action id="CloseAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">Close</property>
+        <property name="ShortLabel" translatable="yes">Close</property>
+        <property name="StockId">gtk-close</property>
+        <signal name="Activated" handler="OnCloseActionActivated" />
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Visible">False</property>
@@ -210,6 +217,7 @@
                 <node type="Menuitem" action="NewTorrent" />
                 <node type="Menuitem" action="OpenTorrent" />
                 <node type="Separator" />
+                <node type="Menuitem" action="CloseAction" />
                 <node type="Menuitem" action="Quit" />
               </node>
               <node type="Menu" action="EditAction">

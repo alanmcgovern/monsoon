@@ -55,6 +55,8 @@ namespace Monsoon {
         
         private Gtk.Action gotoBottomAction;
         
+        private Gtk.Action CloseAction;
+        
         private Gtk.VBox vbox1;
         
         private Gtk.MenuBar menubar1;
@@ -279,6 +281,9 @@ namespace Monsoon {
             w1.Add(this.gotoTopAction, null);
             this.gotoBottomAction = new Gtk.Action("gotoBottomAction", null, null, "gtk-goto-bottom");
             w1.Add(this.gotoBottomAction, null);
+            this.CloseAction = new Gtk.Action("CloseAction", Mono.Unix.Catalog.GetString("Close"), null, "gtk-close");
+            this.CloseAction.ShortLabel = Mono.Unix.Catalog.GetString("Close");
+            w1.Add(this.CloseAction, null);
             this.UIManager.InsertActionGroup(w1, 0);
             this.AddAccelGroup(this.UIManager.AccelGroup);
             this.Name = "Monsoon.MainWindow";
@@ -288,7 +293,7 @@ namespace Monsoon {
             this.vbox1 = new Gtk.VBox();
             this.vbox1.Name = "vbox1";
             // Container child vbox1.Gtk.Box+BoxChild
-            this.UIManager.AddUiFromString("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='NewTorrent' action='NewTorrent'/><menuitem name='OpenTorrent' action='OpenTorrent'/><separator/><menuitem name='Quit' action='Quit'/></menu><menu name='EditAction' action='EditAction'><menuitem name='preferences' action='preferences'/></menu><menu name='ViewAction' action='ViewAction'><menuitem name='EditColumns' action='EditColumns'/><separator/><menuitem name='ShowLabels' action='ShowLabels'/><menuitem name='ShowDetailedInfo' action='ShowDetailedInfo'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='About' action='About'/><menuitem name='ReportBugAction' action='ReportBugAction'/></menu></menubar></ui>");
+            this.UIManager.AddUiFromString("<ui><menubar name='menubar1'><menu name='FileAction' action='FileAction'><menuitem name='NewTorrent' action='NewTorrent'/><menuitem name='OpenTorrent' action='OpenTorrent'/><separator/><menuitem name='CloseAction' action='CloseAction'/><menuitem name='Quit' action='Quit'/></menu><menu name='EditAction' action='EditAction'><menuitem name='preferences' action='preferences'/></menu><menu name='ViewAction' action='ViewAction'><menuitem name='EditColumns' action='EditColumns'/><separator/><menuitem name='ShowLabels' action='ShowLabels'/><menuitem name='ShowDetailedInfo' action='ShowDetailedInfo'/></menu><menu name='HelpAction' action='HelpAction'><menuitem name='About' action='About'/><menuitem name='ReportBugAction' action='ReportBugAction'/></menu></menubar></ui>");
             this.menubar1 = ((Gtk.MenuBar)(this.UIManager.GetWidget("/menubar1")));
             this.menubar1.Name = "menubar1";
             this.vbox1.Add(this.menubar1);
@@ -1041,6 +1046,7 @@ namespace Monsoon {
             this.ReportBugAction.Activated += new System.EventHandler(this.OnReportBugActivated);
             this.gotoTopAction.Activated += new System.EventHandler(this.OnPriorityHighest);
             this.gotoBottomAction.Activated += new System.EventHandler(this.OnPriorityLowest);
+            this.CloseAction.Activated += new System.EventHandler(this.OnCloseActionActivated);
         }
     }
 }

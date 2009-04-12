@@ -2,7 +2,7 @@
 // MainWindow.cs
 //
 // Author:
-//   Jared Hendry (buchan@gmail.com)
+//   Jared Hendry (hendry.jared@gmail.com)
 //   Mirco Bauer  (meebey@meebey.net)
 //
 // Copyright (C) 2007 Jared Hendry
@@ -1320,6 +1320,14 @@ namespace Monsoon
 		void OnPriorityHighest (object sender, System.EventArgs e)
 		{
 			TorrentController.SetPriority (TorrentController.SelectedDownload, 1);
+		}
+
+		protected virtual void OnCloseActionActivated (object sender, System.EventArgs e)
+		{
+			if (!Preferences.QuitOnClose)
+				OnDeleteEvent (null,new DeleteEventArgs ());
+			
+			Hide();
 		}
 	}
 }
