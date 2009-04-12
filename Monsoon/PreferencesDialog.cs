@@ -103,7 +103,23 @@ namespace Monsoon
 		
 		private void BuildGeneralPage()
 		{
-			loadDialogCheckButton.Active = interfaceSettings.ShowLoadDialog;			
+			lblToolbarStyle.Text = _("Toolbar Style");
+			string [] styles = Enum.GetNames (typeof (Gtk.ToolbarStyle));
+			foreach (string s in styles)
+				comboToolbarStyle.AppendText (s);
+			comboToolbarStyle.AppendText ("System");
+			comboToolbarStyle.Changed += delegate {
+				if (comboToolbarStyle.ActiveText == "System")
+					interfaceSettings.ToolbarStyle = null;
+				else
+					interfaceSettings.ToolbarStyle = (ToolbarStyle) Enum.Parse (typeof (Gtk.ToolbarStyle), comboToolbarStyle.ActiveText, true);
+			};
+			if (interfaceSettings.ToolbarStyle.HasValue)
+				
+				comboToolbarStyle.Active = Array.IndexOf <string> (styles, interfaceSettings.ToolbarStyle.Value.ToString ());
+			else
+				comboToolbarStyle.Active = styles.Length;
+			loadDialogCheckButton.Active = interfaceSettings.ShowLoadDialog;
 			minimizeTrayCheckButton.Active = prefSettings.QuitOnClose;
 			enableTrayCheckButton.Active = prefSettings.EnableTray;
 			enableNotificationsCheckButton.Active = prefSettings.EnableNotifications;

@@ -1,6 +1,16 @@
 2009-04-12  Alan McGovern  <alan.mcgovern@gmail.com>
 
 	* MainWindow.cs:
+	* gtk-gui/gui.stetic:
+	* PreferencesDialog.cs:
+	* Settings/InterfaceSettings.cs:
+	* gtk-gui/Monsoon.PreferencesDialog.cs:
+	* Settings/GConfInterfaceSettingsController.cs: Add the
+	ability to override the ToolbarStyle system default.
+
+2009-04-12  Alan McGovern  <alan.mcgovern@gmail.com>
+
+	* MainWindow.cs:
 	* Settings/GConfSettings.cs:
 	* Settings/InterfaceSettings.cs:
 	* Settings/GconfSettingsStorage.cs:

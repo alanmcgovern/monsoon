@@ -229,6 +229,7 @@ namespace Monsoon
 			logger.Info ("Started RSS manager");
 			rssManagerController.StartWatchers();
 			AddGConfListeners ();
+			updateToolBar ();
 			ShowAll();
 		}
 
@@ -961,6 +962,8 @@ namespace Monsoon
 			} else if (!Preferences.UpnpEnabled && portController.IsRunning) {
 				portController.RemoveMap();
 			}
+
+			updateToolBar ();
 		}
 
 		protected virtual void OnOpenActivated (object sender, System.EventArgs e)
@@ -1142,8 +1145,12 @@ namespace Monsoon
 					startTorrentButton.Label = _("Start");
 				}
 			}
+			Console.WriteLine ("Style was: {0}. '{1}'/'{2}'", toolbar1.ToolbarStyle, InterfaceSettings.ToolbarStyle, InterfaceSettings.ToolbarStyleSystem);
+			if (InterfaceSettings.ToolbarStyle.HasValue)
+				toolbar1.ToolbarStyle = InterfaceSettings.ToolbarStyle.Value;
+			else
+				toolbar1.ToolbarStyle = InterfaceSettings.ToolbarStyleSystem;
 			Console.WriteLine ("Style is: {0}", InterfaceSettings.ToolbarStyle);
-			toolbar1.ToolbarStyle = InterfaceSettings.ToolbarStyle;
 		}
 
 		protected virtual void OnStartTorrentActivated (object sender, System.EventArgs e)

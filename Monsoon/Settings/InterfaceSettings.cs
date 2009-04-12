@@ -46,7 +46,11 @@ namespace Monsoon
 			get; set;
 		}
 
-		public ToolbarStyle ToolbarStyle {
+		public ToolbarStyle? ToolbarStyle {
+			get; set;
+		}
+
+		public ToolbarStyle ToolbarStyleSystem {
 			get; set;
 		}
 		
@@ -86,7 +90,8 @@ namespace Monsoon
 		{
 			ShowDetails = true;
 			ShowLabels = true;
-			ToolbarStyle = ToolbarStyle.Icons;
+			ToolbarStyle = null;
+			ToolbarStyleSystem = Gtk.ToolbarStyle.Icons;
 			WindowHeight = 480;
 			WindowWidth = 805;
 			VPaned = 185; 

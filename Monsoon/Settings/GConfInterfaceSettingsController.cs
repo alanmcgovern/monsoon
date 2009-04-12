@@ -35,8 +35,9 @@ namespace Monsoon
 {
 	public class GConfInterfaceSettingsController : GConfSettings <InterfaceSettings>
 	{
-		public static readonly string ToolbarStyleKey = "/desktop/gnome/interface/toolbar_style";
+		public static readonly string ToolbarStyleSystemKey = "/desktop/gnome/interface/toolbar_style";
 		private static string SETTINGS_PATH = "InterfaceSettings/";
+		static string ToolbarStyleKey = SETTINGS_PATH + "toolbarStyle";
 
 		public override void Load ()
 		{
@@ -50,9 +51,17 @@ namespace Monsoon
 			Settings.WindowYPos = Get <int> (SETTINGS_PATH + "windowYPos");
 			Settings.WindowXPos = Get <int> (SETTINGS_PATH + "windowXPos");
 			Settings.ShowLoadDialog = Get <bool>  (SETTINGS_PATH + "ShowLoadDialog");
-
+			object o = null;
 			try {
-				Settings.ToolbarStyle = GetAbsolute<Gtk.ToolbarStyle> (ToolbarStyleKey);
+				o = Get <object> (ToolbarStyleKey);
+			} catch { }
+			if (o == null || "null".Equals (o))
+				Settings.ToolbarStyle = null;
+			else
+				Settings.ToolbarStyle = (Gtk.ToolbarStyle) Enum.Parse (typeof (Gtk.ToolbarStyle), o.ToString (), true);
+			
+			try {
+				Settings.ToolbarStyleSystem = GetAbsolute<Gtk.ToolbarStyle> (ToolbarStyleSystemKey);
 			} catch { }
 			foreach (string column in new List <string> (Settings.ColumnWidth.Keys)) {
 				Settings.ColumnWidth [column] = Get <int> (SETTINGS_PATH + string.Format ("Columns/{0}/Width", column));
@@ -72,6 +81,10 @@ namespace Monsoon
 			Set (SETTINGS_PATH + "windowXPos", Settings.WindowXPos);
 			Set (SETTINGS_PATH + "windowYPos", Settings.WindowYPos);
 			Set (SETTINGS_PATH + "ShowLoadDialog", Settings.ShowLoadDialog);
+			if (Settings.ToolbarStyle.HasValue)
+				Set (ToolbarStyleKey, Settings.ToolbarStyle);
+			else
+				Set (ToolbarStyleKey, "null");
 			
 			// Columns
 			foreach (string column in Settings.ColumnVisibility.Keys) {
