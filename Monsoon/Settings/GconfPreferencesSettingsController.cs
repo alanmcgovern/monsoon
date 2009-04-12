@@ -36,15 +36,32 @@ namespace Monsoon
 		
 		public override void Load ()
 		{
-			Settings.EnableNotifications = Get <bool> (SETTINGS_PATH + "enableNotifications");
-			Settings.QuitOnClose = Get <bool> (SETTINGS_PATH + "quitOnClose");
-			Settings.EnableTray = Get <bool> (SETTINGS_PATH + "enableTray");
-			Settings.TorrentStorageLocation = Get <string> (SETTINGS_PATH + "torrentStorageLocation");
-			Settings.ImportLocation = Get <string> (SETTINGS_PATH + "importLocation");
-			Settings.UpnpEnabled = Get <bool> (SETTINGS_PATH + "upnpEnabled");
-			Settings.StartNewTorrents = Get <bool> (SETTINGS_PATH + "startNewTorrents");
-			Settings.ImportEnabled = Get <bool> (SETTINGS_PATH + "importEnabled");
-			Settings.RemoveOnImport = Get <bool> (SETTINGS_PATH + "removeOnImport");
+		 	try { Settings.EnableNotifications = Get <bool> (SETTINGS_PATH + "enableNotifications"); }
+			catch (SettingNotFoundException e) {}
+			
+			try { Settings.QuitOnClose = Get <bool> (SETTINGS_PATH + "quitOnClose"); }
+			catch (SettingNotFoundException e) {}
+			
+			try { Settings.EnableTray = Get <bool> (SETTINGS_PATH + "enableTray"); }
+			catch (SettingNotFoundException e) {}
+			
+			try { Settings.TorrentStorageLocation = Get <string> (SETTINGS_PATH + "torrentStorageLocation"); }
+			catch (SettingNotFoundException e) {}
+			
+			try { Settings.ImportLocation = Get <string> (SETTINGS_PATH + "importLocation"); }
+			catch (SettingNotFoundException e) {}
+			
+			try { Settings.UpnpEnabled = Get <bool> (SETTINGS_PATH + "upnpEnabled"); }
+			catch (SettingNotFoundException e) {}
+			
+			try { Settings.StartNewTorrents = Get <bool> (SETTINGS_PATH + "startNewTorrents"); }
+			catch (SettingNotFoundException e) {}
+			
+			try { Settings.ImportEnabled = Get <bool> (SETTINGS_PATH + "importEnabled"); }
+			catch (SettingNotFoundException e) {}
+			
+			try { Settings.RemoveOnImport = Get <bool> (SETTINGS_PATH + "removeOnImport"); }
+			catch (SettingNotFoundException e) {}
 		}
 		
 		public override void Save ()

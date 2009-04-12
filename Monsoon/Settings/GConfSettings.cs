@@ -11,7 +11,7 @@ namespace Monsoon
 			try {
 				return (U) GconfSettingsStorage.Instance.Retrieve (key);
 			} catch {
-				return default (U);
+				throw new SettingNotFoundException("Setting '" + key + "' cannot be found");
 			}
 		}
 		
