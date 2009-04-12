@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using MonoTorrent;
 using MonoTorrent.Client;
 using MonoTorrent.Common;
 using MonoTorrent.BEncoding;
@@ -56,6 +57,10 @@ namespace Monsoon
 			get { return manager.Peers.Leechs; }
 		}
 
+		public InfoHash InfoHash {
+			get { return manager.InfoHash; }
+		}
+		
 		public int Priority {
 			get { return priority; }
 			set {

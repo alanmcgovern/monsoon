@@ -40,6 +40,7 @@ using System.Xml.Serialization;
 using System.Text;
 
 using Gtk;
+using MonoTorrent;
 using MonoTorrent.Common;
 using MonoTorrent.Client;
 using MonoTorrent.BEncoding;
@@ -654,9 +655,10 @@ namespace Monsoon
 			
 			if (args.SelectionData.Format != 8)
 				return;
-			
+
+			InfoHash target = new InfoHash (args.SelectionData.Data);
 			Download download = TorrentController.Torrents.Find (delegate (Download o) {
-				return Toolbox.ByteMatch (o.Torrent.InfoHash, args.SelectionData.Data);
+				return o.InfoHash == target;
 			});
 			if (download == null)
 				return;
@@ -866,7 +868,7 @@ namespace Monsoon
 				torrentToStore.UploadedData = download.TotalUploaded;
 				torrentToStore.DownloadedData = download.TotalDownloaded;
 				torrentToStore.InfoHash = Convert.ToString(manager.GetHashCode());
-				foreach(TorrentFile file in manager.FileManager.Files) {
+				foreach(TorrentFile file in manager.Torrent.Files) {
 					TorrentFileSettingsModel fileSettings = new TorrentFileSettingsModel();
 					fileSettings.Path = file.Path;
 					fileSettings.Priority = file.Priority;

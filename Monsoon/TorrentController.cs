@@ -223,12 +223,11 @@ namespace Monsoon
 			MoveToStorage (ref torrent);
 
 			TorrentSettings settings = savedSettings ?? defaultTorrentSettings.Clone ();
-			FastResume resume = this.fastResume.Find(delegate (FastResume f) { return Toolbox.ByteMatch(f.InfoHash, torrent.InfoHash); });
-			
+			FastResume resume = this.fastResume.Find(delegate (FastResume f) { return f.Infohash == torrent.InfoHash; });
+
+			manager = new Download(new TorrentManager (torrent, savePath, settings));
 			if (resume != null)
-				manager = new Download(new TorrentManager (torrent, savePath, settings, resume));
-			else
-				manager = new Download(new TorrentManager (torrent, savePath, settings));
+				manager.Manager.LoadFastResume (resume);
 					
 			engine.Register(manager.Manager);
 			
@@ -369,7 +368,7 @@ namespace Monsoon
 				
 				engine.Unregister(torrent.Manager);
 				fastResume.RemoveAll (delegate (FastResume f) {
-					return Toolbox.ByteMatch (f.InfoHash, torrent.Torrent.InfoHash); 
+					return f.Infohash == torrent.InfoHash; 
 				});
 				
 				logger.Info("Removed torrent " + torrent.Torrent.Name);
@@ -404,7 +403,7 @@ namespace Monsoon
 					continue;
 				}
 				
-				foreach(TorrentFile file in manager.Manager.FileManager.Files) {
+				foreach(TorrentFile file in manager.Manager.Torrent.Files) {
 					foreach(TorrentFileSettingsModel settings in torrentStore.Files) {
 						if (settings.Path != file.Path)
 							continue;

@@ -258,7 +258,7 @@ namespace Monsoon
 			if(manager == null)
 				return;
 			
-			args.SelectionData.Set(Gdk.Atom.Intern("application/x-monotorrent-Download-objects", false), 8, manager.Torrent.InfoHash);
+			args.SelectionData.Set(Gdk.Atom.Intern("application/x-monotorrent-Download-objects", false), 8, manager.Torrent.InfoHash.ToArray ());
 		}
 			
 		private void buildColumns()

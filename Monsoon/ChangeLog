@@ -1,6 +1,14 @@
 2009-04-12  Alan McGovern  <alan.mcgovern@gmail.com>
 
 	* MainWindow.cs:
+	* Model/Download.cs:
+	* TorrentTreeView.cs:
+	* TorrentController.cs:
+	* TorrentContextMenu.cs: Update to monotorrent 0.80
+
+2009-04-12  Alan McGovern  <alan.mcgovern@gmail.com>
+
+	* MainWindow.cs:
 	* gtk-gui/gui.stetic:
 	* PreferencesDialog.cs:
 	* Services/DownloadQueueService.cs:
