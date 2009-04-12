@@ -35,6 +35,7 @@ namespace Monsoon
 {
 	public class GConfInterfaceSettingsController : GConfSettings <InterfaceSettings>
 	{
+		public static readonly string ToolbarStyleKey = "/desktop/gnome/interface/toolbar_style";
 		private static string SETTINGS_PATH = "InterfaceSettings/";
 
 		public override void Load ()
@@ -49,7 +50,10 @@ namespace Monsoon
 			Settings.WindowYPos = Get <int> (SETTINGS_PATH + "windowYPos");
 			Settings.WindowXPos = Get <int> (SETTINGS_PATH + "windowXPos");
 			Settings.ShowLoadDialog = Get <bool>  (SETTINGS_PATH + "ShowLoadDialog");
-			
+
+			try {
+				Settings.ToolbarStyle = GetAbsolute<Gtk.ToolbarStyle> (ToolbarStyleKey);
+			} catch { }
 			foreach (string column in new List <string> (Settings.ColumnWidth.Keys)) {
 				Settings.ColumnWidth [column] = Get <int> (SETTINGS_PATH + string.Format ("Columns/{0}/Width", column));
 				Settings.ColumnVisibility [column] = Get <bool> (SETTINGS_PATH + string.Format ("Columns/{0}/Visible", column));

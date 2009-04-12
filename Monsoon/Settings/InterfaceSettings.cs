@@ -28,6 +28,7 @@
 
 using System;
 using System.Collections.Generic;
+using Gtk;
 
 namespace Monsoon
 {
@@ -42,6 +43,10 @@ namespace Monsoon
 		}
 		
 		public bool ShowLabels {
+			get; set;
+		}
+
+		public ToolbarStyle ToolbarStyle {
 			get; set;
 		}
 		
@@ -81,6 +86,7 @@ namespace Monsoon
 		{
 			ShowDetails = true;
 			ShowLabels = true;
+			ToolbarStyle = ToolbarStyle.Icons;
 			WindowHeight = 480;
 			WindowWidth = 805;
 			VPaned = 185; 

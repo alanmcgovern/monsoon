@@ -48,6 +48,11 @@ namespace Monsoon
 		{
 			client = new GConf.Client();
 		}
+
+		public void AddListener (string path, NotifyEventHandler handler)
+		{
+			client.AddNotify (path, handler);
+		}
 		
 		public void Store(string key, object val)
 		{
@@ -57,10 +62,15 @@ namespace Monsoon
 
 		public object Retrieve(string key)
 		{
+			return RetrieveAbsolute (GCONF_APP_PATH + key);
+		}
+
+		public object RetrieveAbsolute (string key)
+		{
 			try
 			{
 				lock (GCONF_APP_PATH)
-					return client.Get(GCONF_APP_PATH + key);
+					return client.Get(key);
 			}
 			catch (GConf.NoSuchKeyException e)
 			{

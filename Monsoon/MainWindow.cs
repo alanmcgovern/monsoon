@@ -228,9 +228,24 @@ namespace Monsoon
 			};
 			logger.Info ("Started RSS manager");
 			rssManagerController.StartWatchers();
+			AddGConfListeners ();
 			ShowAll();
 		}
 
+		void AddGConfListeners ()
+		{
+			string path = "/desktop/gnome/interface/toolbar_style";
+			GconfSettingsStorage.Instance.AddListener (path, delegate (object o, GConf.NotifyEventArgs e) {
+				try {
+					InterfaceSettings.ToolbarStyle = (ToolbarStyle) Enum.Parse (typeof (ToolbarStyle), e.Value.ToString (), true);
+				} catch {
+					logger.Warn ("Could not parse toolbar style '{0}'", e.Value);
+				}
+				
+				Application.Invoke (delegate { updateToolBar (); });
+			});
+		}
+		
 		void HandleShouldRemove (object sender, ShouldRemoveEventArgs e)
 		{
 			string title;
@@ -1127,6 +1142,8 @@ namespace Monsoon
 					startTorrentButton.Label = _("Start");
 				}
 			}
+			Console.WriteLine ("Style is: {0}", InterfaceSettings.ToolbarStyle);
+			toolbar1.ToolbarStyle = InterfaceSettings.ToolbarStyle;
 		}
 
 		protected virtual void OnStartTorrentActivated (object sender, System.EventArgs e)
