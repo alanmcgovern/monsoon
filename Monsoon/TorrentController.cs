@@ -263,7 +263,7 @@ namespace Monsoon
 				return;
 			}
 			
-			string newPath = Path.Combine(SettingsManager.Preferences.TorrentStorageLocation, Path.GetFileName(torrentPath));
+			string newPath = Path.Combine(SettingsManager.Preferences.TorrentStorageLocation, torrent.InfoHash.ToHex ());
 			logger.Debug("Copying torrent to " + newPath);
 			if (File.Exists (newPath))
 				File.Delete (newPath);
