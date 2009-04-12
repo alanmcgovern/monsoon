@@ -207,7 +207,6 @@ namespace Monsoon {
             this.GtkAlignment10.LeftPadding = ((uint)(12));
             // Container child GtkAlignment10.Gtk.Container+ContainerChild
             this.table1 = new Gtk.Table(((uint)(1)), ((uint)(1)), false);
-            this.table1.Name = "table1";
             this.table1.RowSpacing = ((uint)(6));
             this.table1.ColumnSpacing = ((uint)(6));
             // Container child table1.Gtk.Table+TableChild
@@ -305,6 +304,7 @@ namespace Monsoon {
             // Container child vbox2.Gtk.Box+BoxChild
             this.frame1 = new Gtk.Frame();
             this.frame1.Name = "frame1";
+            this.frame1.ShadowType = ((Gtk.ShadowType)(0));
             // Container child frame1.Gtk.Container+ContainerChild
             this.GtkAlignment1 = new Gtk.Alignment(0F, 0F, 1F, 1F);
             this.GtkAlignment1.Name = "GtkAlignment1";
@@ -389,6 +389,7 @@ namespace Monsoon {
             // Container child vbox2.Gtk.Box+BoxChild
             this.frame2 = new Gtk.Frame();
             this.frame2.Name = "frame2";
+            this.frame2.ShadowType = ((Gtk.ShadowType)(0));
             // Container child frame2.Gtk.Container+ContainerChild
             this.GtkAlignment2 = new Gtk.Alignment(0F, 0F, 1F, 1F);
             this.GtkAlignment2.Name = "GtkAlignment2";
@@ -461,9 +462,11 @@ namespace Monsoon {
             // Container child vbox2.Gtk.Box+BoxChild
             this.frame9 = new Gtk.Frame();
             this.frame9.Name = "frame9";
+            this.frame9.ShadowType = ((Gtk.ShadowType)(0));
             // Container child frame9.Gtk.Container+ContainerChild
             this.alignment1 = new Gtk.Alignment(0F, 0.5F, 1F, 0F);
             this.alignment1.Name = "alignment1";
+            this.alignment1.LeftPadding = ((uint)(12));
             // Container child alignment1.Gtk.Container+ContainerChild
             this.hbox3 = new Gtk.HBox();
             this.hbox3.Name = "hbox3";

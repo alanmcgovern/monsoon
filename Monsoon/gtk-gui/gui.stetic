@@ -5,7 +5,6 @@
     <target-gtk-version>2.12</target-gtk-version>
   </configuration>
   <import>
-    <widget-library name="gconf-sharp-peditors, Version=2.24.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Release/Monsoon.exe" internal="true" />
   </import>
   <icon-factory>
@@ -1681,6 +1680,7 @@
                 <child>
                   <widget class="Gtk.Frame" id="frame1">
                     <property name="MemberName" />
+                    <property name="ShadowType">None</property>
                     <child>
                       <widget class="Gtk.Alignment" id="GtkAlignment1">
                         <property name="MemberName" />
@@ -1834,6 +1834,7 @@
                 <child>
                   <widget class="Gtk.Frame" id="frame2">
                     <property name="MemberName" />
+                    <property name="ShadowType">None</property>
                     <child>
                       <widget class="Gtk.Alignment" id="GtkAlignment2">
                         <property name="MemberName" />
@@ -1962,11 +1963,13 @@
                 <child>
                   <widget class="Gtk.Frame" id="frame9">
                     <property name="MemberName" />
+                    <property name="ShadowType">None</property>
                     <child>
                       <widget class="Gtk.Alignment" id="alignment1">
                         <property name="MemberName" />
                         <property name="Yscale">0</property>
                         <property name="Xalign">0</property>
+                        <property name="LeftPadding">12</property>
                         <child>
                           <widget class="Gtk.HBox" id="hbox3">
                             <property name="MemberName" />
