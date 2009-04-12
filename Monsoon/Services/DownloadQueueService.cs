@@ -15,10 +15,18 @@ namespace Monsoon
 		public bool Initialised {
 			get; private set;
 		}
+
+//		public int MaxActive {
+//			get; set;
+//		}
 		
-		public int MaxActiveDownloads {
+		public int MaxDownloads {
 			get; set;
 		}
+		
+//		public int MaxSeeds {
+//			get; set;
+//		}
 		
 		public DownloadQueueService()
 		{
@@ -47,7 +55,7 @@ namespace Monsoon
 
 		void HandleChange ()
 		{
-			if (MaxActiveDownloads <= 0)
+			if (MaxDownloads <= 0)
 				return;
 			
 			Console.WriteLine ("State/Priority changed");
@@ -64,8 +72,9 @@ namespace Monsoon
 
 		void HandleShouldStart(object sender, ShouldStartEventArgs e)
 		{
-			if (MaxActiveDownloads <= 0)
+			if (MaxDownloads <= 0)
 				return;
+			
 			TorrentController c = ServiceManager.Get <TorrentController> ();
 			int count = 0;
 			c.Torrents.ForEach (delegate (Download d) {
@@ -73,7 +82,7 @@ namespace Monsoon
 					count++;
 			});
 			
-			if (count >= MaxActiveDownloads) {
+			if (count >= MaxDownloads) {
 				e.ShouldStart = false;
 				e.Download.Queue ();
 			}
@@ -91,7 +100,7 @@ namespace Monsoon
 			downloads.Sort ((left, right) => left.Priority.CompareTo (right.Priority));
 
 			// Try to start the torrents without stopping any existing ones
-			while (Toolbox.Count <Download>(downloads, d => d.Active) < MaxActiveDownloads) {
+			while (Toolbox.Count <Download>(downloads, d => d.Active) < MaxDownloads) {
 				bool started = false;
 				for (int i = 0; i < downloads.Count && !started; i++) {
 					if (downloads[i].Queued) {

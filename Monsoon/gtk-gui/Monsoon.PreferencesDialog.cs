@@ -135,9 +135,35 @@ namespace Monsoon {
         
         private Gtk.Label label4;
         
-        private Gtk.VBox vbox9;
+        private Gtk.VBox vbox4;
         
         private Gtk.Frame frame5;
+        
+        private Gtk.Alignment GtkAlignment;
+        
+        private Gtk.Table table5;
+        
+        private Gtk.Alignment alignment2;
+        
+        private Gtk.Label lblMaxActive;
+        
+        private Gtk.Label lblMaxDownload;
+        
+        private Gtk.Label lblMaxSeed;
+        
+        private Gtk.SpinButton spinMaxActive;
+        
+        private Gtk.SpinButton spinMaxDownload;
+        
+        private Gtk.SpinButton spinMaxSeed;
+        
+        private Gtk.Label labelActive;
+        
+        private Gtk.Label queuePage;
+        
+        private Gtk.VBox vbox9;
+        
+        private Gtk.Frame frame10;
         
         private Gtk.Alignment GtkAlignment6;
         
@@ -155,7 +181,7 @@ namespace Monsoon {
         
         private Gtk.VBox vbox12;
         
-        private Gtk.Label GtkLabel12;
+        private Gtk.Label GtkLabel19;
         
         private Gtk.Frame frame6;
         
@@ -171,9 +197,9 @@ namespace Monsoon {
         
         private Gtk.Button removeLabelButton;
         
-        private Gtk.Label GtkLabel16;
+        private Gtk.Label GtkLabel21;
         
-        private Gtk.Label label5;
+        private Gtk.Label label10;
         
         private Gtk.Button button478;
         
@@ -192,7 +218,7 @@ namespace Monsoon {
             this.prefNotebook = new Gtk.Notebook();
             this.prefNotebook.CanFocus = true;
             this.prefNotebook.Name = "prefNotebook";
-            this.prefNotebook.CurrentPage = 1;
+            this.prefNotebook.CurrentPage = 3;
             // Container child prefNotebook.Gtk.Notebook+NotebookChild
             this.vbox3 = new Gtk.VBox();
             this.vbox3.Name = "vbox3";
@@ -677,14 +703,133 @@ namespace Monsoon {
             this.prefNotebook.SetTabLabel(this.vbox5, this.label4);
             this.label4.ShowAll();
             // Container child prefNotebook.Gtk.Notebook+NotebookChild
+            this.vbox4 = new Gtk.VBox();
+            this.vbox4.Name = "vbox4";
+            this.vbox4.BorderWidth = ((uint)(3));
+            // Container child vbox4.Gtk.Box+BoxChild
+            this.frame5 = new Gtk.Frame();
+            this.frame5.Name = "frame5";
+            // Container child frame5.Gtk.Container+ContainerChild
+            this.GtkAlignment = new Gtk.Alignment(0F, 0F, 1F, 1F);
+            this.GtkAlignment.Name = "GtkAlignment";
+            this.GtkAlignment.LeftPadding = ((uint)(12));
+            // Container child GtkAlignment.Gtk.Container+ContainerChild
+            this.table5 = new Gtk.Table(((uint)(3)), ((uint)(3)), true);
+            this.table5.Name = "table5";
+            this.table5.RowSpacing = ((uint)(6));
+            this.table5.ColumnSpacing = ((uint)(6));
+            // Container child table5.Gtk.Table+TableChild
+            this.alignment2 = new Gtk.Alignment(0.5F, 0.5F, 1F, 1F);
+            this.alignment2.Name = "alignment2";
+            this.table5.Add(this.alignment2);
+            Gtk.Table.TableChild w51 = ((Gtk.Table.TableChild)(this.table5[this.alignment2]));
+            w51.LeftAttach = ((uint)(1));
+            w51.RightAttach = ((uint)(2));
+            w51.YOptions = ((Gtk.AttachOptions)(4));
+            // Container child table5.Gtk.Table+TableChild
+            this.lblMaxActive = new Gtk.Label();
+            this.lblMaxActive.Name = "lblMaxActive";
+            this.lblMaxActive.Xalign = 0F;
+            this.lblMaxActive.LabelProp = Mono.Unix.Catalog.GetString("label1");
+            this.table5.Add(this.lblMaxActive);
+            Gtk.Table.TableChild w52 = ((Gtk.Table.TableChild)(this.table5[this.lblMaxActive]));
+            w52.XOptions = ((Gtk.AttachOptions)(4));
+            w52.YOptions = ((Gtk.AttachOptions)(4));
+            // Container child table5.Gtk.Table+TableChild
+            this.lblMaxDownload = new Gtk.Label();
+            this.lblMaxDownload.Name = "lblMaxDownload";
+            this.lblMaxDownload.Xalign = 0F;
+            this.lblMaxDownload.LabelProp = Mono.Unix.Catalog.GetString("label2");
+            this.table5.Add(this.lblMaxDownload);
+            Gtk.Table.TableChild w53 = ((Gtk.Table.TableChild)(this.table5[this.lblMaxDownload]));
+            w53.TopAttach = ((uint)(1));
+            w53.BottomAttach = ((uint)(2));
+            w53.XOptions = ((Gtk.AttachOptions)(4));
+            w53.YOptions = ((Gtk.AttachOptions)(4));
+            // Container child table5.Gtk.Table+TableChild
+            this.lblMaxSeed = new Gtk.Label();
+            this.lblMaxSeed.Name = "lblMaxSeed";
+            this.lblMaxSeed.Xalign = 0F;
+            this.lblMaxSeed.LabelProp = Mono.Unix.Catalog.GetString("label3");
+            this.table5.Add(this.lblMaxSeed);
+            Gtk.Table.TableChild w54 = ((Gtk.Table.TableChild)(this.table5[this.lblMaxSeed]));
+            w54.TopAttach = ((uint)(2));
+            w54.BottomAttach = ((uint)(3));
+            w54.XOptions = ((Gtk.AttachOptions)(4));
+            w54.YOptions = ((Gtk.AttachOptions)(4));
+            // Container child table5.Gtk.Table+TableChild
+            this.spinMaxActive = new Gtk.SpinButton(0, 100, 1);
+            this.spinMaxActive.CanFocus = true;
+            this.spinMaxActive.Name = "spinMaxActive";
+            this.spinMaxActive.Adjustment.PageIncrement = 10;
+            this.spinMaxActive.ClimbRate = 1;
+            this.spinMaxActive.Numeric = true;
+            this.table5.Add(this.spinMaxActive);
+            Gtk.Table.TableChild w55 = ((Gtk.Table.TableChild)(this.table5[this.spinMaxActive]));
+            w55.LeftAttach = ((uint)(2));
+            w55.RightAttach = ((uint)(3));
+            w55.XOptions = ((Gtk.AttachOptions)(4));
+            w55.YOptions = ((Gtk.AttachOptions)(4));
+            // Container child table5.Gtk.Table+TableChild
+            this.spinMaxDownload = new Gtk.SpinButton(0, 100, 1);
+            this.spinMaxDownload.CanFocus = true;
+            this.spinMaxDownload.Name = "spinMaxDownload";
+            this.spinMaxDownload.Adjustment.PageIncrement = 10;
+            this.spinMaxDownload.ClimbRate = 1;
+            this.spinMaxDownload.Numeric = true;
+            this.table5.Add(this.spinMaxDownload);
+            Gtk.Table.TableChild w56 = ((Gtk.Table.TableChild)(this.table5[this.spinMaxDownload]));
+            w56.TopAttach = ((uint)(1));
+            w56.BottomAttach = ((uint)(2));
+            w56.LeftAttach = ((uint)(2));
+            w56.RightAttach = ((uint)(3));
+            w56.XOptions = ((Gtk.AttachOptions)(4));
+            w56.YOptions = ((Gtk.AttachOptions)(4));
+            // Container child table5.Gtk.Table+TableChild
+            this.spinMaxSeed = new Gtk.SpinButton(0, 100, 1);
+            this.spinMaxSeed.CanFocus = true;
+            this.spinMaxSeed.Name = "spinMaxSeed";
+            this.spinMaxSeed.Adjustment.PageIncrement = 10;
+            this.spinMaxSeed.ClimbRate = 1;
+            this.spinMaxSeed.Numeric = true;
+            this.table5.Add(this.spinMaxSeed);
+            Gtk.Table.TableChild w57 = ((Gtk.Table.TableChild)(this.table5[this.spinMaxSeed]));
+            w57.TopAttach = ((uint)(2));
+            w57.BottomAttach = ((uint)(3));
+            w57.LeftAttach = ((uint)(2));
+            w57.RightAttach = ((uint)(3));
+            w57.XOptions = ((Gtk.AttachOptions)(4));
+            w57.YOptions = ((Gtk.AttachOptions)(4));
+            this.GtkAlignment.Add(this.table5);
+            this.frame5.Add(this.GtkAlignment);
+            this.labelActive = new Gtk.Label();
+            this.labelActive.Name = "labelActive";
+            this.labelActive.LabelProp = Mono.Unix.Catalog.GetString("<b>frame1</b>");
+            this.labelActive.UseMarkup = true;
+            this.frame5.LabelWidget = this.labelActive;
+            this.vbox4.Add(this.frame5);
+            Gtk.Box.BoxChild w60 = ((Gtk.Box.BoxChild)(this.vbox4[this.frame5]));
+            w60.Position = 0;
+            w60.Expand = false;
+            w60.Fill = false;
+            this.prefNotebook.Add(this.vbox4);
+            Gtk.Notebook.NotebookChild w61 = ((Gtk.Notebook.NotebookChild)(this.prefNotebook[this.vbox4]));
+            w61.Position = 3;
+            // Notebook tab
+            this.queuePage = new Gtk.Label();
+            this.queuePage.Name = "queuePage";
+            this.queuePage.LabelProp = Mono.Unix.Catalog.GetString("Queue");
+            this.prefNotebook.SetTabLabel(this.vbox4, this.queuePage);
+            this.queuePage.ShowAll();
+            // Container child prefNotebook.Gtk.Notebook+NotebookChild
             this.vbox9 = new Gtk.VBox();
             this.vbox9.Name = "vbox9";
             this.vbox9.Spacing = 6;
             // Container child vbox9.Gtk.Box+BoxChild
-            this.frame5 = new Gtk.Frame();
-            this.frame5.Name = "frame5";
-            this.frame5.ShadowType = ((Gtk.ShadowType)(0));
-            // Container child frame5.Gtk.Container+ContainerChild
+            this.frame10 = new Gtk.Frame();
+            this.frame10.Name = "frame10";
+            this.frame10.ShadowType = ((Gtk.ShadowType)(0));
+            // Container child frame10.Gtk.Container+ContainerChild
             this.GtkAlignment6 = new Gtk.Alignment(0F, 0F, 1F, 1F);
             this.GtkAlignment6.Name = "GtkAlignment6";
             this.GtkAlignment6.LeftPadding = ((uint)(12));
@@ -697,8 +842,8 @@ namespace Monsoon {
             this.iconEntryBox.Name = "iconEntryBox";
             this.iconEntryBox.Spacing = 6;
             this.iconHbox.Add(this.iconEntryBox);
-            Gtk.Box.BoxChild w51 = ((Gtk.Box.BoxChild)(this.iconHbox[this.iconEntryBox]));
-            w51.Position = 0;
+            Gtk.Box.BoxChild w62 = ((Gtk.Box.BoxChild)(this.iconHbox[this.iconEntryBox]));
+            w62.Position = 0;
             // Container child iconHbox.Gtk.Box+BoxChild
             this.vbox10 = new Gtk.VBox();
             this.vbox10.Name = "vbox10";
@@ -714,46 +859,46 @@ namespace Monsoon {
             this.nameEntry.IsEditable = true;
             this.nameEntry.InvisibleChar = '●';
             this.hbox6.Add(this.nameEntry);
-            Gtk.Box.BoxChild w52 = ((Gtk.Box.BoxChild)(this.hbox6[this.nameEntry]));
-            w52.PackType = ((Gtk.PackType)(1));
-            w52.Position = 0;
+            Gtk.Box.BoxChild w63 = ((Gtk.Box.BoxChild)(this.hbox6[this.nameEntry]));
+            w63.PackType = ((Gtk.PackType)(1));
+            w63.Position = 0;
             // Container child hbox6.Gtk.Box+BoxChild
             this.label8 = new Gtk.Label();
             this.label8.Name = "label8";
             this.label8.LabelProp = Mono.Unix.Catalog.GetString("Name:");
             this.hbox6.Add(this.label8);
-            Gtk.Box.BoxChild w53 = ((Gtk.Box.BoxChild)(this.hbox6[this.label8]));
-            w53.PackType = ((Gtk.PackType)(1));
-            w53.Position = 1;
-            w53.Expand = false;
-            w53.Fill = false;
+            Gtk.Box.BoxChild w64 = ((Gtk.Box.BoxChild)(this.hbox6[this.label8]));
+            w64.PackType = ((Gtk.PackType)(1));
+            w64.Position = 1;
+            w64.Expand = false;
+            w64.Fill = false;
             this.vbox10.Add(this.hbox6);
-            Gtk.Box.BoxChild w54 = ((Gtk.Box.BoxChild)(this.vbox10[this.hbox6]));
-            w54.Position = 0;
-            w54.Expand = false;
-            w54.Fill = false;
+            Gtk.Box.BoxChild w65 = ((Gtk.Box.BoxChild)(this.vbox10[this.hbox6]));
+            w65.Position = 0;
+            w65.Expand = false;
+            w65.Fill = false;
             this.iconHbox.Add(this.vbox10);
-            Gtk.Box.BoxChild w55 = ((Gtk.Box.BoxChild)(this.iconHbox[this.vbox10]));
-            w55.Position = 1;
+            Gtk.Box.BoxChild w66 = ((Gtk.Box.BoxChild)(this.iconHbox[this.vbox10]));
+            w66.Position = 1;
             // Container child iconHbox.Gtk.Box+BoxChild
             this.vbox12 = new Gtk.VBox();
             this.vbox12.Name = "vbox12";
             this.vbox12.Spacing = 6;
             this.iconHbox.Add(this.vbox12);
-            Gtk.Box.BoxChild w56 = ((Gtk.Box.BoxChild)(this.iconHbox[this.vbox12]));
-            w56.Position = 2;
+            Gtk.Box.BoxChild w67 = ((Gtk.Box.BoxChild)(this.iconHbox[this.vbox12]));
+            w67.Position = 2;
             this.GtkAlignment6.Add(this.iconHbox);
-            this.frame5.Add(this.GtkAlignment6);
-            this.GtkLabel12 = new Gtk.Label();
-            this.GtkLabel12.Name = "GtkLabel12";
-            this.GtkLabel12.LabelProp = Mono.Unix.Catalog.GetString("<b>Create a label</b>");
-            this.GtkLabel12.UseMarkup = true;
-            this.frame5.LabelWidget = this.GtkLabel12;
-            this.vbox9.Add(this.frame5);
-            Gtk.Box.BoxChild w59 = ((Gtk.Box.BoxChild)(this.vbox9[this.frame5]));
-            w59.Position = 0;
-            w59.Expand = false;
-            w59.Fill = false;
+            this.frame10.Add(this.GtkAlignment6);
+            this.GtkLabel19 = new Gtk.Label();
+            this.GtkLabel19.Name = "GtkLabel19";
+            this.GtkLabel19.LabelProp = Mono.Unix.Catalog.GetString("<b>Create a label</b>");
+            this.GtkLabel19.UseMarkup = true;
+            this.frame10.LabelWidget = this.GtkLabel19;
+            this.vbox9.Add(this.frame10);
+            Gtk.Box.BoxChild w70 = ((Gtk.Box.BoxChild)(this.vbox9[this.frame10]));
+            w70.Position = 0;
+            w70.Expand = false;
+            w70.Fill = false;
             // Container child vbox9.Gtk.Box+BoxChild
             this.frame6 = new Gtk.Frame();
             this.frame6.Name = "frame6";
@@ -772,8 +917,8 @@ namespace Monsoon {
             this.labelScrolledWindow.Name = "labelScrolledWindow";
             this.labelScrolledWindow.ShadowType = ((Gtk.ShadowType)(1));
             this.hbox8.Add(this.labelScrolledWindow);
-            Gtk.Box.BoxChild w60 = ((Gtk.Box.BoxChild)(this.hbox8[this.labelScrolledWindow]));
-            w60.Position = 0;
+            Gtk.Box.BoxChild w71 = ((Gtk.Box.BoxChild)(this.hbox8[this.labelScrolledWindow]));
+            w71.Position = 0;
             // Container child hbox8.Gtk.Box+BoxChild
             this.vbox11 = new Gtk.VBox();
             this.vbox11.Name = "vbox11";
@@ -785,26 +930,26 @@ namespace Monsoon {
             this.addLabelButton.Name = "addLabelButton";
             this.addLabelButton.UseUnderline = true;
             // Container child addLabelButton.Gtk.Container+ContainerChild
-            Gtk.Alignment w61 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
-            // Container child GtkAlignment.Gtk.Container+ContainerChild
-            Gtk.HBox w62 = new Gtk.HBox();
-            w62.Spacing = 2;
+            Gtk.Alignment w72 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
+            // Container child GtkAlignment8.Gtk.Container+ContainerChild
+            Gtk.HBox w73 = new Gtk.HBox();
+            w73.Spacing = 2;
             // Container child GtkHBox1.Gtk.Container+ContainerChild
-            Gtk.Image w63 = new Gtk.Image();
-            w63.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-add", Gtk.IconSize.Menu, 16);
-            w62.Add(w63);
+            Gtk.Image w74 = new Gtk.Image();
+            w74.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-add", Gtk.IconSize.Menu, 16);
+            w73.Add(w74);
             // Container child GtkHBox1.Gtk.Container+ContainerChild
-            Gtk.Label w65 = new Gtk.Label();
-            w65.LabelProp = Mono.Unix.Catalog.GetString("Add");
-            w65.UseUnderline = true;
-            w62.Add(w65);
-            w61.Add(w62);
-            this.addLabelButton.Add(w61);
+            Gtk.Label w76 = new Gtk.Label();
+            w76.LabelProp = Mono.Unix.Catalog.GetString("Add");
+            w76.UseUnderline = true;
+            w73.Add(w76);
+            w72.Add(w73);
+            this.addLabelButton.Add(w72);
             this.vbox11.Add(this.addLabelButton);
-            Gtk.Box.BoxChild w69 = ((Gtk.Box.BoxChild)(this.vbox11[this.addLabelButton]));
-            w69.Position = 0;
-            w69.Expand = false;
-            w69.Fill = false;
+            Gtk.Box.BoxChild w80 = ((Gtk.Box.BoxChild)(this.vbox11[this.addLabelButton]));
+            w80.Position = 0;
+            w80.Expand = false;
+            w80.Fill = false;
             // Container child vbox11.Gtk.Box+BoxChild
             this.removeLabelButton = new Gtk.Button();
             this.removeLabelButton.Sensitive = false;
@@ -812,59 +957,59 @@ namespace Monsoon {
             this.removeLabelButton.Name = "removeLabelButton";
             this.removeLabelButton.UseUnderline = true;
             // Container child removeLabelButton.Gtk.Container+ContainerChild
-            Gtk.Alignment w70 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
-            // Container child GtkAlignment8.Gtk.Container+ContainerChild
-            Gtk.HBox w71 = new Gtk.HBox();
-            w71.Spacing = 2;
+            Gtk.Alignment w81 = new Gtk.Alignment(0.5F, 0.5F, 0F, 0F);
+            // Container child GtkAlignment9.Gtk.Container+ContainerChild
+            Gtk.HBox w82 = new Gtk.HBox();
+            w82.Spacing = 2;
             // Container child GtkHBox2.Gtk.Container+ContainerChild
-            Gtk.Image w72 = new Gtk.Image();
-            w72.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-remove", Gtk.IconSize.Menu, 16);
-            w71.Add(w72);
+            Gtk.Image w83 = new Gtk.Image();
+            w83.Pixbuf = Stetic.IconLoader.LoadIcon(this, "gtk-remove", Gtk.IconSize.Menu, 16);
+            w82.Add(w83);
             // Container child GtkHBox2.Gtk.Container+ContainerChild
-            Gtk.Label w74 = new Gtk.Label();
-            w74.LabelProp = Mono.Unix.Catalog.GetString("Remove");
-            w74.UseUnderline = true;
-            w71.Add(w74);
-            w70.Add(w71);
-            this.removeLabelButton.Add(w70);
+            Gtk.Label w85 = new Gtk.Label();
+            w85.LabelProp = Mono.Unix.Catalog.GetString("Remove");
+            w85.UseUnderline = true;
+            w82.Add(w85);
+            w81.Add(w82);
+            this.removeLabelButton.Add(w81);
             this.vbox11.Add(this.removeLabelButton);
-            Gtk.Box.BoxChild w78 = ((Gtk.Box.BoxChild)(this.vbox11[this.removeLabelButton]));
-            w78.Position = 1;
-            w78.Expand = false;
-            w78.Fill = false;
+            Gtk.Box.BoxChild w89 = ((Gtk.Box.BoxChild)(this.vbox11[this.removeLabelButton]));
+            w89.Position = 1;
+            w89.Expand = false;
+            w89.Fill = false;
             this.hbox8.Add(this.vbox11);
-            Gtk.Box.BoxChild w79 = ((Gtk.Box.BoxChild)(this.hbox8[this.vbox11]));
-            w79.Position = 1;
-            w79.Expand = false;
-            w79.Fill = false;
+            Gtk.Box.BoxChild w90 = ((Gtk.Box.BoxChild)(this.hbox8[this.vbox11]));
+            w90.Position = 1;
+            w90.Expand = false;
+            w90.Fill = false;
             this.GtkAlignment7.Add(this.hbox8);
             this.frame6.Add(this.GtkAlignment7);
-            this.GtkLabel16 = new Gtk.Label();
-            this.GtkLabel16.Name = "GtkLabel16";
-            this.GtkLabel16.LabelProp = Mono.Unix.Catalog.GetString("<b>Manage labels</b>");
-            this.GtkLabel16.UseMarkup = true;
-            this.frame6.LabelWidget = this.GtkLabel16;
+            this.GtkLabel21 = new Gtk.Label();
+            this.GtkLabel21.Name = "GtkLabel21";
+            this.GtkLabel21.LabelProp = Mono.Unix.Catalog.GetString("<b>Manage labels</b>");
+            this.GtkLabel21.UseMarkup = true;
+            this.frame6.LabelWidget = this.GtkLabel21;
             this.vbox9.Add(this.frame6);
-            Gtk.Box.BoxChild w82 = ((Gtk.Box.BoxChild)(this.vbox9[this.frame6]));
-            w82.Position = 1;
+            Gtk.Box.BoxChild w93 = ((Gtk.Box.BoxChild)(this.vbox9[this.frame6]));
+            w93.Position = 1;
             this.prefNotebook.Add(this.vbox9);
-            Gtk.Notebook.NotebookChild w83 = ((Gtk.Notebook.NotebookChild)(this.prefNotebook[this.vbox9]));
-            w83.Position = 3;
+            Gtk.Notebook.NotebookChild w94 = ((Gtk.Notebook.NotebookChild)(this.prefNotebook[this.vbox9]));
+            w94.Position = 4;
             // Notebook tab
-            this.label5 = new Gtk.Label();
-            this.label5.Name = "label5";
-            this.label5.LabelProp = Mono.Unix.Catalog.GetString("Labels");
-            this.prefNotebook.SetTabLabel(this.vbox9, this.label5);
-            this.label5.ShowAll();
+            this.label10 = new Gtk.Label();
+            this.label10.Name = "label10";
+            this.label10.LabelProp = Mono.Unix.Catalog.GetString("Labels");
+            this.prefNotebook.SetTabLabel(this.vbox9, this.label10);
+            this.label10.ShowAll();
             w1.Add(this.prefNotebook);
-            Gtk.Box.BoxChild w84 = ((Gtk.Box.BoxChild)(w1[this.prefNotebook]));
-            w84.Position = 0;
+            Gtk.Box.BoxChild w95 = ((Gtk.Box.BoxChild)(w1[this.prefNotebook]));
+            w95.Position = 0;
             // Internal child Monsoon.PreferencesDialog.ActionArea
-            Gtk.HButtonBox w85 = this.ActionArea;
-            w85.Name = "GtkDialog_ActionArea";
-            w85.Spacing = 6;
-            w85.BorderWidth = ((uint)(5));
-            w85.LayoutStyle = ((Gtk.ButtonBoxStyle)(4));
+            Gtk.HButtonBox w96 = this.ActionArea;
+            w96.Name = "GtkDialog_ActionArea";
+            w96.Spacing = 6;
+            w96.BorderWidth = ((uint)(5));
+            w96.LayoutStyle = ((Gtk.ButtonBoxStyle)(4));
             // Container child GtkDialog_ActionArea.Gtk.ButtonBox+ButtonBoxChild
             this.button478 = new Gtk.Button();
             this.button478.CanDefault = true;
@@ -874,9 +1019,9 @@ namespace Monsoon {
             this.button478.UseUnderline = true;
             this.button478.Label = "gtk-close";
             this.AddActionWidget(this.button478, -7);
-            Gtk.ButtonBox.ButtonBoxChild w86 = ((Gtk.ButtonBox.ButtonBoxChild)(w85[this.button478]));
-            w86.Expand = false;
-            w86.Fill = false;
+            Gtk.ButtonBox.ButtonBoxChild w97 = ((Gtk.ButtonBox.ButtonBoxChild)(w96[this.button478]));
+            w97.Expand = false;
+            w97.Fill = false;
             if ((this.Child != null)) {
                 this.Child.ShowAll();
             }

@@ -1130,28 +1130,33 @@ namespace Monsoon
 		protected virtual void OnStartTorrentActivated (object sender, System.EventArgs e)
 		{
 			bool pause = startTorrentButton.StockId == "gtk-media-pause";
-			foreach (Download download in TorrentController.SelectedDownloads) {
-				try {
-					switch (download.State) {
-					case Monsoon.State.Downloading:
-					case Monsoon.State.Seeding:
-						if (pause)
-							download.Pause ();
-						break;
-						
-					case Monsoon.State.Stopped:
-						if (!pause)
-							download.Start ();
-						break;
-						
-					case Monsoon.State.Paused:
-						if (!pause)
-							download.Resume ();
-						break;
+			
+			foreach (Download d in TorrentController.SelectedDownloads) {
+				Download download = d;
+				GLib.Idle.Add (delegate {
+					try {
+						switch (download.State) {
+						case Monsoon.State.Downloading:
+						case Monsoon.State.Seeding:
+							if (pause)
+								download.Pause ();
+							break;
+							
+						case Monsoon.State.Stopped:
+							if (!pause)
+								download.Start ();
+							break;
+							
+						case Monsoon.State.Paused:
+							if (!pause)
+								download.Resume ();
+							break;
+						}
+					} catch {
+						logger.Error ("Torrent already started " + download.Manager.Torrent.Name);
 					}
-				} catch {
-					logger.Error ("Torrent already started " + download.Manager.Torrent.Name);
-				}
+					return false;
+				});
 			}
 		}
 		

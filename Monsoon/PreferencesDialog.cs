@@ -61,7 +61,7 @@ namespace Monsoon
 			this.labelController = mainWindow.LabelController;
 			this.trayIcon = mainWindow.TrayIcon;
 			this.interfaceSettings = mainWindow.InterfaceSettings;
-			
+
 			Build();
 			buildFoldersPanel();
 			buildImportPanel();
@@ -69,8 +69,31 @@ namespace Monsoon
 			buildConnectionPage();
 			restorePreferences();
 			BuildGeneralPage();
-			
+			SetNames ();
 			upnpCheckBox.Toggled += OnUpnpCheckBoxToggled;
+			spinMaxActive.Sensitive = false;
+			spinMaxSeed.Sensitive = false;
+//			spinMaxActive.ValueChanged += delegate {
+//				DownloadQueueService queue = ServiceManager.Get <DownloadQueueService> ();
+//				queue.MaxActive = spinMaxActive.ValueAsInt;
+//			};
+			spinMaxDownload.ValueChanged += delegate {
+				DownloadQueueService queue = ServiceManager.Get <DownloadQueueService> ();
+				queue.MaxDownloads = spinMaxActive.ValueAsInt;
+			};
+//			spinMaxSeed.ValueChanged += delegate {
+//				DownloadQueueService queue = ServiceManager.Get <DownloadQueueService> ();
+//				queue.MaxSeeds = spinMaxActive.ValueAsInt;
+//			};
+		}
+
+		void SetNames ()
+		{
+			queuePage.LabelProp = _("Queue");
+			labelActive.Text = "Active";
+			lblMaxActive.Text = "Max Active";
+			lblMaxDownload.Text = "Max Downloading";
+			lblMaxSeed.Text = "Max Seeding";
 		}
 		
 		public void SetPageIndex(int index)
