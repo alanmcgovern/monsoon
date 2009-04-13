@@ -1,5 +1,10 @@
 2009-04-13  Alan McGovern  <alan.mcgovern@gmail.com>
 
+	* MainWindow.cs: Ensure that the width/height is restored
+	correctly. Nuke some old CWLs.
+
+2009-04-13  Alan McGovern  <alan.mcgovern@gmail.com>
+
 	* Makefile.am:
 	* Monsoon.csproj:
 	* libs/TrayLib.cs: Nuke the old Egg.TrayIcon stuff.

@@ -370,7 +370,6 @@ namespace Monsoon
 				trayMenu.Popup ();
 			};
 			TrayIcon.Tooltip = Defines.ApplicationName;
-			ShowAll ();
 		}
 
 		private void LoadAllSettings ()
@@ -390,8 +389,8 @@ namespace Monsoon
 			InterfaceSettings settings = interfaceSettings;
 			
 			logger.Info ("Restoring interface settings");
-			SetDefaultSize (settings.WindowWidth, settings.WindowHeight);
 			
+			Resize (settings.WindowWidth, settings.WindowHeight);
 			if (settings.WindowYPos == 0 && settings.WindowXPos == 0)
 				SetPosition (WindowPosition.Center);
 			else
@@ -496,6 +495,11 @@ namespace Monsoon
 			item = new ToolItem ();
 			item.Child = eventBox;
 			statusToolbar.Insert (item, 2);
+
+			sep = new SeparatorToolItem ();
+			sep.Draw = false;
+			sep.WidthRequest = 20;
+			statusToolbar.Insert (sep, 3);
 
 			statusToolbar.ShowAll ();
 		}
@@ -1148,12 +1152,10 @@ namespace Monsoon
 					startTorrentButton.Label = _("Start");
 				}
 			}
-			Console.WriteLine ("Style was: {0}. '{1}'/'{2}'", toolbar1.ToolbarStyle, InterfaceSettings.ToolbarStyle, InterfaceSettings.ToolbarStyleSystem);
 			if (InterfaceSettings.ToolbarStyle.HasValue)
 				toolbar1.ToolbarStyle = InterfaceSettings.ToolbarStyle.Value;
 			else
 				toolbar1.ToolbarStyle = InterfaceSettings.ToolbarStyleSystem;
-			Console.WriteLine ("Style is: {0}", InterfaceSettings.ToolbarStyle);
 		}
 
 		protected virtual void OnStartTorrentActivated (object sender, System.EventArgs e)
@@ -1336,7 +1338,6 @@ namespace Monsoon
 
 		void OnPriorityLowest (object sender, System.EventArgs e)
 		{
-			Console.WriteLine ("Setting priority to: {0}", TorrentController.Torrents.Count);
 			TorrentController.SetPriority (TorrentController.SelectedDownload, TorrentController.Torrents.Count);
 		}
 		
