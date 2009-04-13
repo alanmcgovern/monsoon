@@ -41,19 +41,19 @@ namespace Monsoon
 
 		public override void Load ()
 		{
-			Settings.ShowDetails = Get <bool> (SETTINGS_PATH + "showDetails");
-			Settings.ShowLabels = Get <bool> (SETTINGS_PATH + "showLabels");
+			Settings.ShowDetails = Get <bool> (SETTINGS_PATH + "showDetails", Settings.ShowDetails);
+			Settings.ShowLabels = Get <bool> (SETTINGS_PATH + "showLabels", Settings.ShowLabels);
 			
-			Settings.WindowHeight = Get <int> (SETTINGS_PATH + "windowHeight");
-			Settings.WindowWidth = Get <int> (SETTINGS_PATH + "windowWidth");
-			Settings.VPaned = Get <int> (SETTINGS_PATH + "vPaned");
-			Settings.HPaned = Get <int> (SETTINGS_PATH + "hPaned");
-			Settings.WindowYPos = Get <int> (SETTINGS_PATH + "windowYPos");
-			Settings.WindowXPos = Get <int> (SETTINGS_PATH + "windowXPos");
-			Settings.ShowLoadDialog = Get <bool>  (SETTINGS_PATH + "ShowLoadDialog");
+			Settings.WindowHeight = Get <int> (SETTINGS_PATH + "windowHeight", Settings.WindowHeight);
+			Settings.WindowWidth = Get <int> (SETTINGS_PATH + "windowWidth", Settings.WindowWidth);
+			Settings.VPaned = Get <int> (SETTINGS_PATH + "vPaned", Settings.VPaned);
+			Settings.HPaned = Get <int> (SETTINGS_PATH + "hPaned", Settings.HPaned);
+			Settings.WindowYPos = Get <int> (SETTINGS_PATH + "windowYPos", Settings.WindowYPos);
+			Settings.WindowXPos = Get <int> (SETTINGS_PATH + "windowXPos", Settings.WindowXPos);
+			Settings.ShowLoadDialog = Get <bool>  (SETTINGS_PATH + "ShowLoadDialog", Settings.ShowLoadDialog);
 			object o = null;
 			try {
-				o = Get <object> (ToolbarStyleKey);
+				o = Get <object> (ToolbarStyleKey, Settings.ToolbarStyle);
 			} catch { }
 			if (o == null || "null".Equals (o))
 				Settings.ToolbarStyle = null;
@@ -64,8 +64,8 @@ namespace Monsoon
 				Settings.ToolbarStyleSystem = GetAbsolute<Gtk.ToolbarStyle> (ToolbarStyleSystemKey);
 			} catch { }
 			foreach (string column in new List <string> (Settings.ColumnWidth.Keys)) {
-				Settings.ColumnWidth [column] = Get <int> (SETTINGS_PATH + string.Format ("Columns/{0}/Width", column));
-				Settings.ColumnVisibility [column] = Get <bool> (SETTINGS_PATH + string.Format ("Columns/{0}/Visible", column));
+				Settings.ColumnWidth [column] = Get <int> (SETTINGS_PATH + string.Format ("Columns/{0}/Width", column), 75);
+				Settings.ColumnVisibility [column] = Get <bool> (SETTINGS_PATH + string.Format ("Columns/{0}/Visible", column), true);
 			}
 		}
 

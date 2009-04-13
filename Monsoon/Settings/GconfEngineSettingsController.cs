@@ -54,18 +54,18 @@ namespace Monsoon
 
 		public override void Load ()
 		{
-			Settings.AllowedEncryption = (EncryptionTypes) Get <int> (AllowedEncryptionKey);
-			Settings.GlobalMaxConnections = Get <int> (GlobalMaxConnectionsKey);
-			Settings.GlobalMaxDownloadSpeed = Get <int> (GlobalMaxDownloadSpeedKey);
-			Settings.GlobalMaxHalfOpenConnections = Get <int> (GlobalMaxHalfOpenConnectionsKey);
-			Settings.MaxOpenFiles = Get <int> (MaxOpenFilesKey);
-			Settings.GlobalMaxUploadSpeed = Get <int> (GlobalMaxUploadSpeedKey);
-			Settings.HaveSupressionEnabled = Get <bool> (HaveSuppressionKey);
-			Settings.ListenPort = Get <int> (ListenPortKey);
-			Settings.MaxReadRate = Get <int> (MaxReadRateKey);
-			Settings.MaxWriteRate = Get <int> (MaxWriteRateKey);
-			Settings.PreferEncryption = Get <bool> (PreferEncryptionKey);
-			Settings.SavePath = Get <string> (SavePathKey);
+			Settings.AllowedEncryption = (EncryptionTypes) Get <int> (AllowedEncryptionKey, (int)Settings.AllowedEncryption);
+			Settings.GlobalMaxConnections = Get <int> (GlobalMaxConnectionsKey, Settings.GlobalMaxConnections);
+			Settings.GlobalMaxDownloadSpeed = Get <int> (GlobalMaxDownloadSpeedKey, Settings.GlobalMaxDownloadSpeed);
+			Settings.GlobalMaxHalfOpenConnections = Get <int> (GlobalMaxHalfOpenConnectionsKey, Settings.GlobalMaxHalfOpenConnections);
+			Settings.MaxOpenFiles = Get <int> (MaxOpenFilesKey, Settings.MaxOpenFiles);
+			Settings.GlobalMaxUploadSpeed = Get <int> (GlobalMaxUploadSpeedKey, Settings.GlobalMaxUploadSpeed);
+			Settings.HaveSupressionEnabled = Get <bool> (HaveSuppressionKey, Settings.HaveSupressionEnabled);
+			Settings.ListenPort = Get <int> (ListenPortKey, Settings.ListenPort);
+			Settings.MaxReadRate = Get <int> (MaxReadRateKey, Settings.MaxReadRate);
+			Settings.MaxWriteRate = Get <int> (MaxWriteRateKey, Settings.MaxWriteRate);
+			Settings.PreferEncryption = Get <bool> (PreferEncryptionKey, Settings.PreferEncryption);
+			Settings.SavePath = Get <string> (SavePathKey, Settings.SavePath);
 			
 			// Try to get XDG_DOWNLOAD_DIR path, if unavailible fallback to
 			// users home directory

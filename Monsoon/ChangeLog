@@ -1,5 +1,15 @@
 2009-04-13  Alan McGovern  <alan.mcgovern@gmail.com>
 
+	* Settings/GConfSettings.cs:
+	* Settings/GconfEngineSettingsController.cs:
+	* Settings/GconfTorrentSettingsController.cs:
+	* Settings/GConfInterfaceSettingsController.cs:
+	* Settings/GconfPreferencesSettingsController.cs: If a setting
+	can't be loaded, use the correct default value for that
+	setting.
+
+2009-04-13  Alan McGovern  <alan.mcgovern@gmail.com>
+
 	* MainWindow.cs: Ensure that the width/height is restored
 	correctly. Nuke some old CWLs.
 

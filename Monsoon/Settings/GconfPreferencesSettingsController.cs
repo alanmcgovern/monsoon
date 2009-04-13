@@ -36,32 +36,15 @@ namespace Monsoon
 		
 		public override void Load ()
 		{
-		 	try { Settings.EnableNotifications = Get <bool> (SETTINGS_PATH + "enableNotifications"); }
-			catch (SettingNotFoundException e) {}
-			
-			try { Settings.QuitOnClose = Get <bool> (SETTINGS_PATH + "quitOnClose"); }
-			catch (SettingNotFoundException e) {}
-			
-			try { Settings.EnableTray = Get <bool> (SETTINGS_PATH + "enableTray"); }
-			catch (SettingNotFoundException e) {}
-			
-			try { Settings.TorrentStorageLocation = Get <string> (SETTINGS_PATH + "torrentStorageLocation"); }
-			catch (SettingNotFoundException e) {}
-			
-			try { Settings.ImportLocation = Get <string> (SETTINGS_PATH + "importLocation"); }
-			catch (SettingNotFoundException e) {}
-			
-			try { Settings.UpnpEnabled = Get <bool> (SETTINGS_PATH + "upnpEnabled"); }
-			catch (SettingNotFoundException e) {}
-			
-			try { Settings.StartNewTorrents = Get <bool> (SETTINGS_PATH + "startNewTorrents"); }
-			catch (SettingNotFoundException e) {}
-			
-			try { Settings.ImportEnabled = Get <bool> (SETTINGS_PATH + "importEnabled"); }
-			catch (SettingNotFoundException e) {}
-			
-			try { Settings.RemoveOnImport = Get <bool> (SETTINGS_PATH + "removeOnImport"); }
-			catch (SettingNotFoundException e) {}
+		 	Settings.EnableNotifications = Get <bool> (SETTINGS_PATH + "enableNotifications", Settings.EnableNotifications);
+			Settings.QuitOnClose = Get <bool> (SETTINGS_PATH + "quitOnClose", Settings.QuitOnClose);
+			Settings.EnableTray = Get <bool> (SETTINGS_PATH + "enableTray", Settings.EnableTray);
+			Settings.TorrentStorageLocation = Get <string> (SETTINGS_PATH + "torrentStorageLocation", Settings.TorrentStorageLocation);
+			Settings.ImportLocation = Get <string> (SETTINGS_PATH + "importLocation", Settings.ImportLocation);
+			Settings.UpnpEnabled = Get <bool> (SETTINGS_PATH + "upnpEnabled", Settings.UpnpEnabled);
+			Settings.StartNewTorrents = Get <bool> (SETTINGS_PATH + "startNewTorrents", Settings.StartNewTorrents);
+			Settings.ImportEnabled = Get <bool> (SETTINGS_PATH + "importEnabled", Settings.ImportEnabled);
+			Settings.RemoveOnImport = Get <bool> (SETTINGS_PATH + "removeOnImport", Settings.RemoveOnImport);
 		}
 		
 		public override void Save ()

@@ -44,11 +44,11 @@ namespace Monsoon
 
 		public override void Load ()
 		{
-			Settings.InitialSeedingEnabled = Get <bool> (InitialSeedingKey);
-			Settings.UploadSlots = Get <int> (UploadSlotsKey);
-			Settings.MaxConnections = Get <int> (MaxConnectionsKey);
-			Settings.MaxDownloadSpeed = Get <int> (MaxDownloadSpeedKey);
-			Settings.MaxUploadSpeed = Get <int> (MaxUploadSpeedKey);
+			Settings.InitialSeedingEnabled = Get <bool> (InitialSeedingKey, Settings.InitialSeedingEnabled);
+			Settings.UploadSlots = Get <int> (UploadSlotsKey, Settings.UploadSlots);
+			Settings.MaxConnections = Get <int> (MaxConnectionsKey, Settings.MaxConnections);
+			Settings.MaxDownloadSpeed = Get <int> (MaxDownloadSpeedKey, Settings.MaxDownloadSpeed);
+			Settings.MaxUploadSpeed = Get <int> (MaxUploadSpeedKey, Settings.MaxUploadSpeed);
 		}
 		
 		public override void Save ()
