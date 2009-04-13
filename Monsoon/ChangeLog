@@ -1,5 +1,10 @@
 2009-04-13  Alan McGovern  <alan.mcgovern@gmail.com>
 
+	* View/NatWidget.cs: Draw to an image instead of a drawing
+	surface for better performance.
+
+2009-04-13  Alan McGovern  <alan.mcgovern@gmail.com>
+
 	* Settings/GConfSettings.cs:
 	* Settings/GconfEngineSettingsController.cs:
 	* Settings/GconfTorrentSettingsController.cs:

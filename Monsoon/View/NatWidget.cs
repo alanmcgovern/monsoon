@@ -12,8 +12,11 @@ namespace Monsoon
 {
     [System.ComponentModel.Category("Monsoon")]
     [System.ComponentModel.ToolboxItemAttribute ("NatWidget")]
-    public class NatWidget : Gtk.DrawingArea
+    public class NatWidget : HBox
     {
+        const int Radius = 14;
+        const int Diameter = Radius * 2;
+        
         private DateTime lastIncoming;
         private bool portForwarded;
         private bool routerFound;
@@ -53,44 +56,38 @@ namespace Monsoon
                     Redraw ();
             }
         }
-        
+
+        Pixmap map;
+        Gtk.Image image;
         public NatWidget()
         {
-            this.ExposeEvent += Render;
+            map = new Pixmap (null, Diameter, Diameter, 24);
+            image = new Gtk.Image (map, null);
+            map.Colormap = Gdk.Colormap.System;
+            PackStart (image);
+            DoubleBuffered = true;
+            Redraw ();
         }
         
         private void Redraw ()
         {
-            int width, height;
-            
-            this.GdkWindow.GetSize (out width, out height);
-            this.GdkWindow.InvalidateRect (new Rectangle(0, 0, width, height), false);
-        }
-        
-        private void Render(object o, Gtk.ExposeEventArgs e)
-        {
             TooltipText = GetToolTip();
-            
-            using (Gdk.GC gc = new Gdk.GC (e.Event.Window))
+            using (Gdk.GC gc = new Gdk.GC (map))
             {
-                e.Event.Window.Clear ();
+                gc.Colormap = Gdk.Colormap.System;
                 
-                // Calculate center and radius of nat indicator
-                int r = (int)(Math.Min (e.Event.Area.Width, e.Event.Area.Height) * 0.5);
-                int x = (e.Event.Area.Width - r) / 2 ;
-                int y = (e.Event.Area.Height - r) / 2;
+                gc.RgbFgColor = new Color (255, 255, 255);
+                map.DrawRectangle (gc, true, 0, 0, Diameter, Diameter);
                 
                 // Paint a black ring
                 gc.RgbFgColor = new Color (0, 0, 0);
-                e.Event.Window.DrawArc (gc, true, x, y, r, r, 0, 360 * 64);
+                map.DrawArc (gc, true, Radius / 2, Radius / 2, Radius, Radius, 0, 360 * 64);
                 
                 // Paint the inner colour
-                r -= 2;
-                x += 1;
-                y += 1;
                 gc.RgbFgColor = GetColour ();
-                e.Event.Window.DrawArc (gc, true, x, y, r, r, 0, 360 * 64);
+                map.DrawArc (gc, true,  Radius / 2 + 1, Radius / 2 + 1, Radius - 2, Radius - 2, 0, 360 * 64);
             }
+            image.QueueDraw ();
         }
         
         private Color GetColour ()
