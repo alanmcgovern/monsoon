@@ -18,6 +18,13 @@ namespace Monsoon
 			if (h != null)
 				h (o, e);
 		}
+
+		internal static ButtonPressEventHandler Wrap (ButtonPressEventHandler h)
+		{
+			return delegate (object o, ButtonPressEventArgs e) {
+				h (o, e);
+			};
+		}
 		
 		internal static EventHandler Wrap (EventHandler h)
 		{

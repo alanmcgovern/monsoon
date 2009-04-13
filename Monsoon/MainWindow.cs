@@ -59,8 +59,8 @@ namespace Monsoon
 			get; private set;
 		}
 
-		private Button statusDownButton;
-		private Button statusUpButton;
+		private Label statusDownButton;
+		private Label statusUpButton;
 		
 		private	TorrentTreeView torrentTreeView;
 		
@@ -475,31 +475,50 @@ namespace Monsoon
 		{
 			statusToolbar.ShowArrow = false;	
 			statusToolbar.ToolbarStyle = ToolbarStyle.BothHoriz;
-			
-			// Empty expanded ToolItem to fake right aligning items
-			Label fillerLabel = new Label();
-            ToolItem fillerItem = new ToolItem();
-			fillerItem.Add(fillerLabel);
-			fillerItem.Expand = true;
-			
-            statusDownButton = new Button ();
-			statusDownButton.Relief = ReliefStyle.None;
-			statusDownButton.Image = Gtk.Image.NewFromIconName(Gtk.Stock.GoDown, IconSize.Menu);
-			
-            statusUpButton = new Button ();
-			statusUpButton.Relief = ReliefStyle.None;
-			statusUpButton.Image = Gtk.Image.NewFromIconName(Gtk.Stock.GoUp, IconSize.Menu);
-			
-			ToolItem uploadItem = new ToolItem();
-			uploadItem.Add(statusUpButton);
-			ToolItem downItem = new ToolItem();
-			downItem.Add(statusDownButton);
-			
-			statusToolbar.Insert(fillerItem, 0);
-			statusToolbar.Insert(downItem, 1);			
-			statusToolbar.Insert(uploadItem, 2);			
 
-            statusToolbar.ShowAll ();
+			SpeedLimitMenu menu = BuildSpeedsPopup ();
+			
+			SeparatorToolItem sep;
+			ToolItem item = new ToolItem ();
+			EventBox eventBox = new EventBox ();
+			HBox box = new HBox ();
+			statusDownButton = new Label ();
+			
+			box.Add (Gtk.Image.NewFromIconName(Gtk.Stock.GoDown, IconSize.Menu));
+			box.Add (statusDownButton);
+			eventBox.Child = box;
+			eventBox.ButtonPressEvent += Event.Wrap ((ButtonPressEventHandler) delegate(object o, ButtonPressEventArgs args) {
+				menu.ShowAll ();
+				menu.IsUpload = false;
+				menu.CalculateSpeeds (EngineSettings.GlobalMaxDownloadSpeed);
+				menu.Popup ();
+			});
+			item.Child = eventBox;
+			statusToolbar.Insert (item, 0);
+
+			sep = new SeparatorToolItem ();
+			sep.Draw = false;
+
+			statusToolbar.Insert (sep, 1);
+			
+			eventBox = new EventBox ();
+			box = new HBox ();
+			statusUpButton = new Label ();
+			
+			box.Add (Gtk.Image.NewFromIconName(Gtk.Stock.GoUp, IconSize.Menu));
+			box.Add (statusUpButton);
+			eventBox.Child = box;
+			eventBox.ButtonPressEvent += Event.Wrap ((ButtonPressEventHandler) delegate(object o, ButtonPressEventArgs args) {
+				menu.ShowAll ();
+				menu.IsUpload = true;
+				menu.CalculateSpeeds (EngineSettings.GlobalMaxUploadSpeed);
+				menu.Popup ();
+			});
+			item = new ToolItem ();
+			item.Child = eventBox;
+			statusToolbar.Insert (item, 2);
+
+			statusToolbar.ShowAll ();
 		}
 		
 		private void BuildFileTreeView ()
@@ -811,7 +830,7 @@ namespace Monsoon
 			else
 				limited = "[" + ByteConverter.ConvertSpeed (EngineSettings.GlobalMaxDownloadSpeed) + "]";
 			
-			statusDownButton.Label = string.Format("{0}{1}", limited,
+			statusDownButton.Text = string.Format("{0}{1}", limited,
 			                                           ByteConverter.ConvertSpeed(torrentController.Engine.TotalDownloadSpeed));
 			
 			if (EngineSettings.GlobalMaxUploadSpeed == 0)
@@ -819,7 +838,7 @@ namespace Monsoon
 			else
 				limited = string.Format("[{0}]", ByteConverter.ConvertSpeed (EngineSettings.GlobalMaxUploadSpeed));
 			
-			statusUpButton.Label = string.Format("{0}{1}", limited, 
+			statusUpButton.Text = string.Format("{0}{1}", limited, 
 			                                         ByteConverter.ConvertSpeed (torrentController.Engine.TotalUploadSpeed));
 		}
 		
@@ -1235,22 +1254,9 @@ namespace Monsoon
 			torrentUploadSlotSpinButton.SetRange(0, 300);
 		}
 		
-		private void BuildSpeedsPopup()
+		private SpeedLimitMenu BuildSpeedsPopup()
 		{
 			SpeedLimitMenu menu = new SpeedLimitMenu();
-			statusUpButton.Clicked += Event.Wrap ((EventHandler) delegate {
-				menu.ShowAll ();
-				menu.IsUpload = true;
-				menu.CalculateSpeeds (EngineSettings.GlobalMaxUploadSpeed);
-				menu.Popup ();
-			});
-			statusDownButton.Clicked += Event.Wrap ((EventHandler) delegate {
-				menu.ShowAll ();
-				menu.IsUpload = false;
-				menu.CalculateSpeeds (EngineSettings.GlobalMaxDownloadSpeed);
-				menu.Popup ();
-			});
-
 			menu.ClickedItem += Event.Wrap ((EventHandler) delegate (object sender, EventArgs e) {
 				menu.HideAll ();
 				
@@ -1264,7 +1270,9 @@ namespace Monsoon
 					EngineSettings.GlobalMaxDownloadSpeed = (int)newSpeed;
 				updateStatusBar ();
 			});
+			return menu;
 		}
+		
 		private void OnTorrentSettingsChanged (object sender, EventArgs args)
 		{
 			Download download = TorrentController.SelectedDownload;

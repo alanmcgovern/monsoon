@@ -1,5 +1,11 @@
 2009-04-13  Alan McGovern  <alan.mcgovern@gmail.com>
 
+	* MainWindow.cs:
+	* Model/Event.cs: Use a clickable label instead of a button
+	for the speeds popup. This fixes the tooltip issue in bug #
+
+2009-04-13  Alan McGovern  <alan.mcgovern@gmail.com>
+
 	* Settings/GConfInterfaceSettingsController.cs: Should set the
 	string value to gconf, not the actual enum value
 
