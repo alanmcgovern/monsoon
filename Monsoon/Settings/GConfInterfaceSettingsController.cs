@@ -82,7 +82,7 @@ namespace Monsoon
 			Set (SETTINGS_PATH + "windowYPos", Settings.WindowYPos);
 			Set (SETTINGS_PATH + "ShowLoadDialog", Settings.ShowLoadDialog);
 			if (Settings.ToolbarStyle.HasValue)
-				Set (ToolbarStyleKey, Settings.ToolbarStyle);
+				Set (ToolbarStyleKey, Settings.ToolbarStyle.Value.ToString ());
 			else
 				Set (ToolbarStyleKey, "null");
 			
