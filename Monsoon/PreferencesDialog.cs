@@ -49,7 +49,7 @@ namespace Monsoon
 		private LabelController labelController;
 		private LabelTreeView labelTreeView;
 		
-		private Egg.TrayIcon trayIcon;
+		private Gtk.StatusIcon trayIcon;
 		//private IconEntry selectIcon;
 		private string selectedIcon;
 		private Button selectButton;
@@ -151,11 +151,11 @@ namespace Monsoon
 		{
 			prefSettings.EnableTray = enableTrayCheckButton.Active;
 			if(!prefSettings.EnableTray){
-				trayIcon.HideAll();
+				trayIcon.Visible = false;
 				prefSettings.QuitOnClose = prefSettings.EnableTray;
 				minimizeTrayCheckButton.Active = prefSettings.EnableTray;
 			} else {
-				trayIcon.ShowAll();
+				trayIcon.Visible = true;
 			}
 
 			minimizeTrayCheckButton.Sensitive = prefSettings.EnableTray;

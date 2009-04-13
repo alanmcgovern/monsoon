@@ -1,6 +1,12 @@
 2009-04-13  Alan McGovern  <alan.mcgovern@gmail.com>
 
 	* MainWindow.cs:
+	* PreferencesDialog.cs: Switch from Egg.TrayIcon to
+	Gtk.StatusIcon
+
+2009-04-13  Alan McGovern  <alan.mcgovern@gmail.com>
+
+	* MainWindow.cs:
 	* Model/Event.cs: Use a clickable label instead of a button
 	for the speeds popup. This fixes the tooltip issue in bug #
 

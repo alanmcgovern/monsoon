@@ -83,7 +83,7 @@ namespace Monsoon
 		
 		private Menu trayMenu;
 		//private ImageMenuItem quitItem;
-		private Egg.TrayIcon trayIcon;
+		private Gtk.StatusIcon trayIcon;
 		
 		private RssManagerController rssManagerController;
 		
@@ -310,13 +310,12 @@ namespace Monsoon
 			});
 		}
 		
-		public Egg.TrayIcon TrayIcon {
+		public Gtk.StatusIcon TrayIcon {
 			get { return trayIcon; }
 		}
 		
 		private void BuildTray()
 		{
-			EventBox eventBox = new EventBox ();
 			trayMenu = new Menu ();
 			
 			ImageMenuItem quitItem = new ImageMenuItem (_("Quit"));
@@ -352,48 +351,28 @@ namespace Monsoon
 			trayMenu.Append (notifications);
 			trayMenu.Append (new SeparatorMenuItem());
 			trayMenu.Append (quitItem);
-			
-			eventBox.Add (new Image (Stock.GoDown, IconSize.Menu));
-			eventBox.ButtonPressEvent += OnTrayClicked;
-			trayIcon = new Egg.TrayIcon (Defines.ApplicationName);
-			trayIcon.Icon = new Image (Stock.Network, IconSize.Menu).Pixbuf;
-			trayIcon.Add (eventBox);
-			
-			Tooltips trayTip = new Tooltips();
-			
-			trayIcon.EnterNotifyEvent += Event.Wrap ((EnterNotifyEventHandler) delegate { 
-				trayTip.SetTip(trayIcon, "Monsoon - D: " + ByteConverter.ConvertSpeed(torrentController.Engine.TotalDownloadSpeed) +
-				               " U: " + ByteConverter.ConvertSpeed(torrentController.Engine.TotalUploadSpeed), null);
-			});
-			
-			if (Preferences.EnableTray)
-				trayIcon.ShowAll ();
-		}
-		
-		private void OnTrayClicked(object sender, ButtonPressEventArgs args)
-		{
-			Gdk.EventButton eventButton = args.Event;
-			
-			if(eventButton.Button == 1){
+
+			Gdk.Pixbuf image = Stetic.IconLoader.LoadIcon (this, Stock.GoDown, IconSize.SmallToolbar, 16);
+			trayIcon = new Gtk.StatusIcon (image);
+			TrayIcon.Activate += delegate {
 				if (Visible) {
 					int x, y;
 					GetPosition (out x, out y);
 					interfaceSettings.WindowXPos = x;
 					interfaceSettings.WindowYPos = y;
-					Hide();
 				} else {
-					Show();
 					Move (interfaceSettings.WindowXPos, interfaceSettings.WindowYPos);
 				}	
-			}
-			
-			if(eventButton.Button == 3){
-				// show context menu
+				Visible = !Visible;
+			};
+			TrayIcon.PopupMenu += delegate {
 				trayMenu.ShowAll ();
-				trayMenu.Popup();
-			}
+				trayMenu.Popup ();
+			};
+			TrayIcon.Tooltip = Defines.ApplicationName;
+			ShowAll ();
 		}
-		
+
 		private void LoadAllSettings ()
 		{
 			try
@@ -614,7 +593,7 @@ namespace Monsoon
 			try {
 				Notifications.Notification notify = new Notifications.Notification (_("Download Complete"), manager.Torrent.Name, Stock.GoDown);
 				if (Preferences.EnableTray)
-					notify.AttachToWidget (TrayIcon);
+					notify.Show ();
 				notify.Urgency = Notifications.Urgency.Low;
 				notify.Timeout = 5000;
 				notify.Show ();
@@ -840,6 +819,11 @@ namespace Monsoon
 			
 			statusUpButton.Text = string.Format("{0}{1}", limited, 
 			                                         ByteConverter.ConvertSpeed (torrentController.Engine.TotalUploadSpeed));
+
+			TrayIcon.Tooltip = string.Format ("{0} - D: {1} U: {2}",
+			                                  Defines.ApplicationName,
+			                                  ByteConverter.ConvertSpeed(torrentController.Engine.TotalDownloadSpeed),
+			                                  ByteConverter.ConvertSpeed(torrentController.Engine.TotalUploadSpeed));
 		}
 		
 		
