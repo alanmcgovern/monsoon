@@ -116,7 +116,6 @@ FILES =  \
 	LabelTreeView.cs \
 	libs/NotifySharp/Global.cs \
 	libs/NotifySharp/Notification.cs \
-	libs/TrayLib.cs \
 	ListenPortController.cs \
 	LoadTorrentDialog.cs \
 	Main.cs \

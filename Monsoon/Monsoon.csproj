@@ -49,7 +49,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>libs\Mono.Nat.dll</HintPath>
     </Reference>
-    <Reference Include="MonoTorrent, Version=0.70.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="MonoTorrent, Version=0.80.0.0, Culture=neutral, PublicKeyToken=null">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>libs\MonoTorrent.dll</HintPath>
     </Reference>
@@ -87,7 +87,6 @@
     <Compile Include="CellRendererPiece.cs" />
     <Compile Include="libs\NotifySharp\Global.cs" />
     <Compile Include="libs\NotifySharp\Notification.cs" />
-    <Compile Include="libs\TrayLib.cs" />
     <Compile Include="RssManager\RssManagerDialog.cs" />
     <Compile Include="RssManager\RssFilter.cs" />
     <Compile Include="RssManager\RssReader.cs" />
