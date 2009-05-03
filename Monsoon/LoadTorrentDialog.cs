@@ -45,7 +45,8 @@ namespace Monsoon
 			
 			this.lblName.Text = torrent.Name;
 			this.lblSize.Text = ByteConverter.ConvertSize (torrent.Size);
-			fileChooser.SetCurrentFolder(defaultPath);
+			if (!string.IsNullOrEmpty(defaultPath))
+				fileChooser.SetCurrentFolder(defaultPath);
 		}
 		
 		private void BuildColumns ()
