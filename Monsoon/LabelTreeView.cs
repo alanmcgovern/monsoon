@@ -64,14 +64,9 @@ namespace Monsoon
 			
 			buildColumns();
 			BuildContextMenu();
-			
-			Controller.Added += delegate(object sender, LabelEventArgs e) {
-				Add (e.Label);
-			};
-			
-			Controller.Removed += delegate(object sender, LabelEventArgs e) {
-				Remove (e.Label);
-			};
+
+            Controller.Added += LabelAdded;
+            Controller.Removed += LabelRemoved;
 
 			Selection.Changed += Event.Wrap (delegate(object sender, EventArgs e) {
 				TreeIter iter;
@@ -81,6 +76,25 @@ namespace Monsoon
 			
 			Controller.Labels.ForEach (Add);
 			Remove (Controller.Delete);
+		}
+
+        void LabelRemoved(object sender, LabelEventArgs e)
+        {
+            Remove(e.Label);
+        }
+
+        void LabelAdded(object sender, LabelEventArgs e)
+        {
+            Add(e.Label);
+        }
+
+        public override void Destroy()
+        {
+            foreach (TorrentLabel label in Controller.Labels)
+                Remove(label);
+            Controller.Added -= LabelAdded;
+            Controller.Removed -= LabelRemoved;
+            base.Destroy();
 		}
 		
 		void Add (TorrentLabel label)

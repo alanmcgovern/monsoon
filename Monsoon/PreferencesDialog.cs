@@ -442,7 +442,12 @@ namespace Monsoon
 			else
 				addLabelButton.Sensitive = true;
 		}
-		
+
+        public override void Destroy()
+        {
+            labelTreeView.Destroy();
+            base.Destroy();
+        }
 		private static string _(string s)
 		{
 			return Mono.Unix.Catalog.GetString(s);
