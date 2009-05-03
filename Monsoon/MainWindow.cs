@@ -98,11 +98,6 @@ namespace Monsoon
 		PreferencesSettings Preferences {
 			get { return SettingsManager.Preferences; }
 		}
-		public GconfSettingsStorage SettingsStorage {
-			get {
-				return GconfSettingsStorage.Instance;
-			}
-		}
 		
 		public InterfaceSettings InterfaceSettings {
 			get { return interfaceSettings; }
@@ -1124,7 +1119,9 @@ namespace Monsoon
 			int count = TorrentController.SelectedDownloads.Count;
 			removeTorrentButton.Sensitive = count != 0;
 			deleteTorrentButton.Sensitive = count != 0;
-			
+            gotoBottomAction.Sensitive = count == 1;
+            gotoTopAction.Sensitive = count == 1;
+
 			if (count == 0) {
 				startTorrentButton.Sensitive = false;
 				stopTorrentButton.Sensitive = false;
