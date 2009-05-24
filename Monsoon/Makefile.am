@@ -103,6 +103,7 @@ FILES =  \
 	Dbus/ICommandParser.cs \
 	Defines.cs \
 	EditColumnsDialog.cs \
+	Extensions/DhtExtension.cs \
 	FileTreeView.cs \
 	gtk-gui/generated.cs \
 	gtk-gui/Monsoon.CreateTorrentDialog.cs \
@@ -196,6 +197,7 @@ REFERENCES =  \
 	System.Xml \
 	$(NDESK_DBUS_GLIB_10_LIBS) \
 	Mono.Posix \
+	$(MONO_ADDINS_LIBS) \
 	$(GCONF_SHARP_20_LIBS) \
 	$(GTK_SHARP_20_LIBS) \
 	$(GLIB_SHARP_20_LIBS)

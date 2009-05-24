@@ -1,3 +1,14 @@
+2009-05-24  Alan McGovern  <amcgovern@novell.com>
+
+	* Defines.cs:
+	* Extensions:
+	* Makefile.am:
+	* Defines.cs.in:
+	* AssemblyInfo.cs:
+	* AssemblyInfo.cs.in:
+	* Extensions/DhtExtension.cs: Begin adding Mono.Addins support
+	to enable extensions to be developed against Monsoon.
+
 2009-04-13  Alan McGovern  <alan.mcgovern@gmail.com>
 
 	* View/NatWidget.cs: Draw to an image instead of a drawing

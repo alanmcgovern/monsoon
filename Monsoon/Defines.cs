@@ -20,6 +20,11 @@ namespace Monsoon
 				return "/usr/local";
 			}
 		}
+
+		public static string AddinPath
+		{
+			get { return Path.Combine(ApplicationDataDirectory, "Addins"); }
+		}
 		
 		public static string ApplicationName
 		{

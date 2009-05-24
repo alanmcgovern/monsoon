@@ -1,7 +1,8 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Mono.Addins;
 
-[assembly: AssemblyTitle("")]
+[assembly: AssemblyTitle("Monsoon")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
@@ -12,3 +13,4 @@ using System.Runtime.CompilerServices;
 
 // Major.Minor.Build.Revision
 [assembly: AssemblyVersion("0.20")]
+[assembly: Mono.Addins.AddinRoot ("Monsoon", "0.20")]
