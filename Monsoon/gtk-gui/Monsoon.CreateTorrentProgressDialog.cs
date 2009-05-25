@@ -34,7 +34,6 @@ namespace Monsoon {
             this.Title = Mono.Unix.Catalog.GetString("Creating Torrent");
             this.WindowPosition = ((Gtk.WindowPosition)(4));
             this.Modal = true;
-            this.HasSeparator = false;
             // Internal child Monsoon.CreateTorrentProgressDialog.VBox
             Gtk.VBox w1 = this.VBox;
             w1.Name = "dialog1_VBox";

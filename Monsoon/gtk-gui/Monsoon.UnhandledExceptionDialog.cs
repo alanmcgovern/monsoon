@@ -37,7 +37,6 @@ namespace Monsoon {
             this.Name = "Monsoon.UnhandledExceptionDialog";
             this.Title = Mono.Unix.Catalog.GetString("Monsoon - Unhandled Exception");
             this.WindowPosition = ((Gtk.WindowPosition)(4));
-            this.HasSeparator = false;
             // Internal child Monsoon.UnhandledExceptionDialog.VBox
             Gtk.VBox w1 = this.VBox;
             w1.Name = "dialog1_VBox";

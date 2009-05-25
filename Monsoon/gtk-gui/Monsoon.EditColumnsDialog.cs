@@ -28,7 +28,6 @@ namespace Monsoon {
             // Widget Monsoon.EditColumnsDialog
             this.Name = "Monsoon.EditColumnsDialog";
             this.WindowPosition = ((Gtk.WindowPosition)(4));
-            this.HasSeparator = false;
             // Internal child Monsoon.EditColumnsDialog.VBox
             Gtk.VBox w1 = this.VBox;
             w1.Name = "dialog1_VBox";

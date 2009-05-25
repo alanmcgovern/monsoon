@@ -1,3 +1,13 @@
+2009-05-25  Alan McGovern  <amcgovern@novell.com>
+
+	* gtk-gui/Monsoon.RssManagerDialog.cs:
+	* gtk-gui/Monsoon.LoadTorrentDialog.cs:
+	* gtk-gui/Monsoon.EditColumnsDialog.cs:
+	* gtk-gui/Monsoon.CreateTorrentDialog.cs:
+	* gtk-gui/Monsoon.UnhandledExceptionDialog.cs:
+	* gtk-gui/Monsoon.CreateTorrentProgressDialog.cs: regen files
+	in MD.
+
 2009-05-24  Alan McGovern  <amcgovern@novell.com>
 
 	* Defines.cs:
