@@ -51,6 +51,7 @@ PKG_CHECK_MODULES([NDESK_DBUS_GLIB_10], [ndesk-dbus-glib-1.0 >= 0.4])
 PKG_CHECK_MODULES([MONOTORRENT], [monotorrent = 0.80])
 PKG_CHECK_MODULES([MONONAT], [mono.nat >= 1.0.1])
 PKG_CHECK_MODULES([MONO_ADDINS], [mono-addins >= 0.4])
+PKG_CHECK_MODULES([MONO_ADDINS_GUI], [mono-addins-gui >= 0.4])
 
 # I18N
 AC_PROG_INTLTOOL([0.25])

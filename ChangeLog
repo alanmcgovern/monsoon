@@ -1,3 +1,7 @@
+2009-05-25  Alan McGovern  <amcgovern@novell.com>
+
+	* configure.ac: Add a dependency on Mono.Addins.Gui
+
 2009-05-24  Alan McGovern  <amcgovern@novell.com>
 
 	* configure.ac: Begin adding Mono.Addins support to enable

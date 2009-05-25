@@ -1,5 +1,9 @@
 2009-05-25  Alan McGovern  <amcgovern@novell.com>
 
+	* Makefile.am: Add a dependency on Mono.Addins.Gui
+
+2009-05-25  Alan McGovern  <amcgovern@novell.com>
+
 	* gtk-gui/gui.stetic: regen file in MD
 
 2009-05-25  Alan McGovern  <amcgovern@novell.com>
