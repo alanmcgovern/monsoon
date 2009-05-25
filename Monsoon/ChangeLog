@@ -1,5 +1,9 @@
 2009-05-25  Alan McGovern  <amcgovern@novell.com>
 
+	* gtk-gui/gui.stetic: regen file in MD
+
+2009-05-25  Alan McGovern  <amcgovern@novell.com>
+
 	* gtk-gui/Monsoon.RssManagerDialog.cs:
 	* gtk-gui/Monsoon.LoadTorrentDialog.cs:
 	* gtk-gui/Monsoon.EditColumnsDialog.cs:
