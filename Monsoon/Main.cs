@@ -40,6 +40,7 @@ using NLog;
 using NLog.Targets; 
 using NLog.Config; 
 using MonoTorrent.Client;
+using Mono.Addins;
 
 namespace Monsoon
 {
@@ -130,6 +131,7 @@ namespace Monsoon
 				logger.Error("Couldn't restore old settings: {0}", ex.Message);
 			}
 			
+			LoadAddins ();
 			try
 			{
 				Ticker.Tick();
@@ -236,6 +238,19 @@ namespace Monsoon
 				Directory.CreateDirectory(Defines.TorrentFolder);
 			}
 			
+		}
+		
+		void LoadAddins ()
+		{
+			try {
+				Ticker.Tick ();
+				AddinManager.Initialize (Defines.AddinPath);
+				AddinManager.Registry.Update (null);
+			} catch (Exception ex) {
+				logger.Error ("Could not load extensions: {0}", ex.Message);
+			} finally {
+				Ticker.Tock ("Mono.Addins Initialised");
+			}
 		}
 		
 		private static string _(string s)

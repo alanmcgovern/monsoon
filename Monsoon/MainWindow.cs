@@ -45,6 +45,8 @@ using MonoTorrent.Common;
 using MonoTorrent.Client;
 using MonoTorrent.BEncoding;
 using MonoTorrent.TorrentWatcher;
+using Mono.Addins;
+using Mono.Addins.Gui;
 
 
 namespace Monsoon
@@ -123,6 +125,8 @@ namespace Monsoon
 			Ticker.Tick ();
 			
 			Build ();
+			
+			AddInManagerAction.Activated += AddInManagerActionActivated;
 			
 			InitNatStatus ();
 			
@@ -226,6 +230,12 @@ namespace Monsoon
 			AddGConfListeners ();
 			updateToolBar ();
 			ShowAll();
+		}
+
+		void AddInManagerActionActivated (object sender, EventArgs e)
+		{
+			AddinManagerWindow.AllowInstall = true;
+			AddinManagerWindow.Run (this);
 		}
 
 		void AddGConfListeners ()

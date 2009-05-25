@@ -7,6 +7,7 @@
   <import>
     <widget-library name="gconf-sharp-peditors, Version=2.24.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
     <widget-library name="../bin/Release/Monsoon.exe" internal="true" />
+    <widget-library name="Mono.Addins.Gui, Version=0.4.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
   </import>
   <icon-factory>
     <icon-set id="rss">
@@ -201,6 +202,12 @@
         <property name="StockId">gtk-close</property>
         <signal name="Activated" handler="OnCloseActionActivated" />
       </action>
+      <action id="AddInManagerAction">
+        <property name="Type">Action</property>
+        <property name="Label" translatable="yes">_Add-in Manager</property>
+        <property name="ShortLabel" translatable="yes">_Add-in Manager</property>
+        <property name="StockId">gtk-properties</property>
+      </action>
     </action-group>
     <property name="MemberName" />
     <property name="Visible">False</property>
@@ -222,6 +229,7 @@
                 <node type="Menuitem" action="Quit" />
               </node>
               <node type="Menu" action="EditAction">
+                <node type="Menuitem" action="AddInManagerAction" />
                 <node type="Menuitem" action="preferences" />
               </node>
               <node type="Menu" action="ViewAction">

@@ -54,6 +54,8 @@
       <HintPath>libs\MonoTorrent.dll</HintPath>
     </Reference>
     <Reference Include="gconf-sharp, Version=2.12.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f" />
+    <Reference Include="Mono.Addins, Version=0.4.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
+    <Reference Include="Mono.Addins.Gui, Version=0.4.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">
@@ -143,6 +145,7 @@
     <Compile Include="Services\DownloadQueueService.cs" />
     <Compile Include="Model\State.cs" />
     <Compile Include="Model\StateChangedEventArgs.cs" />
+    <Compile Include="Extensions\DhtExtension.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\rss.png">

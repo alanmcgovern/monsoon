@@ -1,5 +1,14 @@
 2009-05-25  Alan McGovern  <amcgovern@novell.com>
 
+	* Main.cs:
+	* MainWindow.cs:
+	* Monsoon.csproj:
+	* gtk-gui/gui.stetic:
+	* gtk-gui/Monsoon.MainWindow.cs: Add a menubar item for addin
+	management and initialise the addins db on startup.
+
+2009-05-25  Alan McGovern  <amcgovern@novell.com>
+
 	* Makefile.am: Add a dependency on Mono.Addins.Gui
 
 2009-05-25  Alan McGovern  <amcgovern@novell.com>
