@@ -240,11 +240,34 @@ namespace Monsoon
 			
 		}
 		
+		void DhtChanged (object sender, ExtensionNodeEventArgs e)
+		{
+			try {
+				TorrentController controller = ServiceManager.Get <TorrentController> ();
+				if (e.Change == ExtensionChange.Add) {
+					TypeExtensionNode node = (TypeExtensionNode) e.ExtensionNode;
+					IDhtExtension dht = (IDhtExtension) node.GetInstance ();
+					if (dht.State == MonoTorrent.DhtState.NotReady)
+						dht.Start ();
+					
+					controller.Engine.RegisterDht (dht);
+					logger.Info ("DHT has been enabled");
+				} else {
+					logger.Warn ("DHT cannot be disabled on the fly");
+				}
+			} catch (Exception ex) {
+				logger.Error ("Failed to enable DHT: {0}", ex.Message);
+			}
+		}
+		
 		void LoadAddins ()
 		{
 			try {
 				Ticker.Tick ();
+				
+				// Initialise the addin manager and listen for DHT nodes to be attached
 				AddinManager.Initialize (Defines.AddinPath);
+				AddinManager.AddExtensionNodeHandler ("/monotorrent/dht", DhtChanged);
 				AddinManager.Registry.Update (null);
 			} catch (Exception ex) {
 				logger.Error ("Could not load extensions: {0}", ex.Message);
@@ -252,7 +275,7 @@ namespace Monsoon
 				Ticker.Tock ("Mono.Addins Initialised");
 			}
 		}
-		
+
 		private static string _(string s)
 		{
 			return Mono.Unix.Catalog.GetString(s);
