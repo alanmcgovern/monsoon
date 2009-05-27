@@ -1,5 +1,10 @@
 2009-05-28  Alan McGovern  <amcgovern@novell.com>
 
+	* Extensions/DhtExtension.cs: I suppose this should really be
+	/monsoon, not /monotorrent
+
+2009-05-28  Alan McGovern  <amcgovern@novell.com>
+
 	* Main.cs:
 	* Extensions/DhtExtension.cs: Implement the necessary
 	mono.addin foo to allow extensions to be loaded on the fly.

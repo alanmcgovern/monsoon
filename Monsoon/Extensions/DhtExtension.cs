@@ -6,7 +6,7 @@ using System.Net;
 
 namespace Monsoon
 {
-	[TypeExtensionPoint ("/monotorrent/dht")]
+	[TypeExtensionPoint ("/monsoon/dht")]
 	public interface IDhtExtension : MonoTorrent.IDhtEngine
 	{
 
