@@ -1,5 +1,10 @@
 2009-05-28  Alan McGovern  <amcgovern@novell.com>
 
+	* Extensions/DhtExtension.cs: Allow Dht extensions to supply a
+	ToolItem to display in the status bar.
+
+2009-05-28  Alan McGovern  <amcgovern@novell.com>
+
 	* Extensions/DhtExtension.cs: I suppose this should really be
 	/monsoon, not /monotorrent
 

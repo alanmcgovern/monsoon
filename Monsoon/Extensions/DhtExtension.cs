@@ -9,6 +9,6 @@ namespace Monsoon
 	[TypeExtensionPoint ("/monsoon/dht")]
 	public interface IDhtExtension : MonoTorrent.IDhtEngine
 	{
-
+		Gtk.ToolItem GetWidget ();
 	}
 }
