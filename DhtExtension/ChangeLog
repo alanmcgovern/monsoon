@@ -1,0 +1,7 @@
+2009-05-28  Alan McGovern  <amcgovern@novell.com>
+
+	* Dht.cs:
+	* AssemblyInfo.cs:
+	* DhtExtension.csproj: Commit the initial version of the dht
+	extension.
+
