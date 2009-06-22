@@ -1,5 +1,11 @@
 2009-06-23  Alan McGovern  <amcgovern@novell.com>
 
+	* Main.cs:
+	* MainWindow.cs: Allow extensions to add a status bar icon
+	too.
+
+2009-06-23  Alan McGovern  <amcgovern@novell.com>
+
 	* Makefile.am:
 	* Monsoon.csproj:
 	* OpenSSLSha1.cs:

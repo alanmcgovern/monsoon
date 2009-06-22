@@ -101,6 +101,10 @@ namespace Monsoon
 			get { return SettingsManager.Preferences; }
 		}
 		
+		public Toolbar StatusToolbar {
+			get { return statusToolbar; }
+		}
+		
 		public InterfaceSettings InterfaceSettings {
 			get { return interfaceSettings; }
 		}

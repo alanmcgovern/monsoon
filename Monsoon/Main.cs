@@ -131,7 +131,6 @@ namespace Monsoon
 				logger.Error("Couldn't restore old settings: {0}", ex.Message);
 			}
 			
-			LoadAddins ();
 			try
 			{
 				Ticker.Tick();
@@ -145,6 +144,8 @@ namespace Monsoon
 				Environment.Exit (0);
 			}
 
+			LoadAddins ();
+			
 			GLib.ExceptionManager.UnhandledException += new GLib.UnhandledExceptionHandler(OnUnhandledException);
 			
 			Ticker.Tock ("Total time:");
@@ -251,6 +252,16 @@ namespace Monsoon
 						dht.Start ();
 					
 					controller.Engine.RegisterDht (dht);
+					ToolItem w = dht.GetWidget ();
+					if (w != null) {
+						mainWindow.StatusToolbar.Insert (new SeparatorToolItem {
+							Draw = false,
+							WidthRequest = 10
+						}, 0);
+						mainWindow.StatusToolbar.Insert (w, 0);
+						
+						mainWindow.StatusToolbar.ShowAll ();
+					}
 					logger.Info ("DHT has been enabled");
 				} else {
 					logger.Warn ("DHT cannot be disabled on the fly");
@@ -267,7 +278,7 @@ namespace Monsoon
 				
 				// Initialise the addin manager and listen for DHT nodes to be attached
 				AddinManager.Initialize (Defines.AddinPath);
-				AddinManager.AddExtensionNodeHandler ("/monotorrent/dht", DhtChanged);
+				AddinManager.AddExtensionNodeHandler ("/monsoon/dht", DhtChanged);
 				AddinManager.Registry.Update (null);
 			} catch (Exception ex) {
 				logger.Error ("Could not load extensions: {0}", ex.Message);
