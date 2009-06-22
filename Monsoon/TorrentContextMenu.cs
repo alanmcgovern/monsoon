@@ -168,7 +168,7 @@ namespace Monsoon
 					selectedTorrent.Stop();
 				}
 				Console.WriteLine ("Checking");
-				selectedTorrent.Manager.HashCheck(false);
+				selectedTorrent.HashCheck();
 				Console.WriteLine ("called it");
 			} catch(Exception){
 				logger.Warn("Unable to force re-hash on " + selectedTorrent.Manager.Torrent.Name);

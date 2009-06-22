@@ -139,6 +139,7 @@ namespace Monsoon
 						break;
 					case TorrentState.Stopped:
 						State = State.Stopped;
+						Active = false;
 						break;
 					}
 				});
@@ -163,6 +164,12 @@ namespace Monsoon
 				return;
 			
 			swarmSpeed.AddDelta (manager.Torrent.PieceLength);
+		}
+		
+		public void HashCheck ()
+		{
+			Active = true;
+			manager.HashCheck (false);
 		}
 		
 		public void Pause ()

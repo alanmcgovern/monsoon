@@ -1,5 +1,11 @@
 2009-06-23  Alan McGovern  <amcgovern@novell.com>
 
+	* Model/Download.cs:
+	* TorrentContextMenu.cs: HashChecking the torrent should mark
+	it as active.
+
+2009-06-23  Alan McGovern  <amcgovern@novell.com>
+
 	* Main.cs:
 	* MainWindow.cs: Allow extensions to add a status bar icon
 	too.
