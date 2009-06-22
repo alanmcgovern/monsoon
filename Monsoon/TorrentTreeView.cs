@@ -337,7 +337,7 @@ namespace Monsoon
 			}
 		}
 		
-		void UpdateAll ()
+		public void UpdateAll ()
 		{
 			TreeIter iter;
 			if (Torrents.GetIterFirst (out iter)) {

@@ -1015,11 +1015,7 @@ namespace Monsoon
 			TreeIter iter;
 				
 			// Update TreeView
-			if (torrentTreeView.Model != null && torrentTreeView.Model.GetIterFirst (out iter)) {
-				do {
-					torrentTreeView.Model.EmitRowChanged (torrentTreeView.Model.GetPath (iter), iter);
-				} while (torrentTreeView.Model.IterNext (ref iter));
-			}
+			torrentTreeView.UpdateAll ();
 			
 			// Update General Page
 			updateGeneralPage ();

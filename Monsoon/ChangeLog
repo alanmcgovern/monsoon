@@ -1,5 +1,11 @@
 2009-06-23  Alan McGovern  <amcgovern@novell.com>
 
+	* MainWindow.cs:
+	* TorrentTreeView.cs: Update the treeview correctly with the
+	new API
+
+2009-06-23  Alan McGovern  <amcgovern@novell.com>
+
 	* Model/Download.cs:
 	* TorrentContextMenu.cs: HashChecking the torrent should mark
 	it as active.
