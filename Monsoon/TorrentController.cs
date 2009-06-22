@@ -37,6 +37,7 @@ using System.Collections;
 using System.Threading;
 using System.Xml.Serialization;
 using MonoTorrent.TorrentWatcher;
+using System.Security.Cryptography;
 
 namespace Monsoon
 {
@@ -189,7 +190,7 @@ namespace Monsoon
 		// TODO: Refactor all of these functions!!!
 		public Download addTorrent(Torrent torrent)
 		{
-			return addTorrent(torrent, SettingsManager.Preferences.StartNewTorrents);
+			return addTorrent(torrent, SettingsManager.EngineSettings.SavePath, SettingsManager.Preferences.StartNewTorrents);
 		}
 		
 		public Download addTorrent (Torrent torrent, string savePath)
@@ -197,9 +198,9 @@ namespace Monsoon
 			return addTorrent(torrent, SettingsManager.Preferences.StartNewTorrents, SettingsManager.Preferences.RemoveOnImport, null, savePath, false);
 		}
 		
-		public Download addTorrent(Torrent torrent, bool startTorrent)
+		public Download addTorrent(Torrent torrent, string savePath, bool startTorrent)
 		{
-			return addTorrent(torrent, startTorrent, SettingsManager.Preferences.RemoveOnImport, null);
+			return addTorrent(torrent, startTorrent, SettingsManager.Preferences.RemoveOnImport, null, savePath, false);
 		}
 		public Download addTorrent(Torrent torrent, bool startTorrent, bool removeOriginal, TorrentSettings savedSettings)
 		{

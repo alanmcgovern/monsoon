@@ -1,3 +1,10 @@
+2009-06-23  Alan McGovern  <amcgovern@novell.com>
+
+	* TorrentController.cs:
+	* CreateTorrentDialog.cs: Ensure the torrent created callback
+	is invoked on the GTK main loop to prevent random crash. Also
+	fix the auto-seeding, the correct path is used now.
+
 2009-05-28  Alan McGovern  <amcgovern@novell.com>
 
 	* Extensions/DhtExtension.cs: Allow Dht extensions to supply a

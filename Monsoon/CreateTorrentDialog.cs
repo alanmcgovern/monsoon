@@ -209,7 +209,12 @@ namespace Monsoon
 					return false;
 				});
 			};
-			TorrentCreatorAsyncResult creatorResult = creator.BeginCreate(null, BeginCreateCb);
+			TorrentCreatorAsyncResult creatorResult = creator.BeginCreate(null, delegate (IAsyncResult r) {
+				GLib.Idle.Add (delegate {
+					BeginCreateCb (r);
+					return false;
+				});
+			});
 			
 			ResponseType cancelResult = (ResponseType) progressDialog.Run();
 			if(cancelResult == ResponseType.Cancel){
@@ -247,7 +252,7 @@ namespace Monsoon
 					bf.Not();
 					MonoTorrent.Client.FastResume fresume = new MonoTorrent.Client.FastResume (t.InfoHash, bf, new List<MonoTorrent.Client.Peer>());
 					torrentController.FastResume.Add(fresume);
-					torrentController.addTorrent(t, startSeedingCheckBox.Active);
+					torrentController.addTorrent(t, System.IO.Path.GetDirectoryName (SavePath), startSeedingCheckBox.Active);
 				}
 				logger.Debug("Torrent file created");
 			}catch(Exception e){
