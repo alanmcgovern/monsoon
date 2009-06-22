@@ -73,6 +73,21 @@ namespace Monsoon
 		private static NLog.Logger logger = MainClass.DebugEnabled ? NLog.LogManager.GetCurrentClassLogger () : new EmptyLogger ();
 		
 		TorrentSettings defaultTorrentSettings;
+		
+		static TorrentController ()
+		{
+			try {
+				using (OpenSSLSha1 native = new OpenSSLSha1 ()) {
+					native.ComputeHash (new byte[1024]);
+					HashAlgoFactory.Register (typeof (SHA1), typeof (SHA1CryptoServiceProvider));
+					logger.Debug ("Using OpenSSL for SHA1 hashing");
+				}
+			} catch {
+				// If an exception occurs it means that the native SHA1 function is unusable
+				// so don't register it then
+			}
+		}
+		
 		public TorrentController()
 		{
 			this.defaultTorrentSettings = SettingsManager.DefaultTorrentSettings;

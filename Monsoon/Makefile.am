@@ -5,7 +5,7 @@ EXTRA_DIST = $(NLOG_DLL_SOURCE)
 
 if ENABLE_DEBUG
 ASSEMBLY_COMPILER_COMMAND = gmcs
-ASSEMBLY_COMPILER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -optimize+ -debug -define:DEBUG
+ASSEMBLY_COMPILER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -optimize+ -debug -define:DEBUG -unsafe
 ASSEMBLY = bin/Debug/Monsoon.exe
 ASSEMBLY_MDB = $(ASSEMBLY).mdb
 COMPILE_TARGET = exe
@@ -28,7 +28,7 @@ endif
 
 if ENABLE_RELEASE
 ASSEMBLY_COMPILER_COMMAND = gmcs
-ASSEMBLY_COMPILER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -optimize+ -debug
+ASSEMBLY_COMPILER_FLAGS =  -noconfig -codepage:utf8 -warn:4 -optimize+ -debug -unsafe
 ASSEMBLY = bin/Release/Monsoon.exe
 ASSEMBLY_MDB = 
 COMPILE_TARGET = exe
@@ -134,6 +134,7 @@ FILES =  \
 	Model/State.cs \
 	Model/StateChangedEventArgs.cs \
 	Model/TorrentFileModel.cs \
+	OpenSSLSha1.cs \
 	PeerTreeView.cs \
 	PiecesTreeView.cs \
 	PreferencesDialog.cs \

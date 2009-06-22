@@ -19,6 +19,7 @@
     <WarningLevel>4</WarningLevel>
     <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
     <AssemblyKeyFile>.</AssemblyKeyFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -28,6 +29,7 @@
     <WarningLevel>4</WarningLevel>
     <AssemblyKeyFile>.</AssemblyKeyFile>
     <Commandlineparameters>-d</Commandlineparameters>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -146,6 +148,7 @@
     <Compile Include="Model\State.cs" />
     <Compile Include="Model\StateChangedEventArgs.cs" />
     <Compile Include="Extensions\DhtExtension.cs" />
+    <Compile Include="OpenSSLSha1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icons\rss.png">

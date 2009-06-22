@@ -1,5 +1,14 @@
 2009-06-23  Alan McGovern  <amcgovern@novell.com>
 
+	* Makefile.am:
+	* Monsoon.csproj:
+	* OpenSSLSha1.cs:
+	* TorrentController.cs: Monsoon will use openssh for sha1
+	hashing if it is available, otherwise fall back to the
+	standard hash function.
+
+2009-06-23  Alan McGovern  <amcgovern@novell.com>
+
 	* TorrentController.cs:
 	* CreateTorrentDialog.cs: Ensure the torrent created callback
 	is invoked on the GTK main loop to prevent random crash. Also
