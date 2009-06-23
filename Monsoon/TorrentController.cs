@@ -76,6 +76,8 @@ namespace Monsoon
 		
 		static TorrentController ()
 		{
+			// The OpenSSL binding incorrectly maps 'size_t' to a C# long
+			return;
 			try {
 				using (OpenSSLSha1 native = new OpenSSLSha1 ()) {
 					native.ComputeHash (new byte[1024]);
