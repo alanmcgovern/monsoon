@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monsoon", "Monsoon\Monsoon.csproj", "{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DhtExtension", "DhtExtension\DhtExtension.csproj", "{21BBF2C6-11F3-4006-BA93-E9C8A980AE74}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,6 +12,12 @@ Global
 		Stats|Any CPU = Stats|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21BBF2C6-11F3-4006-BA93-E9C8A980AE74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21BBF2C6-11F3-4006-BA93-E9C8A980AE74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21BBF2C6-11F3-4006-BA93-E9C8A980AE74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21BBF2C6-11F3-4006-BA93-E9C8A980AE74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21BBF2C6-11F3-4006-BA93-E9C8A980AE74}.Stats|Any CPU.ActiveCfg = Stats|Any CPU
+		{21BBF2C6-11F3-4006-BA93-E9C8A980AE74}.Stats|Any CPU.Build.0 = Stats|Any CPU
 		{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -18,10 +26,10 @@ Global
 		{73EA8DDD-A84A-4796-8DAC-31D9BEF28024}.Stats|Any CPU.Build.0 = Stats|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		name = Monsoon
 		version = 0.1
 		StartupItem = Monsoon\Monsoon.csproj
 		MonoDevelop.ChangeLogAddIn.ChangeLogInfo = $0
 		$0.policy = OneChangeLogInProjectRootDirectory
+		name = Monsoon
 	EndGlobalSection
 EndGlobal
