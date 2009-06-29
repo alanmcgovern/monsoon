@@ -1,5 +1,15 @@
 2009-06-30  Alan McGovern  <amcgovern@novell.com>
 
+	* MainWindow.cs:
+	* Model/Download.cs:
+	* TorrentController.cs: Ensure the correct path is
+	saved/restored when persisting torrent data.
+
+	* CreateTorrentDialog.cs: Ensure the correct paths are used
+	when loading a torrent directly for seeding
+
+2009-06-30  Alan McGovern  <amcgovern@novell.com>
+
 	* TorrentController.cs: Restore the old save path so that
 	torrents downloading to a non-default folder are restored
 	correctly.

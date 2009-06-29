@@ -243,7 +243,7 @@ namespace Monsoon
 			TorrentSettings settings = savedSettings ?? defaultTorrentSettings.Clone ();
 			FastResume resume = this.fastResume.Find(delegate (FastResume f) { return f.Infohash == torrent.InfoHash; });
 
-			manager = new Download(new TorrentManager (torrent, savePath, settings));
+			manager = new Download(savePath, new TorrentManager (torrent, savePath, settings));
 			if (resume != null)
 				manager.Manager.LoadFastResume (resume);
 					

@@ -78,7 +78,7 @@ namespace Monsoon
 		}
 		
 		public string SavePath {
-			get { return manager.SavePath; }
+			get; private set;
 		}
 		
 		public int Seeds {
@@ -105,16 +105,17 @@ namespace Monsoon
 			get { return manager.Monitor.UploadSpeed; }
 		}
 		
-		public Download (TorrentManager manager)
+		public Download (string savePath, TorrentManager manager)
 		{
 			this.manager = manager;
 			this.swarmSpeed = new SpeedMonitor (30);
+			SavePath = savePath;
 			
 			GLib.Timeout.Add (1000, delegate {
 				swarmSpeed.Tick ();
 				return true;
 			});
-
+			
 			manager.PieceHashed += delegate (object sender, PieceHashedEventArgs e) {
 				hashProgress = (double) e.PieceIndex / manager.Torrent.Pieces.Count;
 			};

@@ -247,16 +247,22 @@ namespace Monsoon
 				System.IO.File.WriteAllBytes(p, dict.Encode());
 				if(startSeedingCheckBox.Active)
 				{
-					Torrent t = Torrent.Load(savePathChooser.Filename);
+					Torrent t = Torrent.Load(p);
 					BitField bf = new BitField(t.Pieces.Count);
 					bf.Not();
 					MonoTorrent.Client.FastResume fresume = new MonoTorrent.Client.FastResume (t.InfoHash, bf, new List<MonoTorrent.Client.Peer>());
 					torrentController.FastResume.Add(fresume);
-					torrentController.addTorrent(t, System.IO.Path.GetDirectoryName (SavePath), startSeedingCheckBox.Active);
+					string savePath;
+					if (newTorrentLocationButton.Action == FileChooserAction.SelectFolder) {
+						savePath = SavePath.Substring (0, SavePath.LastIndexOf ('/'));
+					} else {
+						savePath = System.IO.Path.GetDirectoryName (SavePath);
+					}
+					torrentController.addTorrent(t, savePath, startSeedingCheckBox.Active);
 				}
 				logger.Debug("Torrent file created");
 			}catch(Exception e){
-				logger.Error("Failed to create torrent - " + e.Message);
+				logger.Error("Failed to create torrent - " + e.ToString ());
 			}
 		}
 
