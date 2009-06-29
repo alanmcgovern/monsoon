@@ -409,7 +409,7 @@ namespace Monsoon
 			foreach(TorrentStorage torrentStore in torrents){
 				try{
 					Torrent t = Torrent.Load (torrentStore.TorrentPath);
-					manager = addTorrent(t, false, false, torrentStore.Settings);
+					manager = addTorrent(t, false, false, torrentStore.Settings, torrentStore.SavePath, false);
 				} catch (TorrentException e) {
 					logger.Error(e.Message);
 					continue;
