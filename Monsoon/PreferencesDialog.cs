@@ -273,7 +273,7 @@ namespace Monsoon
 			foldersTable.Attach(downloadLocationButton, 1, 2, 0, 1);
 			downloadLocationButton.Show();
 			
-			torrentStorageLocationButton = new FileChooserButton(_("Torrage storage location"), FileChooserAction.SelectFolder);
+			torrentStorageLocationButton = new FileChooserButton(_("Torrent storage location"), FileChooserAction.SelectFolder);
 			
 			torrentStorageLocationButton.SetCurrentFolder(prefSettings.TorrentStorageLocation);
 			
