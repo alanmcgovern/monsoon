@@ -1,0 +1,918 @@
+# Russian translation for monsoon
+# Copyright (C) 2010 Gankov Andrey
+# This file is distributed under the same license as the Monsoon package.
+# Gankov Andrey <gav@qsolution.ru>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Monsoon 0.21\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-11-03 21:09+0300\n"
+"PO-Revision-Date: 2010-11-05 16:49+0300\n"
+"Last-Translator: Gankov Andrey <gav@qsolution.ru>\n"
+"Language-Team: Russian <opensuse-translation-ru@opensuse.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
+#: ../Monsoon/AboutDialog.cs:61
+msgid "Bulgarian - Ventsislav Mladenov"
+msgstr "Болгарский - Ventsislav Mladenov"
+
+#: ../Monsoon/AboutDialog.cs:62
+msgid "Dutch - Freek de Kruijf"
+msgstr "Нидерландский - Freek de Kruijf"
+
+#: ../Monsoon/AboutDialog.cs:63
+msgid "French - Olivier Dufour"
+msgstr "Французский - Olivier Dufour"
+
+#: ../Monsoon/AboutDialog.cs:64
+msgid "German - Mirco Bauer <meebey@meebey.net>"
+msgstr "Немецкий - Mirco Bauer <meebey@meebey.net>"
+
+#: ../Monsoon/AboutDialog.cs:65
+msgid "Italian - Alberto Passalacqua"
+msgstr "Итальянский - Alberto Passalacqua"
+
+#: ../Monsoon/AboutDialog.cs:66
+msgid "Spanish - Mario Sopena"
+msgstr "Испанский - Mario Sopena"
+
+#: ../Monsoon/CreateTorrentDialog.cs:57
+msgid "Select file"
+msgstr "Выберете файл"
+
+#: ../Monsoon/CreateTorrentDialog.cs:93
+msgid "Trackers"
+msgstr "Трекеры"
+
+#: ../Monsoon/CreateTorrentDialog.cs:175
+msgid "Save Torrent As..."
+msgstr "Сохранить торрент как..."
+
+#: ../Monsoon/EditColumnsDialog.cs:42
+msgid "Edit columns"
+msgstr "Настройка колонок"
+
+#: ../Monsoon/FileTreeView.cs:77
+msgid "Filename"
+msgstr "Имя файла"
+
+#: ../Monsoon/FileTreeView.cs:78
+msgid "Progress"
+msgstr "Выполнено"
+
+#: ../Monsoon/FileTreeView.cs:100
+msgid "High"
+msgstr "Высокий"
+
+#: ../Monsoon/FileTreeView.cs:101
+msgid "Highest"
+msgstr "Очень высокий"
+
+#: ../Monsoon/FileTreeView.cs:102
+msgid "Immediate"
+msgstr "Скачивать незамедлительно"
+
+#: ../Monsoon/FileTreeView.cs:103
+msgid "Low"
+msgstr "Низкий"
+
+#: ../Monsoon/FileTreeView.cs:104
+msgid "Lowest"
+msgstr "Очень низкий"
+
+#: ../Monsoon/FileTreeView.cs:105
+msgid "Normal"
+msgstr "Нормальный"
+
+#: ../Monsoon/FileTreeView.cs:106
+msgid "Do Not Download"
+msgstr "Не скачивать"
+
+#: ../Monsoon/LabelTreeView.cs:175
+msgid "Create"
+msgstr "Создать"
+
+#: ../Monsoon/LabelTreeView.cs:178
+msgid "New Label"
+msgstr "Новая категория"
+
+#: ../Monsoon/LabelTreeView.cs:182 ../Monsoon/TorrentContextMenu.cs:58
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:264
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:998
+msgid "Remove"
+msgstr "Удалить"
+
+#. PR_SET_NAME
+#: ../Monsoon/Main.cs:185
+msgid "Error setting process name: "
+msgstr "Имя процесса для отслеживания ошибок: "
+
+#: ../Monsoon/MainWindow.cs:265
+msgid "Delete torrent"
+msgstr "Удалить торрент"
+
+#: ../Monsoon/MainWindow.cs:266
+msgid "Remove torrent and delete all data?"
+msgstr "Удалить торрент и удалить все данные?"
+
+#: ../Monsoon/MainWindow.cs:268
+msgid "Remove torrent"
+msgstr "Удалить торрент"
+
+#: ../Monsoon/MainWindow.cs:269
+msgid "Are you sure you want to remove the torrent?"
+msgstr "Вы уверены что хотите удалить торрент?"
+
+#: ../Monsoon/MainWindow.cs:330 ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:244
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:245
+msgid "Quit"
+msgstr "Выход"
+
+#: ../Monsoon/MainWindow.cs:337
+msgid "Stop All"
+msgstr "Остановить все"
+
+#: ../Monsoon/MainWindow.cs:344
+msgid "Start All"
+msgstr "Запустить все"
+
+#: ../Monsoon/MainWindow.cs:351
+msgid "Show Notifications"
+msgstr "Показывать уведомления"
+
+#: ../Monsoon/MainWindow.cs:607
+msgid "Download Complete"
+msgstr "Загрузка завершена"
+
+#: ../Monsoon/MainWindow.cs:989
+msgid "Open torrent(s)"
+msgstr "Открыть торрент(ы)"
+
+#: ../Monsoon/MainWindow.cs:991
+msgid "Torrent files"
+msgstr "Торрент файлы"
+
+#: ../Monsoon/MainWindow.cs:994
+msgid "All files"
+msgstr "Все файлы"
+
+#: ../Monsoon/MainWindow.cs:1156 ../Monsoon/TorrentContextMenu.cs:113
+msgid "Pause"
+msgstr "Пауза"
+
+#: ../Monsoon/MainWindow.cs:1159 ../Monsoon/TorrentContextMenu.cs:119
+msgid "Start"
+msgstr "Запуск"
+
+#: ../Monsoon/Menus/SpeedLimitMenu.cs:55
+msgid "Unlimited"
+msgstr "Неограничена"
+
+#: ../Monsoon/PeerTreeView.cs:64
+msgid "IP Address"
+msgstr "IP адрес"
+
+#: ../Monsoon/PeerTreeView.cs:65
+msgid "Client"
+msgstr "Клиент"
+
+#: ../Monsoon/PeerTreeView.cs:66 ../Monsoon/TorrentTreeView.cs:60
+msgid "DL Speed"
+msgstr "Скорость приема"
+
+#: ../Monsoon/PeerTreeView.cs:67
+msgid "UP Speed"
+msgstr "Скорость раздачи"
+
+#: ../Monsoon/PeerTreeView.cs:68
+msgid "Seeding"
+msgstr "Раздача"
+
+#: ../Monsoon/PeerTreeView.cs:69
+msgid "Interested"
+msgstr "Полезный"
+
+#: ../Monsoon/PreferencesDialog.cs:92
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:849
+msgid "Queue"
+msgstr "Очередь"
+
+#: ../Monsoon/PreferencesDialog.cs:106
+msgid "Toolbar Style"
+msgstr "Стиль панели инструментов"
+
+#. iconButton.Image = new Gtk.Image(Gtk.IconTheme.Default.LoadIcon("gtk-about", 32, 0));
+#. iconButton.Sensitive = true;
+#.
+#. selectIcon = new IconEntry("", "Select an Icon");
+#. iconEntryBox.Add(selectIcon);
+#. selectIcon.ShowAll();
+#.
+#: ../Monsoon/PreferencesDialog.cs:244
+msgid "Browse Icon"
+msgstr "Выбрать значок"
+
+#: ../Monsoon/PreferencesDialog.cs:269
+msgid "Download location"
+msgstr "Папка для приема"
+
+#: ../Monsoon/PreferencesDialog.cs:276
+msgid "Torrage storage location"
+msgstr "Папка для торрент-файлов"
+
+#: ../Monsoon/PreferencesDialog.cs:287
+msgid "Import folder to scan"
+msgstr "Папка для импорта торрент файлов"
+
+#: ../Monsoon/PreferencesDialog.cs:377
+msgid "Select an Icon"
+msgstr "Выберете значок"
+
+#. completedColumn = new TreeViewColumn();
+#. I18N: number of / amount
+#: ../Monsoon/PiecesTreeView.cs:55
+msgid "#"
+msgstr "#"
+
+#: ../Monsoon/PiecesTreeView.cs:56 ../Monsoon/TorrentTreeView.cs:63
+msgid "Size"
+msgstr "Размер"
+
+#: ../Monsoon/PiecesTreeView.cs:57
+msgid "# of Blocks"
+msgstr "# блоков"
+
+#: ../Monsoon/PiecesTreeView.cs:58
+msgid "Blocks"
+msgstr "Блоки"
+
+#: ../Monsoon/RssManager/RssFilter.cs:44
+msgid "New Filter"
+msgstr "Новый фильтр"
+
+#: ../Monsoon/RssManager/RssFilter.cs:56
+#: ../Monsoon/RssManager/RssManagerDialog.cs:134
+msgid "All"
+msgstr "Все"
+
+#: ../Monsoon/RssManager/RssManagerDialog.cs:139
+msgid "Filter"
+msgstr "Фильтр"
+
+#: ../Monsoon/RssManager/RssManagerDialog.cs:148
+msgid "Select a Save Path"
+msgstr "Выберете папку для сохранения"
+
+#: ../Monsoon/RssManager/RssManagerDialog.cs:186
+#: ../Monsoon/RssManager/RssManagerDialog.cs:292
+msgid "Item"
+msgstr "Заметка"
+
+#: ../Monsoon/RssManager/RssManagerDialog.cs:229
+msgid "Download"
+msgstr "Загрузить"
+
+#: ../Monsoon/TorrentContextMenu.cs:55
+msgid "Open"
+msgstr "Открыть"
+
+#: ../Monsoon/TorrentContextMenu.cs:56
+msgid "Start/Pause"
+msgstr "Запуск/Пауза"
+
+#: ../Monsoon/TorrentContextMenu.cs:57
+msgid "Stop"
+msgstr "Остановить"
+
+#: ../Monsoon/TorrentContextMenu.cs:59
+msgid "Delete"
+msgstr "Удалить"
+
+#: ../Monsoon/TorrentContextMenu.cs:60
+msgid "Force Re-_check"
+msgstr "_Перепроверить"
+
+#. ImageMenuItem hashItem  = new ImageMenuItem(_("Force Re-_hash"));
+#: ../Monsoon/TorrentContextMenu.cs:62
+msgid "Force _announce"
+msgstr "_Опубликовать"
+
+#: ../Monsoon/TorrentContextMenu.cs:116
+msgid "Resume"
+msgstr "Возобновить"
+
+#: ../Monsoon/TorrentController.cs:173
+msgid "Invalid torrent selected"
+msgstr "Выбран неработоспособный торрент"
+
+#: ../Monsoon/TorrentController.cs:178
+msgid "Torrent has already been added"
+msgstr "Торрент уже добавлен"
+
+#: ../Monsoon/TorrentController.cs:201
+#, csharp-format
+msgid "An unexpected error occured while loading the torrent. {0}"
+msgstr "Во время загрузки торрента произошла ошибка. {0}"
+
+#: ../Monsoon/TorrentTreeView.cs:54
+msgid "Name"
+msgstr "Название"
+
+#: ../Monsoon/TorrentTreeView.cs:55
+msgid "Status"
+msgstr "Состояние"
+
+#: ../Monsoon/TorrentTreeView.cs:56
+msgid "Done"
+msgstr "Выполнено"
+
+#: ../Monsoon/TorrentTreeView.cs:57
+msgid "Seeds"
+msgstr "Сиды"
+
+#: ../Monsoon/TorrentTreeView.cs:58
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:832
+msgid "Peers"
+msgstr "Пиры"
+
+#: ../Monsoon/TorrentTreeView.cs:59
+msgid "Priority"
+msgstr "Приоритет"
+
+#: ../Monsoon/TorrentTreeView.cs:61
+msgid "UP speed"
+msgstr "Скорость отдачи"
+
+#: ../Monsoon/TorrentTreeView.cs:62
+msgid "Ratio"
+msgstr "Рейтинг"
+
+#: ../Monsoon/TorrentTreeView.cs:64
+msgid "ETA"
+msgstr "Осталось"
+
+#: ../Monsoon/TorrentTreeView.cs:423
+msgid "Queued"
+msgstr "В очереди"
+
+#: ../Monsoon/UnhandledExceptionDialog.cs:47
+#, csharp-format
+msgid ""
+"An unhandled exception has been encountered:\n"
+"{0}"
+msgstr ""
+"Произошла необработанная исключительная ситуация:\n"
+"{0}"
+
+#: ../Monsoon/View/NatWidget.cs:108
+msgid "OK"
+msgstr "OK"
+
+#: ../Monsoon/View/NatWidget.cs:111
+msgid "No incoming connections received"
+msgstr "Не получено входящих соединений"
+
+#: ../Monsoon/View/NatWidget.cs:114
+msgid "Problem forwarding port"
+msgstr "Проблема с пере-направлением портов"
+
+#: ../Monsoon/View/NatWidget.cs:117
+msgid "No upnp/nat-pmp enabled router detected"
+msgstr "UPnP не работает/nat-pmp включен, обнаружен маршрутизатор"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:229
+msgid "_File"
+msgstr "_Файл"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:230
+msgid "File"
+msgstr "Файл"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:232
+msgid "_Edit"
+msgstr "_Правка"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:233
+msgid "Edit"
+msgstr "Правка"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:235
+msgid "_View"
+msgstr "_Вид"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:236
+msgid "View"
+msgstr "Вид"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:238
+msgid "_Help"
+msgstr "_Справка"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:239
+msgid "Help"
+msgstr "Справка"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:241
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:242
+msgid "_About"
+msgstr "_О программе"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:247
+msgid "Stop the torrent"
+msgstr "Остановить торрент"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:250
+msgid "Remove the torrent"
+msgstr "Удалить торрент"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:253
+msgid "Open the preferences dialog"
+msgstr "Открыть диалог настроек"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:255
+msgid "Remove the torrent and delete it's data"
+msgstr "Удалить торрент вместе с его данными."
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:258
+msgid "Edit Columns"
+msgstr "Настройка колонок"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:259
+msgid "Columns"
+msgstr "Колонки"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:261
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:262
+msgid "Show Labels"
+msgstr "Показывать категории"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:264
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:265
+msgid "Show Detailed Info"
+msgstr "Показывать подробности"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:267
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:268
+msgid "_Open Torrent"
+msgstr "_Открыть торрент"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:267
+msgid "Open existing torrent file"
+msgstr "Открыть существующий торрент файл"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:270
+msgid "Start the torrent"
+msgstr "Запуск торрента"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:273
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:274
+msgid "_New Torrent"
+msgstr "_Новый торрент"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:273
+msgid "Create a new torrent"
+msgstr "Создать новый торрент"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:276
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:277
+msgid "Plugins"
+msgstr "Плагины"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:276
+msgid "Open the RSS manager"
+msgstr "Открыть менеджер RSS"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:279
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:280
+msgid "Report Bug"
+msgstr "Сообщить об ошибке"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:286
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:287
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:81
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:572
+msgid "Close"
+msgstr "Закрыть"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:289
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:290
+msgid "_Add-in Manager"
+msgstr "Менеджер _Дополнений"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:295
+msgid "Monsoon"
+msgstr "Monsoon"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:370
+msgid "Status: "
+msgstr "Состояние: "
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:379
+msgid " "
+msgstr " "
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:422
+msgid "Elapsed Time:"
+msgstr "Прошло времени:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:453
+msgid "Downloaded:"
+msgstr "Принято:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:464
+msgid "Uploaded:"
+msgstr "Отдано:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:475
+msgid "Hash Fails:"
+msgstr "Ошибок хеша:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:486
+msgid "Swarm Speed:"
+msgstr "Общая скорость:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:521
+msgid "<b>Transfer</b>"
+msgstr "<b>Передача</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:546
+msgid "Update In:"
+msgstr "Обновить в течении:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:557
+msgid "Status:"
+msgstr "Состояние: "
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:568
+msgid "Message:"
+msgstr "Сообщение:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:579
+msgid "Last Updated:"
+msgstr "Последнее обновление:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:590
+msgid "URL:"
+msgstr "URL:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:658
+msgid "<b>Tracker</b>"
+msgstr "<b>Трекер</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:712
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:114
+msgid "Size:"
+msgstr "Размер:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:723
+msgid "Created on:"
+msgstr "Создан:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:734
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:308
+msgid "Comment:"
+msgstr "Комментарии:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:745
+msgid "Save path:"
+msgstr "Сохранено в:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:776
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:605
+msgid "<b>General</b>"
+msgstr "<b>Общее</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:790
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:351
+msgid "General"
+msgstr "Основное"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:804
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:179
+msgid "Files"
+msgstr "Файлы"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:818
+msgid "Pieces"
+msgstr "Части"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:868
+msgid "Maximum upload rate:"
+msgstr "Максимальный рейтинг отдачи:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:877
+msgid "Maximum download rate:"
+msgstr "Максимальный рейтинг приема:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:888
+msgid "Maximum connections:"
+msgstr "Максимум соединений:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:899
+msgid "Upload slots:"
+msgstr "Слотов отдачи:"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:968
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:508
+msgid "<b>Bandwidth</b>"
+msgstr "<b>Пропускная способность</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.MainWindow.cs:987
+msgid "Options"
+msgstr "Параметры"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentProgressDialog.cs:34
+msgid "Creating Torrent"
+msgstr "Создание торрента"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentProgressDialog.cs:49
+msgid "<big><b>Creating new torrent</b></big>"
+msgstr "<big><b>Создание нового торрента</b></big>"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentProgressDialog.cs:63
+msgid "<b>Hashing file:</b>"
+msgstr "<b>Хеширование файла:</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.EditColumnsDialog.cs:52
+msgid "<b>Visible columns</b>"
+msgstr "<b>Отображаемые колонки</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:88
+msgid "Create a torrent"
+msgstr "Создать торрент"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:117
+msgid "Path:"
+msgstr "Путь:"
+
+#. Container child table1.Gtk.Table+TableChild
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:134
+msgid "Single File"
+msgstr "Один файл"
+
+#. Container child table1.Gtk.Table+TableChild
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:145
+msgid "Folder"
+msgstr "Папка"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:165
+msgid "<b>Select source</b>"
+msgstr "<b>Выбор источника</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:237
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:971
+msgid "Add"
+msgstr "Добавить"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:283
+msgid "<b>Set a tracker</b>"
+msgstr "<b>Указать трекер</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:336
+msgid "Start seeding"
+msgstr "Начать раздачу"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:356
+msgid "Ignore hidden files"
+msgstr "Игнорировать скрытые файлы"
+
+#: ../Monsoon/gtk-gui/Monsoon.CreateTorrentDialog.cs:372
+msgid "<b>Miscellaneous</b>"
+msgstr "<b>Разное</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:58
+msgid "Load torrent"
+msgstr "Загрузка террента"
+
+#. Container child hbox5.Gtk.Box+BoxChild
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:85
+msgid "Select A Folder"
+msgstr "Выберете папку"
+
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:105
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:896
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:340
+msgid "Name:"
+msgstr "Имя:"
+
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:125
+msgid "Suse-11.0-i386.iso"
+msgstr "Suse-11.0-i386.iso"
+
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:136
+msgid "700MB"
+msgstr "700MB"
+
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:154
+msgid "<b>Save</b>"
+msgstr "<b>Сохранить</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.LoadTorrentDialog.cs:189
+msgid "Always show this dialog"
+msgstr "Всегда показывать этот диалог"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:215
+msgid "Monsoon Preferences"
+msgstr "Настройки Monsoon"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:258
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:761
+msgid "label1"
+msgstr "label1"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:269
+msgid "Enable Load Torrent confirmation dialog"
+msgstr "Включить диалог подтверждения загрузки торрента"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:280
+msgid "<b>Display Options</b>"
+msgstr "<b>Настройки отображения</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:305
+msgid "Enable notifications on torrent completion"
+msgstr "Включить уведомление об окончании загрузки"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:317
+msgid "Enable icon"
+msgstr "Включить заначки"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:327
+msgid "Minimize to notification area on close"
+msgstr "Сворачивать в область уведомления при закрытии"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:339
+msgid "<b>Notification Area Icon</b>"
+msgstr "<b>Значок в области уведомлений</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:375
+msgid "Maximum connections: "
+msgstr "Максимум соединений: "
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:401
+msgid "Listen port: "
+msgstr "Входящий порт: "
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:423
+msgid "Enable UPnP"
+msgstr "Включить UPnP"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:435
+msgid "<b>Ports</b>"
+msgstr "<b>Порты</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:460
+msgid "Maximum download speed: "
+msgstr "Максимальная скорость приема: "
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:497
+msgid "Maximum upload speed: "
+msgstr "Максимальная скорость отдачи: "
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:531
+msgid "Encryption"
+msgstr "Шифрование"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:539
+msgid "No Encryption"
+msgstr "Без шифрования"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:540
+msgid "Allow Encryption"
+msgstr "Позволить шифрование"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:541
+msgid "Prefer Encryption"
+msgstr "Шифрование предпочтительно"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:542
+msgid "Force Encryption"
+msgstr "Шифрование обязятельно"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:555
+msgid "<b>Encryption</b>"
+msgstr "<b>Шифрование</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:569
+msgid "Connection"
+msgstr "Соединение"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:592
+msgid "Start added torrents automatically"
+msgstr "Автоматически запускать добавленные торренты"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:630
+msgid "Default download location: "
+msgstr "Папка для приема по умолчанию: "
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:639
+msgid "Torrent storage location:"
+msgstr "Папка для хранения торрет файлов:"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:650
+msgid "<b>Folders</b>"
+msgstr "<b>Папки</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:674
+msgid "Import new torrents automatically"
+msgstr "Автоматически импортировать новые торренты"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:686
+msgid "Remove torrent file after imported"
+msgstr "Удалять торрент файлы после импортирования"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:701
+msgid "Import directory:"
+msgstr "Импортировать из папки:"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:716
+msgid "<b>Importing Torrents</b>"
+msgstr "<b>Импортирование торрентов</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:730
+msgid "Downloads"
+msgstr "Загрузки"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:770
+msgid "label2"
+msgstr "label2"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:781
+msgid "label3"
+msgstr "label3"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:835
+msgid "<b>frame1</b>"
+msgstr "<b>frame1</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:922
+msgid "<b>Create a label</b>"
+msgstr "<b>Создание категори</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:1017
+msgid "<b>Manage labels</b>"
+msgstr "<b>Управление категориями</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.PreferencesDialog.cs:1029
+msgid "Labels"
+msgstr "Категории"
+
+#: ../Monsoon/gtk-gui/Monsoon.UnhandledExceptionDialog.cs:38
+msgid "Monsoon - Unhandled Exception"
+msgstr "Monsoon - Необработанное исключение"
+
+#: ../Monsoon/gtk-gui/Monsoon.UnhandledExceptionDialog.cs:92
+msgid "Details"
+msgstr "Подробности"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:120
+msgid "Monsoon RSS Manager"
+msgstr "Monsoon RSS менеджер"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:143
+msgid "RSS Feed:"
+msgstr "Лента RSS:"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:221
+msgid "Feeds"
+msgstr "Ленты"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:349
+msgid "Feed:"
+msgstr "Лента:"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:360
+msgid "Filter:"
+msgstr "Фильтр:"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:371
+msgid "Exclude:"
+msgstr "Исключая:"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:382
+msgid "Save Path:"
+msgstr "Сохранить в:"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:393
+msgid "Label:"
+msgstr "Метка:"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:427
+msgid "<b>Filter Settings</b>"
+msgstr "<b>Настройки фильтра</b>"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:439
+msgid "Filters"
+msgstr "Фильтры"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:494
+msgid "Torrents"
+msgstr "Торренты"
+
+#: ../Monsoon/gtk-gui/Monsoon.RssManagerDialog.cs:555
+msgid "History"
+msgstr "История"

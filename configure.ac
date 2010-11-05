@@ -57,7 +57,7 @@ PKG_CHECK_MODULES([MONO_ADDINS_GUI], [mono-addins-gui >= 0.4])
 AC_PROG_INTLTOOL([0.25])
 AM_PROG_LIBTOOL
 
-ALL_LINGUAS="de es fr bg it pt_BR nl sv"
+ALL_LINGUAS="de es fr bg it pt_BR nl sv ru"
 GETTEXT_PACKAGE=monsoon
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Gettext package])
