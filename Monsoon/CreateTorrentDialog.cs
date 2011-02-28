@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using Gtk;
 using MonoTorrent.Common;
 using MonoTorrent.BEncoding;
+using MonoTorrent;
 
 namespace Monsoon
 {
@@ -194,33 +195,32 @@ namespace Monsoon
 			progressDialog = new CreateTorrentProgressDialog();
 			
 			// TODO: Read the multi-tracker spec -- learn the proper way to add multiple trackers
-			creator.Announces.Add(new List<string>());
-            		foreach(string s in GetTrackers())
-            			creator.Announces[0].Add(s);
-            		
+			creator.Announces.Add(new RawTrackerTier ());
+			foreach(string s in GetTrackers())
+				creator.Announces[0].Add(s);
+
 			creator.Comment = Comment;
 			creator.CreatedBy = Defines.ApplicationName;
 			
-			creator.Path = SavePath;
-
 			creator.Hashed += delegate(object o, TorrentCreatorEventArgs e) {
 				GLib.Idle.Add(delegate {
 					OnHashed(o, e);
 					return false;
 				});
 			};
-			TorrentCreatorAsyncResult creatorResult = creator.BeginCreate(null, delegate (IAsyncResult r) {
+			
+			var result = creator.BeginCreate(new TorrentFileSource (SavePath), delegate (IAsyncResult r) {
 				GLib.Idle.Add (delegate {
 					BeginCreateCb (r);
 					return false;
 				});
-			});
+			}, null);
 			
 			ResponseType cancelResult = (ResponseType) progressDialog.Run();
 			if(cancelResult == ResponseType.Cancel){
-				creatorResult.Abort();
+				creator.AbortCreation ();
 				try{
-					creator.EndCreate(creatorResult);
+					creator.EndCreate(result);
 					progressDialog.Destroy();
 				} catch (Exception e) {
 					logger.ErrorException("Unable to end creation" + e.Message, e);
@@ -250,7 +250,7 @@ namespace Monsoon
 					Torrent t = Torrent.Load(p);
 					BitField bf = new BitField(t.Pieces.Count);
 					bf.Not();
-					MonoTorrent.Client.FastResume fresume = new MonoTorrent.Client.FastResume (t.InfoHash, bf, new List<MonoTorrent.Client.Peer>());
+					MonoTorrent.Client.FastResume fresume = new MonoTorrent.Client.FastResume (t.InfoHash, bf);
 					torrentController.FastResume.Add(fresume);
 					string savePath;
 					if (newTorrentLocationButton.Action == FileChooserAction.SelectFolder) {

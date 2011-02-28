@@ -854,9 +854,11 @@ namespace Monsoon
 			// This should be stored before the torrent is stopped
 			StoreTorrentSettings ();
 			
-			foreach (WaitHandle h in this.torrentController.Engine.StopAll())
-				h.WaitOne (TimeSpan.FromSeconds(2), false);	
-
+			torrentController.Engine.StopAll();
+			// FIXME: I should wait for all the torrents to actually hit the stopped state
+			// so that I know they've had time to ping the trackers with the final stats.
+			Thread.Sleep (2000);
+			
 //			List<WaitHandle> handles = new List<WaitHandle> ();
 //			foreach (Download manager in torrents.Keys){
 //				if(manager.State == TorrentState.Stopped)

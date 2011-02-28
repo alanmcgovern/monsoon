@@ -17,7 +17,7 @@ namespace Monsoon
 		
 		public static string InstallPrefix {
 			get {
-				return "/usr/local";
+				return "/opt/mono";
 			}
 		}
 
